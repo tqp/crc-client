@@ -1,0 +1,114 @@
+<div class="tqp-crud-detail-edit animated fadeIn" *ngIf="student">
+
+  <form [formGroup]="studentEditForm">
+
+    <div class="row">
+
+      <div class="col-sm-6">
+        <h1 *ngIf="student && newRecord && studentEditForm.controls['studentSurname'].value == ''; else notShow">
+          New Student
+        </h1>
+        <ng-template #notShow>
+          <h1>
+            {{studentEditForm.controls['studentSurname'].value}}, {{studentEditForm.controls['studentGivenName'].value}}
+          </h1>
+        </ng-template>
+      </div>
+
+      <div class="col-sm-6">
+        <div class="form-group float-right">
+          <button type="button" class="btn btn-sm btn-outline-danger" style="width: 100px;" *ngIf="!newRecord"
+                  (click)="delete(student.studentGuid)">
+            <!--            [disabled]="authService.allowRoles('ROLE_ADMIN')"-->
+            <u>D</u>elete
+          </button>
+          <button type="button" class="btn btn-sm btn-outline-success" style="width: 100px;" (click)="save()"
+                  [disabled]="!studentEditForm.valid">
+            <u>S</u>ave
+          </button>
+          <button type="button" class="btn btn-sm btn-outline-info ml-3" style="width: 100px;" (click)="cancel()">
+            <u>C</u>ancel
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="row">
+      <div class="col-lg-6 col-sm-12">
+
+        <div class="card">
+          <div class="card-header">
+            <i class="fa fa-user"></i>
+            Basic Info (Required)
+          </div>
+          <div class="card-body">
+
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="studentSurname">Surname</label>
+                  <input matInput id="studentSurname" #studentSurnameInputField type="text" class="form-control" placeholder="Surname"
+                         formControlName="studentSurname" autocomplete="chrome-off">
+                  <mat-error *ngFor="let validation of validationMessages.studentSurname">
+                    <mat-error class="error-message"
+                               *ngIf="studentEditForm.get('studentSurname').hasError(validation.type)
+                                && (studentEditForm.get('studentSurname').dirty ||
+                                studentEditForm.get('studentSurname').touched)">
+                      {{validation.message}}
+                    </mat-error>
+                  </mat-error>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="studentGivenName">Given Name</label>
+                  <input matInput id="studentGivenName" type="text" class="form-control" placeholder="Given Name"
+                         formControlName="studentGivenName">
+                  <mat-error *ngFor="let validation of validationMessages.studentGivenName">
+                    <mat-error class="error-message"
+                               *ngIf="studentEditForm.get('studentGivenName').hasError(validation.type)
+                                && (studentEditForm.get('studentGivenName').dirty ||
+                                studentEditForm.get('studentGivenName').touched)">
+                      {{validation.message}}
+                    </mat-error>
+                  </mat-error>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="studentGender">Gender</label>
+                  <select id="studentGender" class="form-control" formControlName="studentGender">
+                    <option value="">Pick a Gender</option>
+                    <option value="M">Male</option>
+                    <option value="F">Female</option>
+                    <option value="O">Other</option>
+                  </select>
+                  <mat-error *ngFor="let validation of validationMessages.studentGender">
+                    <mat-error class="error-message"
+                               *ngIf="studentEditForm.get('studentGender').hasError(validation.type)
+                                && (studentEditForm.get('studentGender').dirty ||
+                                studentEditForm.get('studentGender').touched)">
+                      {{validation.message}}
+                    </mat-error>
+                  </mat-error>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="col-lg-6 col-sm-12">
+
+      </div>
+    </div>
+
+  </form>
+
+</div>
