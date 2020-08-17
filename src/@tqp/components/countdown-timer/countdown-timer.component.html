@@ -1,0 +1,7 @@
+<div style="width: 140px; text-align: right;">
+  <span>{{countdownDisplay}}</span>
+  <span *ngIf="countdownMillis > 0" style="margin-left: 5px;"><i class="fa fa-arrow-circle-down"
+                                                                 style="color: rgb(77, 189, 116);"></i></span>
+  <span *ngIf="countdownMillis < 0" style="margin-left: 5px;"><i class="fa fa-arrow-circle-up"
+                                                                 style="color: rgb(248, 108, 107);"></i></span>
+</div>

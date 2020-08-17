@@ -1,0 +1,81 @@
+<div class="background-image"></div>
+
+<div class="app-body">
+  <main class="main d-flex align-items-center">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 mx-auto">
+          <div class="card-group">
+            <div class="card p-4">
+              <div class="card-body">
+
+                <form [formGroup]="loginForm" novalidate>
+                  <h1>HCW Staff Login</h1>
+                  <p class="text-muted">Sign in to your account.</p>
+
+                  <div class="row mb-3">
+                    <div class="col-12">
+                      <button type="button" class="btn btn-brand btn-google-plus btn-block" (click)="toggle1()">
+                        <i class="fa fa-google-plus float-left"></i>
+                        Login With Google
+                      </button>
+                    </div>
+                  </div>
+
+                  <div class="row" [@hideCredentialsButton]="logonFormVisible ? 'hidden' : 'visible'">
+                    <div class="col-12">
+                      <button type="button" class="btn btn-brand btn-github btn-block" (click)="toggle1()">
+                        <i class="fa fa-key float-left"></i>
+                        <span>Log On With Credentials</span>
+                      </button>
+                    </div>
+                  </div>
+
+                  <div id="credentials" [@displayLogonForm]="logonFormVisible ? 'visible' : 'hidden'">
+                    <div class="input-group mb-3">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="icon-user"></i></span>
+                      </div>
+                      <label for="email"></label>
+                      <input id="email" formControlName="email" type="text" class="form-control" placeholder="Username"
+                             autocomplete="username" required>
+                    </div>
+                    <div class="input-group mb-3">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="icon-lock"></i></span>
+                      </div>
+                      <label for="password"></label>
+                      <input id="password" formControlName="password" type="password" class="form-control"
+                             placeholder="Password" autocomplete="current-password" required>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-12">
+                        <div class="flex-row-space-between">
+                          <button type="button" class="btn btn-secondary form-row-button" (click)="toggle1()">
+                            Close Form
+                          </button>
+                          <button type="button" class="btn btn-primary form-row-button btn-ladda"
+                                  data-style="expand-right" [ladda]="logonInProcess" (click)="loginApp()">
+                            Login
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div style="margin-top: 10px; height: 20px;">
+                    <mat-error *ngIf="loginForm.get('generalError').hasError('customValidator')">
+                      {{errorMessage}}
+                    </mat-error>
+                  </div>
+                </form>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>

@@ -1,0 +1,32 @@
+.background-image {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+
+  filter: blur(6px);
+  -webkit-filter: blur(6px);
+
+  background: url('assets/img/background/village.jpg') no-repeat center;
+  background-size: cover;
+}
+
+.flex-row-space-between {
+  display: flex;
+  justify-content: space-between;
+}
+
+.form-row-button {
+  width: 48%;
+  text-transform: none;
+  font-size: 13px;
+  margin-top: 0;
+}
+
+.counter-number {
+  text-align: center;
+  width: calc(100% / 4);
+}
+
+.btn-brand i + span {
+  margin-left: 0 !important
+}

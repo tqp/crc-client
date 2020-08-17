@@ -1,0 +1,29 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col">
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-info-circle"></i>About CRC
+          <div class="float-right" *ngIf="clientBuildTimestamp && serverBuildTimestamp">
+            <span class="badge badge-info mr-1" *ngIf="environmentName">Environment: {{environmentName.toUpperCase()}}</span>
+            <span class="badge badge-info mr-1" *ngIf="clientBuildTimestamp">Client Built: {{clientBuildTimestamp}}</span>
+            <span class="badge badge-info mr-1" *ngIf="serverBuildTimestamp">Server Built: {{serverBuildTimestamp}}</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <h4>Overview</h4>
+          This website is for CRC Staff to record relevant CRC activity as it pertains to...
+
+          <br /><br />
+          <h4>Roles</h4>
+          Meow Meow, Woof Woof.
+
+          <br /><br />
+          <h4>For help with this site contact:</h4>
+          Chandler!
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,112 @@
+#container {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: stretch;
+}
+
+.table-container {
+  width: 50%;
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+}
+
+.table-container.left {
+  margin-right: 10px;
+}
+
+.table-container.right {
+  margin-left: 10px;
+}
+
+.custom-table-header {
+  /*height: 58px;*/
+  padding: 12px;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+  background: rgb(52, 59, 65);
+  position: relative
+}
+
+.custom-table-header-sub {
+  position: absolute;
+  font-size: 10px;
+  font-style: italic;
+  top: 36px;
+  left: 30px;
+}
+
+.custom-table-header-title {
+  /*line-height: 36px;*/
+  min-width: 200px;
+  font-size: 20px;
+}
+
+.items-list-container {
+  width: 100%;
+  overflow: auto;
+}
+
+.items-list-container .current .changed-item {
+  background-color: rgba(200, 0, 0, 0.2);
+}
+
+.items-list-container .available .changed-item {
+  background-color: rgba(0, 200, 0, 0.2);
+}
+
+.filter {
+  width: 120px;
+}
+
+table {
+  width: 100%;
+}
+
+th.mat-header-cell {
+  background: rgb(52, 59, 65);
+}
+
+th {
+  border-top: 0 !important; /* Fixes issue where row text pixels appear above header when using 'table' class . */
+}
+
+.badge {
+  margin-top: 5px;
+}
+
+.mat-card {
+  box-shadow: none !important;
+}
+
+/* Custom Scrollbar */
+
+/* Width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  /*box-shadow: inset 0 0 5px gray;*/
+  border-radius: 5px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: rgb(81, 91, 101);
+  border-radius: 5px;
+}
+
+/* Handle on Hover */
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(32, 168, 216);
+}
+
+

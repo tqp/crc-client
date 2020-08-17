@@ -1,0 +1,54 @@
+// Here you can add other styles
+
+// Toastr
+@import '~ngx-toastr/toastr.css';
+
+// Custom CSS
+
+app-login-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+// Angular Material Components Add-On Styles for Dark Theme
+
+tr.mat-header-row {
+  height: unset !important;
+}
+
+th.mat-header-cell {
+  padding: 0.75rem !important;
+  color: rgb(228, 231, 234);
+}
+
+td.mat-cell {
+  padding: 0.75rem !important;
+  border-bottom: none !important;
+  color: rgb(228, 231, 234);
+}
+
+.no-records {
+  width: 100%;
+  padding: 0.75rem;
+  height: 48px;
+  border-top: 1px solid #23282c;
+  border-bottom: 1px solid #23282c;
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+// Error Messages on Reactive Forms
+
+.error-message {
+  width: 100% !important;
+  font-size: 90% !important;
+  margin-left:  14px !important;
+  color: rgb(248, 08, 107) !important;
+}
+
+// Overriding template animation settings
+
+.animated {
+  animation-duration: 200ms !important;
+  // animation-fill-mode: both;
+}

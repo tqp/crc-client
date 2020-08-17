@@ -1,0 +1,45 @@
+.tqp-crud-server-pagination-list {
+
+  .table-container {
+    height: calc(100vh - 312px);
+    overflow: hidden;
+  }
+
+  table {
+    width: 100%;
+  }
+
+  th.mat-header-cell {
+    background: rgb(52, 59, 65);
+  }
+
+  th {
+    border-top: 0 !important; /* Fixes issue where row text pixels appear above header when using 'table' class . */
+  }
+
+  .spinner-container {
+    background: transparent;
+    height: calc(100vh - 390px);
+    display: flex;
+    justify-content: center;
+    align-items: center
+  }
+
+  /* PAGINATION */
+
+  .paginator {
+    background: transparent;
+    position: absolute;
+    min-width: 50px;
+  }
+
+  .mat-paginator-container {
+    padding: 0 !important;
+    min-height: unset !important;
+  }
+
+  .mat-paginator-range-label {
+    display: none !important;
+  }
+
+}

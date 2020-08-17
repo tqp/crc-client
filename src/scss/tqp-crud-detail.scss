@@ -1,0 +1,47 @@
+.tqp-crud-detail {
+
+  .tqp-nav-link {
+    color: #20A8D8;
+    cursor: pointer;
+  }
+
+  .tqp-nav-link:focus {
+    outline: none;
+  }
+
+  dl {
+    margin-bottom: 0;
+    min-height: 30px;
+  }
+
+  dt {
+    font-weight: normal;
+  }
+
+  dd {
+    font-weight: 500;
+  }
+
+  .table-container {
+    height: 500px;
+    overflow: auto;
+  }
+
+  table {
+    width: 100%;
+  }
+
+  th.mat-header-cell {
+    background: rgb(52, 59, 65);
+  }
+
+  th {
+    border-top: 0 !important; /* Fixes issue where row text pixels appear above header when using 'table' class . */
+  }
+
+  ::-webkit-scrollbar {
+    width: 0;
+    background: transparent;
+  }
+
+}

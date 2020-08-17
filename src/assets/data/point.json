@@ -1,0 +1,15 @@
+{
+  "type": "Feature",
+  "properties": {
+    "name": "Coors Field",
+    "amenity": "Baseball Stadium",
+    "popupContent": "This is where the Rockies play!"
+  },
+  "geometry": {
+    "type": "Point",
+    "coordinates": [
+      -77.10273742675783,
+      38.88759225580102
+    ]
+  }
+}
