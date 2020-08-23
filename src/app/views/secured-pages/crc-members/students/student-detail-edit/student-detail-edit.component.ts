@@ -3,7 +3,7 @@ import { ConfirmDialogComponent } from '../../../../../../@tqp/components/confir
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { Student } from '../student-models/Student';
+import { Student } from '../Student';
 import { StudentService } from '../student.service';
 
 @Component({
@@ -97,7 +97,7 @@ export class StudentDetailEditComponent implements OnInit {
         this.studentService.deleteStudent(studentGuid).subscribe(
           response => {
             // console.log('response: ', response);
-            this.router.navigate(['crc-members/student-list']).then();
+            this.router.navigate(['students/student-list']).then();
           },
           error => {
             console.error('Error: ' + error.message);
@@ -120,7 +120,7 @@ export class StudentDetailEditComponent implements OnInit {
       this.studentService.createStudent(student).subscribe(
         response => {
           // console.log('response: ', response);
-          this.router.navigate(['crc-members/student-detail', response.studentGuid]).then();
+          this.router.navigate(['students/student-detail', response.studentGuid]).then();
         },
         error => {
           console.error('Error: ' + error.message);
@@ -130,7 +130,7 @@ export class StudentDetailEditComponent implements OnInit {
       this.studentService.updateStudent(student).subscribe(
         response => {
           // console.log('response: ', response);
-          this.router.navigate(['crc-members/student-detail', response.studentGuid]).then();
+          this.router.navigate(['students/student-detail', response.studentGuid]).then();
         },
         error => {
           console.error('Error: ' + error.message);
@@ -141,9 +141,9 @@ export class StudentDetailEditComponent implements OnInit {
 
   public cancel(): void {
     if (this.student.studentGuid) {
-      this.router.navigate(['crc-members/student-detail', this.student.studentGuid]).then();
+      this.router.navigate(['students/student-detail', this.student.studentGuid]).then();
     } else {
-      this.router.navigate(['crc-members/student-list']).then();
+      this.router.navigate(['students/student-list']).then();
     }
   }
 

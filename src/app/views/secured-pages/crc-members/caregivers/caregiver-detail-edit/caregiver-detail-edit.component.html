@@ -1,0 +1,114 @@
+<div class="tqp-crud-detail-edit animated fadeIn" *ngIf="caregiver">
+
+  <form [formGroup]="caregiverEditForm">
+
+    <div class="row">
+
+      <div class="col-sm-6">
+        <h1 *ngIf="caregiver && newRecord && caregiverEditForm.controls['caregiverSurname'].value == ''; else notShow">
+          New Caregiver
+        </h1>
+        <ng-template #notShow>
+          <h1>
+            {{caregiverEditForm.controls['caregiverSurname'].value}}, {{caregiverEditForm.controls['caregiverGivenName'].value}}
+          </h1>
+        </ng-template>
+      </div>
+
+      <div class="col-sm-6">
+        <div class="form-group float-right">
+          <button type="button" class="btn btn-sm btn-outline-danger" style="width: 100px;" *ngIf="!newRecord"
+                  (click)="delete(caregiver.caregiverGuid)">
+            <!--            [disabled]="authService.allowRoles('ROLE_ADMIN')"-->
+            <u>D</u>elete
+          </button>
+          <button type="button" class="btn btn-sm btn-outline-success" style="width: 100px;" (click)="save()"
+                  [disabled]="!caregiverEditForm.valid">
+            <u>S</u>ave
+          </button>
+          <button type="button" class="btn btn-sm btn-outline-info ml-3" style="width: 100px;" (click)="cancel()">
+            <u>C</u>ancel
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="row">
+      <div class="col-lg-6 col-sm-12">
+
+        <div class="card">
+          <div class="card-header">
+            <i class="fa fa-user"></i>
+            Basic Info (Required)
+          </div>
+          <div class="card-body">
+
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="caregiverSurname">Surname</label>
+                  <input matInput id="caregiverSurname" #caregiverSurnameInputField type="text" class="form-control" placeholder="Surname"
+                         formControlName="caregiverSurname" autocomplete="chrome-off">
+                  <mat-error *ngFor="let validation of validationMessages.caregiverSurname">
+                    <mat-error class="error-message"
+                               *ngIf="caregiverEditForm.get('caregiverSurname').hasError(validation.type)
+                                && (caregiverEditForm.get('caregiverSurname').dirty ||
+                                caregiverEditForm.get('caregiverSurname').touched)">
+                      {{validation.message}}
+                    </mat-error>
+                  </mat-error>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="caregiverGivenName">Given Name</label>
+                  <input matInput id="caregiverGivenName" type="text" class="form-control" placeholder="Given Name"
+                         formControlName="caregiverGivenName">
+                  <mat-error *ngFor="let validation of validationMessages.caregiverGivenName">
+                    <mat-error class="error-message"
+                               *ngIf="caregiverEditForm.get('caregiverGivenName').hasError(validation.type)
+                                && (caregiverEditForm.get('caregiverGivenName').dirty ||
+                                caregiverEditForm.get('caregiverGivenName').touched)">
+                      {{validation.message}}
+                    </mat-error>
+                  </mat-error>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="caregiverGender">Gender</label>
+                  <select id="caregiverGender" class="form-control" formControlName="caregiverGender">
+                    <option value="">Pick a Gender</option>
+                    <option value="M">Male</option>
+                    <option value="F">Female</option>
+                    <option value="O">Other</option>
+                  </select>
+                  <mat-error *ngFor="let validation of validationMessages.caregiverGender">
+                    <mat-error class="error-message"
+                               *ngIf="caregiverEditForm.get('caregiverGender').hasError(validation.type)
+                                && (caregiverEditForm.get('caregiverGender').dirty ||
+                                caregiverEditForm.get('caregiverGender').touched)">
+                      {{validation.message}}
+                    </mat-error>
+                  </mat-error>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="col-lg-6 col-sm-12">
+
+      </div>
+    </div>
+
+  </form>
+
+</div>

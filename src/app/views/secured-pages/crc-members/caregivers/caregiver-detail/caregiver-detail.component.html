@@ -1,0 +1,50 @@
+<div class="tqp-crud-detail animated fadeIn" *ngIf="caregiver">
+
+  <div class="row">
+    <div class="col-sm-6">
+      <h1>{{caregiver.caregiverSurname}}, {{caregiver.caregiverGivenName}}</h1>
+    </div>
+    <div class="col-sm-6">
+      <div class="form-group float-right">
+        <button class="btn btn-sm btn-outline-info" (click)="openEditPage()" style="width: 100px">
+          <u>E</u>dit
+        </button>
+        <button class="btn btn-sm btn-outline-primary ml-3" (click)="returnToList()" style="width: 100px">
+          Return to <u>L</u>ist
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-6 col-sm-12">
+
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-user"></i>
+          Basic Info
+        </div>
+        <div class="card-body">
+          <dl class="row">
+            <dt class="col-sm-3">Last Name:</dt>
+            <dd class="col-sm-9">{{caregiver.caregiverSurname}}</dd>
+          </dl>
+          <dl class="row">
+            <dt class="col-sm-3">First Name:</dt>
+            <dd class="col-sm-9">{{caregiver.caregiverGivenName}}</dd>
+          </dl>
+          <dl class="row">
+            <dt class="col-sm-3">Gender:</dt>
+            <dd class="col-sm-9">{{genderNames[caregiver.caregiverGender]}}</dd>
+          </dl>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="col-lg-6 col-sm-12">
+
+    </div>
+  </div>
+
+</div>

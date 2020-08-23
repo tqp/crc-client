@@ -13,17 +13,17 @@ export const navItemsUser: INavData[] = [
   },
   {
     name: 'Students',
-    url: '/crc-members/student-list',
-    icon: 'fa fa-user'
-  },
-  {
-    name: 'Case Managers',
-    url: '/crc-members/case-manager-list',
+    url: '/students/student-list',
     icon: 'fa fa-group'
   },
   {
+    name: 'Case Managers',
+    url: '/case-managers/case-manager-list',
+    icon: 'fa fa-folder'
+  },
+  {
     name: 'Caregivers',
-    url: '/crc-members/caregiver-list',
+    url: '/caregivers/caregiver-list',
     icon: 'fa fa-heartbeat'
   },
 

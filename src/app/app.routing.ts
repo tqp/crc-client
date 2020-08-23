@@ -62,8 +62,22 @@ export const routes: Routes = [
         }
       },
       {
-        path: 'crc-members',
-        loadChildren: () => import('./views/secured-pages/crc-members/crc-members.module').then(m => m.CrcMembersModule),
+        path: 'students',
+        loadChildren: () => import('./views/secured-pages/crc-members/students/student.module').then(m => m.StudentModule),
+        resolve: {
+          securedPageResolver: SecuredPageResolverService
+        }
+      },
+      {
+        path: 'caregivers',
+        loadChildren: () => import('./views/secured-pages/crc-members/caregivers/caregiver.module').then(m => m.CaregiverModule),
+        resolve: {
+          securedPageResolver: SecuredPageResolverService
+        }
+      },
+      {
+        path: 'case-managers',
+        loadChildren: () => import('./views/secured-pages/crc-members/case-managers/case-manager.module').then(m => m.CaseManagerModule),
         resolve: {
           securedPageResolver: SecuredPageResolverService
         }

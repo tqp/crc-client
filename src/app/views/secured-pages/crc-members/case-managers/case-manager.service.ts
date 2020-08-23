@@ -7,24 +7,24 @@ import { HttpClient } from '@angular/common/http';
 import { HttpService } from '@tqp/services/http.service';
 import { TokenService } from '@tqp/services/token.service';
 import { map } from 'rxjs/operators';
-import { Student } from './Student';
+import { CaseManager } from './CaseManager';
 
 @Injectable({
   providedIn: 'root'
 })
-export class StudentService {
-  private studentListNameSearchValue;
+export class CaseManagerService {
+  private caseManagerListNameSearchValue;
 
   constructor(private http: HttpClient,
               private httpService: HttpService,
               private tokenService: TokenService) { }
 
-  public createStudent(student: Student): Observable<Student> {
-    const url = environment.apiUrl + '/api/v1/student/';
+  public createCaseManager(caseManager: CaseManager): Observable<CaseManager> {
+    const url = environment.apiUrl + '/api/v1/caseManager/';
     const token = this.tokenService.getToken();
     if (token) {
-      return this.http.post<Student>(url,
-        student,
+      return this.http.post<CaseManager>(url,
+        caseManager,
         {
           headers: this.httpService.setHeadersWithToken(),
           observe: 'response',
@@ -41,11 +41,11 @@ export class StudentService {
     }
   }
 
-  public getStudentList_SSP(serverSideSearchParams: ServerSidePaginationRequest): Observable<ServerSidePaginationResponse<Student>> {
-    const url = environment.apiUrl + '/api/v1/student/ssp';
+  public getCaseManagerList_SSP(serverSideSearchParams: ServerSidePaginationRequest): Observable<ServerSidePaginationResponse<CaseManager>> {
+    const url = environment.apiUrl + '/api/v1/caseManager/ssp';
     const token = this.tokenService.getToken();
     if (token) {
-      return this.http.post<ServerSidePaginationResponse<Student>>(url,
+      return this.http.post<ServerSidePaginationResponse<CaseManager>>(url,
         serverSideSearchParams,
         {
           headers: this.httpService.setHeadersWithToken(),
@@ -63,11 +63,11 @@ export class StudentService {
     }
   }
 
-  public getStudentDetail(guid: string) {
-    const url = environment.apiUrl + '/api/v1/student/' + guid;
+  public getCaseManagerDetail(guid: string) {
+    const url = environment.apiUrl + '/api/v1/caseManager/' + guid;
     const token = this.tokenService.getToken();
     if (token) {
-      return this.http.get<Student>(url,
+      return this.http.get<CaseManager>(url,
         {
           headers: this.httpService.setHeadersWithToken(),
           observe: 'response',
@@ -84,12 +84,12 @@ export class StudentService {
     }
   }
 
-  public updateStudent(student: Student): Observable<Student> {
-    const url = environment.apiUrl + '/api/v1/student/';
+  public updateCaseManager(caseManager: CaseManager): Observable<CaseManager> {
+    const url = environment.apiUrl + '/api/v1/caseManager/';
     const token = this.tokenService.getToken();
     if (token) {
-      return this.http.put<Student>(url,
-        student,
+      return this.http.put<CaseManager>(url,
+        caseManager,
         {
           headers: this.httpService.setHeadersWithToken(),
           observe: 'response',
@@ -106,8 +106,8 @@ export class StudentService {
     }
   }
 
-  public deleteStudent(studentGuid: string): Observable<string> {
-    const url = environment.apiUrl + '/api/v1/student/' + studentGuid;
+  public deleteCaseManager(caseManagerGuid: string): Observable<string> {
+    const url = environment.apiUrl + '/api/v1/caseManager/' + caseManagerGuid;
     const token = this.tokenService.getToken();
     if (token) {
       return this.http.delete<string>(url,
@@ -127,11 +127,11 @@ export class StudentService {
     }
   }
 
-  public setStudentListNameSearchValue(val) {
-    this.studentListNameSearchValue = val;
+  public setCaseManagerListNameSearchValue(val) {
+    this.caseManagerListNameSearchValue = val;
   }
 
-  public getStudentListNameSearchValue() {
-    return this.studentListNameSearchValue;
+  public getCaseManagerListNameSearchValue() {
+    return this.caseManagerListNameSearchValue;
   }
 }

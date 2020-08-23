@@ -9,7 +9,7 @@ import { ServerSidePaginationResponse } from '../../../../../../@tqp/models/Serv
 import { catchError, debounceTime, map, switchMap } from 'rxjs/operators';
 import { merge, of } from 'rxjs';
 import { StudentService } from '../student.service';
-import { Student } from '../student-models/Student';
+import { Student } from '../Student';
 
 @Component({
   selector: 'app-student-list',
@@ -24,7 +24,7 @@ export class StudentListComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('nameSearchElementRef', {static: true}) nameSearchElementRef: ElementRef;
 
   public listTitle = 'Student List';
-  private defaultSortColumn = 'STUDENT_SURNAME';
+  private defaultSortColumn = 'PERSON_SURNAME';
   private pageIndex = 0;
   public pageSize = 10;
   private totalNumberOfPages: number;
@@ -93,7 +93,7 @@ export class StudentListComponent implements OnInit, AfterViewInit, OnDestroy {
   private getPage(searchParams: ServerSidePaginationRequest) {
     this.isLoading = true;
     this.eventService.loadingEvent.emit(true);
-    this.studentService.getStudentList_SSP(searchParams).subscribe((response: ServerSidePaginationResponse) => {
+    this.studentService.getStudentList_SSP(searchParams).subscribe((response: ServerSidePaginationResponse<Student>) => {
         // console.log('getPage response', response);
         response.data.forEach(item => {
           this.records.push(item);
@@ -156,7 +156,7 @@ export class StudentListComponent implements OnInit, AfterViewInit, OnDestroy {
           this.isFilterApplied = nameFilter;
           return this.studentService.getStudentList_SSP(serverSideSearchParams);
         }),
-        map((response: ServerSidePaginationResponse) => {
+        map((response: ServerSidePaginationResponse<Student>) => {
           return response;
         }),
         catchError((error: any) => {
@@ -166,7 +166,7 @@ export class StudentListComponent implements OnInit, AfterViewInit, OnDestroy {
           return of([]);
         })
       )
-      .subscribe((response: ServerSidePaginationResponse) => {
+      .subscribe((response: ServerSidePaginationResponse<Student>) => {
           this.records = [];
           response.data.forEach(item => {
             this.records.push(item);
@@ -197,11 +197,11 @@ export class StudentListComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public openCreateStudentPage(): void {
-    this.router.navigate(['crc-members/student-create']).then();
+    this.router.navigate(['students/student-create']).then();
   }
 
   public openDetailPage(row: any): void {
-    this.router.navigate(['crc-members/student-detail', row.studentGuid]).then();
+    this.router.navigate(['students/student-detail', row.studentGuid]).then();
   }
 
   @HostListener('window:keydown', ['$event'])

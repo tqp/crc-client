@@ -7,24 +7,25 @@ import { HttpClient } from '@angular/common/http';
 import { HttpService } from '@tqp/services/http.service';
 import { TokenService } from '@tqp/services/token.service';
 import { map } from 'rxjs/operators';
-import { Student } from './Student';
+import { Caregiver } from './Caregiver';
+import { Student } from '../students/Student';
 
 @Injectable({
   providedIn: 'root'
 })
-export class StudentService {
-  private studentListNameSearchValue;
+export class CaregiverService {
+  private caregiverListNameSearchValue;
 
   constructor(private http: HttpClient,
               private httpService: HttpService,
               private tokenService: TokenService) { }
 
-  public createStudent(student: Student): Observable<Student> {
-    const url = environment.apiUrl + '/api/v1/student/';
+  public createCaregiver(caregiver: Caregiver): Observable<Caregiver> {
+    const url = environment.apiUrl + '/api/v1/caregiver/';
     const token = this.tokenService.getToken();
     if (token) {
-      return this.http.post<Student>(url,
-        student,
+      return this.http.post<Caregiver>(url,
+        caregiver,
         {
           headers: this.httpService.setHeadersWithToken(),
           observe: 'response',
@@ -41,11 +42,11 @@ export class StudentService {
     }
   }
 
-  public getStudentList_SSP(serverSideSearchParams: ServerSidePaginationRequest): Observable<ServerSidePaginationResponse<Student>> {
-    const url = environment.apiUrl + '/api/v1/student/ssp';
+  public getCaregiverList_SSP(serverSideSearchParams: ServerSidePaginationRequest): Observable<ServerSidePaginationResponse<Caregiver>> {
+    const url = environment.apiUrl + '/api/v1/caregiver/ssp';
     const token = this.tokenService.getToken();
     if (token) {
-      return this.http.post<ServerSidePaginationResponse<Student>>(url,
+      return this.http.post<ServerSidePaginationResponse<Caregiver>>(url,
         serverSideSearchParams,
         {
           headers: this.httpService.setHeadersWithToken(),
@@ -63,11 +64,11 @@ export class StudentService {
     }
   }
 
-  public getStudentDetail(guid: string) {
-    const url = environment.apiUrl + '/api/v1/student/' + guid;
+  public getCaregiverDetail(guid: string) {
+    const url = environment.apiUrl + '/api/v1/caregiver/' + guid;
     const token = this.tokenService.getToken();
     if (token) {
-      return this.http.get<Student>(url,
+      return this.http.get<Caregiver>(url,
         {
           headers: this.httpService.setHeadersWithToken(),
           observe: 'response',
@@ -84,12 +85,12 @@ export class StudentService {
     }
   }
 
-  public updateStudent(student: Student): Observable<Student> {
-    const url = environment.apiUrl + '/api/v1/student/';
+  public updateCaregiver(caregiver: Caregiver): Observable<Caregiver> {
+    const url = environment.apiUrl + '/api/v1/caregiver/';
     const token = this.tokenService.getToken();
     if (token) {
-      return this.http.put<Student>(url,
-        student,
+      return this.http.put<Caregiver>(url,
+        caregiver,
         {
           headers: this.httpService.setHeadersWithToken(),
           observe: 'response',
@@ -106,8 +107,8 @@ export class StudentService {
     }
   }
 
-  public deleteStudent(studentGuid: string): Observable<string> {
-    const url = environment.apiUrl + '/api/v1/student/' + studentGuid;
+  public deleteCaregiver(caregiverGuid: string): Observable<string> {
+    const url = environment.apiUrl + '/api/v1/caregiver/' + caregiverGuid;
     const token = this.tokenService.getToken();
     if (token) {
       return this.http.delete<string>(url,
@@ -127,11 +128,11 @@ export class StudentService {
     }
   }
 
-  public setStudentListNameSearchValue(val) {
-    this.studentListNameSearchValue = val;
+  public setCaregiverListNameSearchValue(val) {
+    this.caregiverListNameSearchValue = val;
   }
 
-  public getStudentListNameSearchValue() {
-    return this.studentListNameSearchValue;
+  public getCaregiverListNameSearchValue() {
+    return this.caregiverListNameSearchValue;
   }
 }

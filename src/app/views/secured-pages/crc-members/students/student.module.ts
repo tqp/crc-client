@@ -9,6 +9,7 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AngularMaterialModule } from '../../../../../@tqp/modules/angular-material.module';
 import { StudentListComponent } from './student-list/student-list.component';
+import { StudentRoutingModule } from './student-routing.module';
 
 @NgModule({
   declarations: [
@@ -24,8 +25,9 @@ import { StudentListComponent } from './student-list/student-list.component';
     BsDatepickerModule.forRoot(),
     RouterModule,
     ListAddRemoveItemsBasicModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    StudentRoutingModule
   ]
 })
-export class StudentsModule {
+export class StudentModule {
 }

@@ -1,21 +1,21 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { Student } from '../Student';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { EventService } from '@tqp/services/event.service';
-import { StudentService } from '../student.service';
+import { EventService } from '../../../../../../@tqp/services/event.service';
+import { CaseManager } from '../CaseManager';
+import { CaseManagerService } from '../case-manager.service';
 
 @Component({
-  selector: 'app-student-detail',
-  templateUrl: './student-detail.component.html',
-  styleUrls: ['./student-detail.component.css']
+  selector: 'app-case-manager-detail',
+  templateUrl: './case-manager-detail.component.html',
+  styleUrls: ['./case-manager-detail.component.css']
 })
-export class StudentDetailComponent implements OnInit {
+export class CaseManagerDetailComponent implements OnInit {
   public pageSource: string;
-  public student: Student;
+  public caseManager: CaseManager;
   public genderNames = {'M': 'Male', 'F': 'Female', 'O': 'Other'};
 
   constructor(private route: ActivatedRoute,
-              private studentService: StudentService,
+              private caseManagerService: CaseManagerService,
               private eventService: EventService,
               private router: Router) {
   }
@@ -23,20 +23,20 @@ export class StudentDetailComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.forEach((params: Params) => {
       if (params['guid'] !== undefined) {
-        const studentGuid = params['guid'];
-        // console.log('studentGuid', studentGuid);
-        this.getStudentDetail(studentGuid);
+        const caseManagerGuid = params['guid'];
+        // console.log('caseManagerGuid', caseManagerGuid);
+        this.getCaseManagerDetail(caseManagerGuid);
       } else {
         console.error('No ID was present.');
       }
     }).then();
   }
 
-  private getStudentDetail(guid: string): void {
+  private getCaseManagerDetail(guid: string): void {
     this.eventService.loadingEvent.emit(true);
-    this.studentService.getStudentDetail(guid).subscribe(
+    this.caseManagerService.getCaseManagerDetail(guid).subscribe(
       response => {
-        this.student = response;
+        this.caseManager = response;
         // console.log('response', response);
         this.eventService.loadingEvent.emit(false);
       },
@@ -49,11 +49,11 @@ export class StudentDetailComponent implements OnInit {
   // Buttons
 
   public returnToList(): void {
-    this.router.navigate(['students/student-list']).then();
+    this.router.navigate(['case-managers/case-manager-list']).then();
   }
 
   public openEditPage(): void {
-    this.router.navigate(['students/student-detail-edit', this.student.studentGuid]).then();
+    this.router.navigate(['case-managers/case-manager-detail-edit', this.caseManager.caseManagerGuid]).then();
   }
 
   public openTwitter(twitterHandle: string): void {

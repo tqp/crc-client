@@ -1,22 +1,20 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { StudentListComponent } from './students/student-list/student-list.component';
-import { CaseManagerListComponent } from './case-managers/case-manager-list/case-manager-list.component';
-import { CaregiverListComponent } from './caregivers/caregiver-list/caregiver-list.component';
-import { StudentDetailComponent } from './students/student-detail/student-detail.component';
-import { StudentDetailEditComponent } from './students/student-detail-edit/student-detail-edit.component';
+import { StudentListComponent } from './student-list/student-list.component';
+import { StudentDetailComponent } from './student-detail/student-detail.component';
+import { StudentDetailEditComponent } from './student-detail-edit/student-detail-edit.component';
 
 const routes: Routes = [
 
   {
     path: '',
     data: {
-      title: 'CRC Members'
+      title: 'Students'
     },
     children: [
       {
         path: '',
-        redirectTo: 'students',
+        redirectTo: 'student-list',
         pathMatch: 'full'
       },
       {
@@ -46,20 +44,6 @@ const routes: Routes = [
         data: {
           title: 'Edit Student'
         }
-      },
-      {
-        path: 'case-manager-list',
-        component: CaseManagerListComponent,
-        data: {
-          title: 'Case Manager List'
-        }
-      },
-      {
-        path: 'caregiver-list',
-        component: CaregiverListComponent,
-        data: {
-          title: 'Caregiver List'
-        }
       }
     ]
   }
@@ -69,5 +53,5 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class CrcMembersRoutingModule {
+export class StudentRoutingModule {
 }

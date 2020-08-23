@@ -1,21 +1,21 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { Student } from '../Student';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { EventService } from '@tqp/services/event.service';
-import { StudentService } from '../student.service';
+import { EventService } from '../../../../../../@tqp/services/event.service';
+import { Caregiver } from '../Caregiver';
+import { CaregiverService } from '../caregiver.service';
 
 @Component({
-  selector: 'app-student-detail',
-  templateUrl: './student-detail.component.html',
-  styleUrls: ['./student-detail.component.css']
+  selector: 'app-caregiver-detail',
+  templateUrl: './caregiver-detail.component.html',
+  styleUrls: ['./caregiver-detail.component.css']
 })
-export class StudentDetailComponent implements OnInit {
+export class CaregiverDetailComponent implements OnInit {
   public pageSource: string;
-  public student: Student;
+  public caregiver: Caregiver;
   public genderNames = {'M': 'Male', 'F': 'Female', 'O': 'Other'};
 
   constructor(private route: ActivatedRoute,
-              private studentService: StudentService,
+              private caregiverService: CaregiverService,
               private eventService: EventService,
               private router: Router) {
   }
@@ -23,20 +23,20 @@ export class StudentDetailComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.forEach((params: Params) => {
       if (params['guid'] !== undefined) {
-        const studentGuid = params['guid'];
-        // console.log('studentGuid', studentGuid);
-        this.getStudentDetail(studentGuid);
+        const caregiverGuid = params['guid'];
+        // console.log('caregiverGuid', caregiverGuid);
+        this.getCaregiverDetail(caregiverGuid);
       } else {
         console.error('No ID was present.');
       }
     }).then();
   }
 
-  private getStudentDetail(guid: string): void {
+  private getCaregiverDetail(guid: string): void {
     this.eventService.loadingEvent.emit(true);
-    this.studentService.getStudentDetail(guid).subscribe(
+    this.caregiverService.getCaregiverDetail(guid).subscribe(
       response => {
-        this.student = response;
+        this.caregiver = response;
         // console.log('response', response);
         this.eventService.loadingEvent.emit(false);
       },
@@ -49,11 +49,11 @@ export class StudentDetailComponent implements OnInit {
   // Buttons
 
   public returnToList(): void {
-    this.router.navigate(['students/student-list']).then();
+    this.router.navigate(['caregivers/caregiver-list']).then();
   }
 
   public openEditPage(): void {
-    this.router.navigate(['students/student-detail-edit', this.student.studentGuid]).then();
+    this.router.navigate(['caregivers/caregiver-detail-edit', this.caregiver.caregiverGuid]).then();
   }
 
   public openTwitter(twitterHandle: string): void {
