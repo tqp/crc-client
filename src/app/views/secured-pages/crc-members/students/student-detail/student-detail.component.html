@@ -95,25 +95,27 @@
               <ng-container matColumnDef="name">
                 <th mat-header-cell *matHeaderCellDef>Name</th>
                 <td mat-cell *matCellDef="let row">
-                  {{row.caregiverGivenName}} {{row.caregiverSurname}}
+                  <a [routerLink]="['/caregivers/caregiver-detail', row.caregiverGuid]">
+                    {{row.caregiverGivenName}} {{row.caregiverSurname}}
+                  </a>
                 </td>
               </ng-container>
 
               <ng-container matColumnDef="relationship">
                 <th mat-header-cell *matHeaderCellDef>Relationship</th>
                 <td mat-cell *matCellDef="let row">
-                  {{row.contestantFirstName}}
+                  {{row.relationshipType}}
                 </td>
               </ng-container>
 
               <ng-container matColumnDef="bloodRelative">
                 <th mat-header-cell *matHeaderCellDef>Blood Relative</th>
                 <td mat-cell *matCellDef="let row">
-                  {{row.contestantFirstName}}
+                  {{row.relationshipBloodRelative ? 'Yes' : 'No'}}
                 </td>
               </ng-container>
 
-              <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true" [hidden]="true"></tr>
+              <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true" [hidden]="false"></tr>
               <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
             </table>
 

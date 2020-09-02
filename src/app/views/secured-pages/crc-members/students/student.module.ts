@@ -10,12 +10,15 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AngularMaterialModule } from '../../../../../@tqp/modules/angular-material.module';
 import { StudentListComponent } from './student-list/student-list.component';
 import { StudentRoutingModule } from './student-routing.module';
+import { StudentCaregiverRelationbshipEditDialogComponent } from './student-caregiver-relationbship-edit-dialog/student-caregiver-relationbship-edit-dialog.component';
+import { StudentCaregiverEditDialogComponent } from './student-caregiver-edit-dialog/student-caregiver-edit-dialog.component';
 
 @NgModule({
   declarations: [
     StudentListComponent,
     StudentDetailComponent,
-    StudentDetailEditComponent
+    StudentDetailEditComponent,
+    StudentCaregiverEditDialogComponent
   ],
   imports: [
     CommonModule,

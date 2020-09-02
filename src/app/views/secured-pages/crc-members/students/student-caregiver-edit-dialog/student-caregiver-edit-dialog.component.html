@@ -1,0 +1,24 @@
+<h2 mat-dialog-title>
+  Add Relationship
+</h2>
+
+<mat-dialog-content style="overflow: hidden">
+  This is where you'll edit a Student relationship.
+<!--  <div id="list-add-remove-container">-->
+<!--    <app-list-add-remove-items-basic-->
+<!--      class="component"-->
+<!--      #listAddRemoveItemsBasicComponent-->
+<!--      [currentItemsList]="currentSeasonsList"-->
+<!--      [availableItemsList]="availableSeasonsList"-->
+<!--      (listAddRemoveOutput)="addRemoveSeasons($event)">-->
+<!--    </app-list-add-remove-items-basic>-->
+<!--  </div>-->
+
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-raised-button mat-dialog-close>Cancel</button>
+  <button mat-raised-button (click)="reset();">Reset</button>
+  <div fxFlex></div>
+  <button mat-raised-button mat-dialog-close color="primary" (click)="save();">Save</button>
+</mat-dialog-actions>

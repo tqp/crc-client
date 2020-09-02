@@ -38,7 +38,7 @@ export class StudentDetailComponent implements OnInit {
         const studentGuid = params['guid'];
         // console.log('studentGuid', studentGuid);
         this.getStudentDetail(studentGuid);
-        this.getRelationshipByStudentGuid(studentGuid);
+        this.getCaregiverListByStudentGuid(studentGuid);
       } else {
         console.error('No ID was present.');
       }
@@ -59,7 +59,7 @@ export class StudentDetailComponent implements OnInit {
     );
   }
 
-  private getRelationshipByStudentGuid(studentGuid: string): void {
+  private getCaregiverListByStudentGuid(studentGuid: string): void {
     this.caregiverService.getCaregiverListByStudentGuid(studentGuid).subscribe(
       (relationshipList: Person[]) => {
         console.log('relationshipList', relationshipList);

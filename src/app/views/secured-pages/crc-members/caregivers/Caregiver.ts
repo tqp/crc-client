@@ -3,4 +3,7 @@ export class Caregiver {
   public caregiverSurname?: string;
   public caregiverGivenName?: string;
   public caregiverGender?: string;
+
+  public relationshipType?: string;
+  public relationshipBloodRelative?: boolean;
 }

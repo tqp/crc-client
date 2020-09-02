@@ -1,2 +1,6 @@
 @import "src/scss/vendors/bs-datepicker/datepicker";
 @import "node_modules/ngx-bootstrap/datepicker/bs-datepicker";
+
+.table-container {
+  height: 200px !important;
+}

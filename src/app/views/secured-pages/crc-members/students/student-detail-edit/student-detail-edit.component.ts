@@ -1,6 +1,6 @@
 import {Component, ElementRef, HostListener, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import {ConfirmDialogComponent} from '@tqp/components/confirm-dialog/confirm-dialog.component';
-import {MatDialog, MatDialogRef} from '@angular/material/dialog';
+import {MatDialog, MatDialogConfig, MatDialogRef} from '@angular/material/dialog';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {Student} from '../Student';
@@ -8,6 +8,9 @@ import {StudentService} from '../student.service';
 import {FormattingService} from '@tqp/services/formatting.service';
 import {TierTypeService} from '../../../reference-tables/tier-type/tier-type.service';
 import {TierType} from '../../../reference-tables/tier-type/TierType';
+import {Person} from '../../../../../../@tqp/models/Person';
+import {CaregiverService} from '../../caregivers/caregiver.service';
+import {StudentCaregiverEditDialogComponent} from '../student-caregiver-edit-dialog/student-caregiver-edit-dialog.component';
 
 @Component({
   selector: 'app-student-detail-edit',
@@ -23,6 +26,15 @@ export class StudentDetailEditComponent implements OnInit {
   public tierTypeList: TierType[];
   public studentEditForm: FormGroup;
   public confirmDialogRef: MatDialogRef<ConfirmDialogComponent>;
+
+  // Relationships List
+  public records: Person[] = [];
+  public dataSource: Person[] = [];
+  public displayedColumns: string[] = [
+    'name',
+    'relationship',
+    'bloodRelative'
+  ];
 
   public validationMessages = {
     'studentGuid': [
@@ -51,6 +63,7 @@ export class StudentDetailEditComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
               private studentService: StudentService,
+              private caregiverService: CaregiverService,
               private tierTypeService: TierTypeService,
               private router: Router,
               private formBuilder: FormBuilder,
@@ -66,6 +79,7 @@ export class StudentDetailEditComponent implements OnInit {
         const studentGuid = params['guid'];
         // console.log('studentGuid', studentGuid);
         this.getStudentDetail(studentGuid);
+        this.getCaregiverListByStudentGuid(studentGuid);
       } else {
         // Create new Person
         this.newRecord = true;
@@ -119,6 +133,21 @@ export class StudentDetailEditComponent implements OnInit {
     );
   }
 
+  private getCaregiverListByStudentGuid(studentGuid: string): void {
+    this.caregiverService.getCaregiverListByStudentGuid(studentGuid).subscribe(
+      (relationshipList: Person[]) => {
+        console.log('relationshipList', relationshipList);
+        relationshipList.forEach(item => {
+          this.records.push(item);
+        });
+        this.dataSource = this.records;
+      },
+      error => {
+        console.error('Error: ', error);
+      }
+    );
+  }
+
   private getTierTypeList(): void {
     this.tierTypeService.getTierTypeList().subscribe(
       response => {
@@ -132,6 +161,37 @@ export class StudentDetailEditComponent implements OnInit {
   }
 
   // BUTTONS
+
+  public openStudentCaregiverEditDialog(): void {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.minWidth = '25%';
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.data = this.student.studentGuid;
+    dialogConfig.autoFocus = false;
+    const dialogRef = this._matDialog.open(StudentCaregiverEditDialogComponent, dialogConfig);
+
+    dialogRef.afterClosed().subscribe(dialogData => {
+      console.log('dialogData', dialogData);
+      // this.listAddRemoveOutputObject = dialogData;
+      // if ((this.listAddRemoveOutputObject.itemsToAdd && this.listAddRemoveOutputObject.itemsToAdd.length > 0) ||
+      //   (this.listAddRemoveOutputObject.itemsToRemove && this.listAddRemoveOutputObject.itemsToRemove.length > 0)) {
+      //   // We'll use forkJoin to ensure that we don't redirect the page until both updates have completed.
+      //   const first = this.seasonService.addSeasonsToContestant(this.contestant.contestantGuid, this.listAddRemoveOutputObject.itemsToAdd);
+      //   const second = this.seasonService.removeSeasonsFromContestant(this.contestant.contestantGuid, this.listAddRemoveOutputObject.itemsToRemove);
+      //   forkJoin([first, second]).subscribe(
+      //     next => {
+      //       // console.log(next);
+      //       // console.log('Refresh.');
+      //       this.getSeasonListByContestantGuid(this.contestant.contestantGuid);
+      //     },
+      //     error => console.log(error)
+      //   );
+      // } else {
+      //   console.log('No changes made.');
+      // }
+    });
+  }
 
   public save(): void {
     const student = new Student();
