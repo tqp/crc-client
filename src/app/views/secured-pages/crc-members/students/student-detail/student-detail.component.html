@@ -22,20 +22,55 @@
       <div class="card">
         <div class="card-header">
           <i class="fa fa-user"></i>
-          Basic Info
+          Personal Information
         </div>
         <div class="card-body">
           <dl class="row">
-            <dt class="col-sm-3">Last Name:</dt>
-            <dd class="col-sm-9">{{student.studentSurname}}</dd>
+            <dt class="col-sm-4">Last Name:</dt>
+            <dd class="col-sm-8">{{student.studentSurname}}</dd>
           </dl>
           <dl class="row">
-            <dt class="col-sm-3">First Name:</dt>
-            <dd class="col-sm-9">{{student.studentGivenName}}</dd>
+            <dt class="col-sm-4">First Name:</dt>
+            <dd class="col-sm-8">{{student.studentGivenName}}</dd>
           </dl>
           <dl class="row">
-            <dt class="col-sm-3">Gender:</dt>
-            <dd class="col-sm-9">{{genderNames[student.studentGender]}}</dd>
+            <dt class="col-sm-4">Gender:</dt>
+            <dd class="col-sm-8">{{genderNames[student.studentGender]}}</dd>
+          </dl>
+          <dl class="row">
+            <dt class="col-sm-4">Date of Birth:</dt>
+            <dd class="col-sm-8">{{student.studentDateOfBirth | date: 'MM/dd/yyyy'}}</dd>
+          </dl>
+          <dl class="row">
+            <dt class="col-sm-4">Support Tier:</dt>
+            <dd class="col-sm-8">{{student.tierTypeName}}</dd>
+          </dl>
+          <br/>
+          <dl class="row">
+            <dt class="col-sm-4">School:</dt>
+            <dd class="col-sm-8">{{student.studentSchool}}</dd>
+          </dl>
+          <dl class="row">
+            <dt class="col-sm-4">Grade:</dt>
+            <dd class="col-sm-8">{{student.studentGrade}}</dd>
+          </dl>
+          <br/>
+          <dl class="row">
+            <dt class="col-sm-4">Current Address:</dt>
+            <dd class="col-sm-8">{{student.studentAddressCurrent}}</dd>
+          </dl>
+          <dl class="row">
+            <dt class="col-sm-4">Previous Address:</dt>
+            <dd class="col-sm-8">{{student.studentAddressPrevious}}</dd>
+          </dl>
+          <br/>
+          <dl class="row">
+            <dt class="col-sm-4">Current Phone:</dt>
+            <dd class="col-sm-8">{{student.studentPhoneCurrent}}</dd>
+          </dl>
+          <dl class="row">
+            <dt class="col-sm-4">Previous Phone:</dt>
+            <dd class="col-sm-8">{{student.studentPhonePrevious}}</dd>
           </dl>
         </div>
       </div>
@@ -43,6 +78,53 @@
     </div>
 
     <div class="col-lg-6 col-sm-12">
+
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-group"></i>
+          Relationships
+        </div>
+        <div class="card-body">
+
+          <div class="table-container">
+
+            <table mat-table [dataSource]="dataSource" *ngIf="dataSource && dataSource.length > 0"
+                   matSort matSortActive="lastName" matSortDirection="asc" matSortDisableClear="true"
+                   class="table table-striped">
+
+              <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef>Name</th>
+                <td mat-cell *matCellDef="let row">
+                  {{row.caregiverGivenName}} {{row.caregiverSurname}}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="relationship">
+                <th mat-header-cell *matHeaderCellDef>Relationship</th>
+                <td mat-cell *matCellDef="let row">
+                  {{row.contestantFirstName}}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="bloodRelative">
+                <th mat-header-cell *matHeaderCellDef>Blood Relative</th>
+                <td mat-cell *matCellDef="let row">
+                  {{row.contestantFirstName}}
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true" [hidden]="true"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+
+            <div class="no-records" *ngIf="dataSource && dataSource.length <= 0">
+              No records to display.
+            </div>
+
+          </div>
+
+        </div>
+      </div>
 
     </div>
   </div>

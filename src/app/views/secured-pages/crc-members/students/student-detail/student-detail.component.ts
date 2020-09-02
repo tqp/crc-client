@@ -3,6 +3,8 @@ import { Student } from '../Student';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { EventService } from '@tqp/services/event.service';
 import { StudentService } from '../student.service';
+import {Person} from '../../../../../../@tqp/models/Person';
+import {CaregiverService} from '../../caregivers/caregiver.service';
 
 @Component({
   selector: 'app-student-detail',
@@ -14,8 +16,18 @@ export class StudentDetailComponent implements OnInit {
   public student: Student;
   public genderNames = {'M': 'Male', 'F': 'Female', 'O': 'Other'};
 
+  // Relationships List
+  public records: Person[] = [];
+  public dataSource: Person[] = [];
+  public displayedColumns: string[] = [
+    'name',
+    'relationship',
+    'bloodRelative'
+  ];
+
   constructor(private route: ActivatedRoute,
               private studentService: StudentService,
+              private caregiverService: CaregiverService,
               private eventService: EventService,
               private router: Router) {
   }
@@ -26,6 +38,7 @@ export class StudentDetailComponent implements OnInit {
         const studentGuid = params['guid'];
         // console.log('studentGuid', studentGuid);
         this.getStudentDetail(studentGuid);
+        this.getRelationshipByStudentGuid(studentGuid);
       } else {
         console.error('No ID was present.');
       }
@@ -39,6 +52,21 @@ export class StudentDetailComponent implements OnInit {
         this.student = response;
         // console.log('response', response);
         this.eventService.loadingEvent.emit(false);
+      },
+      error => {
+        console.error('Error: ', error);
+      }
+    );
+  }
+
+  private getRelationshipByStudentGuid(studentGuid: string): void {
+    this.caregiverService.getCaregiverListByStudentGuid(studentGuid).subscribe(
+      (relationshipList: Person[]) => {
+        console.log('relationshipList', relationshipList);
+        relationshipList.forEach(item => {
+          this.records.push(item);
+        });
+        this.dataSource = this.records;
       },
       error => {
         console.error('Error: ', error);

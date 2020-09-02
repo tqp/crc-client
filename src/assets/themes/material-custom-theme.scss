@@ -25,4 +25,4 @@ $custom-dark-theme: mat-dark-theme($custom-dark-theme-primary, $custom-dark-them
   }
 }
 
-@include mix-app-theme($custom-dark-theme);
+@include mix-app-theme($custom-light-theme);
