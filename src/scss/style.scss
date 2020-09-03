@@ -9,7 +9,9 @@
 // Be sure that you only ever include this mixin once!
 @include mat-core();
 
-@import '../../src/assets/themes/material-custom-theme';
+// TQP Custom Theme
+@import '../../src/assets/themes/material-custom-theme-light';
+//@import '../../src/assets/themes/material-custom-theme-dark';
 
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
@@ -61,7 +63,7 @@
 
 // Import styles with default layout.
 // If you are going to use dark layout please comment next line
-//@import "~@coreui/coreui-pro/scss/coreui";
+@import "~@coreui/coreui-pro/scss/coreui";
 
 // Import styles with dark layout
 // If you want to use dark layout uncomment next line
@@ -69,7 +71,7 @@
 
 // Import styles with custom layout
 // If you want to use custom layout uncomment next line
-@import "src/assets/themes/custom/coreui-custom";
+//@import "src/assets/themes/custom/coreui-custom";
 
 // If you want to add something do it here
 @import "custom";

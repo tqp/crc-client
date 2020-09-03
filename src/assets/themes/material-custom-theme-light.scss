@@ -21,7 +21,14 @@ $custom-dark-theme: mat-dark-theme($custom-dark-theme-primary, $custom-dark-them
   $accent: map-get($app-theme, accent);
 
   .mat-table {
-    background-color: rgb(58, 65, 73);
+    //background-color: rgb(240, 243, 245);
+    background-color: transparent;
+  }
+
+  th.mat-header-cell {
+    //background: rgb(52, 59, 65);
+    background: rgb(240, 243, 245) !important;
+    color: rgb(30, 45, 44) !important;
   }
 }
 
