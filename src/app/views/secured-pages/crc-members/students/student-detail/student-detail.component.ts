@@ -60,7 +60,7 @@ export class StudentDetailComponent implements OnInit {
     );
   }
 
-  private getRelationshipListByStudentId(studentId: string): void {
+  private getRelationshipListByStudentId(studentId: number): void {
     this.relationshipService.getRelationshipListByStudentId(studentId).subscribe(
       (relationshipList: Person[]) => {
         console.log('relationshipList', relationshipList);

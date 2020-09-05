@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { ConfirmDialogComponent } from '@tqp/components/confirm-dialog/confirm-dialog.component';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
@@ -9,12 +9,10 @@ import { FormattingService } from '@tqp/services/formatting.service';
 import { TierTypeService } from '../../../reference-tables/tier-type/tier-type.service';
 import { TierType } from '../../../reference-tables/tier-type/TierType';
 import { Person } from '../../../../../../@tqp/models/Person';
-import { CaregiverService } from '../../caregivers/caregiver.service';
 import { StudentRelationshipEditDialogComponent } from '../student-relationship-edit-dialog/student-relationship-edit-dialog.component';
 import { Relationship } from '../Relationship';
-import { forkJoin } from 'rxjs';
 import { RelationshipService } from '../../relationship/relationship.service';
-import { map, mergeMap, switchMap } from 'rxjs/operators';
+import { mergeMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-student-detail-edit',
@@ -136,6 +134,7 @@ export class StudentDetailEditComponent implements OnInit {
     this.relationshipService.getRelationshipListByStudentId(studentId).subscribe(
       (relationshipList: Person[]) => {
         // console.log('relationshipList', relationshipList);
+        this.records = [];
         relationshipList.forEach(item => {
           this.records.push(item);
         });
@@ -187,7 +186,7 @@ export class StudentDetailEditComponent implements OnInit {
           return this.relationshipService.createRelationship(this.relationship);
         })
       ).subscribe(thing => {
-        console.log('thing', thing);
+        console.log('this.student.studentId', this.student.studentId);
         this.getRelationshipListByStudentId(this.student.studentId);
       });
 
