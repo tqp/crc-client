@@ -40,7 +40,7 @@
         <div class="card">
           <div class="card-header">
             <i class="fa fa-user"></i>
-            Basic Info (Required)
+            Basic Info
           </div>
           <div class="card-body">
 
@@ -61,6 +61,7 @@
                 </div>
               </div>
             </div>
+
             <div class="row">
               <div class="col-sm-12">
                 <div class="form-group">
@@ -78,27 +79,7 @@
                 </div>
               </div>
             </div>
-            <div class="row">
-              <div class="col-sm-12">
-                <div class="form-group">
-                  <label for="caseManagerGender">Gender</label>
-                  <select id="caseManagerGender" class="form-control" formControlName="caseManagerGender">
-                    <option value="">Pick a Gender</option>
-                    <option value="M">Male</option>
-                    <option value="F">Female</option>
-                    <option value="O">Other</option>
-                  </select>
-                  <mat-error *ngFor="let validation of validationMessages.caseManagerGender">
-                    <mat-error class="error-message"
-                               *ngIf="caseManagerEditForm.get('caseManagerGender').hasError(validation.type)
-                                && (caseManagerEditForm.get('caseManagerGender').dirty ||
-                                caseManagerEditForm.get('caseManagerGender').touched)">
-                      {{validation.message}}
-                    </mat-error>
-                  </mat-error>
-                </div>
-              </div>
-            </div>
+
           </div>
         </div>
 

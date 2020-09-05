@@ -24,7 +24,7 @@ export class CaregiverListComponent implements OnInit, AfterViewInit, OnDestroy 
   @ViewChild('nameSearchElementRef', {static: true}) nameSearchElementRef: ElementRef;
 
   public listTitle = 'Caregiver List';
-  private defaultSortColumn = 'PERSON_SURNAME';
+  private defaultSortColumn = 'last_name';
   private pageIndex = 0;
   public pageSize = 10;
   private totalNumberOfPages: number;

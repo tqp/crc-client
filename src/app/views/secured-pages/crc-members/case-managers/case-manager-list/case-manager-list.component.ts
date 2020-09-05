@@ -24,7 +24,7 @@ export class CaseManagerListComponent implements OnInit, AfterViewInit, OnDestro
   @ViewChild('nameSearchElementRef', {static: true}) nameSearchElementRef: ElementRef;
 
   public listTitle = 'Case Manager List';
-  private defaultSortColumn = 'PERSON_SURNAME';
+  private defaultSortColumn = 'last_name';
   private pageIndex = 0;
   public pageSize = 10;
   private totalNumberOfPages: number;

@@ -107,8 +107,8 @@ export class StudentService {
     }
   }
 
-  public deleteStudent(studentGuid: string): Observable<string> {
-    const url = environment.apiUrl + '/api/v1/student/' + studentGuid;
+  public deleteStudent(studentId: number): Observable<string> {
+    const url = environment.apiUrl + '/api/v1/student/' + studentId;
     const token = this.tokenService.getToken();
     if (token) {
       return this.http.delete<string>(url,

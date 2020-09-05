@@ -5,6 +5,7 @@ import { EventService } from '@tqp/services/event.service';
 import { StudentService } from '../student.service';
 import {Person} from '../../../../../../@tqp/models/Person';
 import {CaregiverService} from '../../caregivers/caregiver.service';
+import { RelationshipService } from '../../relationship/relationship.service';
 
 @Component({
   selector: 'app-student-detail',
@@ -27,7 +28,7 @@ export class StudentDetailComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
               private studentService: StudentService,
-              private caregiverService: CaregiverService,
+              private relationshipService: RelationshipService,
               private eventService: EventService,
               private router: Router) {
   }
@@ -35,10 +36,10 @@ export class StudentDetailComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.forEach((params: Params) => {
       if (params['guid'] !== undefined) {
-        const studentGuid = params['guid'];
-        // console.log('studentGuid', studentGuid);
-        this.getStudentDetail(studentGuid);
-        this.getCaregiverListByStudentGuid(studentGuid);
+        const studentId = params['guid'];
+        // console.log('studentId', studentId);
+        this.getStudentDetail(studentId);
+        this.getRelationshipListByStudentId(studentId);
       } else {
         console.error('No ID was present.');
       }
@@ -50,7 +51,7 @@ export class StudentDetailComponent implements OnInit {
     this.studentService.getStudentDetail(guid).subscribe(
       response => {
         this.student = response;
-        // console.log('response', response);
+        console.log('response', response);
         this.eventService.loadingEvent.emit(false);
       },
       error => {
@@ -59,8 +60,8 @@ export class StudentDetailComponent implements OnInit {
     );
   }
 
-  private getCaregiverListByStudentGuid(studentGuid: string): void {
-    this.caregiverService.getCaregiverListByStudentGuid(studentGuid).subscribe(
+  private getRelationshipListByStudentId(studentId: string): void {
+    this.relationshipService.getRelationshipListByStudentId(studentId).subscribe(
       (relationshipList: Person[]) => {
         console.log('relationshipList', relationshipList);
         relationshipList.forEach(item => {
@@ -81,7 +82,7 @@ export class StudentDetailComponent implements OnInit {
   }
 
   public openEditPage(): void {
-    this.router.navigate(['students/student-detail-edit', this.student.studentGuid]).then();
+    this.router.navigate(['students/student-detail-edit', this.student.studentId]).then();
   }
 
   public openTwitter(twitterHandle: string): void {

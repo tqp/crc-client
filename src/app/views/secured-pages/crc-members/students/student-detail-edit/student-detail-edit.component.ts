@@ -1,16 +1,20 @@
-import {Component, ElementRef, HostListener, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
-import {ConfirmDialogComponent} from '@tqp/components/confirm-dialog/confirm-dialog.component';
-import {MatDialog, MatDialogConfig, MatDialogRef} from '@angular/material/dialog';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {ActivatedRoute, Params, Router} from '@angular/router';
-import {Student} from '../Student';
-import {StudentService} from '../student.service';
-import {FormattingService} from '@tqp/services/formatting.service';
-import {TierTypeService} from '../../../reference-tables/tier-type/tier-type.service';
-import {TierType} from '../../../reference-tables/tier-type/TierType';
-import {Person} from '../../../../../../@tqp/models/Person';
-import {CaregiverService} from '../../caregivers/caregiver.service';
-import {StudentCaregiverEditDialogComponent} from '../student-caregiver-edit-dialog/student-caregiver-edit-dialog.component';
+import { Component, ElementRef, HostListener, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { ConfirmDialogComponent } from '@tqp/components/confirm-dialog/confirm-dialog.component';
+import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { Student } from '../Student';
+import { StudentService } from '../student.service';
+import { FormattingService } from '@tqp/services/formatting.service';
+import { TierTypeService } from '../../../reference-tables/tier-type/tier-type.service';
+import { TierType } from '../../../reference-tables/tier-type/TierType';
+import { Person } from '../../../../../../@tqp/models/Person';
+import { CaregiverService } from '../../caregivers/caregiver.service';
+import { StudentRelationshipEditDialogComponent } from '../student-relationship-edit-dialog/student-relationship-edit-dialog.component';
+import { Relationship } from '../Relationship';
+import { forkJoin } from 'rxjs';
+import { RelationshipService } from '../../relationship/relationship.service';
+import { map, mergeMap, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-student-detail-edit',
@@ -26,6 +30,7 @@ export class StudentDetailEditComponent implements OnInit {
   public tierTypeList: TierType[];
   public studentEditForm: FormGroup;
   public confirmDialogRef: MatDialogRef<ConfirmDialogComponent>;
+  private relationship: Relationship;
 
   // Relationships List
   public records: Person[] = [];
@@ -37,7 +42,7 @@ export class StudentDetailEditComponent implements OnInit {
   ];
 
   public validationMessages = {
-    'studentGuid': [
+    'studentId': [
       {type: 'required', message: 'A GUID is required'}
     ],
     'studentSurname': [
@@ -52,10 +57,8 @@ export class StudentDetailEditComponent implements OnInit {
     'studentDateOfBirth': [],
     'studentGrade': [],
     'studentSchool': [],
-    'studentAddressCurrent': [],
-    'studentAddressPrevious': [],
-    'studentPhoneCurrent': [],
-    'studentPhonePrevious': [],
+    'studentAddress': [],
+    'studentPhone': [],
     'tierTypeGuid': [
       {type: 'required', message: 'A Support Tier is required'}
     ]
@@ -63,7 +66,7 @@ export class StudentDetailEditComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
               private studentService: StudentService,
-              private caregiverService: CaregiverService,
+              private relationshipService: RelationshipService,
               private tierTypeService: TierTypeService,
               private router: Router,
               private formBuilder: FormBuilder,
@@ -76,15 +79,15 @@ export class StudentDetailEditComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.forEach((params: Params) => {
       if (params['guid'] !== undefined) {
-        const studentGuid = params['guid'];
-        // console.log('studentGuid', studentGuid);
-        this.getStudentDetail(studentGuid);
-        this.getCaregiverListByStudentGuid(studentGuid);
+        const studentId = params['guid'];
+        // console.log('studentId', studentId);
+        this.getStudentDetail(studentId);
+        this.getRelationshipListByStudentId(studentId);
       } else {
         // Create new Person
         this.newRecord = true;
         this.student = new Student();
-        this.student.studentGuid = null;
+        this.student.studentId = null;
         setTimeout(() => {
           this.studentSurnameInputField.nativeElement.focus();
         }, 0);
@@ -94,17 +97,15 @@ export class StudentDetailEditComponent implements OnInit {
 
   private initializeForm(): void {
     this.studentEditForm = this.formBuilder.group({
-      studentGuid: new FormControl(''),
+      studentId: new FormControl(''),
       studentSurname: new FormControl('', Validators.required),
       studentGivenName: new FormControl('', Validators.required),
       studentGender: new FormControl('', Validators.required),
       studentDateOfBirth: new FormControl(''),
       studentSchool: new FormControl(''),
       studentGrade: new FormControl(''),
-      studentAddressCurrent: new FormControl(''),
-      studentAddressPrevious: new FormControl(''),
-      studentPhoneCurrent: new FormControl(''),
-      studentPhonePrevious: new FormControl(''),
+      studentAddress: new FormControl(''),
+      studentPhone: new FormControl(''),
       tierTypeGuid: new FormControl('', Validators.required),
     });
   }
@@ -114,18 +115,16 @@ export class StudentDetailEditComponent implements OnInit {
       response => {
         this.student = response;
         // console.log('response', response);
-        this.studentEditForm.controls['studentGuid'].patchValue(this.student.studentGuid);
+        this.studentEditForm.controls['studentId'].patchValue(this.student.studentId);
         this.studentEditForm.controls['studentSurname'].patchValue(this.student.studentSurname);
         this.studentEditForm.controls['studentGivenName'].patchValue(this.student.studentGivenName);
         this.studentEditForm.controls['studentGender'].patchValue(this.student.studentGender);
         this.studentEditForm.controls['studentDateOfBirth'].patchValue(this.formattingService.formatMySqlDateAsStandard(this.student.studentDateOfBirth));
         this.studentEditForm.controls['studentSchool'].patchValue(this.student.studentSchool);
         this.studentEditForm.controls['studentGrade'].patchValue(this.student.studentGrade);
-        this.studentEditForm.controls['studentAddressCurrent'].patchValue(this.student.studentAddressCurrent);
-        this.studentEditForm.controls['studentAddressPrevious'].patchValue(this.student.studentAddressPrevious);
-        this.studentEditForm.controls['studentPhoneCurrent'].patchValue(this.student.studentPhoneCurrent);
-        this.studentEditForm.controls['studentPhonePrevious'].patchValue(this.student.studentPhonePrevious);
-        this.studentEditForm.controls['tierTypeGuid'].patchValue(this.student.tierTypeGuid);
+        this.studentEditForm.controls['studentAddress'].patchValue(this.student.studentAddress);
+        this.studentEditForm.controls['studentPhone'].patchValue(this.student.studentPhone);
+        this.studentEditForm.controls['tierTypeGuid'].patchValue(this.student.tierTypeId);
       },
       error => {
         console.error('Error: ', error);
@@ -133,10 +132,10 @@ export class StudentDetailEditComponent implements OnInit {
     );
   }
 
-  private getCaregiverListByStudentGuid(studentGuid: string): void {
-    this.caregiverService.getCaregiverListByStudentGuid(studentGuid).subscribe(
+  private getRelationshipListByStudentId(studentId: number): void {
+    this.relationshipService.getRelationshipListByStudentId(studentId).subscribe(
       (relationshipList: Person[]) => {
-        console.log('relationshipList', relationshipList);
+        // console.log('relationshipList', relationshipList);
         relationshipList.forEach(item => {
           this.records.push(item);
         });
@@ -150,7 +149,7 @@ export class StudentDetailEditComponent implements OnInit {
 
   private getTierTypeList(): void {
     this.tierTypeService.getTierTypeList().subscribe(
-      response => {
+      (response: TierType[]) => {
         this.tierTypeList = response;
         // console.log('response', response);
       },
@@ -162,34 +161,36 @@ export class StudentDetailEditComponent implements OnInit {
 
   // BUTTONS
 
-  public openStudentCaregiverEditDialog(): void {
+  public openStudentRelationshipEditDialog(): void {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.minWidth = '25%';
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
-    dialogConfig.data = this.student.studentGuid;
+    dialogConfig.data = {
+      action: 'create',
+      studentId: this.student.studentId
+    };
     dialogConfig.autoFocus = false;
-    const dialogRef = this._matDialog.open(StudentCaregiverEditDialogComponent, dialogConfig);
+    const dialogRef = this._matDialog.open(StudentRelationshipEditDialogComponent, dialogConfig);
 
     dialogRef.afterClosed().subscribe(dialogData => {
-      console.log('dialogData', dialogData);
-      // this.listAddRemoveOutputObject = dialogData;
-      // if ((this.listAddRemoveOutputObject.itemsToAdd && this.listAddRemoveOutputObject.itemsToAdd.length > 0) ||
-      //   (this.listAddRemoveOutputObject.itemsToRemove && this.listAddRemoveOutputObject.itemsToRemove.length > 0)) {
-      //   // We'll use forkJoin to ensure that we don't redirect the page until both updates have completed.
-      //   const first = this.seasonService.addSeasonsToContestant(this.contestant.contestantGuid, this.listAddRemoveOutputObject.itemsToAdd);
-      //   const second = this.seasonService.removeSeasonsFromContestant(this.contestant.contestantGuid, this.listAddRemoveOutputObject.itemsToRemove);
-      //   forkJoin([first, second]).subscribe(
-      //     next => {
-      //       // console.log(next);
-      //       // console.log('Refresh.');
-      //       this.getSeasonListByContestantGuid(this.contestant.contestantGuid);
-      //     },
-      //     error => console.log(error)
-      //   );
-      // } else {
-      //   console.log('No changes made.');
-      // }
+      console.log('dialogClose', dialogData);
+      this.relationship = dialogData;
+      console.log('this.relationship', this.relationship);
+
+      this.relationshipService.createPerson_Relationship(this.relationship).pipe(
+        mergeMap(newPersonId => {
+          console.log('newPersonId', newPersonId);
+          this.relationship.personId = newPersonId;
+          this.relationship.relationshipBloodRelative = 0;
+          console.log('this.relationship', this.relationship);
+          return this.relationshipService.createRelationship(this.relationship);
+        })
+      ).subscribe(thing => {
+        console.log('thing', thing);
+        this.getRelationshipListByStudentId(this.student.studentId);
+      });
+
     });
   }
 
@@ -197,24 +198,22 @@ export class StudentDetailEditComponent implements OnInit {
     const student = new Student();
 
     // console.log('crudEditForm', this.studentEditForm.value);
-    student.studentGuid = this.studentEditForm.value.studentGuid;
+    student.studentId = this.studentEditForm.value.studentId;
     student.studentSurname = this.studentEditForm.value.studentSurname;
     student.studentGivenName = this.studentEditForm.value.studentGivenName;
     student.studentGender = this.studentEditForm.value.studentGender;
     student.studentDateOfBirth = this.formattingService.formatStandardDateAsMySql(this.studentEditForm.value.studentDateOfBirth);
     student.studentSchool = this.studentEditForm.value.studentSchool;
     student.studentGrade = this.studentEditForm.value.studentGrade;
-    student.studentAddressCurrent = this.studentEditForm.value.studentAddressCurrent;
-    student.studentAddressPrevious = this.studentEditForm.value.studentAddressPrevious;
-    student.studentPhoneCurrent = this.studentEditForm.value.studentPhoneCurrent;
-    student.studentPhonePrevious = this.studentEditForm.value.studentPhonePrevious;
-    student.tierTypeGuid = this.studentEditForm.value.tierTypeGuid;
+    student.studentAddress = this.studentEditForm.value.studentAddress;
+    student.studentPhone = this.studentEditForm.value.studentPhone;
+    student.tierTypeId = this.studentEditForm.value.tierTypeGuid;
 
     if (this.newRecord) {
       this.studentService.createStudent(student).subscribe(
         response => {
           // console.log('response: ', response);
-          this.router.navigate(['students/student-detail', response.studentGuid]).then();
+          this.router.navigate(['students/student-detail', response.studentId]).then();
         },
         error => {
           console.error('Error: ' + error.message);
@@ -224,7 +223,7 @@ export class StudentDetailEditComponent implements OnInit {
       this.studentService.updateStudent(student).subscribe(
         response => {
           // console.log('response: ', response);
-          this.router.navigate(['students/student-detail', response.studentGuid]).then();
+          this.router.navigate(['students/student-detail', response.studentId]).then();
         },
         error => {
           console.error('Error: ' + error.message);
@@ -233,14 +232,14 @@ export class StudentDetailEditComponent implements OnInit {
     }
   }
 
-  public delete(studentGuid: string): void {
+  public delete(studentId: number): void {
     this.confirmDialogRef = this._matDialog.open(ConfirmDialogComponent, {
       disableClose: false
     });
     this.confirmDialogRef.componentInstance.confirmMessage = 'Are you sure you want to delete?';
     this.confirmDialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.studentService.deleteStudent(studentGuid).subscribe(
+        this.studentService.deleteStudent(studentId).subscribe(
           response => {
             // console.log('response: ', response);
             this.router.navigate(['students/student-list']).then();
@@ -255,33 +254,33 @@ export class StudentDetailEditComponent implements OnInit {
   }
 
   public cancel(): void {
-    if (this.student.studentGuid) {
-      this.router.navigate(['students/student-detail', this.student.studentGuid]).then();
+    if (this.student.studentId) {
+      this.router.navigate(['students/student-detail', this.student.studentId]).then();
     } else {
       this.router.navigate(['students/student-list']).then();
     }
   }
 
-  @HostListener('window:keydown', ['$event'])
-  public handleKeyboardEvent(event: KeyboardEvent): void {
-    if (event.key === 'Enter') {
-      this.save();
-    }
-    if (event.key === 'Escape') {
-      this.cancel();
-    }
-    if (event.ctrlKey && event.key === 'd') {
-      event.preventDefault();
-      this.delete(this.student.studentGuid);
-    }
-    if (event.ctrlKey && event.key === 's') {
-      event.preventDefault();
-      this.save();
-    }
-    if (event.ctrlKey && event.key === 'c') {
-      event.preventDefault();
-      this.cancel();
-    }
-  }
+  // @HostListener('window:keydown', ['$event'])
+  // public handleKeyboardEvent(event: KeyboardEvent): void {
+  //   if (event.key === 'Enter') {
+  //     this.save();
+  //   }
+  //   if (event.key === 'Escape') {
+  //     this.cancel();
+  //   }
+  //   if (event.ctrlKey && event.key === 'd') {
+  //     event.preventDefault();
+  //     this.delete(this.student.studentId);
+  //   }
+  //   if (event.ctrlKey && event.key === 's') {
+  //     event.preventDefault();
+  //     this.save();
+  //   }
+  //   if (event.ctrlKey && event.key === 'c') {
+  //     event.preventDefault();
+  //     this.cancel();
+  //   }
+  // }
 
 }

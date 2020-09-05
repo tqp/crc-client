@@ -10,14 +10,14 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AngularMaterialModule} from '../../../../../@tqp/modules/angular-material.module';
 import {StudentListComponent} from './student-list/student-list.component';
 import {StudentRoutingModule} from './student-routing.module';
-import {StudentCaregiverEditDialogComponent} from './student-caregiver-edit-dialog/student-caregiver-edit-dialog.component';
+import {StudentRelationshipEditDialogComponent} from './student-relationship-edit-dialog/student-relationship-edit-dialog.component';
 
 @NgModule({
   declarations: [
     StudentListComponent,
     StudentDetailComponent,
     StudentDetailEditComponent,
-    StudentCaregiverEditDialogComponent
+    StudentRelationshipEditDialogComponent
   ],
   imports: [
     CommonModule,

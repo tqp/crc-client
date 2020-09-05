@@ -40,7 +40,7 @@
         <div class="card">
           <div class="card-header">
             <i class="fa fa-user"></i>
-            Basic Info (Required)
+            Basic Info
           </div>
           <div class="card-body">
 
@@ -61,6 +61,7 @@
                 </div>
               </div>
             </div>
+
             <div class="row">
               <div class="col-sm-12">
                 <div class="form-group">
@@ -78,27 +79,7 @@
                 </div>
               </div>
             </div>
-            <div class="row">
-              <div class="col-sm-12">
-                <div class="form-group">
-                  <label for="caregiverGender">Gender</label>
-                  <select id="caregiverGender" class="form-control" formControlName="caregiverGender">
-                    <option value="">Pick a Gender</option>
-                    <option value="M">Male</option>
-                    <option value="F">Female</option>
-                    <option value="O">Other</option>
-                  </select>
-                  <mat-error *ngFor="let validation of validationMessages.caregiverGender">
-                    <mat-error class="error-message"
-                               *ngIf="caregiverEditForm.get('caregiverGender').hasError(validation.type)
-                                && (caregiverEditForm.get('caregiverGender').dirty ||
-                                caregiverEditForm.get('caregiverGender').touched)">
-                      {{validation.message}}
-                    </mat-error>
-                  </mat-error>
-                </div>
-              </div>
-            </div>
+
           </div>
         </div>
 

@@ -17,7 +17,7 @@
       <div class="col-sm-6">
         <div class="form-group float-right">
           <button type="button" class="btn btn-sm btn-outline-danger" style="width: 100px;" *ngIf="!newRecord"
-                  (click)="delete(student.studentGuid)">
+                  (click)="delete(student.studentId)">
             <!--            [disabled]="authService.allowRoles('ROLE_ADMIN')"-->
             <u>D</u>elete
           </button>
@@ -46,7 +46,7 @@
             <div class="row">
               <div class="col-sm-12">
                 <div class="form-group">
-                  <label for="studentSurname">Surname</label>
+                  <label for="studentSurname">Surname*</label>
                   <input matInput id="studentSurname" #studentSurnameInputField type="text" class="form-control"
                          placeholder="Surname"
                          formControlName="studentSurname" autocomplete="chrome-off">
@@ -65,7 +65,7 @@
             <div class="row">
               <div class="col-sm-12">
                 <div class="form-group">
-                  <label for="studentGivenName">Given Name</label>
+                  <label for="studentGivenName">Given Name*</label>
                   <input matInput id="studentGivenName" type="text" class="form-control" placeholder="Given Name"
                          formControlName="studentGivenName">
                   <mat-error *ngFor="let validation of validationMessages.studentGivenName">
@@ -83,7 +83,7 @@
             <div class="row">
               <div class="col-sm-12">
                 <div class="form-group">
-                  <label for="studentGender">Gender</label>
+                  <label for="studentGender">Gender*</label>
                   <select id="studentGender" class="form-control" formControlName="studentGender">
                     <option value="">Pick a Gender</option>
                     <option value="M">Male</option>
@@ -105,7 +105,7 @@
             <div class="row">
               <div class="col-sm-12">
                 <div class="form-group">
-                  <label for="studentDateOfBirth">Date of Birth</label>
+                  <label for="studentDateOfBirth">Date of Birth*</label>
                   <input id="studentDateOfBirth" type="text" class="form-control" bsDatepicker
                          formControlName="studentDateOfBirth">
                   <mat-error *ngFor="let validation of validationMessages.studentDateOfBirth">
@@ -123,7 +123,7 @@
             <div class="row">
               <div class="col-sm-12">
                 <div class="form-group">
-                  <label for="tierTypeGuid">Support Tier</label>
+                  <label for="tierTypeGuid">Support Tier*</label>
                   <select id="tierTypeGuid" class="form-control" formControlName="tierTypeGuid">
                     <option value="">Pick a Tier</option>
                     <option *ngFor="let tierType of tierTypeList" value="{{tierType.tierTypeGuid}}">
@@ -181,14 +181,14 @@
             <div class="row">
               <div class="col-sm-12">
                 <div class="form-group">
-                  <label for="studentAddressCurrent">Current Address</label>
-                  <input matInput id="studentAddressCurrent" type="text" class="form-control" placeholder="Current Address"
-                         formControlName="studentAddressCurrent">
-                  <mat-error *ngFor="let validation of validationMessages.studentAddressCurrent">
+                  <label for="studentAddress">Address</label>
+                  <input matInput id="studentAddress" type="text" class="form-control" placeholder="Address"
+                         formControlName="studentAddress">
+                  <mat-error *ngFor="let validation of validationMessages.studentAddress">
                     <mat-error class="error-message"
-                               *ngIf="studentEditForm.get('studentAddressCurrent').hasError(validation.type)
-                                && (studentEditForm.get('studentAddressCurrent').dirty ||
-                                studentEditForm.get('studentAddressCurrent').touched)">
+                               *ngIf="studentEditForm.get('studentAddress').hasError(validation.type)
+                                && (studentEditForm.get('studentAddress').dirty ||
+                                studentEditForm.get('studentAddress').touched)">
                       {{validation.message}}
                     </mat-error>
                   </mat-error>
@@ -199,50 +199,14 @@
             <div class="row">
               <div class="col-sm-12">
                 <div class="form-group">
-                  <label for="studentAddressPrevious">Previous Address</label>
-                  <input matInput id="studentAddressPrevious" type="text" class="form-control" placeholder="Previous Address"
-                         formControlName="studentAddressPrevious">
-                  <mat-error *ngFor="let validation of validationMessages.studentAddressPrevious">
+                  <label for="studentPhone">Phone</label>
+                  <input matInput id="studentPhone" type="text" class="form-control" placeholder="Phone"
+                         formControlName="studentPhone">
+                  <mat-error *ngFor="let validation of validationMessages.studentPhone">
                     <mat-error class="error-message"
-                               *ngIf="studentEditForm.get('studentAddressPrevious').hasError(validation.type)
-                                && (studentEditForm.get('studentAddressPrevious').dirty ||
-                                studentEditForm.get('studentAddressPrevious').touched)">
-                      {{validation.message}}
-                    </mat-error>
-                  </mat-error>
-                </div>
-              </div>
-            </div>
-
-            <div class="row">
-              <div class="col-sm-12">
-                <div class="form-group">
-                  <label for="studentPhoneCurrent">Current Phone</label>
-                  <input matInput id="studentPhoneCurrent" type="text" class="form-control" placeholder="Current Phone"
-                         formControlName="studentPhoneCurrent">
-                  <mat-error *ngFor="let validation of validationMessages.studentPhoneCurrent">
-                    <mat-error class="error-message"
-                               *ngIf="studentEditForm.get('studentPhoneCurrent').hasError(validation.type)
-                                && (studentEditForm.get('studentPhoneCurrent').dirty ||
-                                studentEditForm.get('studentPhoneCurrent').touched)">
-                      {{validation.message}}
-                    </mat-error>
-                  </mat-error>
-                </div>
-              </div>
-            </div>
-
-            <div class="row">
-              <div class="col-sm-12">
-                <div class="form-group">
-                  <label for="studentPhonePrevious">Previous Phone</label>
-                  <input matInput id="studentPhonePrevious" type="text" class="form-control" placeholder="Previous Phone"
-                         formControlName="studentPhonePrevious">
-                  <mat-error *ngFor="let validation of validationMessages.studentPhonePrevious">
-                    <mat-error class="error-message"
-                               *ngIf="studentEditForm.get('studentPhonePrevious').hasError(validation.type)
-                                && (studentEditForm.get('studentPhonePrevious').dirty ||
-                                studentEditForm.get('studentPhonePrevious').touched)">
+                               *ngIf="studentEditForm.get('studentPhone').hasError(validation.type)
+                                && (studentEditForm.get('studentPhone').dirty ||
+                                studentEditForm.get('studentPhone').touched)">
                       {{validation.message}}
                     </mat-error>
                   </mat-error>
@@ -263,7 +227,7 @@
               <i class="fa fa-calendar mr-2"></i>
               Relationships
             </div>
-            <button type="button" class="btn btn-sm btn-outline-primary float-right" (click)="openStudentCaregiverEditDialog()"
+            <button type="button" class="btn btn-sm btn-outline-primary float-right" (click)="openStudentRelationshipEditDialog()"
                     style="cursor: pointer;">
               <u>A</u>dd Relationship
             </button>
@@ -274,13 +238,13 @@
 
               <table mat-table [dataSource]="dataSource" *ngIf="dataSource && dataSource.length > 0"
                      matSort matSortActive="lastName" matSortDirection="asc" matSortDisableClear="true"
-                     class="table table-striped">
+                     class="table">
 
                 <ng-container matColumnDef="name">
                   <th mat-header-cell *matHeaderCellDef>Name</th>
                   <td mat-cell *matCellDef="let row">
-                    <a [routerLink]="['/caregivers/caregiver-detail', row.caregiverGuid]">
-                      {{row.caregiverGivenName}} {{row.caregiverSurname}}
+                    <a [routerLink]="['/caregivers/caregiver-detail', row.personId]">
+                      {{row.personGivenName}} {{row.personSurname}}
                     </a>
                   </td>
                 </ng-container>
@@ -288,7 +252,7 @@
                 <ng-container matColumnDef="relationship">
                   <th mat-header-cell *matHeaderCellDef>Relationship</th>
                   <td mat-cell *matCellDef="let row">
-                    {{row.relationshipType}}
+                    {{row.relationshipTypeName}}
                   </td>
                 </ng-container>
 

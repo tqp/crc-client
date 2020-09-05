@@ -28,9 +28,6 @@ export class CaseManagerDetailEditComponent implements OnInit {
     ],
     'caseManagerGivenName': [
       {type: 'required', message: 'A Given Name is required'}
-    ],
-    'caseManagerGender': [
-      {type: 'required', message: 'A Gender is required'}
     ]
   };
 
@@ -64,8 +61,7 @@ export class CaseManagerDetailEditComponent implements OnInit {
     this.caseManagerEditForm = this.formBuilder.group({
       caseManagerGuid: new FormControl(''),
       caseManagerSurname: new FormControl('', Validators.required),
-      caseManagerGivenName: new FormControl('', Validators.required),
-      caseManagerGender: new FormControl('', Validators.required),
+      caseManagerGivenName: new FormControl('', Validators.required)
     });
   }
 
@@ -77,7 +73,6 @@ export class CaseManagerDetailEditComponent implements OnInit {
         this.caseManagerEditForm.controls['caseManagerGuid'].patchValue(this.caseManager.caseManagerGuid);
         this.caseManagerEditForm.controls['caseManagerSurname'].patchValue(this.caseManager.caseManagerSurname);
         this.caseManagerEditForm.controls['caseManagerGivenName'].patchValue(this.caseManager.caseManagerGivenName);
-        this.caseManagerEditForm.controls['caseManagerGender'].patchValue(this.caseManager.caseManagerGender);
       },
       error => {
         console.error('Error: ', error);
@@ -114,7 +109,6 @@ export class CaseManagerDetailEditComponent implements OnInit {
     caseManager.caseManagerGuid = this.caseManagerEditForm.value.caseManagerGuid;
     caseManager.caseManagerSurname = this.caseManagerEditForm.value.caseManagerSurname;
     caseManager.caseManagerGivenName = this.caseManagerEditForm.value.caseManagerGivenName;
-    caseManager.caseManagerGender = this.caseManagerEditForm.value.caseManagerGender;
 
     if (this.newRecord) {
       this.caseManagerService.createCaseManager(caseManager).subscribe(

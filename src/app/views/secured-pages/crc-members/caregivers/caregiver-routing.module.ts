@@ -21,21 +21,21 @@ const routes: Routes = [
         path: 'caregiver-list',
         component: CaregiverListComponent,
         data: {
-          title: 'Case Manager List'
+          title: 'Caregiver List'
         }
       },
       {
         path: 'caregiver-detail/:guid',
         component: CaregiverDetailComponent,
         data: {
-          title: 'Case Manager Detail'
+          title: 'Caregiver Detail'
         }
       },
       {
         path: 'caregiver-create',
         component: CaregiverDetailEditComponent,
         data: {
-          title: 'Create Case Manager'
+          title: 'Create Caregiver'
         }
       },
       {

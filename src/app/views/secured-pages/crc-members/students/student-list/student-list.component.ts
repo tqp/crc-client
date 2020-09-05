@@ -24,7 +24,7 @@ export class StudentListComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('nameSearchElementRef', {static: true}) nameSearchElementRef: ElementRef;
 
   public listTitle = 'Student List';
-  private defaultSortColumn = 'PERSON_SURNAME';
+  private defaultSortColumn = 'last_name';
   private pageIndex = 0;
   public pageSize = 10;
   private totalNumberOfPages: number;
@@ -201,7 +201,7 @@ export class StudentListComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public openDetailPage(row: any): void {
-    this.router.navigate(['students/student-detail', row.studentGuid]).then();
+    this.router.navigate(['students/student-detail', row.studentId]).then();
   }
 
   @HostListener('window:keydown', ['$event'])

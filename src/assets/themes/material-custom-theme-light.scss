@@ -30,6 +30,12 @@ $custom-dark-theme: mat-dark-theme($custom-dark-theme-primary, $custom-dark-them
     background: rgb(240, 243, 245) !important;
     color: rgb(30, 45, 44) !important;
   }
+
+  td.mat-cell {
+    padding: 0.75rem !important;
+    border-bottom: none !important;
+    color: rgb(30, 45, 44) !important;
+  }
 }
 
 @include mix-app-theme($custom-light-theme);

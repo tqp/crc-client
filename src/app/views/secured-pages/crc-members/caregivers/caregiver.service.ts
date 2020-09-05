@@ -129,26 +129,6 @@ export class CaregiverService {
     }
   }
 
-  public getCaregiverListByStudentGuid(studentGuid: string): Observable<Person[]> {
-    const url = environment.apiUrl + '/api/v1/caregiver/student-relationship/' + studentGuid;
-    const token = this.tokenService.getToken();
-    if (token) {
-      return this.http.get<Person[]>(url, {
-        headers: this.httpService.setHeadersWithToken(),
-        observe: 'response',
-        params: {}
-      })
-        .pipe(
-          map(res => {
-            return res.body;
-          })
-        );
-    } else {
-      console.error('No token was present.');
-      return null;
-    }
-  }
-
   public setCaregiverListNameSearchValue(val) {
     this.caregiverListNameSearchValue = val;
   }

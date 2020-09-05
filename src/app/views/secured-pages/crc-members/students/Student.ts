@@ -1,5 +1,5 @@
 export class Student {
-  public studentGuid?: string;
+  public studentId?: number;
   public studentSurname?: string;
   public studentGivenName?: string;
   public studentGender?: string;
@@ -7,13 +7,9 @@ export class Student {
 
   public studentSchool?: string;
   public studentGrade?: string;
+  public studentAddress?: string;
+  public studentPhone?: string;
 
-  public studentAddressCurrent?: string;
-  public studentAddressPrevious?: string;
-
-  public studentPhoneCurrent?: string;
-  public studentPhonePrevious?: string;
-
-  public tierTypeGuid?: string;
+  public tierTypeId?: number;
   public tierTypeName?: string;
 }

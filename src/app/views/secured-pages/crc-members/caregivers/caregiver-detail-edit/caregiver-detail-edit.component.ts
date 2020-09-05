@@ -28,9 +28,6 @@ export class CaregiverDetailEditComponent implements OnInit {
     ],
     'caregiverGivenName': [
       {type: 'required', message: 'A Given Name is required'}
-    ],
-    'caregiverGender': [
-      {type: 'required', message: 'A Gender is required'}
     ]
   };
 
@@ -64,8 +61,7 @@ export class CaregiverDetailEditComponent implements OnInit {
     this.caregiverEditForm = this.formBuilder.group({
       caregiverGuid: new FormControl(''),
       caregiverSurname: new FormControl('', Validators.required),
-      caregiverGivenName: new FormControl('', Validators.required),
-      caregiverGender: new FormControl('', Validators.required),
+      caregiverGivenName: new FormControl('', Validators.required)
     });
   }
 
@@ -77,7 +73,6 @@ export class CaregiverDetailEditComponent implements OnInit {
         this.caregiverEditForm.controls['caregiverGuid'].patchValue(this.caregiver.caregiverGuid);
         this.caregiverEditForm.controls['caregiverSurname'].patchValue(this.caregiver.caregiverSurname);
         this.caregiverEditForm.controls['caregiverGivenName'].patchValue(this.caregiver.caregiverGivenName);
-        this.caregiverEditForm.controls['caregiverGender'].patchValue(this.caregiver.caregiverGender);
       },
       error => {
         console.error('Error: ', error);
@@ -114,7 +109,6 @@ export class CaregiverDetailEditComponent implements OnInit {
     caregiver.caregiverGuid = this.caregiverEditForm.value.caregiverGuid;
     caregiver.caregiverSurname = this.caregiverEditForm.value.caregiverSurname;
     caregiver.caregiverGivenName = this.caregiverEditForm.value.caregiverGivenName;
-    caregiver.caregiverGender = this.caregiverEditForm.value.caregiverGender;
 
     if (this.newRecord) {
       this.caregiverService.createCaregiver(caregiver).subscribe(
