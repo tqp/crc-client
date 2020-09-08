@@ -13,7 +13,11 @@ import { CaregiverRoutingModule } from './caregiver-routing.module';
 
 
 @NgModule({
-  declarations: [CaregiverListComponent, CaregiverDetailComponent, CaregiverDetailEditComponent],
+  declarations: [
+    CaregiverListComponent,
+    CaregiverDetailComponent,
+    CaregiverDetailEditComponent
+  ],
   imports: [
     CommonModule,
     AngularMaterialModule,

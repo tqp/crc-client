@@ -54,6 +54,33 @@ export const navItemsUser: INavData[] = [
 
   {
     title: true,
+    name: 'Manager Functions'
+  },
+  {
+    name: 'Reference Tables',
+    url: '/crud-app',
+    icon: 'fa fa-table',
+    children: [
+      {
+        name: 'Person Type',
+        url: '/crud-app/crud-master-client-scroll',
+        icon: 'fa fa-male'
+      },
+      {
+        name: 'Relationship Type',
+        url: '/crud-app/crud-master-server-scroll',
+        icon: 'fa fa-sitemap'
+      },
+      {
+        name: 'Tier Type',
+        url: '/crud-app/crud-master-server-pagination',
+        icon: 'fa fa-cubes'
+      }
+    ]
+  },
+
+  {
+    title: true,
     name: 'Account'
   },
   {
