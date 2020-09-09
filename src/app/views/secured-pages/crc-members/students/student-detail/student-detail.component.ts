@@ -1,11 +1,10 @@
-import { Component, HostListener, OnInit } from '@angular/core';
-import { Student } from '../Student';
-import { ActivatedRoute, Params, Router } from '@angular/router';
-import { EventService } from '@tqp/services/event.service';
-import { StudentService } from '../student.service';
+import {Component, HostListener, OnInit} from '@angular/core';
+import {Student} from '../Student';
+import {ActivatedRoute, Params, Router} from '@angular/router';
+import {EventService} from '@tqp/services/event.service';
+import {StudentService} from '../student.service';
 import {Person} from '../../../../../../@tqp/models/Person';
-import {CaregiverService} from '../../caregivers/caregiver.service';
-import { RelationshipService } from '../../relationship/relationship.service';
+import {RelationshipService} from '../../relationship/relationship.service';
 
 @Component({
   selector: 'app-student-detail',

@@ -83,6 +83,27 @@ export const routes: Routes = [
         }
       },
       {
+        path: 'person-type',
+        loadChildren: () => import('./views/secured-pages/reference-tables/person-type/person-type.module').then(m => m.PersonTypeModule),
+        resolve: {
+          securedPageResolver: SecuredPageResolverService
+        }
+      },
+      {
+        path: 'relationship-type',
+        loadChildren: () => import('./views/secured-pages/reference-tables/relationship-type/relationship-type.module').then(m => m.RelationshipTypeModule),
+        resolve: {
+          securedPageResolver: SecuredPageResolverService
+        }
+      },
+      {
+        path: 'tier-type',
+        loadChildren: () => import('./views/secured-pages/reference-tables/tier-type/tier-type.module').then(m => m.TierTypeModule),
+        resolve: {
+          securedPageResolver: SecuredPageResolverService
+        }
+      },
+      {
         path: 'reports',
         loadChildren: () => import('./views/secured-pages/reports/reports.module').then(m => m.ReportsModule),
         resolve: {

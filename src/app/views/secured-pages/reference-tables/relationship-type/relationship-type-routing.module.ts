@@ -1,48 +1,48 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { CaregiverDetailEditComponent } from './caregiver-detail-edit/caregiver-detail-edit.component';
-import { CaregiverDetailComponent } from './caregiver-detail/caregiver-detail.component';
-import { CaregiverListComponent } from './caregiver-list/caregiver-list.component';
+import {RelationshipTypeListComponent} from './relationship-type-list/relationship-type-list.component';
+import {RelationshipTypeDetailComponent} from './relationship-type-detail/relationship-type-detail.component';
+import {RelationshipTypeDetailEditComponent} from './relationship-type-detail-edit/relationship-type-detail-edit.component';
 
 const routes: Routes = [
 
   {
     path: '',
     data: {
-      title: 'Care Givers'
+      title: 'Relationship Type'
     },
     children: [
       {
         path: '',
-        redirectTo: 'caregiver-list',
+        redirectTo: 'relationship-type-list',
         pathMatch: 'full'
       },
       {
-        path: 'caregiver-list',
-        component: CaregiverListComponent,
+        path: 'relationship-type-list',
+        component: RelationshipTypeListComponent,
         data: {
-          title: 'Caregiver List'
+          title: 'Relationship Type List'
         }
       },
       {
-        path: 'caregiver-detail/:guid',
-        component: CaregiverDetailComponent,
+        path: 'relationship-type-detail/:guid',
+        component: RelationshipTypeDetailComponent,
         data: {
-          title: 'Caregiver Detail'
+          title: 'Relationship Type Detail'
         }
       },
       {
-        path: 'caregiver-create',
-        component: CaregiverDetailEditComponent,
+        path: 'relationship-type-create',
+        component: RelationshipTypeDetailEditComponent,
         data: {
-          title: 'Create Caregiver'
+          title: 'Create Relationship Type'
         }
       },
       {
-        path: 'caregiver-detail-edit/:guid',
-        component: CaregiverDetailEditComponent,
+        path: 'relationship-type-detail-edit/:guid',
+        component: RelationshipTypeDetailEditComponent,
         data: {
-          title: 'Edit Caregiver'
+          title: 'Edit Relationship Type'
         }
       }
     ]

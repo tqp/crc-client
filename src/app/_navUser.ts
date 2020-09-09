@@ -63,17 +63,17 @@ export const navItemsUser: INavData[] = [
     children: [
       {
         name: 'Person Type',
-        url: '/crud-app/crud-master-client-scroll',
+        url: '/person-type/person-type-list',
         icon: 'fa fa-male'
       },
       {
         name: 'Relationship Type',
-        url: '/crud-app/crud-master-server-scroll',
+        url: '/relationship-type/relationship-type-list',
         icon: 'fa fa-sitemap'
       },
       {
         name: 'Tier Type',
-        url: '/crud-app/crud-master-server-pagination',
+        url: '/tier-type/tier-type-list',
         icon: 'fa fa-cubes'
       }
     ]

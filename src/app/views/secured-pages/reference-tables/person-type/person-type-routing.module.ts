@@ -1,46 +1,46 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { CaregiverDetailEditComponent } from './caregiver-detail-edit/caregiver-detail-edit.component';
-import { CaregiverDetailComponent } from './caregiver-detail/caregiver-detail.component';
-import { CaregiverListComponent } from './caregiver-list/caregiver-list.component';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
+import {PersonTypeListComponent} from './person-type-list/person-type-list.component';
+import {PersonTypeDetailComponent} from './person-type-detail/person-type-detail.component';
+import {PersonTypeDetailEditComponent} from './person-type-detail-edit/person-type-detail-edit.component';
 
 const routes: Routes = [
 
   {
     path: '',
     data: {
-      title: 'Care Givers'
+      title: 'Person Type'
     },
     children: [
       {
         path: '',
-        redirectTo: 'caregiver-list',
+        redirectTo: 'person-type-list',
         pathMatch: 'full'
       },
       {
-        path: 'caregiver-list',
-        component: CaregiverListComponent,
+        path: 'person-type-list',
+        component: PersonTypeListComponent,
         data: {
-          title: 'Caregiver List'
+          title: 'Person Type List'
         }
       },
       {
-        path: 'caregiver-detail/:guid',
-        component: CaregiverDetailComponent,
+        path: 'person-type-detail/:guid',
+        component: PersonTypeDetailComponent,
         data: {
-          title: 'Caregiver Detail'
+          title: 'Person Type Detail'
         }
       },
       {
-        path: 'caregiver-create',
-        component: CaregiverDetailEditComponent,
+        path: 'person-type-create',
+        component: PersonTypeDetailEditComponent,
         data: {
-          title: 'Create Caregiver'
+          title: 'Create Person Type'
         }
       },
       {
         path: 'caregiver-detail-edit/:guid',
-        component: CaregiverDetailEditComponent,
+        component: PersonTypeDetailEditComponent,
         data: {
           title: 'Edit Caregiver'
         }
