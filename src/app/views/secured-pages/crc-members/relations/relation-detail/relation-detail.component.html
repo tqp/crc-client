@@ -1,8 +1,8 @@
-<div class="tqp-crud-detail animated fadeIn" *ngIf="student">
+<div class="tqp-crud-detail animated fadeIn" *ngIf="relation">
 
   <div class="row">
     <div class="col-sm-6">
-      <h1>{{student.studentSurname}}, {{student.studentGivenName}}</h1>
+      <h1>{{relation.relationSurname}}, {{relation.relationGivenName}}</h1>
     </div>
     <div class="col-sm-6">
       <div class="form-group float-right">
@@ -26,42 +26,12 @@
         </div>
         <div class="card-body">
           <dl class="row">
-            <dt class="col-sm-4">Last Name:</dt>
-            <dd class="col-sm-8">{{student.studentSurname}}</dd>
+            <dt class="col-sm-3">Last Name:</dt>
+            <dd class="col-sm-9">{{relation.relationSurname}}</dd>
           </dl>
           <dl class="row">
-            <dt class="col-sm-4">First Name:</dt>
-            <dd class="col-sm-8">{{student.studentGivenName}}</dd>
-          </dl>
-          <dl class="row">
-            <dt class="col-sm-4">Gender:</dt>
-            <dd class="col-sm-8">{{genderNames[student.studentGender]}}</dd>
-          </dl>
-          <dl class="row">
-            <dt class="col-sm-4">Date of Birth:</dt>
-            <dd class="col-sm-8">{{student.studentDateOfBirth | date: 'MM/dd/yyyy'}}</dd>
-          </dl>
-          <dl class="row">
-            <dt class="col-sm-4">Support Tier:</dt>
-            <dd class="col-sm-8">{{student.tierTypeName}}</dd>
-          </dl>
-          <br/>
-          <dl class="row">
-            <dt class="col-sm-4">School:</dt>
-            <dd class="col-sm-8">{{student.studentSchool}}</dd>
-          </dl>
-          <dl class="row">
-            <dt class="col-sm-4">Grade:</dt>
-            <dd class="col-sm-8">{{student.studentGrade}}</dd>
-          </dl>
-          <br/>
-          <dl class="row">
-            <dt class="col-sm-4">Address:</dt>
-            <dd class="col-sm-8">{{student.studentAddress}}</dd>
-          </dl>
-          <dl class="row">
-            <dt class="col-sm-4">Phone:</dt>
-            <dd class="col-sm-8">{{student.studentPhone}}</dd>
+            <dt class="col-sm-3">First Name:</dt>
+            <dd class="col-sm-9">{{relation.relationGivenName}}</dd>
           </dl>
         </div>
       </div>
@@ -69,23 +39,6 @@
     </div>
 
     <div class="col-lg-6 col-sm-12">
-
-      <div class="card">
-        <div class="card-header">
-          <i class="fa fa-user"></i>
-          Program Status
-        </div>
-        <div class="card-body">
-          <dl class="row">
-            <dt class="col-sm-4">Caregiver ID:</dt>
-            <dd class="col-sm-8">{{student.caregiverId}}</dd>
-          </dl>
-          <dl class="row">
-            <dt class="col-sm-4">Caregiver Name:</dt>
-            <dd class="col-sm-8">{{student.caregiverName}}</dd>
-          </dl>
-        </div>
-      </div>
 
       <div class="card">
         <div class="card-header">
@@ -101,9 +54,9 @@
                    class="table">
 
               <ng-container matColumnDef="name">
-                <th mat-header-cell *matHeaderCellDef>Name</th>
+                <th mat-header-cell *matHeaderCellDef>Student Name</th>
                 <td mat-cell *matCellDef="let row">
-                  <a [routerLink]="['/relation/relation-detail', row.personId]">
+                  <a [routerLink]="['/students/student-detail', row.personId]">
                     {{row.personGivenName}} {{row.personSurname}}
                   </a>
                 </td>

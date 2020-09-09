@@ -83,6 +83,13 @@ export const routes: Routes = [
         }
       },
       {
+        path: 'relation',
+        loadChildren: () => import('./views/secured-pages/crc-members/relations/relation.module').then(m => m.RelationModule),
+        resolve: {
+          securedPageResolver: SecuredPageResolverService
+        }
+      },
+      {
         path: 'person-type',
         loadChildren: () => import('./views/secured-pages/reference-tables/person-type/person-type.module').then(m => m.PersonTypeModule),
         resolve: {

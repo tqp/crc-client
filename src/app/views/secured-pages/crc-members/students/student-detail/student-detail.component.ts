@@ -4,7 +4,8 @@ import {ActivatedRoute, Params, Router} from '@angular/router';
 import {EventService} from '@tqp/services/event.service';
 import {StudentService} from '../student.service';
 import {Person} from '../../../../../../@tqp/models/Person';
-import {RelationshipService} from '../../relationship/relationship.service';
+import {RelationshipService} from '../../relations/relationship.service';
+import { Relationship } from '../Relationship';
 
 @Component({
   selector: 'app-student-detail',
@@ -17,8 +18,8 @@ export class StudentDetailComponent implements OnInit {
   public genderNames = {'M': 'Male', 'F': 'Female', 'O': 'Other'};
 
   // Relationships List
-  public records: Person[] = [];
-  public dataSource: Person[] = [];
+  public records: Relationship[] = [];
+  public dataSource: Relationship[] = [];
   public displayedColumns: string[] = [
     'name',
     'relationship',
@@ -61,7 +62,7 @@ export class StudentDetailComponent implements OnInit {
 
   private getRelationshipListByStudentId(studentId: number): void {
     this.relationshipService.getRelationshipListByStudentId(studentId).subscribe(
-      (relationshipList: Person[]) => {
+      (relationshipList: Relationship[]) => {
         console.log('relationshipList', relationshipList);
         relationshipList.forEach(item => {
           this.records.push(item);

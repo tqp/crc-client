@@ -1,18 +1,18 @@
-import { Component, ElementRef, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { ConfirmDialogComponent } from '@tqp/components/confirm-dialog/confirm-dialog.component';
-import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Params, Router } from '@angular/router';
-import { Student } from '../Student';
-import { StudentService } from '../student.service';
-import { FormattingService } from '@tqp/services/formatting.service';
-import { TierTypeService } from '../../../reference-tables/tier-type/tier-type.service';
-import { TierType } from '../../../reference-tables/tier-type/TierType';
-import { Person } from '../../../../../../@tqp/models/Person';
-import { StudentRelationshipEditDialogComponent } from '../student-relationship-edit-dialog/student-relationship-edit-dialog.component';
-import { Relationship } from '../Relationship';
-import { RelationshipService } from '../../relationship/relationship.service';
-import { mergeMap } from 'rxjs/operators';
+import {Component, ElementRef, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
+import {ConfirmDialogComponent} from '@tqp/components/confirm-dialog/confirm-dialog.component';
+import {MatDialog, MatDialogConfig, MatDialogRef} from '@angular/material/dialog';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {ActivatedRoute, Params, Router} from '@angular/router';
+import {Student} from '../Student';
+import {StudentService} from '../student.service';
+import {FormattingService} from '@tqp/services/formatting.service';
+import {TierTypeService} from '../../../reference-tables/tier-type/tier-type.service';
+import {TierType} from '../../../reference-tables/tier-type/TierType';
+import {Person} from '../../../../../../@tqp/models/Person';
+import {StudentRelationshipEditDialogComponent} from '../student-relationship-edit-dialog/student-relationship-edit-dialog.component';
+import {Relationship} from '../Relationship';
+import {RelationshipService} from '../../relations/relationship.service';
+import {mergeMap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-student-detail-edit',
@@ -31,8 +31,8 @@ export class StudentDetailEditComponent implements OnInit {
   private relationship: Relationship;
 
   // Relationships List
-  public records: Person[] = [];
-  public dataSource: Person[] = [];
+  public records: Relationship[] = [];
+  public dataSource: Relationship[] = [];
   public displayedColumns: string[] = [
     'name',
     'relationship',
@@ -59,7 +59,9 @@ export class StudentDetailEditComponent implements OnInit {
     'studentPhone': [],
     'tierTypeGuid': [
       {type: 'required', message: 'A Support Tier is required'}
-    ]
+    ],
+    'caregiverId': [],
+    'caregiverName': []
   };
 
   constructor(private route: ActivatedRoute,
@@ -95,6 +97,7 @@ export class StudentDetailEditComponent implements OnInit {
 
   private initializeForm(): void {
     this.studentEditForm = this.formBuilder.group({
+      // Personal Information
       studentId: new FormControl(''),
       studentSurname: new FormControl('', Validators.required),
       studentGivenName: new FormControl('', Validators.required),
@@ -105,6 +108,9 @@ export class StudentDetailEditComponent implements OnInit {
       studentAddress: new FormControl(''),
       studentPhone: new FormControl(''),
       tierTypeGuid: new FormControl('', Validators.required),
+      // Program Status
+      caregiverId: new FormControl(''),
+      caregiverName: new FormControl(''),
     });
   }
 
@@ -113,6 +119,7 @@ export class StudentDetailEditComponent implements OnInit {
       response => {
         this.student = response;
         // console.log('response', response);
+        // Personal Information
         this.studentEditForm.controls['studentId'].patchValue(this.student.studentId);
         this.studentEditForm.controls['studentSurname'].patchValue(this.student.studentSurname);
         this.studentEditForm.controls['studentGivenName'].patchValue(this.student.studentGivenName);
@@ -123,6 +130,9 @@ export class StudentDetailEditComponent implements OnInit {
         this.studentEditForm.controls['studentAddress'].patchValue(this.student.studentAddress);
         this.studentEditForm.controls['studentPhone'].patchValue(this.student.studentPhone);
         this.studentEditForm.controls['tierTypeGuid'].patchValue(this.student.tierTypeId);
+        // Program Status
+        this.studentEditForm.controls['caregiverId'].patchValue(this.student.caregiverId);
+        this.studentEditForm.controls['caregiverName'].patchValue(this.student.caregiverName);
       },
       error => {
         console.error('Error: ', error);
@@ -132,7 +142,7 @@ export class StudentDetailEditComponent implements OnInit {
 
   private getRelationshipListByStudentId(studentId: number): void {
     this.relationshipService.getRelationshipListByStudentId(studentId).subscribe(
-      (relationshipList: Person[]) => {
+      (relationshipList: Relationship[]) => {
         // console.log('relationshipList', relationshipList);
         this.records = [];
         relationshipList.forEach(item => {
@@ -195,8 +205,8 @@ export class StudentDetailEditComponent implements OnInit {
 
   public save(): void {
     const student = new Student();
-
     // console.log('crudEditForm', this.studentEditForm.value);
+    // Personal Information
     student.studentId = this.studentEditForm.value.studentId;
     student.studentSurname = this.studentEditForm.value.studentSurname;
     student.studentGivenName = this.studentEditForm.value.studentGivenName;
@@ -207,6 +217,9 @@ export class StudentDetailEditComponent implements OnInit {
     student.studentAddress = this.studentEditForm.value.studentAddress;
     student.studentPhone = this.studentEditForm.value.studentPhone;
     student.tierTypeId = this.studentEditForm.value.tierTypeGuid;
+    // Program Status
+    student.caregiverId = this.studentEditForm.value.caregiverId;
+    student.caregiverName = this.studentEditForm.value.caregiverName;
 
     if (this.newRecord) {
       this.studentService.createStudent(student).subscribe(

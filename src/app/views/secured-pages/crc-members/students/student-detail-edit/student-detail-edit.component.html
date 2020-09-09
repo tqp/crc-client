@@ -223,6 +223,52 @@
 
         <div class="card">
           <div class="card-header">
+            <i class="fa fa-user"></i>
+            Program Status
+          </div>
+          <div class="card-body">
+
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="caregiverId">Caregiver ID</label>
+                  <input matInput id="caregiverId" type="text" class="form-control" placeholder="Caregiver ID"
+                         formControlName="caregiverId">
+                  <mat-error *ngFor="let validation of validationMessages.caregiverId">
+                    <mat-error class="error-message"
+                               *ngIf="studentEditForm.get('caregiverId').hasError(validation.type)
+                                && (studentEditForm.get('caregiverId').dirty ||
+                                studentEditForm.get('caregiverId').touched)">
+                      {{validation.message}}
+                    </mat-error>
+                  </mat-error>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="caregiverName">Caregiver Name</label>
+                  <input matInput id="caregiverName" type="text" class="form-control" placeholder="Caregiver Name"
+                         formControlName="caregiverName">
+                  <mat-error *ngFor="let validation of validationMessages.caregiverName">
+                    <mat-error class="error-message"
+                               *ngIf="studentEditForm.get('caregiverName').hasError(validation.type)
+                                && (studentEditForm.get('caregiverName').dirty ||
+                                studentEditForm.get('caregiverName').touched)">
+                      {{validation.message}}
+                    </mat-error>
+                  </mat-error>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
             <div class="float-left" style="line-height: 28px;">
               <i class="fa fa-calendar mr-2"></i>
               Relationships
