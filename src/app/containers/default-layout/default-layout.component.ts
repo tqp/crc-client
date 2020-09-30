@@ -1,13 +1,13 @@
-import {Component, OnInit} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {TokenService} from '@tqp/services/token.service';
-import {AuthService} from '@tqp/services/auth.service';
-import {Router} from '@angular/router';
-import {environment} from '../../../environments/environment';
-import {TokenStorageService} from '@tqp/services/token-storage.service';
-import {navItemsAdmin} from '../../_navAdmin';
-import {navItemsUser} from '../../_navUser';
-import {EventService} from '@tqp/services/event.service';
+import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { TokenService } from '@tqp/services/token.service';
+import { AuthService } from '@tqp/services/auth.service';
+import { Router } from '@angular/router';
+import { environment } from '../../../environments/environment';
+import { TokenStorageService } from '@tqp/services/token-storage.service';
+import { navItemsAdmin } from '../../_navAdmin';
+import { navItemsUser } from '../../_navUser';
+import { EventService } from '@tqp/services/event.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -51,13 +51,19 @@ export class DefaultLayoutComponent implements OnInit {
   }
 
   private setMenu(authorities: string): void {
-    // console.log('authorities', authorities);
-    if (authorities.indexOf('ROLE_ADMIN') > -1) {
-      this.navItems = navItemsAdmin;
-    } else if (authorities.indexOf('ROLE_USER') > -1) {
-      this.navItems = navItemsUser;
+    console.log('authorities', authorities);
+    if (authorities) {
+      if (authorities.indexOf('ROLE_ADMIN') > -1) {
+        this.navItems = navItemsAdmin;
+      } else if (authorities.indexOf('ROLE_USER') > -1) {
+        this.navItems = navItemsUser;
+      } else {
+        console.error('The authorities presented did not contain a matching role. ' + authorities);
+        this.router.navigate(['/login-page'], {queryParams: {error: 'UsernameNotFoundException'}}).then();
+      }
     } else {
-      console.log('The authorities presented did not contain a matching role.', authorities);
+      console.error('The authorities presented did not contain any roles.');
+      this.router.navigate(['/login-page'], {queryParams: {error: 'UsernameNotFoundException'}}).then();
     }
   }
 

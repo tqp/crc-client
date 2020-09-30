@@ -15,10 +15,25 @@
 
                   <div class="row mb-3">
                     <div class="col-12">
-                      <button type="button" class="btn btn-brand btn-google-plus btn-block" (click)="toggle1()">
+                      <form ngNoForm action="https://accounts.google.com/o/oauth2/v2/auth" method="GET"
+                            style="margin-top: 10px;">
+                        <input type="hidden" name="client_id" value="{{googleClientId}}">
+                        <input type="hidden" name="redirect_uri" value="{{googleRedirectUri}}">
+                        <input type="hidden" name="state" value="{{csrfToken}}">
+                        <input type="hidden" name="prompt" value="select_account">
+                        <input type="hidden" name="response_type" value="code">
+                        <input type="hidden" name="scope" value="profile email openid">
+                        <!--
+                        <input type="hidden" name="hd" value="inductiveminds.com">
+                        -->
+                        <!--
+                        <input type="hidden" name="login_hint" value="tim.powers@inductiveminds.com">
+                        -->
+                        <button type="submit" class="btn btn-brand btn-google-plus btn-block">
                         <i class="fa fa-google-plus float-left"></i>
                         Login With Google
-                      </button>
+                        </button>
+                      </form>
                     </div>
                   </div>
 
@@ -66,6 +81,9 @@
 
                   <div style="margin-top: 10px; height: 20px;">
                     <mat-error *ngIf="loginForm.get('generalError').hasError('customValidator')">
+                      {{errorMessage}}
+                    </mat-error>
+                    <mat-error *ngIf="errorMessage">
                       {{errorMessage}}
                     </mat-error>
                   </div>

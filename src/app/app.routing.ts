@@ -9,6 +9,7 @@ import { P500Component } from './views/open-pages/error/500.component';
 import { LoginPageComponent } from './views/open-pages/login-page/login-page.component';
 import { LogoutComponent } from './views/open-pages/logout/logout.component';
 import { SecuredPageResolverService } from '@tqp/services/secured-page-resolver.service';
+import { TokenExchangeComponent } from './views/open-pages/token-exchange/token-exchange.component';
 
 export const routes: Routes = [
   {
@@ -23,6 +24,10 @@ export const routes: Routes = [
     data: {
       title: 'Login Page'
     }
+  },
+  {
+    path: 'token-exchange',
+    component: TokenExchangeComponent
   },
   {
     path: 'logout',

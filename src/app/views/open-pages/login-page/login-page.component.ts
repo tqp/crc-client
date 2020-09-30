@@ -2,8 +2,9 @@ import { Component, HostListener, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '@tqp/services/auth.service';
 import { TokenService } from '@tqp/services/token.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import {tqpCustomAnimations} from '@tqp/animations/tqpCustomAnimations';
+import {v4 as uuid} from 'uuid';
 
 @Component({
   selector: 'app-login-page',
@@ -19,19 +20,28 @@ export class LoginPageComponent implements OnInit {
   public displayLoginSpinner = false;
   public logonFormVisible = false;
   public logonInProcess = false;
+  public csrfToken: string;
 
   constructor(private _formBuilder: FormBuilder,
               private authService: AuthService,
               protected tokenService: TokenService,
-              protected router: Router) {
+              protected router: Router,
+              protected route: ActivatedRoute) {
   }
 
   ngOnInit(): void {
+    this.csrfToken = uuid();
+    this.getGoogleAuthConfig();
+
     this.loginForm = this._formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
       generalError: ['']
     }, {});
+
+    if (this.route.snapshot.queryParamMap.get('error')) {
+      this.displayError(this.route.snapshot.queryParamMap.get('error'));
+    }
   }
 
   public toggle1(): void {
@@ -96,13 +106,13 @@ export class LoginPageComponent implements OnInit {
         this.errorMessage = 'That User is currently disabled.';
         break;
       case 'CannotConnectToServer':
-        this.errorMessage = 'Cannot connect to the Timetracker server.';
+        this.errorMessage = 'Cannot connect to the server.';
         // Check again to see if server is back up.
         setTimeout(() => {
           console.log('Checking server connection...');
           this.getGoogleAuthConfig();
           if (this.loginForm.get('generalError').hasError('customValidator')) {
-            console.log('Still cannot connect to the Timetracker server.');
+            console.log('Still cannot connect to the server.');
           }
         }, 5000);
         break;
