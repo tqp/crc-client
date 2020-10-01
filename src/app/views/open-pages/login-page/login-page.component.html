@@ -13,8 +13,8 @@
                   <h1>CRC Staff Login</h1>
                   <p class="text-muted">Sign in to your account.</p>
 
-                  {{googleClientId}}<br />
-                  {{googleRedirectUri}}
+                  <p>googleClientId: {{googleClientId}}</p>
+                  <p>googleRedirectUri: {{googleRedirectUri}}</p>
 
                   <div class="row mb-3">
                     <div class="col-12">
@@ -84,10 +84,10 @@
 
                   <div style="margin-top: 10px; height: 20px;">
                     <mat-error *ngIf="loginForm.get('generalError').hasError('customValidator')">
-                      {{errorMessage}}
+                      a: {{errorMessage}}
                     </mat-error>
                     <mat-error *ngIf="errorMessage">
-                      {{errorMessage}}
+                      b: {{errorMessage}}
                     </mat-error>
                   </div>
                 </form>
