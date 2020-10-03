@@ -25,7 +25,7 @@ const routes: Routes = [
         }
       },
       {
-        path: 'case-manager-detail/:guid',
+        path: 'case-manager-detail/:id',
         component: CaseManagerDetailComponent,
         data: {
           title: 'Case Manager Detail'
@@ -39,7 +39,7 @@ const routes: Routes = [
         }
       },
       {
-        path: 'case-manager-detail-edit/:guid',
+        path: 'case-manager-detail-edit/:id',
         component: CaseManagerDetailEditComponent,
         data: {
           title: 'Edit Case Manager'

@@ -29,27 +29,42 @@ export const navItemsUser: INavData[] = [
 
   {
     title: true,
-    name: 'Reports'
+    name: 'Case Manager Activities'
   },
   {
-    name: 'Student Home Map',
-    url: '/reports/student-home-map',
+    name: 'Student Visits',
+    url: '/test-components/placeholder',
     icon: 'fa fa-home'
   },
+
   {
-    name: 'Student School Map',
-    url: '/reports/student-school-map',
-    icon: 'fa fa-graduation-cap'
+    title: true,
+    name: 'CRC Microfinance'
   },
   {
-    name: 'CRC Metrics',
-    url: '/reports/crc-metrics',
-    icon: 'fa fa-area-chart'
+    name: 'Payments',
+    url: '/test-components/placeholder',
+    icon: 'fa fa-money'
   },
   {
-    name: 'Export',
-    url: '/reports/export',
-    icon: 'fa fa-download'
+    name: 'Summary',
+    url: '/test-components/placeholder',
+    icon: 'fa fa-list-alt'
+  },
+
+  {
+    title: true,
+    name: 'CRC Family Support'
+  },
+  {
+    name: 'Payments',
+    url: '/test-components/placeholder',
+    icon: 'fa fa-money'
+  },
+  {
+    name: 'Summary',
+    url: '/test-components/placeholder',
+    icon: 'fa fa-list-alt'
   },
 
   {

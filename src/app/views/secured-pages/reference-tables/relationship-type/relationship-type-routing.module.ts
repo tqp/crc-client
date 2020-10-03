@@ -25,7 +25,7 @@ const routes: Routes = [
         }
       },
       {
-        path: 'relationship-type-detail/:guid',
+        path: 'relationship-type-detail/:id',
         component: RelationshipTypeDetailComponent,
         data: {
           title: 'Relationship Type Detail'
@@ -39,7 +39,7 @@ const routes: Routes = [
         }
       },
       {
-        path: 'relationship-type-detail-edit/:guid',
+        path: 'relationship-type-detail-edit/:id',
         component: RelationshipTypeDetailEditComponent,
         data: {
           title: 'Edit Relationship Type'

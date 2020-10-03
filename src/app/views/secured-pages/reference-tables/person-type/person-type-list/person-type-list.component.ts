@@ -129,7 +129,7 @@ export class PersonTypeListComponent implements OnInit, OnDestroy {
   }
 
   public openPersonTypeDetailPage(row: any): void {
-    this.router.navigate(['secured-pages/crud-detail', row.guid], {queryParams: {src: 'crud-master-client-scroll'}}).then();
+    this.router.navigate(['secured-pages/crud-detail', row.id], {queryParams: {src: 'crud-master-client-scroll'}}).then();
   }
 
   public openPersonTypeEditDialog(row: any): void {

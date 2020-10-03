@@ -1,0 +1,43 @@
+<h2 mat-dialog-title>
+  Student-Case Manager Edit Dialog
+</h2>
+
+<mat-dialog-content style="overflow: hidden">
+
+  <form [formGroup]="studentCaseManagerEditForm">
+
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="form-group">
+          <label for="caseManagerId">Case Manager*</label>
+          <select id="caseManagerId" class="form-control" formControlName="caseManagerId">
+            <option value=0>Select a Case Manager</option>
+            <option *ngFor="let caseManager of caseManagerList"
+                    value="{{caseManager.caseManagerId}}">
+              {{caseManager.caseManagerSurname}}, {{caseManager.caseManagerGivenName}}
+            </option>
+          </select>
+          <mat-error *ngFor="let validation of validationMessages.caseManagerId">
+            <mat-error class="error-message"
+                       *ngIf="studentCaseManagerEditForm.get('caseManagerId').hasError(validation.type)
+                                && (studentCaseManagerEditForm.get('caseManagerId').dirty ||
+                                studentCaseManagerEditForm.get('caseManagerId').touched)">
+              {{validation.message}}
+            </mat-error>
+          </mat-error>
+        </div>
+      </div>
+    </div>
+
+  </form>
+
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-raised-button mat-dialog-close>Cancel</button>
+  <button mat-raised-button (click)="reset();">Reset</button>
+  <div fxFlex></div>
+  <button mat-raised-button mat-dialog-close color="primary" (click)="save();">
+    Save
+  </button>
+</mat-dialog-actions>

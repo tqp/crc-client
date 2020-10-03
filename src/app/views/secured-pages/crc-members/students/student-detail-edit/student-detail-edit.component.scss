@@ -4,3 +4,12 @@
 .table-container {
   height: 200px !important;
 }
+
+.tqp-nav-link {
+  color: #20A8D8;
+  cursor: pointer;
+}
+
+.tqp-nav-link:focus {
+  outline: none;
+}

@@ -1,18 +1,21 @@
-import {Component, ElementRef, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
-import {ConfirmDialogComponent} from '@tqp/components/confirm-dialog/confirm-dialog.component';
-import {MatDialog, MatDialogConfig, MatDialogRef} from '@angular/material/dialog';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {ActivatedRoute, Params, Router} from '@angular/router';
-import {Student} from '../Student';
-import {StudentService} from '../student.service';
-import {FormattingService} from '@tqp/services/formatting.service';
-import {TierTypeService} from '../../../reference-tables/tier-type/tier-type.service';
-import {TierType} from '../../../reference-tables/tier-type/TierType';
-import {Person} from '../../../../../../@tqp/models/Person';
-import {StudentRelationshipEditDialogComponent} from '../student-relationship-edit-dialog/student-relationship-edit-dialog.component';
-import {Relationship} from '../Relationship';
-import {RelationshipService} from '../../relations/relationship.service';
-import {mergeMap} from 'rxjs/operators';
+import { Component, ElementRef, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { ConfirmDialogComponent } from '@tqp/components/confirm-dialog/confirm-dialog.component';
+import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { Student } from '../Student';
+import { StudentService } from '../student.service';
+import { FormattingService } from '@tqp/services/formatting.service';
+import { TierTypeService } from '../../../reference-tables/tier-type/tier-type.service';
+import { TierType } from '../../../reference-tables/tier-type/TierType';
+import { StudentRelationshipEditDialogComponent } from '../student-relationship-edit-dialog/student-relationship-edit-dialog.component';
+import { Relationship } from '../Relationship';
+import { RelationshipService } from '../../relations/relationship.service';
+import { mergeMap } from 'rxjs/operators';
+import { StudentCaregiverEditDialogComponent } from '../student-caregiver-edit-dialog/student-caregiver-edit-dialog.component';
+import { StudentProgramStatusEditDialogComponent } from '../student-program-status-edit-dialog/student-program-status-edit-dialog.component';
+import { StudentCaseManagerEditDialogComponent } from '../student-case-manager-edit-dialog/student-case-manager-edit-dialog.component';
+import { StudentSponsorEditDialogComponent } from '../student-sponsor-edit-dialog/student-sponsor-edit-dialog.component';
 
 @Component({
   selector: 'app-student-detail-edit',
@@ -40,8 +43,9 @@ export class StudentDetailEditComponent implements OnInit {
   ];
 
   public validationMessages = {
+    // Personal Information
     'studentId': [
-      {type: 'required', message: 'A GUID is required'}
+      {type: 'required', message: 'An ID is required'}
     ],
     'studentSurname': [
       {type: 'required', message: 'A Surname is required'}
@@ -57,9 +61,14 @@ export class StudentDetailEditComponent implements OnInit {
     'studentSchool': [],
     'studentAddress': [],
     'studentPhone': [],
-    'tierTypeGuid': [
+    'tierTypeId': [
       {type: 'required', message: 'A Support Tier is required'}
     ],
+
+    // Program Status
+    'programStatus': [],
+    'programStatusDate': [],
+
     'caregiverId': [],
     'caregiverName': []
   };
@@ -78,8 +87,8 @@ export class StudentDetailEditComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.forEach((params: Params) => {
-      if (params['guid'] !== undefined) {
-        const studentId = params['guid'];
+      if (params['id'] !== undefined) {
+        const studentId = params['id'];
         // console.log('studentId', studentId);
         this.getStudentDetail(studentId);
         this.getRelationshipListByStudentId(studentId);
@@ -107,15 +116,15 @@ export class StudentDetailEditComponent implements OnInit {
       studentGrade: new FormControl(''),
       studentAddress: new FormControl(''),
       studentPhone: new FormControl(''),
-      tierTypeGuid: new FormControl('', Validators.required),
+      tierTypeId: new FormControl('', Validators.required),
       // Program Status
       caregiverId: new FormControl(''),
       caregiverName: new FormControl(''),
     });
   }
 
-  private getStudentDetail(guid: string): void {
-    this.studentService.getStudentDetail(guid).subscribe(
+  private getStudentDetail(id: number): void {
+    this.studentService.getStudentDetail(id).subscribe(
       response => {
         this.student = response;
         // console.log('response', response);
@@ -129,7 +138,7 @@ export class StudentDetailEditComponent implements OnInit {
         this.studentEditForm.controls['studentGrade'].patchValue(this.student.studentGrade);
         this.studentEditForm.controls['studentAddress'].patchValue(this.student.studentAddress);
         this.studentEditForm.controls['studentPhone'].patchValue(this.student.studentPhone);
-        this.studentEditForm.controls['tierTypeGuid'].patchValue(this.student.tierTypeId);
+        this.studentEditForm.controls['tierTypeId'].patchValue(this.student.tierTypeId);
         // Program Status
         this.studentEditForm.controls['caregiverId'].patchValue(this.student.caregiverId);
         this.studentEditForm.controls['caregiverName'].patchValue(this.student.caregiverName);
@@ -168,7 +177,82 @@ export class StudentDetailEditComponent implements OnInit {
     );
   }
 
-  // BUTTONS
+  // DIALOGS
+
+  public openStudentProgramStatusEditDialog(): void {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.minWidth = '25%';
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.data = {
+      action: 'create',
+      studentId: this.student.studentId
+    };
+    dialogConfig.autoFocus = false;
+    const dialogRef = this._matDialog.open(StudentProgramStatusEditDialogComponent, dialogConfig);
+
+    dialogRef.afterClosed().subscribe(dialogData => {
+      console.log('dialogClose', dialogData);
+    });
+  }
+
+  public openStudentCaseManagerEditDialog(): void {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.minWidth = '25%';
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.data = {
+      action: 'create',
+      studentId: this.student.studentId
+    };
+    dialogConfig.autoFocus = false;
+    const dialogRef = this._matDialog.open(StudentCaseManagerEditDialogComponent, dialogConfig);
+
+    dialogRef.afterClosed().subscribe(dialogData => {
+      console.log('dialogClose', dialogData);
+    });
+  }
+
+  public openStudentSponsorEditDialog(): void {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.minWidth = '25%';
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.data = {
+      action: 'create',
+      studentId: this.student.studentId
+    };
+    dialogConfig.autoFocus = false;
+    const dialogRef = this._matDialog.open(StudentSponsorEditDialogComponent, dialogConfig);
+
+    dialogRef.afterClosed().subscribe(dialogData => {
+      console.log('dialogClose', dialogData);
+    });
+  }
+
+  public openStudentCaregiverEditDialog(): void {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.minWidth = '25%';
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.data = {
+      action: 'create',
+      studentId: this.student.studentId
+    };
+    dialogConfig.autoFocus = false;
+    const dialogRef = this._matDialog.open(StudentCaregiverEditDialogComponent, dialogConfig);
+
+    dialogRef.afterClosed().subscribe(dialogData => {
+      console.log('dialogClose', dialogData);
+      console.log('studentId', this.student.studentId);
+      const relationship: Relationship = {};
+      relationship.relationshipTypeId = 13; // Caregiver
+      relationship.studentId = this.student.studentId;
+      relationship.personId = dialogData.caregiverId;
+      relationship.relationshipComments = 'Meow';
+      this.relationshipService.createCaregiverRelationship(relationship);
+    });
+  }
 
   public openStudentRelationshipEditDialog(): void {
     const dialogConfig = new MatDialogConfig();
@@ -187,21 +271,23 @@ export class StudentDetailEditComponent implements OnInit {
       this.relationship = dialogData;
       console.log('this.relationship', this.relationship);
 
-      this.relationshipService.createPerson_Relationship(this.relationship).pipe(
-        mergeMap(newPersonId => {
-          console.log('newPersonId', newPersonId);
-          this.relationship.personId = newPersonId;
-          this.relationship.relationshipBloodRelative = 0;
-          console.log('this.relationship', this.relationship);
-          return this.relationshipService.createRelationship(this.relationship);
-        })
-      ).subscribe(thing => {
-        console.log('this.student.studentId', this.student.studentId);
-        this.getRelationshipListByStudentId(this.student.studentId);
-      });
+      // this.relationshipService.createPerson_Relationship(this.relationship).pipe(
+      //   mergeMap(newPersonId => {
+      //     console.log('newPersonId', newPersonId);
+      //     this.relationship.personId = newPersonId;
+      //     this.relationship.relationshipBloodRelative = 0;
+      //     console.log('this.relationship', this.relationship);
+      //     return this.relationshipService.createRelationship(this.relationship);
+      //   })
+      // ).subscribe(thing => {
+      //   console.log('this.student.studentId', this.student.studentId);
+      //   this.getRelationshipListByStudentId(this.student.studentId);
+      // });
 
     });
   }
+
+  // BUTTONS
 
   public save(): void {
     const student = new Student();
@@ -216,7 +302,7 @@ export class StudentDetailEditComponent implements OnInit {
     student.studentGrade = this.studentEditForm.value.studentGrade;
     student.studentAddress = this.studentEditForm.value.studentAddress;
     student.studentPhone = this.studentEditForm.value.studentPhone;
-    student.tierTypeId = this.studentEditForm.value.tierTypeGuid;
+    student.tierTypeId = this.studentEditForm.value.tierTypeId;
     // Program Status
     student.caregiverId = this.studentEditForm.value.caregiverId;
     student.caregiverName = this.studentEditForm.value.caregiverName;
@@ -224,7 +310,7 @@ export class StudentDetailEditComponent implements OnInit {
     if (this.newRecord) {
       this.studentService.createStudent(student).subscribe(
         response => {
-          // console.log('response: ', response);
+          console.log('response: ', response);
           this.router.navigate(['students/student-detail', response.studentId]).then();
         },
         error => {

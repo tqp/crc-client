@@ -25,7 +25,7 @@ const routes: Routes = [
         }
       },
       {
-        path: 'person-type-detail/:guid',
+        path: 'person-type-detail/:id',
         component: PersonTypeDetailComponent,
         data: {
           title: 'Person Type Detail'
@@ -39,7 +39,7 @@ const routes: Routes = [
         }
       },
       {
-        path: 'caregiver-detail-edit/:guid',
+        path: 'caregiver-detail-edit/:id',
         component: PersonTypeDetailEditComponent,
         data: {
           title: 'Edit Caregiver'

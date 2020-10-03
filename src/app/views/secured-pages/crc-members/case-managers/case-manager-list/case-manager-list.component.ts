@@ -201,7 +201,7 @@ export class CaseManagerListComponent implements OnInit, AfterViewInit, OnDestro
   }
 
   public openDetailPage(row: any): void {
-    this.router.navigate(['case-managers/case-manager-detail', row.caseManagerGuid]).then();
+    this.router.navigate(['case-managers/case-manager-detail', row.caseManagerId]).then();
   }
 
   @HostListener('window:keydown', ['$event'])

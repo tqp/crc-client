@@ -64,8 +64,8 @@ export class StudentService {
     }
   }
 
-  public getStudentDetail(guid: string) {
-    const url = environment.apiUrl + '/api/v1/student/' + guid;
+  public getStudentDetail(id: number) {
+    const url = environment.apiUrl + '/api/v1/student/' + id;
     const token = this.tokenService.getToken();
     if (token) {
       return this.http.get<Student>(url,

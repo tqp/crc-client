@@ -22,19 +22,19 @@ export class CaregiverDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.forEach((params: Params) => {
-      if (params['guid'] !== undefined) {
-        const caregiverGuid = params['guid'];
-        // console.log('caregiverGuid', caregiverGuid);
-        this.getCaregiverDetail(caregiverGuid);
+      if (params['id'] !== undefined) {
+        const caregiverId = params['id'];
+        // console.log('caregiverId', caregiverId);
+        this.getCaregiverDetail(caregiverId);
       } else {
         console.error('No ID was present.');
       }
     }).then();
   }
 
-  private getCaregiverDetail(guid: string): void {
+  private getCaregiverDetail(caregiverId: number): void {
     this.eventService.loadingEvent.emit(true);
-    this.caregiverService.getCaregiverDetail(guid).subscribe(
+    this.caregiverService.getCaregiverDetail(caregiverId).subscribe(
       response => {
         this.caregiver = response;
         // console.log('response', response);
@@ -53,7 +53,7 @@ export class CaregiverDetailComponent implements OnInit {
   }
 
   public openEditPage(): void {
-    this.router.navigate(['caregivers/caregiver-detail-edit', this.caregiver.caregiverGuid]).then();
+    this.router.navigate(['caregivers/caregiver-detail-edit', this.caregiver.caregiverId]).then();
   }
 
   public openTwitter(twitterHandle: string): void {

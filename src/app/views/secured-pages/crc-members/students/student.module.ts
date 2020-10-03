@@ -11,13 +11,21 @@ import {AngularMaterialModule} from '../../../../../@tqp/modules/angular-materia
 import {StudentListComponent} from './student-list/student-list.component';
 import {StudentRoutingModule} from './student-routing.module';
 import {StudentRelationshipEditDialogComponent} from './student-relationship-edit-dialog/student-relationship-edit-dialog.component';
+import { StudentCaregiverEditDialogComponent } from './student-caregiver-edit-dialog/student-caregiver-edit-dialog.component';
+import { StudentProgramStatusEditDialogComponent } from './student-program-status-edit-dialog/student-program-status-edit-dialog.component';
+import { StudentCaseManagerEditDialogComponent } from './student-case-manager-edit-dialog/student-case-manager-edit-dialog.component';
+import { StudentSponsorEditDialogComponent } from './student-sponsor-edit-dialog/student-sponsor-edit-dialog.component';
 
 @NgModule({
   declarations: [
     StudentListComponent,
     StudentDetailComponent,
     StudentDetailEditComponent,
-    StudentRelationshipEditDialogComponent
+    StudentRelationshipEditDialogComponent,
+    StudentCaregiverEditDialogComponent,
+    StudentProgramStatusEditDialogComponent,
+    StudentCaseManagerEditDialogComponent,
+    StudentSponsorEditDialogComponent
   ],
   imports: [
     CommonModule,

@@ -23,6 +23,7 @@
         <div class="card-header">
           <i class="fa fa-user"></i>
           Personal Information
+          <i *ngIf="studentLoading" class="fa fa-spinner fa-spin"></i>
         </div>
         <div class="card-body">
           <dl class="row">
@@ -45,7 +46,6 @@
             <dt class="col-sm-4">Support Tier:</dt>
             <dd class="col-sm-8">{{student.tierTypeName}}</dd>
           </dl>
-          <br/>
           <dl class="row">
             <dt class="col-sm-4">School:</dt>
             <dd class="col-sm-8">{{student.studentSchool}}</dd>
@@ -54,15 +54,59 @@
             <dt class="col-sm-4">Grade:</dt>
             <dd class="col-sm-8">{{student.studentGrade}}</dd>
           </dl>
-          <br/>
           <dl class="row">
-            <dt class="col-sm-4">Address:</dt>
-            <dd class="col-sm-8">{{student.studentAddress}}</dd>
+            <dt class="col-sm-4">Impairment:</dt>
+            <dd class="col-sm-8">{{student.studentImpairment}}</dd>
           </dl>
-          <dl class="row">
-            <dt class="col-sm-4">Phone:</dt>
-            <dd class="col-sm-8">{{student.studentPhone}}</dd>
-          </dl>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-group"></i>
+          Events
+        </div>
+        <div class="card-body">
+
+          <div class="table-container">
+
+            <table mat-table [dataSource]="dataSource" *ngIf="dataSource && dataSource.length > 0"
+                   matSort matSortActive="lastName" matSortDirection="asc" matSortDisableClear="true"
+                   class="table">
+
+              <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef>Name</th>
+                <td mat-cell *matCellDef="let row">
+                  <a [routerLink]="['/relation/relation-detail', row.personId]">
+                    {{row.personGivenName}} {{row.personSurname}}
+                  </a>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="relationship">
+                <th mat-header-cell *matHeaderCellDef>Relationship</th>
+                <td mat-cell *matCellDef="let row">
+                  {{row.relationshipTypeName}}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="bloodRelative">
+                <th mat-header-cell *matHeaderCellDef>Blood Relative</th>
+                <td mat-cell *matCellDef="let row">
+                  {{row.relationshipBloodRelative ? 'Yes' : 'No'}}
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true" [hidden]="false"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+
+            <div class="no-records" *ngIf="dataSource && dataSource.length <= 0">
+              No records to display.
+            </div>
+
+          </div>
+
         </div>
       </div>
 
@@ -73,20 +117,96 @@
       <div class="card">
         <div class="card-header">
           <i class="fa fa-user"></i>
-          Program Status
+          Caregiver
+          <i *ngIf="caregiverLoading" class="fa fa-spinner fa-spin"></i>
+          <div class="card-header-actions" [hidden]="authService.allowRoles('ROLE_USER, ROLE_ADMIN')">
+            <small class="tqp-nav-link" (click)="openStudentCaregiverEditDialog();">Assign Caregiver</small>
+          </div>
         </div>
-        <div class="card-body">
-          <dl class="row">
-            <dt class="col-sm-4">Caregiver ID:</dt>
-            <dd class="col-sm-8">{{student.caregiverId}}</dd>
-          </dl>
+        <div class="card-body" *ngIf="caregiver">
           <dl class="row">
             <dt class="col-sm-4">Caregiver Name:</dt>
-            <dd class="col-sm-8">{{student.caregiverName}}</dd>
+            <dd class="col-sm-8">
+              <span class="tqp-nav-link" [routerLink]="['/caregivers/caregiver-detail', caregiver.caregiverId]">
+                {{caregiver.caregiverGivenName}} {{caregiver.caregiverSurname}}
+              </span>
+            </dd>
+          </dl>
+          <dl class="row">
+            <dt class="col-sm-4">Address:</dt>
+            <dd class="col-sm-8">{{caregiver.caregiverAddress}}</dd>
+          </dl>
+          <dl class="row">
+            <dt class="col-sm-4">Primary Phone:</dt>
+            <dd class="col-sm-8">{{caregiver.caregiverPrimaryPhone}}</dd>
+          </dl>
+          <dl class="row">
+            <dt class="col-sm-4">Support Tier:</dt>
+            <dd class="col-sm-8">{{caregiver.caregiverSupportTier}}</dd>
+          </dl>
+          <dl class="row">
+            <dt class="col-sm-4">Family Relationship:</dt>
+            <dd class="col-sm-8">{{caregiver.caregiverFamilyRelationship}}</dd>
+          </dl>
+          <dl class="row">
+            <dt class="col-sm-4">Original Family Impact:</dt>
+            <dd class="col-sm-8">{{caregiver.caregiverOriginalFamilyImpact}}</dd>
           </dl>
         </div>
       </div>
 
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-user"></i>
+          Program Status
+        </div>
+        <div class="card-body">
+          <dl class="row">
+            <dt class="col-sm-4">Program Status:</dt>
+            <dd class="col-sm-8">{{student.programStatus}}</dd>
+          </dl>
+          <dl class="row">
+            <dt class="col-sm-4">Status Date:</dt>
+            <dd class="col-sm-8">{{student.programStatusDate}}</dd>
+          </dl>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-user"></i>
+          Case Manager
+        </div>
+        <div class="card-body">
+          <dl class="row">
+            <dt class="col-sm-4">Case Manager:</dt>
+            <dd class="col-sm-8">{{student.caseManager}}</dd>
+          </dl>
+          <dl class="row">
+            <dt class="col-sm-4">Assignment Date:</dt>
+            <dd class="col-sm-8">{{student.caseManagerAssignmentDate}}</dd>
+          </dl>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-user"></i>
+          Sponsor
+        </div>
+        <div class="card-body">
+          <dl class="row">
+            <dt class="col-sm-4">Sponsor:</dt>
+            <dd class="col-sm-8">{{student.sponsor}}</dd>
+          </dl>
+          <dl class="row">
+            <dt class="col-sm-4">Assignment Date:</dt>
+            <dd class="col-sm-8">{{student.sponsorAssignmentDate}}</dd>
+          </dl>
+        </div>
+      </div>
+
+      <!--
       <div class="card">
         <div class="card-header">
           <i class="fa fa-group"></i>
@@ -135,6 +255,7 @@
 
         </div>
       </div>
+      -->
 
     </div>
   </div>

@@ -8,8 +8,7 @@ import { HttpService } from '@tqp/services/http.service';
 import { TokenService } from '@tqp/services/token.service';
 import { map } from 'rxjs/operators';
 import { Caregiver } from './Caregiver';
-import { Student } from '../students/Student';
-import {Person} from '../../../../../@tqp/models/Person';
+import { Relationship } from '../students/Relationship';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +18,8 @@ export class CaregiverService {
 
   constructor(private http: HttpClient,
               private httpService: HttpService,
-              private tokenService: TokenService) { }
+              private tokenService: TokenService) {
+  }
 
   public createCaregiver(caregiver: Caregiver): Observable<Caregiver> {
     const url = environment.apiUrl + '/api/v1/caregiver/';
@@ -32,6 +32,26 @@ export class CaregiverService {
           observe: 'response',
           params: {}
         })
+        .pipe(
+          map(res => {
+            return res.body;
+          })
+        );
+    } else {
+      console.error('No token was present.');
+      return null;
+    }
+  }
+
+  public getCaregiverList(): Observable<Caregiver[]> {
+    const url = environment.apiUrl + '/api/v1/caregiver/';
+    const token = this.tokenService.getToken();
+    if (token) {
+      return this.http.get<Caregiver[]>(url, {
+        headers: this.httpService.setHeadersWithToken(),
+        observe: 'response',
+        params: {}
+      })
         .pipe(
           map(res => {
             return res.body;
@@ -65,8 +85,8 @@ export class CaregiverService {
     }
   }
 
-  public getCaregiverDetail(guid: string) {
-    const url = environment.apiUrl + '/api/v1/caregiver/' + guid;
+  public getCaregiverDetail(caregiverId: number) {
+    const url = environment.apiUrl + '/api/v1/caregiver/' + caregiverId;
     const token = this.tokenService.getToken();
     if (token) {
       return this.http.get<Caregiver>(url,
@@ -108,8 +128,8 @@ export class CaregiverService {
     }
   }
 
-  public deleteCaregiver(caregiverGuid: string): Observable<string> {
-    const url = environment.apiUrl + '/api/v1/caregiver/' + caregiverGuid;
+  public deleteCaregiver(caregiverId: number): Observable<string> {
+    const url = environment.apiUrl + '/api/v1/caregiver/' + caregiverId;
     const token = this.tokenService.getToken();
     if (token) {
       return this.http.delete<string>(url,
@@ -128,6 +148,31 @@ export class CaregiverService {
       return null;
     }
   }
+
+  // Relationship
+
+  public getCaregiverDetailByStudentId(studentId: number): Observable<Caregiver> {
+    const url = environment.apiUrl + '/api/v1/caregiver/student/' + studentId;
+    const token = this.tokenService.getToken();
+    if (token) {
+      return this.http.get<Caregiver>(url,
+        {
+          headers: this.httpService.setHeadersWithToken(),
+          observe: 'response',
+          params: {}
+        })
+        .pipe(
+          map(res => {
+            return res.body;
+          })
+        );
+    } else {
+      console.error('No token was present.');
+      return null;
+    }
+  }
+
+  // Remembered Fields
 
   public setCaregiverListNameSearchValue(val) {
     this.caregiverListNameSearchValue = val;

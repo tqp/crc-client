@@ -36,8 +36,8 @@ export class RelationDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.forEach((params: Params) => {
-      if (params['guid'] !== undefined) {
-        const relationId = params['guid'];
+      if (params['id'] !== undefined) {
+        const relationId = params['id'];
         // console.log('relationId', relationId);
         this.getRelationDetail(relationId);
         this.getRelationshipListByRelationId(relationId);
@@ -47,9 +47,9 @@ export class RelationDetailComponent implements OnInit {
     }).then();
   }
 
-  private getRelationDetail(guid: string): void {
+  private getRelationDetail(relationId: number): void {
     this.eventService.loadingEvent.emit(true);
-    this.relationService.getRelationDetail(guid).subscribe(
+    this.relationService.getRelationDetail(relationId).subscribe(
       response => {
         this.relation = response;
         console.log('response', response);

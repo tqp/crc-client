@@ -201,7 +201,7 @@ export class CaregiverListComponent implements OnInit, AfterViewInit, OnDestroy 
   }
 
   public openDetailPage(row: any): void {
-    this.router.navigate(['caregivers/caregiver-detail', row.caregiverGuid]).then();
+    this.router.navigate(['caregivers/caregiver-detail', row.caregiverId]).then();
   }
 
   @HostListener('window:keydown', ['$event'])

@@ -20,8 +20,8 @@ export class CaseManagerDetailEditComponent implements OnInit {
   public confirmDialogRef: MatDialogRef<ConfirmDialogComponent>;
 
   public validationMessages = {
-    'caseManagerGuid': [
-      {type: 'required', message: 'A GUID is required'}
+    'caseManagerId': [
+      {type: 'required', message: 'An ID is required'}
     ],
     'caseManagerSurname': [
       {type: 'required', message: 'A Surname is required'}
@@ -41,15 +41,15 @@ export class CaseManagerDetailEditComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.forEach((params: Params) => {
-      if (params['guid'] !== undefined) {
-        const caseManagerGuid = params['guid'];
-        // console.log('caseManagerGuid', caseManagerGuid);
-        this.getCaseManagerDetail(caseManagerGuid);
+      if (params['id'] !== undefined) {
+        const caseManagerId = params['id'];
+        // console.log('caseManagerId', caseManagerId);
+        this.getCaseManagerDetail(caseManagerId);
       } else {
         // Create new Person
         this.newRecord = true;
         this.caseManager = new CaseManager();
-        this.caseManager.caseManagerGuid = null;
+        this.caseManager.caseManagerId = null;
         setTimeout(() => {
           this.caseManagerSurnameInputField.nativeElement.focus();
         }, 0);
@@ -59,18 +59,18 @@ export class CaseManagerDetailEditComponent implements OnInit {
 
   private initializeForm(): void {
     this.caseManagerEditForm = this.formBuilder.group({
-      caseManagerGuid: new FormControl(''),
+      caseManagerId: new FormControl(''),
       caseManagerSurname: new FormControl('', Validators.required),
       caseManagerGivenName: new FormControl('', Validators.required)
     });
   }
 
-  private getCaseManagerDetail(guid: string): void {
-    this.caseManagerService.getCaseManagerDetail(guid).subscribe(
+  private getCaseManagerDetail(caseManagerId: number): void {
+    this.caseManagerService.getCaseManagerDetail(caseManagerId).subscribe(
       response => {
         this.caseManager = response;
         // console.log('response', response);
-        this.caseManagerEditForm.controls['caseManagerGuid'].patchValue(this.caseManager.caseManagerGuid);
+        this.caseManagerEditForm.controls['caseManagerId'].patchValue(this.caseManager.caseManagerId);
         this.caseManagerEditForm.controls['caseManagerSurname'].patchValue(this.caseManager.caseManagerSurname);
         this.caseManagerEditForm.controls['caseManagerGivenName'].patchValue(this.caseManager.caseManagerGivenName);
       },
@@ -82,14 +82,14 @@ export class CaseManagerDetailEditComponent implements OnInit {
 
   // BUTTONS
 
-  public delete(caseManagerGuid: string): void {
+  public delete(caseManagerId: number): void {
     this.confirmDialogRef = this._matDialog.open(ConfirmDialogComponent, {
       disableClose: false
     });
     this.confirmDialogRef.componentInstance.confirmMessage = 'Are you sure you want to delete?';
     this.confirmDialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.caseManagerService.deleteCaseManager(caseManagerGuid).subscribe(
+        this.caseManagerService.deleteCaseManager(caseManagerId).subscribe(
           response => {
             // console.log('response: ', response);
             this.router.navigate(['caseManager-list']).then();
@@ -106,7 +106,7 @@ export class CaseManagerDetailEditComponent implements OnInit {
   public save(): void {
     const caseManager = new CaseManager();
     // console.log('crudEditForm', this.caseManagerEditForm.value);
-    caseManager.caseManagerGuid = this.caseManagerEditForm.value.caseManagerGuid;
+    caseManager.caseManagerId = this.caseManagerEditForm.value.caseManagerId;
     caseManager.caseManagerSurname = this.caseManagerEditForm.value.caseManagerSurname;
     caseManager.caseManagerGivenName = this.caseManagerEditForm.value.caseManagerGivenName;
 
@@ -114,7 +114,7 @@ export class CaseManagerDetailEditComponent implements OnInit {
       this.caseManagerService.createCaseManager(caseManager).subscribe(
         response => {
           // console.log('response: ', response);
-          this.router.navigate(['case-managers/case-manager-detail', response.caseManagerGuid]).then();
+          this.router.navigate(['case-managers/case-manager-detail', response.caseManagerId]).then();
         },
         error => {
           console.error('Error: ' + error.message);
@@ -124,7 +124,7 @@ export class CaseManagerDetailEditComponent implements OnInit {
       this.caseManagerService.updateCaseManager(caseManager).subscribe(
         response => {
           // console.log('response: ', response);
-          this.router.navigate(['case-managers/case-manager-detail', response.caseManagerGuid]).then();
+          this.router.navigate(['case-managers/case-manager-detail', response.caseManagerId]).then();
         },
         error => {
           console.error('Error: ' + error.message);
@@ -134,8 +134,8 @@ export class CaseManagerDetailEditComponent implements OnInit {
   }
 
   public cancel(): void {
-    if (this.caseManager.caseManagerGuid) {
-      this.router.navigate(['case-managers/case-manager-detail', this.caseManager.caseManagerGuid]).then();
+    if (this.caseManager.caseManagerId) {
+      this.router.navigate(['case-managers/case-manager-detail', this.caseManager.caseManagerId]).then();
     } else {
       this.router.navigate(['case-managers/case-manager-list']).then();
     }
@@ -151,7 +151,7 @@ export class CaseManagerDetailEditComponent implements OnInit {
     }
     if (event.ctrlKey && event.key === 'd') {
       event.preventDefault();
-      this.delete(this.caseManager.caseManagerGuid);
+      this.delete(this.caseManager.caseManagerId);
     }
     if (event.ctrlKey && event.key === 's') {
       event.preventDefault();

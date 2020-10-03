@@ -51,7 +51,7 @@ export class DefaultLayoutComponent implements OnInit {
   }
 
   private setMenu(authorities: string): void {
-    console.log('authorities', authorities);
+    // console.log('authorities', authorities);
     if (authorities) {
       if (authorities.indexOf('ROLE_ADMIN') > -1) {
         this.navItems = navItemsAdmin;

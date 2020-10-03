@@ -1,4 +1,4 @@
 export class TierType {
-  public tierTypeGuid?: string;
+  public tierTypeId?: string;
   public tierTypeName?: string;
 }

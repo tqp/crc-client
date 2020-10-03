@@ -1,5 +1,5 @@
 export class CaseManager {
-  public caseManagerGuid?: string;
+  public caseManagerId?: number;
   public caseManagerSurname?: string;
   public caseManagerGivenName?: string;
   public caseManagerGender?: string;

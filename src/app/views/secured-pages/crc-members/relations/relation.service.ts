@@ -21,8 +21,8 @@ export class RelationService {
               private tokenService: TokenService) {
   }
 
-  public getRelationDetail(guid: string) {
-    const url = environment.apiUrl + '/api/v1/relation/' + guid;
+  public getRelationDetail(relationId: number) {
+    const url = environment.apiUrl + '/api/v1/relation/' + relationId;
     const token = this.tokenService.getToken();
     if (token) {
       return this.http.get<Relation>(url,

@@ -8,6 +8,7 @@ import { HttpService } from '@tqp/services/http.service';
 import { TokenService } from '@tqp/services/token.service';
 import { map } from 'rxjs/operators';
 import { CaseManager } from './CaseManager';
+import { Caregiver } from '../caregivers/Caregiver';
 
 @Injectable({
   providedIn: 'root'
@@ -41,6 +42,26 @@ export class CaseManagerService {
     }
   }
 
+  public getCaseManagerList(): Observable<CaseManager[]> {
+    const url = environment.apiUrl + '/api/v1/case-manager/';
+    const token = this.tokenService.getToken();
+    if (token) {
+      return this.http.get<CaseManager[]>(url, {
+        headers: this.httpService.setHeadersWithToken(),
+        observe: 'response',
+        params: {}
+      })
+        .pipe(
+          map(res => {
+            return res.body;
+          })
+        );
+    } else {
+      console.error('No token was present.');
+      return null;
+    }
+  }
+
   public getCaseManagerList_SSP(serverSideSearchParams: ServerSidePaginationRequest): Observable<ServerSidePaginationResponse<CaseManager>> {
     const url = environment.apiUrl + '/api/v1/caseManager/ssp';
     const token = this.tokenService.getToken();
@@ -63,8 +84,8 @@ export class CaseManagerService {
     }
   }
 
-  public getCaseManagerDetail(guid: string) {
-    const url = environment.apiUrl + '/api/v1/caseManager/' + guid;
+  public getCaseManagerDetail(caseManagerId: number) {
+    const url = environment.apiUrl + '/api/v1/caseManager/' + caseManagerId;
     const token = this.tokenService.getToken();
     if (token) {
       return this.http.get<CaseManager>(url,
@@ -106,8 +127,8 @@ export class CaseManagerService {
     }
   }
 
-  public deleteCaseManager(caseManagerGuid: string): Observable<string> {
-    const url = environment.apiUrl + '/api/v1/caseManager/' + caseManagerGuid;
+  public deleteCaseManager(caseManagerId: number): Observable<string> {
+    const url = environment.apiUrl + '/api/v1/caseManager/' + caseManagerId;
     const token = this.tokenService.getToken();
     if (token) {
       return this.http.delete<string>(url,

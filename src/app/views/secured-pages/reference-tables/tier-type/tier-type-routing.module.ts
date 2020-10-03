@@ -25,7 +25,7 @@ const routes: Routes = [
         }
       },
       {
-        path: 'tier-type-detail/:guid',
+        path: 'tier-type-detail/:id',
         component: TierTypeDetailComponent,
         data: {
           title: 'Tier Type Detail'
@@ -39,7 +39,7 @@ const routes: Routes = [
         }
       },
       {
-        path: 'tier-type-detail-edit/:guid',
+        path: 'tier-type-detail-edit/:id',
         component: TierTypeDetailEditComponent,
         data: {
           title: 'Edit Tier Type'

@@ -9,7 +9,7 @@ const routes: Routes = [
   {
     path: '',
     data: {
-      title: 'Care Givers'
+      title: 'Caregivers'
     },
     children: [
       {
@@ -25,7 +25,7 @@ const routes: Routes = [
         }
       },
       {
-        path: 'caregiver-detail/:guid',
+        path: 'caregiver-detail/:id',
         component: CaregiverDetailComponent,
         data: {
           title: 'Caregiver Detail'
@@ -39,7 +39,7 @@ const routes: Routes = [
         }
       },
       {
-        path: 'caregiver-detail-edit/:guid',
+        path: 'caregiver-detail-edit/:id',
         component: CaregiverDetailEditComponent,
         data: {
           title: 'Edit Caregiver'

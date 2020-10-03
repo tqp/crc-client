@@ -6,11 +6,7 @@ import { Relationship } from '../students/Relationship';
 import { HttpClient } from '@angular/common/http';
 import { HttpService } from '@tqp/services/http.service';
 import { TokenService } from '@tqp/services/token.service';
-import { Person } from '@tqp/models/Person';
 import { PersonEntity } from '../PersonEntity';
-import { Caregiver } from '../caregivers/Caregiver';
-import { Relation } from './Relation';
-import { Student } from '../students/Student';
 
 @Injectable({
   providedIn: 'root'
@@ -22,9 +18,9 @@ export class RelationshipService {
               private tokenService: TokenService) {
   }
 
-  public createRelationship(relationship: Relationship): Observable<Relationship> {
-    console.log('createRelationship', relationship);
-    const url = environment.apiUrl + '/api/v1/relationship';
+  public createCaregiverRelationship(relationship: Relationship): Observable<Relationship> {
+    console.log('createCaregiverRelationship', relationship);
+    const url = environment.apiUrl + '/api/v1/relationship/caregiver';
     const token = this.tokenService.getToken();
     if (token) {
       return this.http.post<Relationship>(url,

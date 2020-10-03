@@ -9,9 +9,25 @@ export class Student {
   public studentGrade?: string;
   public studentAddress?: string;
   public studentPhone?: string;
+  public studentImpairment?: string;
+  // Program Status
+  public programStatus?: string;
+  public programStatusDate?: string;
+  // Tier
   public tierTypeId?: number;
   public tierTypeName?: string;
-  // Program Status
+  // Case Manager
+  public caseManager?: string;
+  public caseManagerAssignmentDate?: string;
+  // Caregiver
   public caregiverId?: number;
   public caregiverName?: string;
+  public caregiverSupportTier?: string;
+  public caregiverAddress?: string;
+  public caregiverPrimaryPhone?: string;
+  public caregiverFamilyRelationship?: string;
+  public caregiverOriginalFamilyImpact?: string;
+  // Sponsor
+  public sponsor?: string;
+  public sponsorAssignmentDate?: string;
 }

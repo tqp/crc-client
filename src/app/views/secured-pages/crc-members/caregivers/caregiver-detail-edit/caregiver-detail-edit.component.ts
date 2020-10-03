@@ -20,8 +20,8 @@ export class CaregiverDetailEditComponent implements OnInit {
   public confirmDialogRef: MatDialogRef<ConfirmDialogComponent>;
 
   public validationMessages = {
-    'caregiverGuid': [
-      {type: 'required', message: 'A GUID is required'}
+    'caregiverId': [
+      {type: 'required', message: 'An ID is required'}
     ],
     'caregiverSurname': [
       {type: 'required', message: 'A Surname is required'}
@@ -41,15 +41,15 @@ export class CaregiverDetailEditComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.forEach((params: Params) => {
-      if (params['guid'] !== undefined) {
-        const caregiverGuid = params['guid'];
-        // console.log('caregiverGuid', caregiverGuid);
-        this.getCaregiverDetail(caregiverGuid);
+      if (params['id'] !== undefined) {
+        const caregiverId = params['id'];
+        // console.log('caregiverId', caregiverId);
+        this.getCaregiverDetail(caregiverId);
       } else {
         // Create new Person
         this.newRecord = true;
         this.caregiver = new Caregiver();
-        this.caregiver.caregiverGuid = null;
+        this.caregiver.caregiverId = null;
         setTimeout(() => {
           this.caregiverSurnameInputField.nativeElement.focus();
         }, 0);
@@ -59,18 +59,18 @@ export class CaregiverDetailEditComponent implements OnInit {
 
   private initializeForm(): void {
     this.caregiverEditForm = this.formBuilder.group({
-      caregiverGuid: new FormControl(''),
+      caregiverId: new FormControl(''),
       caregiverSurname: new FormControl('', Validators.required),
       caregiverGivenName: new FormControl('', Validators.required)
     });
   }
 
-  private getCaregiverDetail(guid: string): void {
-    this.caregiverService.getCaregiverDetail(guid).subscribe(
+  private getCaregiverDetail(caregiverId: number): void {
+    this.caregiverService.getCaregiverDetail(caregiverId).subscribe(
       response => {
         this.caregiver = response;
         // console.log('response', response);
-        this.caregiverEditForm.controls['caregiverGuid'].patchValue(this.caregiver.caregiverGuid);
+        this.caregiverEditForm.controls['caregiverId'].patchValue(this.caregiver.caregiverId);
         this.caregiverEditForm.controls['caregiverSurname'].patchValue(this.caregiver.caregiverSurname);
         this.caregiverEditForm.controls['caregiverGivenName'].patchValue(this.caregiver.caregiverGivenName);
       },
@@ -82,14 +82,14 @@ export class CaregiverDetailEditComponent implements OnInit {
 
   // BUTTONS
 
-  public delete(caregiverGuid: string): void {
+  public delete(caregiverId: number): void {
     this.confirmDialogRef = this._matDialog.open(ConfirmDialogComponent, {
       disableClose: false
     });
     this.confirmDialogRef.componentInstance.confirmMessage = 'Are you sure you want to delete?';
     this.confirmDialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.caregiverService.deleteCaregiver(caregiverGuid).subscribe(
+        this.caregiverService.deleteCaregiver(caregiverId).subscribe(
           response => {
             // console.log('response: ', response);
             this.router.navigate(['caregivers/caregiver-list']).then();
@@ -106,7 +106,7 @@ export class CaregiverDetailEditComponent implements OnInit {
   public save(): void {
     const caregiver = new Caregiver();
     // console.log('crudEditForm', this.caregiverEditForm.value);
-    caregiver.caregiverGuid = this.caregiverEditForm.value.caregiverGuid;
+    caregiver.caregiverId = this.caregiverEditForm.value.caregiverId;
     caregiver.caregiverSurname = this.caregiverEditForm.value.caregiverSurname;
     caregiver.caregiverGivenName = this.caregiverEditForm.value.caregiverGivenName;
 
@@ -114,7 +114,7 @@ export class CaregiverDetailEditComponent implements OnInit {
       this.caregiverService.createCaregiver(caregiver).subscribe(
         response => {
           // console.log('response: ', response);
-          this.router.navigate(['caregivers/caregiver-detail', response.caregiverGuid]).then();
+          this.router.navigate(['caregivers/caregiver-detail', response.caregiverId]).then();
         },
         error => {
           console.error('Error: ' + error.message);
@@ -124,7 +124,7 @@ export class CaregiverDetailEditComponent implements OnInit {
       this.caregiverService.updateCaregiver(caregiver).subscribe(
         response => {
           // console.log('response: ', response);
-          this.router.navigate(['caregivers/caregiver-detail', response.caregiverGuid]).then();
+          this.router.navigate(['caregivers/caregiver-detail', response.caregiverId]).then();
         },
         error => {
           console.error('Error: ' + error.message);
@@ -134,8 +134,8 @@ export class CaregiverDetailEditComponent implements OnInit {
   }
 
   public cancel(): void {
-    if (this.caregiver.caregiverGuid) {
-      this.router.navigate(['caregivers/caregiver-detail', this.caregiver.caregiverGuid]).then();
+    if (this.caregiver.caregiverId) {
+      this.router.navigate(['caregivers/caregiver-detail', this.caregiver.caregiverId]).then();
     } else {
       this.router.navigate(['caregivers/caregiver-list']).then();
     }
@@ -151,7 +151,7 @@ export class CaregiverDetailEditComponent implements OnInit {
     }
     if (event.ctrlKey && event.key === 'd') {
       event.preventDefault();
-      this.delete(this.caregiver.caregiverGuid);
+      this.delete(this.caregiver.caregiverId);
     }
     if (event.ctrlKey && event.key === 's') {
       event.preventDefault();

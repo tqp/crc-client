@@ -83,3 +83,26 @@ max - maximum point intensity, 1.0 by default
 radius - radius of each "point" of the heatmap, 25 by default  
 blur - amount of blur, 15 by default  
 gradient - color gradient config, e.g. {0.4: 'blue', 0.65: 'lime', 1: 'red'} 
+
+## AWS Deployment Considerations
+
+#### amplify.yml
+```text
+version: 1
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - npm install
+    build:
+      commands:
+        - npm run build --prod
+  artifacts:
+    baseDirectory: dist
+    files:
+      - '**/*'
+  cache:
+    paths:
+      - node_modules/**/*
+
+```

@@ -121,6 +121,13 @@ export const routes: Routes = [
         resolve: {
           securedPageResolver: SecuredPageResolverService
         }
+      },
+      {
+        path: 'test-components',
+        loadChildren: () => import('./views/secured-pages/test-components/test-components.module').then(m => m.TestComponentsModule),
+        resolve: {
+          securedPageResolver: SecuredPageResolverService
+        }
       }
     ]
   },

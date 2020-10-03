@@ -25,7 +25,7 @@ const routes: Routes = [
         }
       },
       {
-        path: 'student-detail/:guid',
+        path: 'student-detail/:id',
         component: StudentDetailComponent,
         data: {
           title: 'Student Detail'
@@ -39,7 +39,7 @@ const routes: Routes = [
         }
       },
       {
-        path: 'student-detail-edit/:guid',
+        path: 'student-detail-edit/:id',
         component: StudentDetailEditComponent,
         data: {
           title: 'Edit Student'

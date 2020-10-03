@@ -22,19 +22,19 @@ export class CaseManagerDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.forEach((params: Params) => {
-      if (params['guid'] !== undefined) {
-        const caseManagerGuid = params['guid'];
-        // console.log('caseManagerGuid', caseManagerGuid);
-        this.getCaseManagerDetail(caseManagerGuid);
+      if (params['id'] !== undefined) {
+        const caseManagerId = params['id'];
+        // console.log('caseManagerId', caseManagerId);
+        this.getCaseManagerDetail(caseManagerId);
       } else {
         console.error('No ID was present.');
       }
     }).then();
   }
 
-  private getCaseManagerDetail(guid: string): void {
+  private getCaseManagerDetail(caseManagerId: number): void {
     this.eventService.loadingEvent.emit(true);
-    this.caseManagerService.getCaseManagerDetail(guid).subscribe(
+    this.caseManagerService.getCaseManagerDetail(caseManagerId).subscribe(
       response => {
         this.caseManager = response;
         // console.log('response', response);
@@ -53,7 +53,7 @@ export class CaseManagerDetailComponent implements OnInit {
   }
 
   public openEditPage(): void {
-    this.router.navigate(['case-managers/case-manager-detail-edit', this.caseManager.caseManagerGuid]).then();
+    this.router.navigate(['case-managers/case-manager-detail-edit', this.caseManager.caseManagerId]).then();
   }
 
   public openTwitter(twitterHandle: string): void {

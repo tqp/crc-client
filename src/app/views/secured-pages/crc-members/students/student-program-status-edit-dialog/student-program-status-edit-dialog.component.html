@@ -1,0 +1,16 @@
+<h2 mat-dialog-title>
+  Student-Program Status Edit Dialog
+</h2>
+
+<mat-dialog-content style="overflow: hidden">
+  Content
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-raised-button mat-dialog-close>Cancel</button>
+  <button mat-raised-button (click)="reset();">Reset</button>
+  <div fxFlex></div>
+  <button mat-raised-button mat-dialog-close color="primary" (click)="save();">
+    Save
+  </button>
+</mat-dialog-actions>

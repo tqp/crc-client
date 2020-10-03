@@ -123,18 +123,18 @@
             <div class="row">
               <div class="col-sm-12">
                 <div class="form-group">
-                  <label for="tierTypeGuid">Support Tier*</label>
-                  <select id="tierTypeGuid" class="form-control" formControlName="tierTypeGuid">
+                  <label for="tierTypeId">Support Tier*</label>
+                  <select id="tierTypeId" class="form-control" formControlName="tierTypeId">
                     <option value="">Pick a Tier</option>
-                    <option *ngFor="let tierType of tierTypeList" value="{{tierType.tierTypeGuid}}">
+                    <option *ngFor="let tierType of tierTypeList" value="{{tierType.tierTypeId}}">
                       {{tierType.tierTypeName}}
                     </option>
                   </select>
-                  <mat-error *ngFor="let validation of validationMessages.tierTypeGuid">
+                  <mat-error *ngFor="let validation of validationMessages.tierTypeId">
                     <mat-error class="error-message"
-                               *ngIf="studentEditForm.get('tierTypeGuid').hasError(validation.type)
-                                && (studentEditForm.get('tierTypeGuid').dirty ||
-                                studentEditForm.get('tierTypeGuid').touched)">
+                               *ngIf="studentEditForm.get('tierTypeId').hasError(validation.type)
+                                && (studentEditForm.get('tierTypeId').dirty ||
+                                studentEditForm.get('tierTypeId').touched)">
                       {{validation.message}}
                     </mat-error>
                   </mat-error>
@@ -223,50 +223,109 @@
 
         <div class="card">
           <div class="card-header">
-            <i class="fa fa-user"></i>
-            Program Status
+            <div class="float-left">
+              <i class="fa fa-user mr-1"></i>
+              Caregiver
+            </div>
+            <div class="card-header-actions">
+              <small class="tqp-nav-link" (click)="openStudentCaregiverEditDialog();">Assign Caregiver</small>
+            </div>
           </div>
           <div class="card-body">
-
-            <div class="row">
-              <div class="col-sm-12">
-                <div class="form-group">
-                  <label for="caregiverId">Caregiver ID</label>
-                  <input matInput id="caregiverId" type="text" class="form-control" placeholder="Caregiver ID"
-                         formControlName="caregiverId">
-                  <mat-error *ngFor="let validation of validationMessages.caregiverId">
-                    <mat-error class="error-message"
-                               *ngIf="studentEditForm.get('caregiverId').hasError(validation.type)
-                                && (studentEditForm.get('caregiverId').dirty ||
-                                studentEditForm.get('caregiverId').touched)">
-                      {{validation.message}}
-                    </mat-error>
-                  </mat-error>
-                </div>
-              </div>
-            </div>
-
-            <div class="row">
-              <div class="col-sm-12">
-                <div class="form-group">
-                  <label for="caregiverName">Caregiver Name</label>
-                  <input matInput id="caregiverName" type="text" class="form-control" placeholder="Caregiver Name"
-                         formControlName="caregiverName">
-                  <mat-error *ngFor="let validation of validationMessages.caregiverName">
-                    <mat-error class="error-message"
-                               *ngIf="studentEditForm.get('caregiverName').hasError(validation.type)
-                                && (studentEditForm.get('caregiverName').dirty ||
-                                studentEditForm.get('caregiverName').touched)">
-                      {{validation.message}}
-                    </mat-error>
-                  </mat-error>
-                </div>
-              </div>
-            </div>
-
+            <dl class="row">
+              <dt class="col-sm-4">Caregiver Name:</dt>
+              <dd class="col-sm-8">{{student.caregiverName}}</dd>
+            </dl>
+            <dl class="row">
+              <dt class="col-sm-4">Address:</dt>
+              <dd class="col-sm-8">{{student.caregiverAddress}}</dd>
+            </dl>
+            <dl class="row">
+              <dt class="col-sm-4">Primary Phone:</dt>
+              <dd class="col-sm-8">{{student.caregiverPrimaryPhone}}</dd>
+            </dl>
+            <dl class="row">
+              <dt class="col-sm-4">Support Tier:</dt>
+              <dd class="col-sm-8">{{student.caregiverSupportTier}}</dd>
+            </dl>
+            <dl class="row">
+              <dt class="col-sm-4">Family Relationship:</dt>
+              <dd class="col-sm-8">{{student.caregiverFamilyRelationship}}</dd>
+            </dl>
+            <dl class="row">
+              <dt class="col-sm-4">Original Family Impact:</dt>
+              <dd class="col-sm-8">{{student.caregiverOriginalFamilyImpact}}</dd>
+            </dl>
           </div>
         </div>
 
+        <div class="card">
+          <div class="card-header">
+            <div class="float-left">
+              <i class="fa fa-user mr-1"></i>
+              Program Status
+            </div>
+            <div class="card-header-actions">
+              <small class="tqp-nav-link" (click)="openStudentProgramStatusEditDialog();">Update Program Status</small>
+            </div>
+          </div>
+          <div class="card-body">
+            <dl class="row">
+              <dt class="col-sm-4">Program Status:</dt>
+              <dd class="col-sm-8">{{student.programStatus}}</dd>
+            </dl>
+            <dl class="row">
+              <dt class="col-sm-4">Status Date:</dt>
+              <dd class="col-sm-8">{{student.programStatusDate}}</dd>
+            </dl>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="float-left">
+              <i class="fa fa-user mr-1"></i>
+              Case Manager
+            </div>
+            <div class="card-header-actions">
+              <small class="tqp-nav-link" (click)="openStudentCaseManagerEditDialog();">Update Case Manager</small>
+            </div>
+          </div>
+          <div class="card-body">
+            <dl class="row">
+              <dt class="col-sm-4">Case Manager:</dt>
+              <dd class="col-sm-8">{{student.caseManager}}</dd>
+            </dl>
+            <dl class="row">
+              <dt class="col-sm-4">Assignment Date:</dt>
+              <dd class="col-sm-8">{{student.caseManagerAssignmentDate}}</dd>
+            </dl>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="float-left">
+              <i class="fa fa-user mr-1"></i>
+              Sponsor
+            </div>
+            <div class="card-header-actions">
+              <small class="tqp-nav-link" (click)="openStudentSponsorEditDialog();">Update Sponsor</small>
+            </div>
+          </div>
+          <div class="card-body">
+            <dl class="row">
+              <dt class="col-sm-4">Sponsor:</dt>
+              <dd class="col-sm-8">{{student.sponsor}}</dd>
+            </dl>
+            <dl class="row">
+              <dt class="col-sm-4">Assignment Date:</dt>
+              <dd class="col-sm-8">{{student.sponsorAssignmentDate}}</dd>
+            </dl>
+          </div>
+        </div>
+
+        <!--
         <div class="card">
           <div class="card-header">
             <div class="float-left" style="line-height: 28px;">
@@ -321,6 +380,7 @@
 
           </div>
         </div>
+        -->
 
       </div>
     </div>

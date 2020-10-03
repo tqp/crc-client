@@ -48,7 +48,7 @@ export class StudentRelationshipEditDialogComponent implements OnInit {
     // console.log('data', this.data);
     this.getRelationshipTypeList();
 
-    this.relationship = new Relationship({});
+    this.relationship = new Relationship();
     if (this.data.action === 'edit') {
       this.dialogTitle = 'Edit Relationship';
     } else {
