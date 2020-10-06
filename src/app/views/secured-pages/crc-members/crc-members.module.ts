@@ -4,6 +4,7 @@ import { StudentModule } from './students/student.module';
 import { CaregiverModule } from './caregivers/caregiver.module';
 import { CaseManagerModule } from './case-managers/case-manager.module';
 import { RelationModule } from './relations/relation.module';
+import { SponsorModule } from './sponsors/sponsor.module';
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import { RelationModule } from './relations/relation.module';
     StudentModule,
     CaregiverModule,
     CaseManagerModule,
-    RelationModule
+    RelationModule,
+    SponsorModule
   ]
 })
 export class CrcMembersModule {

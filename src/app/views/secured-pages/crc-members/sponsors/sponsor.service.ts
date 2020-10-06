@@ -1,31 +1,30 @@
 import { Injectable } from '@angular/core';
-import { ServerSidePaginationRequest } from '@tqp/models/ServerSidePaginationRequest';
-import { Observable } from 'rxjs';
-import { ServerSidePaginationResponse } from '@tqp/models/ServerSidePaginationResponse';
-import { environment } from '../../../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { HttpService } from '@tqp/services/http.service';
-import { TokenService } from '@tqp/services/token.service';
+import { HttpService } from '../../../../../@tqp/services/http.service';
+import { TokenService } from '../../../../../@tqp/services/token.service';
+import { Sponsor } from '../sponsors/Sponsor';
+import { Observable } from 'rxjs';
+import { environment } from '../../../../../environments/environment';
 import { map } from 'rxjs/operators';
-import { CaseManager } from './CaseManager';
-import { Caregiver } from '../caregivers/Caregiver';
+import { ServerSidePaginationRequest } from '../../../../../@tqp/models/ServerSidePaginationRequest';
+import { ServerSidePaginationResponse } from '../../../../../@tqp/models/ServerSidePaginationResponse';
 
 @Injectable({
   providedIn: 'root'
 })
-export class CaseManagerService {
-  private caseManagerListNameSearchValue;
+export class SponsorService {
+  private sponsorListNameSearchValue;
 
   constructor(private http: HttpClient,
               private httpService: HttpService,
               private tokenService: TokenService) { }
 
-  public createCaseManager(caseManager: CaseManager): Observable<CaseManager> {
-    const url = environment.apiUrl + '/api/v1/case-manager/';
+  public createSponsor(sponsor: Sponsor): Observable<Sponsor> {
+    const url = environment.apiUrl + '/api/v1/sponsor/';
     const token = this.tokenService.getToken();
     if (token) {
-      return this.http.post<CaseManager>(url,
-        caseManager,
+      return this.http.post<Sponsor>(url,
+        sponsor,
         {
           headers: this.httpService.setHeadersWithToken(),
           observe: 'response',
@@ -42,11 +41,11 @@ export class CaseManagerService {
     }
   }
 
-  public getCaseManagerList(): Observable<CaseManager[]> {
-    const url = environment.apiUrl + '/api/v1/case-manager/';
+  public getSponsorList(): Observable<Sponsor[]> {
+    const url = environment.apiUrl + '/api/v1/sponsor/';
     const token = this.tokenService.getToken();
     if (token) {
-      return this.http.get<CaseManager[]>(url, {
+      return this.http.get<Sponsor[]>(url, {
         headers: this.httpService.setHeadersWithToken(),
         observe: 'response',
         params: {}
@@ -62,11 +61,11 @@ export class CaseManagerService {
     }
   }
 
-  public getCaseManagerList_SSP(serverSideSearchParams: ServerSidePaginationRequest): Observable<ServerSidePaginationResponse<CaseManager>> {
-    const url = environment.apiUrl + '/api/v1/case-manager/ssp';
+  public getSponsorList_SSP(serverSideSearchParams: ServerSidePaginationRequest): Observable<ServerSidePaginationResponse<Sponsor>> {
+    const url = environment.apiUrl + '/api/v1/sponsor/ssp';
     const token = this.tokenService.getToken();
     if (token) {
-      return this.http.post<ServerSidePaginationResponse<CaseManager>>(url,
+      return this.http.post<ServerSidePaginationResponse<Sponsor>>(url,
         serverSideSearchParams,
         {
           headers: this.httpService.setHeadersWithToken(),
@@ -84,11 +83,11 @@ export class CaseManagerService {
     }
   }
 
-  public getCaseManagerDetail(caseManagerId: number) {
-    const url = environment.apiUrl + '/api/v1/case-manager/' + caseManagerId;
+  public getSponsorDetail(sponsorId: number) {
+    const url = environment.apiUrl + '/api/v1/sponsor/' + sponsorId;
     const token = this.tokenService.getToken();
     if (token) {
-      return this.http.get<CaseManager>(url,
+      return this.http.get<Sponsor>(url,
         {
           headers: this.httpService.setHeadersWithToken(),
           observe: 'response',
@@ -105,12 +104,12 @@ export class CaseManagerService {
     }
   }
 
-  public updateCaseManager(caseManager: CaseManager): Observable<CaseManager> {
-    const url = environment.apiUrl + '/api/v1/case-manager/';
+  public updateSponsor(sponsor: Sponsor): Observable<Sponsor> {
+    const url = environment.apiUrl + '/api/v1/sponsor/';
     const token = this.tokenService.getToken();
     if (token) {
-      return this.http.put<CaseManager>(url,
-        caseManager,
+      return this.http.put<Sponsor>(url,
+        sponsor,
         {
           headers: this.httpService.setHeadersWithToken(),
           observe: 'response',
@@ -127,8 +126,8 @@ export class CaseManagerService {
     }
   }
 
-  public deleteCaseManager(caseManagerId: number): Observable<string> {
-    const url = environment.apiUrl + '/api/v1/case-manager/' + caseManagerId;
+  public deleteSponsor(sponsorId: number): Observable<string> {
+    const url = environment.apiUrl + '/api/v1/sponsor/' + sponsorId;
     const token = this.tokenService.getToken();
     if (token) {
       return this.http.delete<string>(url,
@@ -150,11 +149,11 @@ export class CaseManagerService {
 
   // Relationship
 
-  public getCaseManagerDetailByStudentId(studentId: number): Observable<CaseManager> {
-    const url = environment.apiUrl + '/api/v1/case-manager/student/' + studentId;
+  public getSponsorDetailByStudentId(studentId: number): Observable<Sponsor> {
+    const url = environment.apiUrl + '/api/v1/sponsor/student/' + studentId;
     const token = this.tokenService.getToken();
     if (token) {
-      return this.http.get<CaseManager>(url,
+      return this.http.get<Sponsor>(url,
         {
           headers: this.httpService.setHeadersWithToken(),
           observe: 'response',
@@ -173,11 +172,11 @@ export class CaseManagerService {
 
   // Remembered Fields
 
-  public setCaseManagerListNameSearchValue(val) {
-    this.caseManagerListNameSearchValue = val;
+  public setSponsorListNameSearchValue(val) {
+    this.sponsorListNameSearchValue = val;
   }
 
-  public getCaseManagerListNameSearchValue() {
-    return this.caseManagerListNameSearchValue;
+  public getSponsorListNameSearchValue() {
+    return this.sponsorListNameSearchValue;
   }
 }

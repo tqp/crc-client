@@ -1,13 +1,17 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { CaseManager } from '../../case-managers/CaseManager';
 import { CaseManagerService } from '../../case-managers/case-manager.service';
+import { CaregiverService } from '../../caregivers/caregiver.service';
+import { RelationshipTypeService } from '../../../reference-tables/relationship-type/relationship-type.service';
+import { TierTypeService } from '../../../reference-tables/tier-type/tier-type.service';
 
 @Component({
   selector: 'app-student-case-manager-edit-dialog',
   templateUrl: './student-case-manager-edit-dialog.component.html',
-  styleUrls: ['./student-case-manager-edit-dialog.component.css']
+  styleUrls: ['./student-case-manager-edit-dialog.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class StudentCaseManagerEditDialogComponent implements OnInit {
   public studentCaseManagerEditForm: FormGroup;
@@ -16,16 +20,33 @@ export class StudentCaseManagerEditDialogComponent implements OnInit {
   public validationMessages = {
     'caseManagerId': [
       {type: 'required', message: 'A Case Manager is required'}
+    ],
+    'effectiveDate': [
+      {type: 'required', message: 'An Effective Date is required'}
     ]
   };
 
   constructor(private dialogRef: MatDialogRef<StudentCaseManagerEditDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
-              private caseManagerService: CaseManagerService) {
+              private caseManagerService: CaseManagerService,
+              private formBuilder: FormBuilder) {
     this.getCaseManagerList();
   }
 
   ngOnInit(): void {
+    this.initializeForm();
+  }
+
+  private initializeForm(): void {
+    this.studentCaseManagerEditForm = this.formBuilder.group({
+      caseManagerId: new FormControl(0, Validators.required),
+      // relationshipTypeId: new FormControl('', Validators.required),
+      effectiveDate: new FormControl('', Validators.required)
+    });
+
+    // setTimeout(() => {
+    //   this.relationSurnameField.nativeElement.focus();
+    // }, 0);
   }
 
   // Load Option Value Lists

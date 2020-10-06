@@ -41,6 +41,52 @@ export class RelationshipService {
     }
   }
 
+  public createCaseManagerRelationship(relationship: Relationship): Observable<Relationship> {
+    console.log('createCaseManagerRelationship', relationship);
+    const url = environment.apiUrl + '/api/v1/relationship/case-manager';
+    const token = this.tokenService.getToken();
+    if (token) {
+      return this.http.post<Relationship>(url,
+        relationship,
+        {
+          headers: this.httpService.setHeadersWithToken(),
+          observe: 'response',
+          params: {}
+        })
+        .pipe(
+          map(res => {
+            return res.body;
+          })
+        );
+    } else {
+      console.error('No token was present.');
+      return null;
+    }
+  }
+
+  public createSponsorRelationship(relationship: Relationship): Observable<Relationship> {
+    console.log('createSponsorRelationship', relationship);
+    const url = environment.apiUrl + '/api/v1/relationship/sponsor';
+    const token = this.tokenService.getToken();
+    if (token) {
+      return this.http.post<Relationship>(url,
+        relationship,
+        {
+          headers: this.httpService.setHeadersWithToken(),
+          observe: 'response',
+          params: {}
+        })
+        .pipe(
+          map(res => {
+            return res.body;
+          })
+        );
+    } else {
+      console.error('No token was present.');
+      return null;
+    }
+  }
+
   public getRelationshipListByStudentId(studentId: number): Observable<Relationship[]> {
     const url = environment.apiUrl + '/api/v1/relationship/student/' + studentId;
     const token = this.tokenService.getToken();
@@ -63,6 +109,26 @@ export class RelationshipService {
 
   public getRelationshipListByRelationId(relationId: number): Observable<Relationship[]> {
     const url = environment.apiUrl + '/api/v1/relationship/relation/' + relationId;
+    const token = this.tokenService.getToken();
+    if (token) {
+      return this.http.get<Relationship[]>(url, {
+        headers: this.httpService.setHeadersWithToken(),
+        observe: 'response',
+        params: {}
+      })
+        .pipe(
+          map(res => {
+            return res.body;
+          })
+        );
+    } else {
+      console.error('No token was present.');
+      return null;
+    }
+  }
+
+  public getRelationshipListByCaregiverId(studentId: number): Observable<Relationship[]> {
+    const url = environment.apiUrl + '/api/v1/relationship/caregiver/student/' + studentId;
     const token = this.tokenService.getToken();
     if (token) {
       return this.http.get<Relationship[]>(url, {

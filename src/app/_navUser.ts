@@ -26,6 +26,11 @@ export const navItemsUser: INavData[] = [
     url: '/caregivers/caregiver-list',
     icon: 'fa fa-heartbeat'
   },
+  {
+    name: 'Sponsors',
+    url: '/sponsors/sponsor-list',
+    icon: 'fa fa-handshake-o'
+  },
 
   {
     title: true,

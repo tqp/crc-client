@@ -40,6 +40,48 @@
 
     <div class="col-lg-6 col-sm-12">
 
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-group"></i>
+          Associated Students
+        </div>
+        <div class="card-body">
+
+          <div class="table-container">
+
+            <table mat-table [dataSource]="dataSource" *ngIf="dataSource && dataSource.length > 0"
+                   matSort matSortActive="lastName" matSortDirection="asc" matSortDisableClear="true"
+                   class="table">
+
+              <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef>Name</th>
+                <td mat-cell *matCellDef="let row">
+                  <a [routerLink]="['/students/student-detail', row.personId]">
+                    {{row.personGivenName}} {{row.personSurname}}
+                  </a>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="relationship">
+                <th mat-header-cell *matHeaderCellDef>Relationship</th>
+                <td mat-cell *matCellDef="let row">
+                  {{row.relationshipTypeName}}
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true" [hidden]="false"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+
+            <div class="no-records" *ngIf="dataSource && dataSource.length <= 0">
+              No records to display.
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
     </div>
   </div>
 

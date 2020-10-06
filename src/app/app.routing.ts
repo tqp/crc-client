@@ -95,6 +95,13 @@ export const routes: Routes = [
         }
       },
       {
+        path: 'sponsors',
+        loadChildren: () => import('./views/secured-pages/crc-members/sponsors/sponsor.module').then(m => m.SponsorModule),
+        resolve: {
+          securedPageResolver: SecuredPageResolverService
+        }
+      },
+      {
         path: 'person-type',
         loadChildren: () => import('./views/secured-pages/reference-tables/person-type/person-type.module').then(m => m.PersonTypeModule),
         resolve: {

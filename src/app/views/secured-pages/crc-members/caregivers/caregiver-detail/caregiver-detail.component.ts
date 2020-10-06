@@ -3,6 +3,9 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { EventService } from '../../../../../../@tqp/services/event.service';
 import { Caregiver } from '../Caregiver';
 import { CaregiverService } from '../caregiver.service';
+import { Relationship } from '../../students/Relationship';
+import { Student } from '../../students/Student';
+import { RelationshipService } from '../../relations/relationship.service';
 
 @Component({
   selector: 'app-caregiver-detail',
@@ -14,9 +17,18 @@ export class CaregiverDetailComponent implements OnInit {
   public caregiver: Caregiver;
   public genderNames = {'M': 'Male', 'F': 'Female', 'O': 'Other'};
 
+  // Associated Students List
+  public records: Relationship[] = [];
+  public dataSource: Relationship[] = [];
+  public displayedColumns: string[] = [
+    'name',
+    'relationship'
+  ];
+
   constructor(private route: ActivatedRoute,
               private caregiverService: CaregiverService,
               private eventService: EventService,
+              private relationshipService: RelationshipService,
               private router: Router) {
   }
 
@@ -26,6 +38,7 @@ export class CaregiverDetailComponent implements OnInit {
         const caregiverId = params['id'];
         // console.log('caregiverId', caregiverId);
         this.getCaregiverDetail(caregiverId);
+        this.getRelationshipListByCaregiverId(caregiverId);
       } else {
         console.error('No ID was present.');
       }
@@ -39,6 +52,21 @@ export class CaregiverDetailComponent implements OnInit {
         this.caregiver = response;
         // console.log('response', response);
         this.eventService.loadingEvent.emit(false);
+      },
+      error => {
+        console.error('Error: ', error);
+      }
+    );
+  }
+
+  private getRelationshipListByCaregiverId(caregiverId: number): void {
+    this.relationshipService.getRelationshipListByCaregiverId(caregiverId).subscribe(
+      (studentList: Student[]) => {
+        console.log('studentList', studentList);
+        studentList.forEach(item => {
+          this.records.push(item);
+        });
+        this.dataSource = this.records;
       },
       error => {
         console.error('Error: ', error);

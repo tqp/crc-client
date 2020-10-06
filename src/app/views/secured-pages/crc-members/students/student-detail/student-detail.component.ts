@@ -10,6 +10,13 @@ import { StudentCaregiverEditDialogComponent } from '../student-caregiver-edit-d
 import { AuthService } from '../../../../../../@tqp/services/auth.service';
 import { CaregiverService } from '../../caregivers/caregiver.service';
 import { Caregiver } from '../../caregivers/Caregiver';
+import { StudentCaseManagerEditDialogComponent } from '../student-case-manager-edit-dialog/student-case-manager-edit-dialog.component';
+import { FormattingService } from '../../../../../../@tqp/services/formatting.service';
+import { CaseManager } from '../../case-managers/CaseManager';
+import { CaseManagerService } from '../../case-managers/case-manager.service';
+import { Sponsor } from '../../sponsors/Sponsor';
+import { StudentSponsorEditDialogComponent } from '../student-sponsor-edit-dialog/student-sponsor-edit-dialog.component';
+import { SponsorService } from '../../sponsors/sponsor.service';
 
 @Component({
   selector: 'app-student-detail',
@@ -20,10 +27,14 @@ export class StudentDetailComponent implements OnInit {
   public pageSource: string;
   public student: Student;
   public caregiver: Caregiver;
+  public caseManager: CaseManager;
+  public sponsor: Sponsor;
 
   // Loading
   public studentLoading: boolean = false;
   public caregiverLoading: boolean = false;
+  public caseManagerLoading: boolean = false;
+  public sponsorLoading: boolean = false;
 
   public genderNames = {'M': 'Male', 'F': 'Female', 'O': 'Other'};
 
@@ -40,8 +51,11 @@ export class StudentDetailComponent implements OnInit {
               private studentService: StudentService,
               private relationshipService: RelationshipService,
               private caregiverService: CaregiverService,
+              private caseManagerService: CaseManagerService,
+              private sponsorService: SponsorService,
               private eventService: EventService,
               public authService: AuthService,
+              private formattingService: FormattingService,
               private router: Router,
               public _matDialog: MatDialog) {
   }
@@ -53,6 +67,8 @@ export class StudentDetailComponent implements OnInit {
         // console.log('studentId', studentId);
         this.getStudentDetail(studentId);
         this.getCaregiverDetailByStudentId(studentId);
+        this.getCaseManagerDetailByStudentId(studentId);
+        this.getSponsorDetailByStudentId(studentId);
         // this.getRelationshipListByStudentId(studentId);
       } else {
         console.error('No ID was present.');
@@ -79,11 +95,42 @@ export class StudentDetailComponent implements OnInit {
     this.caregiverLoading = true;
     this.caregiverService.getCaregiverDetailByStudentId(id).subscribe(
       response => {
-        console.log('response', response);
+        // console.log('response', response);
         this.caregiver = response;
-        console.log('caregiver', this.caregiver);
         this.eventService.loadingEvent.emit(false);
         this.caregiverLoading = false;
+      },
+      error => {
+        console.error('Error: ', error);
+      }
+    );
+  }
+
+  private getCaseManagerDetailByStudentId(id: number): void {
+    this.eventService.loadingEvent.emit(true);
+    this.caseManagerLoading = true;
+    this.caseManagerService.getCaseManagerDetailByStudentId(id).subscribe(
+      response => {
+        // console.log('response', response);
+        this.caseManager = response;
+        this.eventService.loadingEvent.emit(false);
+        this.caseManagerLoading = false;
+      },
+      error => {
+        console.error('Error: ', error);
+      }
+    );
+  }
+
+  private getSponsorDetailByStudentId(id: number): void {
+    this.eventService.loadingEvent.emit(true);
+    this.sponsorLoading = true;
+    this.sponsorService.getSponsorDetailByStudentId(id).subscribe(
+      response => {
+        console.log('response', response);
+        this.sponsor = response;
+        this.eventService.loadingEvent.emit(false);
+        this.sponsorLoading = false;
       },
       error => {
         console.error('Error: ', error);
@@ -121,16 +168,82 @@ export class StudentDetailComponent implements OnInit {
     const dialogRef = this._matDialog.open(StudentCaregiverEditDialogComponent, dialogConfig);
 
     dialogRef.afterClosed().subscribe(dialogData => {
+      // console.log('dialogData', dialogData);
       const relationship: Relationship = {};
-      relationship.relationshipTypeId = 13; // Caregiver
       relationship.studentId = this.student.studentId;
       relationship.personId = dialogData.caregiverId;
+      relationship.relationshipTypeId = 13; // Caregiver
       relationship.relationshipComments = 'Meow';
       relationship.relationshipBloodRelative = 0;
       this.relationshipService.createCaregiverRelationship(relationship).subscribe(
         response => {
           console.log('response', response);
           this.getCaregiverDetailByStudentId(this.student.studentId);
+          this.eventService.loadingEvent.emit(false);
+        },
+        error => {
+          console.error('Error: ', error);
+        }
+      );
+    });
+  }
+
+  public openStudentCaseManagerEditDialog(): void {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.minWidth = '25%';
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.data = {
+      action: 'create',
+      studentId: this.student.studentId
+    };
+    dialogConfig.autoFocus = false;
+    const dialogRef = this._matDialog.open(StudentCaseManagerEditDialogComponent, dialogConfig);
+
+    dialogRef.afterClosed().subscribe(dialogData => {
+      console.log('dialogData', dialogData);
+      const relationship: Relationship = {};
+      relationship.studentId = this.student.studentId;
+      relationship.personId = dialogData.caseManagerId;
+      relationship.relationshipTypeId = 15; // Case Manager
+      relationship.relationshipEffectiveDate = this.formattingService.formatStandardDateAsMySql(dialogData.effectiveDate);
+
+      this.relationshipService.createCaseManagerRelationship(relationship).subscribe(
+        response => {
+          console.log('response', response);
+          this.getCaseManagerDetailByStudentId(this.student.studentId);
+          this.eventService.loadingEvent.emit(false);
+        },
+        error => {
+          console.error('Error: ', error);
+        }
+      );
+    });
+  }
+
+  public openStudentSponsorEditDialog(): void {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.minWidth = '25%';
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.data = {
+      action: 'create',
+      studentId: this.student.studentId
+    };
+    dialogConfig.autoFocus = false;
+    const dialogRef = this._matDialog.open(StudentSponsorEditDialogComponent, dialogConfig);
+
+    dialogRef.afterClosed().subscribe(dialogData => {
+      // console.log('dialogData', dialogData);
+      const relationship: Relationship = {};
+      relationship.studentId = this.student.studentId;
+      relationship.personId = dialogData.sponsorId;
+      relationship.relationshipTypeId = 14; // Sponsor
+      relationship.relationshipEffectiveDate = this.formattingService.formatStandardDateAsMySql(dialogData.effectiveDate);
+      this.relationshipService.createSponsorRelationship(relationship).subscribe(
+        response => {
+          console.log('response', response);
+          this.getSponsorDetailByStudentId(this.student.studentId);
           this.eventService.loadingEvent.emit(false);
         },
         error => {

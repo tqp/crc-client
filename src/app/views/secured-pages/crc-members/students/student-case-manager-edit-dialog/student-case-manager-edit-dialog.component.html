@@ -1,5 +1,5 @@
 <h2 mat-dialog-title>
-  Student-Case Manager Edit Dialog
+  Assign Case Manager
 </h2>
 
 <mat-dialog-content style="overflow: hidden">
@@ -29,6 +29,24 @@
       </div>
     </div>
 
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="form-group">
+          <label for="effectiveDate">Effective Date*</label>
+          <input id="effectiveDate" type="text" class="form-control" bsDatepicker
+                 formControlName="effectiveDate">
+          <mat-error *ngFor="let validation of validationMessages.effectiveDate">
+            <mat-error class="error-message"
+                       *ngIf="studentCaseManagerEditForm.get('effectiveDate').hasError(validation.type)
+                                && (studentCaseManagerEditForm.get('effectiveDate').dirty ||
+                                studentCaseManagerEditForm.get('effectiveDate').touched)">
+              {{validation.message}}
+            </mat-error>
+          </mat-error>
+        </div>
+      </div>
+    </div>
+
   </form>
 
 </mat-dialog-content>
@@ -37,7 +55,8 @@
   <button mat-raised-button mat-dialog-close>Cancel</button>
   <button mat-raised-button (click)="reset();">Reset</button>
   <div fxFlex></div>
-  <button mat-raised-button mat-dialog-close color="primary" (click)="save();">
+  <button mat-raised-button mat-dialog-close color="primary" (click)="save();"
+          [disabled]="!studentCaseManagerEditForm.valid">
     Save
   </button>
 </mat-dialog-actions>
