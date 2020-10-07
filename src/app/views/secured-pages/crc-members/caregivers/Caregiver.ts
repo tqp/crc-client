@@ -2,7 +2,6 @@ export class Caregiver {
   public caregiverId?: number;
   public caregiverSurname?: string;
   public caregiverGivenName?: string;
-  public caregiverGender?: string;
 
   public caregiverAddress?: string;
   public caregiverPrimaryPhone?: string;
@@ -10,6 +9,7 @@ export class Caregiver {
   public caregiverFamilyRelationship?: string;
   public caregiverOriginalFamilyImpact?: string;
 
+  public relationshipEffectiveDate?: string;
   public relationshipType?: string;
   public relationshipBloodRelative?: boolean;
 }

@@ -3,6 +3,10 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { EventService } from '../../../../../../@tqp/services/event.service';
 import { Sponsor } from '../Sponsor';
 import { SponsorService } from '../sponsor.service';
+import { Relationship } from '../../students/Relationship';
+import { Student } from '../../students/Student';
+import { RelationshipService } from '../../relations/relationship.service';
+import { AuthService } from '../../../../../../@tqp/services/auth.service';
 
 @Component({
   selector: 'app-sponsor-detail',
@@ -14,10 +18,23 @@ export class SponsorDetailComponent implements OnInit {
   public sponsor: Sponsor;
   public genderNames = {'M': 'Male', 'F': 'Female', 'O': 'Other'};
 
+  public sponsorLoading: boolean = false;
+
+  // Associated Students List
+  public records: Relationship[] = [];
+  public dataSource: Relationship[] = [];
+  public displayedColumns: string[] = [
+    'name',
+    'relationship',
+    'relationshipEffectiveDate'
+  ];
+
   constructor(private route: ActivatedRoute,
               private sponsorService: SponsorService,
+              private relationshipService: RelationshipService,
               private eventService: EventService,
-              private router: Router) {
+              private router: Router,
+              public authService: AuthService) {
   }
 
   ngOnInit(): void {
@@ -26,6 +43,7 @@ export class SponsorDetailComponent implements OnInit {
         const sponsorId = params['id'];
         // console.log('sponsorId', sponsorId);
         this.getSponsorDetail(sponsorId);
+        this.getRelationshipListByPersonId(sponsorId);
       } else {
         console.error('No ID was present.');
       }
@@ -39,6 +57,21 @@ export class SponsorDetailComponent implements OnInit {
         this.sponsor = response;
         // console.log('response', response);
         this.eventService.loadingEvent.emit(false);
+      },
+      error => {
+        console.error('Error: ', error);
+      }
+    );
+  }
+
+  private getRelationshipListByPersonId(caseManagerId: number): void {
+    this.relationshipService.getRelationshipListByPersonId(caseManagerId).subscribe(
+      (studentList: Student[]) => {
+        console.log('studentList', studentList);
+        studentList.forEach(item => {
+          this.records.push(item);
+        });
+        this.dataSource = this.records;
       },
       error => {
         console.error('Error: ', error);

@@ -14,7 +14,7 @@ export const navItemsUser: INavData[] = [
   {
     name: 'Students',
     url: '/students/student-list',
-    icon: 'fa fa-group'
+    icon: 'fa fa-graduation-cap'
   },
   {
     name: 'Case Managers',

@@ -18,6 +18,9 @@ import { Sponsor } from '../../sponsors/Sponsor';
 import { StudentSponsorEditDialogComponent } from '../student-sponsor-edit-dialog/student-sponsor-edit-dialog.component';
 import { SponsorService } from '../../sponsors/sponsor.service';
 
+import * as moment from 'moment';
+import { StudentStatusEditDialogComponent } from '../student-status-edit-dialog/student-status-edit-dialog.component';
+
 @Component({
   selector: 'app-student-detail',
   templateUrl: './student-detail.component.html',
@@ -54,9 +57,9 @@ export class StudentDetailComponent implements OnInit {
               private caseManagerService: CaseManagerService,
               private sponsorService: SponsorService,
               private eventService: EventService,
-              public authService: AuthService,
               private formattingService: FormattingService,
               private router: Router,
+              public authService: AuthService,
               public _matDialog: MatDialog) {
   }
 
@@ -69,16 +72,15 @@ export class StudentDetailComponent implements OnInit {
         this.getCaregiverDetailByStudentId(studentId);
         this.getCaseManagerDetailByStudentId(studentId);
         this.getSponsorDetailByStudentId(studentId);
-        // this.getRelationshipListByStudentId(studentId);
       } else {
         console.error('No ID was present.');
       }
     }).then();
   }
 
-  private getStudentDetail(id: number): void {
+  private getStudentDetail(studentId: number): void {
     this.eventService.loadingEvent.emit(true);
-    this.studentService.getStudentDetail(id).subscribe(
+    this.studentService.getStudentDetail(studentId).subscribe(
       response => {
         this.student = response;
         // console.log('response', response);
@@ -90,13 +92,14 @@ export class StudentDetailComponent implements OnInit {
     );
   }
 
-  private getCaregiverDetailByStudentId(id: number): void {
+  private getCaregiverDetailByStudentId(studentId: number): void {
     this.eventService.loadingEvent.emit(true);
     this.caregiverLoading = true;
-    this.caregiverService.getCaregiverDetailByStudentId(id).subscribe(
+    this.caregiverService.getCaregiverDetailByStudentId(studentId).subscribe(
       response => {
         // console.log('response', response);
         this.caregiver = response;
+        this.caregiver.relationshipEffectiveDate = this.formattingService.formatMySqlDateAsStandard(this.caregiver.relationshipEffectiveDate);
         this.eventService.loadingEvent.emit(false);
         this.caregiverLoading = false;
       },
@@ -106,13 +109,14 @@ export class StudentDetailComponent implements OnInit {
     );
   }
 
-  private getCaseManagerDetailByStudentId(id: number): void {
+  private getCaseManagerDetailByStudentId(studentId: number): void {
     this.eventService.loadingEvent.emit(true);
     this.caseManagerLoading = true;
-    this.caseManagerService.getCaseManagerDetailByStudentId(id).subscribe(
+    this.caseManagerService.getCaseManagerDetailByStudentId(studentId).subscribe(
       response => {
         // console.log('response', response);
         this.caseManager = response;
+        this.caseManager.relationshipEffectiveDate = this.formattingService.formatMySqlDateAsStandard(this.caseManager.relationshipEffectiveDate);
         this.eventService.loadingEvent.emit(false);
         this.caseManagerLoading = false;
       },
@@ -122,13 +126,14 @@ export class StudentDetailComponent implements OnInit {
     );
   }
 
-  private getSponsorDetailByStudentId(id: number): void {
+  private getSponsorDetailByStudentId(studentId: number): void {
     this.eventService.loadingEvent.emit(true);
     this.sponsorLoading = true;
-    this.sponsorService.getSponsorDetailByStudentId(id).subscribe(
+    this.sponsorService.getSponsorDetailByStudentId(studentId).subscribe(
       response => {
-        console.log('response', response);
+        // console.log('response', response);
         this.sponsor = response;
+        this.sponsor.relationshipEffectiveDate = this.formattingService.formatMySqlDateAsStandard(this.sponsor.relationshipEffectiveDate);
         this.eventService.loadingEvent.emit(false);
         this.sponsorLoading = false;
       },
@@ -137,21 +142,6 @@ export class StudentDetailComponent implements OnInit {
       }
     );
   }
-
-  // private getRelationshipListByStudentId(studentId: number): void {
-  //   this.relationshipService.getRelationshipListByStudentId(studentId).subscribe(
-  //     (relationshipList: Relationship[]) => {
-  //       console.log('relationshipList', relationshipList);
-  //       relationshipList.forEach(item => {
-  //         this.records.push(item);
-  //       });
-  //       this.dataSource = this.records;
-  //     },
-  //     error => {
-  //       console.error('Error: ', error);
-  //     }
-  //   );
-  // }
 
   // Dialogs
 
@@ -173,11 +163,13 @@ export class StudentDetailComponent implements OnInit {
       relationship.studentId = this.student.studentId;
       relationship.personId = dialogData.caregiverId;
       relationship.relationshipTypeId = 13; // Caregiver
+      relationship.relationshipEffectiveDate = this.formattingService.formatStandardDateAsMySql(dialogData.relationshipEffectiveDate);
       relationship.relationshipComments = 'Meow';
       relationship.relationshipBloodRelative = 0;
+      // console.log('relationship', relationship);
       this.relationshipService.createCaregiverRelationship(relationship).subscribe(
         response => {
-          console.log('response', response);
+          // console.log('response', response);
           this.getCaregiverDetailByStudentId(this.student.studentId);
           this.eventService.loadingEvent.emit(false);
         },
@@ -206,8 +198,7 @@ export class StudentDetailComponent implements OnInit {
       relationship.studentId = this.student.studentId;
       relationship.personId = dialogData.caseManagerId;
       relationship.relationshipTypeId = 15; // Case Manager
-      relationship.relationshipEffectiveDate = this.formattingService.formatStandardDateAsMySql(dialogData.effectiveDate);
-
+      relationship.relationshipEffectiveDate = this.formattingService.formatStandardDateAsMySql(dialogData.relationshipEffectiveDate);
       this.relationshipService.createCaseManagerRelationship(relationship).subscribe(
         response => {
           console.log('response', response);
@@ -239,7 +230,7 @@ export class StudentDetailComponent implements OnInit {
       relationship.studentId = this.student.studentId;
       relationship.personId = dialogData.sponsorId;
       relationship.relationshipTypeId = 14; // Sponsor
-      relationship.relationshipEffectiveDate = this.formattingService.formatStandardDateAsMySql(dialogData.effectiveDate);
+      relationship.relationshipEffectiveDate = this.formattingService.formatStandardDateAsMySql(dialogData.relationshipEffectiveDate);
       this.relationshipService.createSponsorRelationship(relationship).subscribe(
         response => {
           console.log('response', response);
@@ -250,6 +241,38 @@ export class StudentDetailComponent implements OnInit {
           console.error('Error: ', error);
         }
       );
+    });
+  }
+
+  public openStudentStatusEditDialog(): void {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.minWidth = '25%';
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.data = {
+      action: 'create',
+      studentId: this.student.studentId
+    };
+    dialogConfig.autoFocus = false;
+    const dialogRef = this._matDialog.open(StudentStatusEditDialogComponent, dialogConfig);
+
+    dialogRef.afterClosed().subscribe(dialogData => {
+      console.log('dialogData', dialogData);
+      // const relationship: Relationship = {};
+      // relationship.studentId = this.student.studentId;
+      // relationship.personId = dialogData.caseManagerId;
+      // relationship.relationshipTypeId = 15; // Case Manager
+      // relationship.relationshipEffectiveDate = this.formattingService.formatStandardDateAsMySql(dialogData.relationshipEffectiveDate);
+      // this.relationshipService.createSRelationship(relationship).subscribe(
+      //   response => {
+      //     console.log('response', response);
+      //     this.getCaseManagerDetailByStudentId(this.student.studentId);
+      //     this.eventService.loadingEvent.emit(false);
+      //   },
+      //   error => {
+      //     console.error('Error: ', error);
+      //   }
+      // );
     });
   }
 

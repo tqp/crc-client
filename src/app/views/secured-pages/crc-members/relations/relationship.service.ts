@@ -19,7 +19,6 @@ export class RelationshipService {
   }
 
   public createCaregiverRelationship(relationship: Relationship): Observable<Relationship> {
-    console.log('createCaregiverRelationship', relationship);
     const url = environment.apiUrl + '/api/v1/relationship/caregiver';
     const token = this.tokenService.getToken();
     if (token) {
@@ -42,7 +41,6 @@ export class RelationshipService {
   }
 
   public createCaseManagerRelationship(relationship: Relationship): Observable<Relationship> {
-    console.log('createCaseManagerRelationship', relationship);
     const url = environment.apiUrl + '/api/v1/relationship/case-manager';
     const token = this.tokenService.getToken();
     if (token) {
@@ -65,12 +63,37 @@ export class RelationshipService {
   }
 
   public createSponsorRelationship(relationship: Relationship): Observable<Relationship> {
-    console.log('createSponsorRelationship', relationship);
     const url = environment.apiUrl + '/api/v1/relationship/sponsor';
     const token = this.tokenService.getToken();
     if (token) {
       return this.http.post<Relationship>(url,
         relationship,
+        {
+          headers: this.httpService.setHeadersWithToken(),
+          observe: 'response',
+          params: {}
+        })
+        .pipe(
+          map(res => {
+            return res.body;
+          })
+        );
+    } else {
+      console.error('No token was present.');
+      return null;
+    }
+  }
+
+  public createPerson_Relationship(relationship: Relationship): Observable<number> {
+    const person: PersonEntity = new PersonEntity();
+    // Map Relationship fields to Person fields
+    person.personSurname = relationship.relationSurname;
+    person.personGivenName = relationship.relationGivenName;
+    const url = environment.apiUrl + '/api/v1/person/relationship';
+    const token = this.tokenService.getToken();
+    if (token) {
+      return this.http.post<number>(url,
+        person,
         {
           headers: this.httpService.setHeadersWithToken(),
           observe: 'response',
@@ -107,8 +130,8 @@ export class RelationshipService {
     }
   }
 
-  public getRelationshipListByRelationId(relationId: number): Observable<Relationship[]> {
-    const url = environment.apiUrl + '/api/v1/relationship/relation/' + relationId;
+  public getRelationshipListByPersonId(personId: number): Observable<Relationship[]> {
+    const url = environment.apiUrl + '/api/v1/relationship/person/' + personId;
     const token = this.tokenService.getToken();
     if (token) {
       return this.http.get<Relationship[]>(url, {
@@ -116,52 +139,6 @@ export class RelationshipService {
         observe: 'response',
         params: {}
       })
-        .pipe(
-          map(res => {
-            return res.body;
-          })
-        );
-    } else {
-      console.error('No token was present.');
-      return null;
-    }
-  }
-
-  public getRelationshipListByCaregiverId(studentId: number): Observable<Relationship[]> {
-    const url = environment.apiUrl + '/api/v1/relationship/caregiver/student/' + studentId;
-    const token = this.tokenService.getToken();
-    if (token) {
-      return this.http.get<Relationship[]>(url, {
-        headers: this.httpService.setHeadersWithToken(),
-        observe: 'response',
-        params: {}
-      })
-        .pipe(
-          map(res => {
-            return res.body;
-          })
-        );
-    } else {
-      console.error('No token was present.');
-      return null;
-    }
-  }
-
-  public createPerson_Relationship(relationship: Relationship): Observable<number> {
-    const person: PersonEntity = new PersonEntity();
-    // Map Relationship fields to Person fields
-    person.personSurname = relationship.relationSurname;
-    person.personGivenName = relationship.relationGivenName;
-    const url = environment.apiUrl + '/api/v1/person/relationship';
-    const token = this.tokenService.getToken();
-    if (token) {
-      return this.http.post<number>(url,
-        person,
-        {
-          headers: this.httpService.setHeadersWithToken(),
-          observe: 'response',
-          params: {}
-        })
         .pipe(
           map(res => {
             return res.body;

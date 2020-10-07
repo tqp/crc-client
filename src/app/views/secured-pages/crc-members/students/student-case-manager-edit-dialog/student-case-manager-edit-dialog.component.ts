@@ -3,9 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { CaseManager } from '../../case-managers/CaseManager';
 import { CaseManagerService } from '../../case-managers/case-manager.service';
-import { CaregiverService } from '../../caregivers/caregiver.service';
-import { RelationshipTypeService } from '../../../reference-tables/relationship-type/relationship-type.service';
-import { TierTypeService } from '../../../reference-tables/tier-type/tier-type.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-student-case-manager-edit-dialog',
@@ -21,7 +19,7 @@ export class StudentCaseManagerEditDialogComponent implements OnInit {
     'caseManagerId': [
       {type: 'required', message: 'A Case Manager is required'}
     ],
-    'effectiveDate': [
+    'relationshipEffectiveDate': [
       {type: 'required', message: 'An Effective Date is required'}
     ]
   };
@@ -40,8 +38,7 @@ export class StudentCaseManagerEditDialogComponent implements OnInit {
   private initializeForm(): void {
     this.studentCaseManagerEditForm = this.formBuilder.group({
       caseManagerId: new FormControl(0, Validators.required),
-      // relationshipTypeId: new FormControl('', Validators.required),
-      effectiveDate: new FormControl('', Validators.required)
+      relationshipEffectiveDate: new FormControl('', Validators.required)
     });
 
     // setTimeout(() => {

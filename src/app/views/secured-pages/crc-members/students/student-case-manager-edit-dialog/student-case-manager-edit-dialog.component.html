@@ -32,14 +32,14 @@
     <div class="row">
       <div class="col-sm-12">
         <div class="form-group">
-          <label for="effectiveDate">Effective Date*</label>
-          <input id="effectiveDate" type="text" class="form-control" bsDatepicker
-                 formControlName="effectiveDate">
-          <mat-error *ngFor="let validation of validationMessages.effectiveDate">
+          <label for="relationshipEffectiveDate">Effective Date*</label>
+          <input id="relationshipEffectiveDate" type="text" class="form-control" bsDatepicker
+                 formControlName="relationshipEffectiveDate">
+          <mat-error *ngFor="let validation of validationMessages.relationshipEffectiveDate">
             <mat-error class="error-message"
-                       *ngIf="studentCaseManagerEditForm.get('effectiveDate').hasError(validation.type)
-                                && (studentCaseManagerEditForm.get('effectiveDate').dirty ||
-                                studentCaseManagerEditForm.get('effectiveDate').touched)">
+                       *ngIf="studentCaseManagerEditForm.get('relationshipEffectiveDate').hasError(validation.type)
+                                && (studentCaseManagerEditForm.get('relationshipEffectiveDate').dirty ||
+                                studentCaseManagerEditForm.get('relationshipEffectiveDate').touched)">
               {{validation.message}}
             </mat-error>
           </mat-error>

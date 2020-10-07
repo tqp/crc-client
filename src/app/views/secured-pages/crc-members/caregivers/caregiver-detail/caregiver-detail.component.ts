@@ -6,6 +6,7 @@ import { CaregiverService } from '../caregiver.service';
 import { Relationship } from '../../students/Relationship';
 import { Student } from '../../students/Student';
 import { RelationshipService } from '../../relations/relationship.service';
+import { AuthService } from '../../../../../../@tqp/services/auth.service';
 
 @Component({
   selector: 'app-caregiver-detail',
@@ -17,19 +18,23 @@ export class CaregiverDetailComponent implements OnInit {
   public caregiver: Caregiver;
   public genderNames = {'M': 'Male', 'F': 'Female', 'O': 'Other'};
 
+  public caregiverLoading: boolean = false;
+
   // Associated Students List
   public records: Relationship[] = [];
   public dataSource: Relationship[] = [];
   public displayedColumns: string[] = [
     'name',
-    'relationship'
+    'relationship',
+    'relationshipEffectiveDate'
   ];
 
   constructor(private route: ActivatedRoute,
               private caregiverService: CaregiverService,
-              private eventService: EventService,
               private relationshipService: RelationshipService,
-              private router: Router) {
+              private eventService: EventService,
+              private router: Router,
+              public authService: AuthService) {
   }
 
   ngOnInit(): void {
@@ -38,7 +43,7 @@ export class CaregiverDetailComponent implements OnInit {
         const caregiverId = params['id'];
         // console.log('caregiverId', caregiverId);
         this.getCaregiverDetail(caregiverId);
-        this.getRelationshipListByCaregiverId(caregiverId);
+        this.getRelationshipListByPersonId(caregiverId);
       } else {
         console.error('No ID was present.');
       }
@@ -47,11 +52,13 @@ export class CaregiverDetailComponent implements OnInit {
 
   private getCaregiverDetail(caregiverId: number): void {
     this.eventService.loadingEvent.emit(true);
+    this.caregiverLoading = true;
     this.caregiverService.getCaregiverDetail(caregiverId).subscribe(
       response => {
         this.caregiver = response;
         // console.log('response', response);
         this.eventService.loadingEvent.emit(false);
+        this.caregiverLoading = false;
       },
       error => {
         console.error('Error: ', error);
@@ -59,8 +66,8 @@ export class CaregiverDetailComponent implements OnInit {
     );
   }
 
-  private getRelationshipListByCaregiverId(caregiverId: number): void {
-    this.relationshipService.getRelationshipListByCaregiverId(caregiverId).subscribe(
+  private getRelationshipListByPersonId(caregiverId: number): void {
+    this.relationshipService.getRelationshipListByPersonId(caregiverId).subscribe(
       (studentList: Student[]) => {
         console.log('studentList', studentList);
         studentList.forEach(item => {

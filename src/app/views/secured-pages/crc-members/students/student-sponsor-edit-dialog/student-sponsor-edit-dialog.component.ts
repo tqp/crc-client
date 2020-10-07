@@ -18,7 +18,7 @@ export class StudentSponsorEditDialogComponent implements OnInit {
     'sponsorId': [
       {type: 'required', message: 'A Case Manager is required'}
     ],
-    'effectiveDate': [
+    'relationshipEffectiveDate': [
       {type: 'required', message: 'An Effective Date is required'}
     ]
   };
@@ -37,8 +37,7 @@ export class StudentSponsorEditDialogComponent implements OnInit {
   private initializeForm(): void {
     this.studentSponsorEditForm = this.formBuilder.group({
       sponsorId: new FormControl(0, Validators.required),
-      // relationshipTypeId: new FormControl('', Validators.required),
-      effectiveDate: new FormControl('', Validators.required)
+      relationshipEffectiveDate: new FormControl('', Validators.required)
     });
 
     // setTimeout(() => {

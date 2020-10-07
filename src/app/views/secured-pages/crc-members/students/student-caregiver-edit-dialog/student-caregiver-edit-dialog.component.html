@@ -29,31 +29,6 @@
       </div>
     </div>
 
-    <!--
-    <div class="row">
-      <div class="col-sm-12">
-        <div class="form-group">
-          <label for="relationshipTypeId">Relationship Type*</label>
-          <select id="relationshipTypeId" class="form-control" formControlName="relationshipTypeId">
-            <option value="">Select a Family Relationship</option>
-            <option *ngFor="let relationshipType of relationshipTypeList"
-                    value="{{relationshipType.relationshipTypeId}}">
-              {{relationshipType.relationshipTypeName}}
-            </option>
-          </select>
-          <mat-error *ngFor="let validation of validationMessages.relationshipTypeId">
-            <mat-error class="error-message"
-                       *ngIf="studentCaregiverEditForm.get('relationshipTypeId').hasError(validation.type)
-                                && (studentCaregiverEditForm.get('relationshipTypeId').dirty ||
-                                studentCaregiverEditForm.get('relationshipTypeId').touched)">
-              {{validation.message}}
-            </mat-error>
-          </mat-error>
-        </div>
-      </div>
-    </div>
-    -->
-
     <div class="row">
       <div class="col-sm-12">
         <div class="form-group">
@@ -70,6 +45,25 @@
                        *ngIf="studentCaregiverEditForm.get('tierTypeId').hasError(validation.type)
                                 && (studentCaregiverEditForm.get('tierTypeId').dirty ||
                                 studentCaregiverEditForm.get('tierTypeId').touched)">
+              {{validation.message}}
+            </mat-error>
+          </mat-error>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="form-group">
+          <label for="relationshipEffectiveDate">Effective Date*</label>
+          <input id="relationshipEffectiveDate" type="text" class="form-control" bsDatepicker
+                 formControlName="relationshipEffectiveDate">
+          <mat-error *ngFor="let validation of validationMessages.relationshipEffectiveDate">
+            <mat-error class="error-message"
+                       *ngIf="studentCaregiverEditForm.get('relationshipEffectiveDate').hasError(validation.type)
+                                && (studentCaregiverEditForm.get('relationshipEffectiveDate').dirty ||
+                                studentCaregiverEditForm.get('relationshipEffectiveDate').touched)">
               {{validation.message}}
             </mat-error>
           </mat-error>
