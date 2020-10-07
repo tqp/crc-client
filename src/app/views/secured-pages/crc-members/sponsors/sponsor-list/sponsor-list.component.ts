@@ -10,6 +10,7 @@ import { merge, of } from 'rxjs';
 import { catchError, debounceTime, map, switchMap } from 'rxjs/operators';
 import { Sponsor } from '../Sponsor';
 import { SponsorService } from '../sponsor.service';
+import { AuthService } from '../../../../../../@tqp/services/auth.service';
 
 @Component({
   selector: 'app-sponsor-list',
@@ -51,7 +52,8 @@ export class SponsorListComponent implements OnInit, AfterViewInit, OnDestroy {
 
   constructor(private sponsorService: SponsorService,
               private eventService: EventService,
-              private router: Router) {
+              private router: Router,
+              public authService: AuthService) {
   }
 
   ngOnInit(): void {

@@ -69,7 +69,7 @@ export class CaregiverDetailComponent implements OnInit {
   private getRelationshipListByPersonId(caregiverId: number): void {
     this.relationshipService.getRelationshipListByPersonId(caregiverId).subscribe(
       (studentList: Student[]) => {
-        console.log('studentList', studentList);
+        // console.log('studentList', studentList);
         studentList.forEach(item => {
           this.records.push(item);
         });

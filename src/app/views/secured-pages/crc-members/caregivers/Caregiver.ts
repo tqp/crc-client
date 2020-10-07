@@ -4,7 +4,7 @@ export class Caregiver {
   public caregiverGivenName?: string;
 
   public caregiverAddress?: string;
-  public caregiverPrimaryPhone?: string;
+  public caregiverPhone?: string;
   public caregiverSupportTier?: string;
   public caregiverFamilyRelationship?: string;
   public caregiverOriginalFamilyImpact?: string;

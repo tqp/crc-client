@@ -10,6 +10,7 @@ import { merge, of } from 'rxjs';
 import { catchError, debounceTime, map, switchMap } from 'rxjs/operators';
 import { CaseManager } from '../CaseManager';
 import { CaseManagerService } from '../case-manager.service';
+import { AuthService } from '../../../../../../@tqp/services/auth.service';
 
 @Component({
   selector: 'app-case-manager-list',
@@ -51,7 +52,8 @@ export class CaseManagerListComponent implements OnInit, AfterViewInit, OnDestro
 
   constructor(private caseManagerService: CaseManagerService,
               private eventService: EventService,
-              private router: Router) {
+              private router: Router,
+              public authService: AuthService) {
   }
 
   ngOnInit(): void {

@@ -10,7 +10,8 @@
           Displaying {{pageStart}} to {{pageEnd}} of {{totalRecords}} records</span>
         <span class="badge badge-warning ml-2" style="cursor: pointer" *ngIf="isFilterApplied" (click)="clearFilters()">Clear Filters</span>
       </div>
-      <button class="btn btn-sm btn-outline-primary float-right" (click)="openCreateCaseManagerPage()">
+      <button class="btn btn-sm btn-outline-primary float-right" (click)="openCreateCaseManagerPage()"
+              [hidden]="authService.allowRoles('ROLE_MANAGER, ROLE_ADMIN')">
         <i class="fa fa-plus mr-1"></i>
         Create Case Manager
       </button>

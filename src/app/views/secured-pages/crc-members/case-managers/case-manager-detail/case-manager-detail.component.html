@@ -27,7 +27,7 @@
           <i class="fa fa-user"></i>
           Personal Information
           <i *ngIf="caseManagerLoading" class="fa fa-spinner fa-spin"></i>
-          <div class="card-header-actions" [hidden]="authService.allowRoles('ROLE_USER, ROLE_ADMIN')">
+          <div class="card-header-actions" [hidden]="authService.allowRoles('ROLE_MANAGER, ROLE_ADMIN')">
             <small class="tqp-nav-link" (click)="openEditPage();">Edit Case Manager Info</small>
           </div>
         </div>

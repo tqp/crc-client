@@ -80,6 +80,42 @@
               </div>
             </div>
 
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="caregiverAddress">Address</label>
+                  <input matInput id="caregiverAddress" type="text" class="form-control" placeholder="Address"
+                         formControlName="caregiverAddress">
+                  <mat-error *ngFor="let validation of validationMessages.caregiverAddress">
+                    <mat-error class="error-message"
+                               *ngIf="caregiverEditForm.get('caregiverAddress').hasError(validation.type)
+                                && (caregiverEditForm.get('caregiverAddress').dirty ||
+                                caregiverEditForm.get('caregiverAddress').touched)">
+                      {{validation.message}}
+                    </mat-error>
+                  </mat-error>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="caregiverPhone">Primary Phone</label>
+                  <input matInput id="caregiverPhone" type="text" class="form-control" placeholder="Primary Phone"
+                         formControlName="caregiverPhone">
+                  <mat-error *ngFor="let validation of validationMessages.caregiverPhone">
+                    <mat-error class="error-message"
+                               *ngIf="caregiverEditForm.get('caregiverPhone').hasError(validation.type)
+                                && (caregiverEditForm.get('caregiverPhone').dirty ||
+                                caregiverEditForm.get('caregiverPhone').touched)">
+                      {{validation.message}}
+                    </mat-error>
+                  </mat-error>
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
 
