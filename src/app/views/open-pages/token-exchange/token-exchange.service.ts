@@ -12,7 +12,7 @@ export class TokenExchangeService {
   }
 
   public exchangeToken(shortLivedToken: string): Observable<any> {
-    console.log('TokenExchangeService -> exchangeToken: shortLivedToken=[' + this.shortId(shortLivedToken) + ']');
+    // console.log('TokenExchangeService -> exchangeToken: shortLivedToken=[' + this.shortId(shortLivedToken) + ']');
     const url: string = environment.apiUrl + '/api/v1/token-exchange/exchange';
     const headers = new HttpHeaders()
       .set('Content-Type', 'application/json; charset=utf-8')

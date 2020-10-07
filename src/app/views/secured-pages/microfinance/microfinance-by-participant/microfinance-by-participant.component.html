@@ -1,0 +1,134 @@
+<div class="tqp-crud-server-pagination-list animated fadeIn">
+
+  <div class="card">
+
+    <div class="card-header">
+      <div class="float-left" style="line-height: 28px;">
+        <i class="fa fa-users mr-2"></i>
+        Microfinance Summary by Participant
+        <span class="badge badge-info ml-2" *ngIf="loadedFirstPage">
+          Displaying {{pageStart}} to {{pageEnd}} of {{totalRecords}} records</span>
+        <span class="badge badge-warning ml-2" style="cursor: pointer" *ngIf="isFilterApplied" (click)="clearFilters()">Clear Filters</span>
+      </div>
+      <button class="btn btn-sm btn-outline-primary float-right" (click)="openAddPaymentDialog()">
+        <i class="fa fa-plus mr-1"></i>
+        Add Payment
+      </button>
+    </div>
+
+    <div class="card-body">
+
+      <div class="row">
+        <div class="col-6 col-lg-4">
+          <div class="card">
+            <div class="card-body p-3 clearfix">
+              <i class="fa fa-gift bg-primary p-3 font-2xl mr-3 float-left"></i>
+              <div class="h5 text-primary mb-0 mt-2">$15,225,000</div>
+              <div class="text-muted text-uppercase font-weight-bold font-xs">Total Committed</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-6 col-lg-4">
+          <div class="card">
+            <div class="card-body p-3 clearfix">
+              <i class="fa fa-money bg-success p-3 font-2xl mr-3 float-left"></i>
+              <div class="h5 text-success mb-0 mt-2">$11,476,000</div>
+              <div class="text-muted text-uppercase font-weight-bold font-xs">Total Paid</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-6 col-lg-4">
+          <div class="card">
+            <div class="card-body p-3 clearfix">
+              <i class="fa fa-clock-o bg-danger p-3 font-2xl mr-3 float-left"></i>
+              <div class="h5 text-danger mb-0 mt-2">$3,749,000</div>
+              <div class="text-muted text-uppercase font-weight-bold font-xs">Payments Pending</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="row mb-3">
+
+        <div class="col-md-5">
+          <mat-paginator class="paginator"
+                         [length]="totalRecords" [pageSize]="pageSize" [hidePageSize]="true"
+                         [showFirstLastButtons]="true"></mat-paginator>
+        </div>
+
+        <div class="col-md-5 offset-md-7">
+
+          <div class="input-group">
+
+            <div class="input-group-prepend">
+              <div class="input-group-text"><i class="fa fa-search"></i></div>
+            </div>
+            <label for="nameSearchFieldId" *ngIf="false"></label>
+            <input id="nameSearchFieldId" type="text" class="form-control" placeholder="Search by Name"
+                   [formControl]="sponsorListNameSearchFormControl" #nameSearchElementRef autocomplete="off"/>
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="table-container" #tableContainer>
+
+        <table mat-table [dataSource]="dataSource"
+               matSort matSortActive="sponsorSurname" matSortDirection="asc" matSortDisableClear="true"
+               class="table table-striped">
+
+          <ng-container matColumnDef="participant">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Participant</th>
+            <td mat-cell *matCellDef="let row">{{row.participant}}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="businessType">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Business Type</th>
+            <td mat-cell *matCellDef="let row">{{row.businessType}}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="loanTotal">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Loan Total</th>
+            <td mat-cell *matCellDef="let row">{{row.loanTotal}}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="amountPaid">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Amount Paid</th>
+            <td mat-cell *matCellDef="let row">{{row.amountPaid}}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="percentPaid">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Percent Paid</th>
+            <td mat-cell *matCellDef="let row">{{row.percentPaid}}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="remainingFunds">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Remaining Funds</th>
+            <td mat-cell *matCellDef="let row">{{row.remainingFunds}}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="percentRemaining">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Percent Remaining</th>
+            <td mat-cell *matCellDef="let row">{{row.percentRemaining}}</td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="openDetailPage(row);"></tr>
+        </table>
+
+        <mat-card class="spinner-container" *ngIf="isLoading">
+          <mat-progress-spinner
+            color="primary"
+            mode="indeterminate">
+          </mat-progress-spinner>
+        </mat-card>
+
+      </div>
+
+    </div>
+  </div>
+
+</div>
+

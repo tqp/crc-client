@@ -47,14 +47,26 @@ export const navItemsUser: INavData[] = [
     name: 'CRC Microfinance'
   },
   {
+    name: 'Summary',
+    url: '/crud-app',
+    icon: 'fa fa-list-alt',
+    children: [
+      {
+        name: 'By Participant',
+        url: '/microfinance/summary-by-participant',
+        icon: 'fa fa-sitemap'
+      },
+      {
+        name: 'By Payment Period',
+        url: '/microfinance/summary-by-payment-period',
+        icon: 'fa fa-male'
+      }
+    ]
+  },
+  {
     name: 'Payments',
     url: '/test-components/placeholder',
     icon: 'fa fa-money'
-  },
-  {
-    name: 'Summary',
-    url: '/test-components/placeholder',
-    icon: 'fa fa-list-alt'
   },
 
   {

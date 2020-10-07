@@ -1,0 +1,85 @@
+<h2 mat-dialog-title>
+  Add Payment
+</h2>
+
+<mat-dialog-content style="overflow: hidden">
+
+  <form [formGroup]="addPaymentForm">
+
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="form-group">
+          <label for="caregiverId">Select Recipient*</label>
+          <select id="caregiverId" class="form-control" formControlName="caregiverId">
+            <option value=0>Select a Caregiver</option>
+            <option *ngFor="let caregiver of caregiverList"
+                    value="{{caregiver.caregiverId}}">
+              {{caregiver.caregiverSurname}}, {{caregiver.caregiverGivenName}}
+            </option>
+          </select>
+          <mat-error *ngFor="let validation of validationMessages.caregiverId">
+            <mat-error class="error-message"
+                       *ngIf="addPaymentForm.get('caregiverId').hasError(validation.type)
+                                && (addPaymentForm.get('caregiverId').dirty ||
+                                addPaymentForm.get('caregiverId').touched)">
+              {{validation.message}}
+            </mat-error>
+          </mat-error>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="form-group">
+          <label for="relationshipEffectiveDate">Payment Date*</label>
+          <input id="relationshipEffectiveDate" type="text" class="form-control" bsDatepicker
+                 formControlName="relationshipEffectiveDate">
+          <mat-error *ngFor="let validation of validationMessages.relationshipEffectiveDate">
+            <mat-error class="error-message"
+                       *ngIf="addPaymentForm.get('relationshipEffectiveDate').hasError(validation.type)
+                                && (addPaymentForm.get('relationshipEffectiveDate').dirty ||
+                                addPaymentForm.get('relationshipEffectiveDate').touched)">
+              {{validation.message}}
+            </mat-error>
+          </mat-error>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="form-group">
+          <label for="tierTypeId">Payment Amount*</label>
+          <select id="tierTypeId" class="form-control" formControlName="tierTypeId">
+            <option value="">Select a Support Tier</option>
+            <option *ngFor="let tierType of tierTypeList"
+                    value="{{tierType.tierTypeId}}">
+              {{tierType.tierTypeName}}
+            </option>
+          </select>
+          <mat-error *ngFor="let validation of validationMessages.tierTypeId">
+            <mat-error class="error-message"
+                       *ngIf="addPaymentForm.get('tierTypeId').hasError(validation.type)
+                                && (addPaymentForm.get('tierTypeId').dirty ||
+                                addPaymentForm.get('tierTypeId').touched)">
+              {{validation.message}}
+            </mat-error>
+          </mat-error>
+        </div>
+      </div>
+    </div>
+
+
+  </form>
+
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-raised-button mat-dialog-close>Cancel</button>
+  <button mat-raised-button (click)="reset();">Reset</button>
+  <div fxFlex></div>
+  <button mat-raised-button mat-dialog-close color="primary" (click)="save();" [disabled]="!addPaymentForm.valid">
+    Save
+  </button>
+</mat-dialog-actions>
