@@ -32,7 +32,7 @@ export class MicrofinanceAddPaymentDialogComponent implements OnInit {
     ],
   };
 
-  constructor(private dialogRef: MatDialogRef<StudentCaregiverEditDialogComponent>,
+  constructor(private dialogRef: MatDialogRef<MicrofinanceAddPaymentDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
               private formBuilder: FormBuilder,
               private caregiverService: CaregiverService,

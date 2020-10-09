@@ -97,7 +97,7 @@ export class StudentDetailComponent implements OnInit {
     this.caregiverLoading = true;
     this.caregiverService.getCaregiverDetailByStudentId(studentId).subscribe(
       response => {
-        // console.log('response', response);
+        console.log('response', response);
         this.caregiver = response;
         this.caregiver.relationshipEffectiveDate = this.formattingService.formatMySqlDateAsStandard(this.caregiver.relationshipEffectiveDate);
         this.eventService.loadingEvent.emit(false);

@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { MicrofinanceSummaryComponent } from './microfinance-summary/microfinance-summary.component';
 import { MicrofinanceByParticipantComponent } from './microfinance-by-participant/microfinance-by-participant.component';
 import { MicrofinanceByPaymentPeriodComponent } from './microfinance-by-payment-period/microfinance-by-payment-period.component';
 
