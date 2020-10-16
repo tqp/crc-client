@@ -14,7 +14,7 @@ export const navItemsUser: INavData[] = [
   {
     name: 'Students',
     url: '/students/student-list',
-    icon: 'fa fa-group'
+    icon: 'fa fa-graduation-cap'
   },
   {
     name: 'Case Managers',
@@ -25,6 +25,11 @@ export const navItemsUser: INavData[] = [
     name: 'Caregivers',
     url: '/caregivers/caregiver-list',
     icon: 'fa fa-heartbeat'
+  },
+  {
+    name: 'Sponsors',
+    url: '/sponsors/sponsor-list',
+    icon: 'fa fa-handshake-o'
   },
 
   {
@@ -48,8 +53,20 @@ export const navItemsUser: INavData[] = [
   },
   {
     name: 'Summary',
-    url: '/test-components/placeholder',
-    icon: 'fa fa-list-alt'
+    url: '/crud-app',
+    icon: 'fa fa-list-alt',
+    children: [
+      {
+        name: 'By Participant',
+        url: '/microfinance/summary-by-participant',
+        icon: 'fa fa-male'
+      },
+      {
+        name: 'By Payment Period',
+        url: '/microfinance/summary-by-payment-period',
+        icon: 'fa fa-calendar'
+      }
+    ]
   },
 
   {

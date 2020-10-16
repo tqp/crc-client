@@ -10,7 +10,8 @@
           Displaying {{pageStart}} to {{pageEnd}} of {{totalRecords}} records</span>
         <span class="badge badge-warning ml-2" style="cursor: pointer" *ngIf="isFilterApplied" (click)="clearFilters()">Clear Filters</span>
       </div>
-      <button class="btn btn-sm btn-outline-primary float-right" (click)="openCreateCaseManagerPage()">
+      <button class="btn btn-sm btn-outline-primary float-right" (click)="openCreateCaseManagerPage()"
+              [hidden]="authService.allowRoles('ROLE_MANAGER, ROLE_ADMIN')">
         <i class="fa fa-plus mr-1"></i>
         Create Case Manager
       </button>
@@ -34,7 +35,7 @@
               <div class="input-group-text"><i class="fa fa-search"></i></div>
             </div>
             <label for="nameSearchFieldId" *ngIf="false"></label>
-            <input id="nameSearchFieldId" type="text" class="form-control" placeholder="Search by CaseManager Name"
+            <input id="nameSearchFieldId" type="text" class="form-control" placeholder="Search by Case Manager Name"
                    [formControl]="caseManagerListNameSearchFormControl" #nameSearchElementRef autocomplete="off"/>
           </div>
 

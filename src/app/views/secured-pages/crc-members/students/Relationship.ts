@@ -12,6 +12,7 @@ export class Relationship {
   public relationshipResidence?: number;
   public relationshipSupportDescription?: string;
   public relationshipComments?: string;
+  public relationshipEffectiveDate?: string;
   // Metadata
   public createdOn?: string;
   public createdBy?: string;

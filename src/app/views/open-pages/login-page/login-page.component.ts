@@ -74,7 +74,7 @@ export class LoginPageComponent implements OnInit {
   private getGoogleAuthConfig(): void {
     this.authService.getGoogleAuthConfig().subscribe(
       data => {
-        // console.log('GoogleAuthConfig:', data);
+        console.log('GoogleAuthConfig:', data);
         this.googleClientId = data.clientId;
         this.googleRedirectUri = data.redirectUri;
         if (this.loginForm.get('generalError').hasError('customValidator')) {

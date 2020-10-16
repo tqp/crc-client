@@ -11,7 +11,6 @@ import { TierType } from '../../../reference-tables/tier-type/TierType';
 import { StudentRelationshipEditDialogComponent } from '../student-relationship-edit-dialog/student-relationship-edit-dialog.component';
 import { Relationship } from '../Relationship';
 import { RelationshipService } from '../../relations/relationship.service';
-import { mergeMap } from 'rxjs/operators';
 import { StudentCaregiverEditDialogComponent } from '../student-caregiver-edit-dialog/student-caregiver-edit-dialog.component';
 import { StudentProgramStatusEditDialogComponent } from '../student-program-status-edit-dialog/student-program-status-edit-dialog.component';
 import { StudentCaseManagerEditDialogComponent } from '../student-case-manager-edit-dialog/student-case-manager-edit-dialog.component';
@@ -127,7 +126,7 @@ export class StudentDetailEditComponent implements OnInit {
     this.studentService.getStudentDetail(id).subscribe(
       response => {
         this.student = response;
-        // console.log('response', response);
+        console.log('getStudentDetail', response);
         // Personal Information
         this.studentEditForm.controls['studentId'].patchValue(this.student.studentId);
         this.studentEditForm.controls['studentSurname'].patchValue(this.student.studentSurname);
@@ -196,40 +195,6 @@ export class StudentDetailEditComponent implements OnInit {
     });
   }
 
-  public openStudentCaseManagerEditDialog(): void {
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.minWidth = '25%';
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true;
-    dialogConfig.data = {
-      action: 'create',
-      studentId: this.student.studentId
-    };
-    dialogConfig.autoFocus = false;
-    const dialogRef = this._matDialog.open(StudentCaseManagerEditDialogComponent, dialogConfig);
-
-    dialogRef.afterClosed().subscribe(dialogData => {
-      console.log('dialogClose', dialogData);
-    });
-  }
-
-  public openStudentSponsorEditDialog(): void {
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.minWidth = '25%';
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true;
-    dialogConfig.data = {
-      action: 'create',
-      studentId: this.student.studentId
-    };
-    dialogConfig.autoFocus = false;
-    const dialogRef = this._matDialog.open(StudentSponsorEditDialogComponent, dialogConfig);
-
-    dialogRef.afterClosed().subscribe(dialogData => {
-      console.log('dialogClose', dialogData);
-    });
-  }
-
   public openStudentCaregiverEditDialog(): void {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.minWidth = '25%';
@@ -254,7 +219,7 @@ export class StudentDetailEditComponent implements OnInit {
     });
   }
 
-  public openStudentRelationshipEditDialog(): void {
+  public openStudentCaseManagerEditDialog(): void {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.minWidth = '25%';
     dialogConfig.disableClose = true;
@@ -264,26 +229,34 @@ export class StudentDetailEditComponent implements OnInit {
       studentId: this.student.studentId
     };
     dialogConfig.autoFocus = false;
-    const dialogRef = this._matDialog.open(StudentRelationshipEditDialogComponent, dialogConfig);
+    const dialogRef = this._matDialog.open(StudentCaseManagerEditDialogComponent, dialogConfig);
 
     dialogRef.afterClosed().subscribe(dialogData => {
       console.log('dialogClose', dialogData);
-      this.relationship = dialogData;
-      console.log('this.relationship', this.relationship);
+      console.log('studentId', this.student.studentId);
+      const relationship: Relationship = {};
+      relationship.relationshipTypeId = 14; // Sponsor
+      relationship.studentId = this.student.studentId;
+      relationship.personId = dialogData.caregiverId;
+      relationship.relationshipComments = 'Meow';
+      this.relationshipService.createCaregiverRelationship(relationship);
+    });
+  }
 
-      // this.relationshipService.createPerson_Relationship(this.relationship).pipe(
-      //   mergeMap(newPersonId => {
-      //     console.log('newPersonId', newPersonId);
-      //     this.relationship.personId = newPersonId;
-      //     this.relationship.relationshipBloodRelative = 0;
-      //     console.log('this.relationship', this.relationship);
-      //     return this.relationshipService.createRelationship(this.relationship);
-      //   })
-      // ).subscribe(thing => {
-      //   console.log('this.student.studentId', this.student.studentId);
-      //   this.getRelationshipListByStudentId(this.student.studentId);
-      // });
+  public openStudentSponsorEditDialog(): void {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.minWidth = '25%';
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.data = {
+      action: 'create',
+      studentId: this.student.studentId
+    };
+    dialogConfig.autoFocus = false;
+    const dialogRef = this._matDialog.open(StudentSponsorEditDialogComponent, dialogConfig);
 
+    dialogRef.afterClosed().subscribe(dialogData => {
+      console.log('dialogClose', dialogData);
     });
   }
 

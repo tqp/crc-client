@@ -35,16 +35,16 @@ export class RelationDetailComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.route.params.forEach((params: Params) => {
-      if (params['id'] !== undefined) {
-        const relationId = params['id'];
-        // console.log('relationId', relationId);
-        this.getRelationDetail(relationId);
-        this.getRelationshipListByRelationId(relationId);
-      } else {
-        console.error('No ID was present.');
-      }
-    }).then();
+    // this.route.params.forEach((params: Params) => {
+    //   if (params['id'] !== undefined) {
+    //     const relationId = params['id'];
+    //     // console.log('relationId', relationId);
+    //     this.getRelationDetail(relationId);
+    //     this.getRelationshipListByRelationId(relationId);
+    //   } else {
+    //     console.error('No ID was present.');
+    //   }
+    // }).then();
   }
 
   private getRelationDetail(relationId: number): void {
@@ -61,20 +61,20 @@ export class RelationDetailComponent implements OnInit {
     );
   }
 
-  private getRelationshipListByRelationId(relationId: number): void {
-    this.relationshipService.getRelationshipListByRelationId(relationId).subscribe(
-      (relationshipList: Relationship[]) => {
-        console.log('relationshipList', relationshipList);
-        relationshipList.forEach(item => {
-          this.records.push(item);
-        });
-        this.dataSource = this.records;
-      },
-      error => {
-        console.error('Error: ', error);
-      }
-    );
-  }
+  // private getRelationshipListByRelationId(relationId: number): void {
+  //   this.relationshipService.getRelationshipListByRelationId(relationId).subscribe(
+  //     (relationshipList: Relationship[]) => {
+  //       console.log('relationshipList', relationshipList);
+  //       relationshipList.forEach(item => {
+  //         this.records.push(item);
+  //       });
+  //       this.dataSource = this.records;
+  //     },
+  //     error => {
+  //       console.error('Error: ', error);
+  //     }
+  //   );
+  // }
 
   // Buttons
 

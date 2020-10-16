@@ -2,13 +2,13 @@
 
   <div class="row">
     <div class="col-sm-6">
-      <h1>{{student.studentSurname}}, {{student.studentGivenName}}</h1>
+      <h1>
+        <i class="fa fa-graduation-cap"></i>
+        {{student.studentSurname}}, {{student.studentGivenName}}
+      </h1>
     </div>
     <div class="col-sm-6">
       <div class="form-group float-right">
-        <button class="btn btn-sm btn-outline-info" (click)="openEditPage()" style="width: 100px">
-          <u>E</u>dit
-        </button>
         <button class="btn btn-sm btn-outline-primary ml-3" (click)="returnToList()" style="width: 100px">
           Return to <u>L</u>ist
         </button>
@@ -24,6 +24,9 @@
           <i class="fa fa-user"></i>
           Personal Information
           <i *ngIf="studentLoading" class="fa fa-spinner fa-spin"></i>
+          <div class="card-header-actions" [hidden]="authService.allowRoles('ROLE_MANAGER, ROLE_ADMIN')">
+            <small class="tqp-nav-link" (click)="openEditPage();">Edit Student Info</small>
+          </div>
         </div>
         <div class="card-body">
           <dl class="row">
@@ -116,10 +119,10 @@
 
       <div class="card">
         <div class="card-header">
-          <i class="fa fa-user"></i>
+          <i class="fa fa-heartbeat"></i>
           Caregiver
           <i *ngIf="caregiverLoading" class="fa fa-spinner fa-spin"></i>
-          <div class="card-header-actions" [hidden]="authService.allowRoles('ROLE_USER, ROLE_ADMIN')">
+          <div class="card-header-actions" [hidden]="authService.allowRoles('ROLE_MANAGER, ROLE_ADMIN')">
             <small class="tqp-nav-link" (click)="openStudentCaregiverEditDialog();">Assign Caregiver</small>
           </div>
         </div>
@@ -133,12 +136,16 @@
             </dd>
           </dl>
           <dl class="row">
+            <dt class="col-sm-4">Assignment Date:</dt>
+            <dd class="col-sm-8">{{caregiver.relationshipEffectiveDate}}</dd>
+          </dl>
+          <dl class="row">
             <dt class="col-sm-4">Address:</dt>
             <dd class="col-sm-8">{{caregiver.caregiverAddress}}</dd>
           </dl>
           <dl class="row">
             <dt class="col-sm-4">Primary Phone:</dt>
-            <dd class="col-sm-8">{{caregiver.caregiverPrimaryPhone}}</dd>
+            <dd class="col-sm-8">{{caregiver.caregiverPhone}}</dd>
           </dl>
           <dl class="row">
             <dt class="col-sm-4">Support Tier:</dt>
@@ -157,8 +164,62 @@
 
       <div class="card">
         <div class="card-header">
-          <i class="fa fa-user"></i>
+          <i class="fa fa-folder"></i>
+          Case Manager
+          <i *ngIf="caregiverLoading" class="fa fa-spinner fa-spin"></i>
+          <div class="card-header-actions" [hidden]="authService.allowRoles('ROLE_MANAGER, ROLE_ADMIN')">
+            <small class="tqp-nav-link" (click)="openStudentCaseManagerEditDialog();">Assign Case Manager</small>
+          </div>
+        </div>
+        <div class="card-body" *ngIf="caseManager">
+          <dl class="row">
+            <dt class="col-sm-4">Case Manager:</dt>
+            <dd class="col-sm-8">
+            <span class="tqp-nav-link" [routerLink]="['/case-managers/case-manager-detail', caseManager.caseManagerId]">
+              {{caseManager.caseManagerGivenName}} {{caseManager.caseManagerSurname}}
+            </span>
+            </dd>
+          </dl>
+          <dl class="row">
+            <dt class="col-sm-4">Assignment Date:</dt>
+            <dd class="col-sm-8">{{caseManager.relationshipEffectiveDate}}</dd>
+          </dl>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-handshake-o"></i>
+          Sponsor
+          <i *ngIf="sponsorLoading" class="fa fa-spinner fa-spin"></i>
+          <div class="card-header-actions" [hidden]="authService.allowRoles('ROLE_MANAGER, ROLE_ADMIN')">
+            <small class="tqp-nav-link" (click)="openStudentSponsorEditDialog();">Assign Sponsor</small>
+          </div>
+        </div>
+        <div class="card-body" *ngIf="sponsor">
+          <dl class="row">
+            <dt class="col-sm-4">Sponsor:</dt>
+            <dd class="col-sm-8">
+              <span class="tqp-nav-link" [routerLink]="['/sponsors/sponsor-detail', sponsor.sponsorId]">
+                {{sponsor.sponsorGivenName}} {{sponsor.sponsorSurname}}
+              </span>
+            </dd>
+          </dl>
+          <dl class="row">
+            <dt class="col-sm-4">Assignment Date:</dt>
+            <dd class="col-sm-8">{{sponsor.relationshipEffectiveDate}}</dd>
+          </dl>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-handshake-o"></i>
           Program Status
+          <i *ngIf="sponsorLoading" class="fa fa-spinner fa-spin"></i>
+          <div class="card-header-actions" [hidden]="authService.allowRoles('ROLE_MANAGER, ROLE_ADMIN')">
+            <small class="tqp-nav-link" (click)="openStudentStatusEditDialog();">Assign Program Status</small>
+          </div>
         </div>
         <div class="card-body">
           <dl class="row">
@@ -168,40 +229,6 @@
           <dl class="row">
             <dt class="col-sm-4">Status Date:</dt>
             <dd class="col-sm-8">{{student.programStatusDate}}</dd>
-          </dl>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-header">
-          <i class="fa fa-user"></i>
-          Case Manager
-        </div>
-        <div class="card-body">
-          <dl class="row">
-            <dt class="col-sm-4">Case Manager:</dt>
-            <dd class="col-sm-8">{{student.caseManager}}</dd>
-          </dl>
-          <dl class="row">
-            <dt class="col-sm-4">Assignment Date:</dt>
-            <dd class="col-sm-8">{{student.caseManagerAssignmentDate}}</dd>
-          </dl>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-header">
-          <i class="fa fa-user"></i>
-          Sponsor
-        </div>
-        <div class="card-body">
-          <dl class="row">
-            <dt class="col-sm-4">Sponsor:</dt>
-            <dd class="col-sm-8">{{student.sponsor}}</dd>
-          </dl>
-          <dl class="row">
-            <dt class="col-sm-4">Assignment Date:</dt>
-            <dd class="col-sm-8">{{student.sponsorAssignmentDate}}</dd>
           </dl>
         </div>
       </div>

@@ -18,6 +18,7 @@ export class DefaultLayoutComponent implements OnInit {
   public sidebarMinimized = false;
   public navItems = null;
   public showLoadingIndicator = false;
+  public username: string;
 
   constructor(private http: HttpClient,
               private tokenService: TokenService,
@@ -39,6 +40,16 @@ export class DefaultLayoutComponent implements OnInit {
     // See token-storage.service.ts for the Observable.
     if (this.tokenService.getToken()) {
       this.setMenu(this.authService.getAuthoritiesFromToken());
+      this.authService.getTokenInfo().subscribe(
+        response => {
+          // console.log('response', response);
+          this.username = response.sub;
+        },
+        error => {
+          console.error('Error: ', error);
+          this.authService.errorHandler(error);
+        }
+      );
     } else {
       this.tokenStorageService.tokenObs.subscribe(token => {
         this.setMenu(this.authService.getAuthoritiesFromToken());

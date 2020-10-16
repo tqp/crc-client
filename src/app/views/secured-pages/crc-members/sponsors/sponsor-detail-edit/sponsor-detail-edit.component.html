@@ -1,0 +1,95 @@
+<div class="tqp-crud-detail-edit animated fadeIn" *ngIf="sponsor">
+
+  <form [formGroup]="sponsorEditForm">
+
+    <div class="row">
+
+      <div class="col-sm-6">
+        <h1 *ngIf="sponsor && newRecord && sponsorEditForm.controls['sponsorSurname'].value == ''; else notShow">
+          New Sponsor
+        </h1>
+        <ng-template #notShow>
+          <h1>
+            {{sponsorEditForm.controls['sponsorSurname'].value}}, {{sponsorEditForm.controls['sponsorGivenName'].value}}
+          </h1>
+        </ng-template>
+      </div>
+
+      <div class="col-sm-6">
+        <div class="form-group float-right">
+          <button type="button" class="btn btn-sm btn-outline-danger" style="width: 100px;" *ngIf="!newRecord"
+                  (click)="delete(sponsor.sponsorId)">
+            <!--            [disabled]="authService.allowRoles('ROLE_ADMIN')"-->
+            <u>D</u>elete
+          </button>
+          <button type="button" class="btn btn-sm btn-outline-success" style="width: 100px;" (click)="save()"
+                  [disabled]="!sponsorEditForm.valid">
+            <u>S</u>ave
+          </button>
+          <button type="button" class="btn btn-sm btn-outline-info ml-3" style="width: 100px;" (click)="cancel()">
+            <u>C</u>ancel
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="row">
+      <div class="col-lg-6 col-sm-12">
+
+        <div class="card">
+          <div class="card-header">
+            <i class="fa fa-user"></i>
+            Personal Information
+          </div>
+          <div class="card-body">
+
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="sponsorSurname">Surname</label>
+                  <input matInput id="sponsorSurname" #sponsorSurnameInputField type="text" class="form-control" placeholder="Surname"
+                         formControlName="sponsorSurname" autocomplete="chrome-off">
+                  <mat-error *ngFor="let validation of validationMessages.sponsorSurname">
+                    <mat-error class="error-message"
+                               *ngIf="sponsorEditForm.get('sponsorSurname').hasError(validation.type)
+                                && (sponsorEditForm.get('sponsorSurname').dirty ||
+                                sponsorEditForm.get('sponsorSurname').touched)">
+                      {{validation.message}}
+                    </mat-error>
+                  </mat-error>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="sponsorGivenName">Given Name</label>
+                  <input matInput id="sponsorGivenName" type="text" class="form-control" placeholder="Given Name"
+                         formControlName="sponsorGivenName">
+                  <mat-error *ngFor="let validation of validationMessages.sponsorGivenName">
+                    <mat-error class="error-message"
+                               *ngIf="sponsorEditForm.get('sponsorGivenName').hasError(validation.type)
+                                && (sponsorEditForm.get('sponsorGivenName').dirty ||
+                                sponsorEditForm.get('sponsorGivenName').touched)">
+                      {{validation.message}}
+                    </mat-error>
+                  </mat-error>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+      <div class="col-lg-6 col-sm-12">
+
+      </div>
+    </div>
+
+  </form>
+
+</div>

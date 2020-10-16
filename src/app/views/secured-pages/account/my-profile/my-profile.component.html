@@ -106,40 +106,40 @@
           <dl class="row">
             <dt class="col-sm-3">Open Endpoint Accesss:</dt>
             <dd class="col-sm-9">
-              <i class="fa fa-info-circle" *ngIf="openTestResult === 'Blocked'"></i>
-              <i class="fa fa-info-circle" *ngIf="openTestResult !== 'Blocked'"></i>
+              <i class="fa fa-close text-danger" *ngIf="openTestResult === 'Blocked'"></i>
+              <i class="fa fa-check text-success" *ngIf="openTestResult !== 'Blocked'"></i>
               {{openTestResult}}
             </dd>
           </dl>
           <dl class="row">
             <dt class="col-sm-3">User Endpoint Accesss:</dt>
             <dd class="col-sm-9">
-              <i class="fa fa-info-circle" *ngIf="userTestResult === 'Blocked'"></i>
-              <i class="fa fa-info-circle" *ngIf="userTestResult !== 'Blocked'"></i>
+              <i class="fa fa-close text-danger" *ngIf="userTestResult === 'Blocked'"></i>
+              <i class="fa fa-check text-success" *ngIf="userTestResult !== 'Blocked'"></i>
               {{userTestResult}}
             </dd>
           </dl>
           <dl class="row">
             <dt class="col-sm-3">Manager Endpoint Accesss:</dt>
             <dd class="col-sm-9">
-              <i class="fa fa-info-circle" *ngIf="managerTestResult === 'Blocked'"></i>
-              <i class="fa fa-info-circle" *ngIf="managerTestResult !== 'Blocked'"></i>
+              <i class="fa fa-close text-danger" *ngIf="managerTestResult === 'Blocked'"></i>
+              <i class="fa fa-check text-success" *ngIf="managerTestResult !== 'Blocked'"></i>
               {{managerTestResult}}
             </dd>
           </dl>
           <dl class="row">
             <dt class="col-sm-3">Admin Endpoint Accesss:</dt>
             <dd class="col-sm-9">
-              <i class="fa fa-info-circle" *ngIf="adminTestResult === 'Blocked'"></i>
-              <i class="fa fa-info-circle" *ngIf="adminTestResult !== 'Blocked'"></i>
+              <i class="fa fa-close text-danger" *ngIf="adminTestResult === 'Blocked'"></i>
+              <i class="fa fa-check text-success" *ngIf="adminTestResult !== 'Blocked'"></i>
               {{adminTestResult}}
             </dd>
           </dl>
           <dl class="row">
             <dt class="col-sm-3">Developer Endpoint Accesss:</dt>
             <dd class="col-sm-9">
-              <i class="fa fa-info-circle" *ngIf="developerTestResult === 'Blocked'"></i>
-              <i class="fa fa-info-circle" *ngIf="developerTestResult !== 'Blocked'"></i>
+              <i class="fa fa-close text-danger" *ngIf="developerTestResult === 'Blocked'"></i>
+              <i class="fa fa-check text-success" *ngIf="developerTestResult !== 'Blocked'"></i>
               {{developerTestResult}}
             </dd>
           </dl>

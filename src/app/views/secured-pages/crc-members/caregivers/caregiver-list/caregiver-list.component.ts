@@ -10,6 +10,7 @@ import { ServerSidePaginationResponse } from '../../../../../../@tqp/models/Serv
 import { merge, of } from 'rxjs';
 import { catchError, debounceTime, map, switchMap } from 'rxjs/operators';
 import { Caregiver } from '../Caregiver';
+import { AuthService } from '../../../../../../@tqp/services/auth.service';
 
 @Component({
   selector: 'app-caregiver-list',
@@ -51,7 +52,8 @@ export class CaregiverListComponent implements OnInit, AfterViewInit, OnDestroy 
 
   constructor(private caregiverService: CaregiverService,
               private eventService: EventService,
-              private router: Router) {
+              private router: Router,
+              public authService: AuthService) {
   }
 
   ngOnInit(): void {

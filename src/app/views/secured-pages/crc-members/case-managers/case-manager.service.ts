@@ -21,7 +21,7 @@ export class CaseManagerService {
               private tokenService: TokenService) { }
 
   public createCaseManager(caseManager: CaseManager): Observable<CaseManager> {
-    const url = environment.apiUrl + '/api/v1/caseManager/';
+    const url = environment.apiUrl + '/api/v1/case-manager/';
     const token = this.tokenService.getToken();
     if (token) {
       return this.http.post<CaseManager>(url,
@@ -63,7 +63,7 @@ export class CaseManagerService {
   }
 
   public getCaseManagerList_SSP(serverSideSearchParams: ServerSidePaginationRequest): Observable<ServerSidePaginationResponse<CaseManager>> {
-    const url = environment.apiUrl + '/api/v1/caseManager/ssp';
+    const url = environment.apiUrl + '/api/v1/case-manager/ssp';
     const token = this.tokenService.getToken();
     if (token) {
       return this.http.post<ServerSidePaginationResponse<CaseManager>>(url,
@@ -85,7 +85,7 @@ export class CaseManagerService {
   }
 
   public getCaseManagerDetail(caseManagerId: number) {
-    const url = environment.apiUrl + '/api/v1/caseManager/' + caseManagerId;
+    const url = environment.apiUrl + '/api/v1/case-manager/' + caseManagerId;
     const token = this.tokenService.getToken();
     if (token) {
       return this.http.get<CaseManager>(url,
@@ -106,7 +106,7 @@ export class CaseManagerService {
   }
 
   public updateCaseManager(caseManager: CaseManager): Observable<CaseManager> {
-    const url = environment.apiUrl + '/api/v1/caseManager/';
+    const url = environment.apiUrl + '/api/v1/case-manager/';
     const token = this.tokenService.getToken();
     if (token) {
       return this.http.put<CaseManager>(url,
@@ -128,7 +128,7 @@ export class CaseManagerService {
   }
 
   public deleteCaseManager(caseManagerId: number): Observable<string> {
-    const url = environment.apiUrl + '/api/v1/caseManager/' + caseManagerId;
+    const url = environment.apiUrl + '/api/v1/case-manager/' + caseManagerId;
     const token = this.tokenService.getToken();
     if (token) {
       return this.http.delete<string>(url,
@@ -147,6 +147,31 @@ export class CaseManagerService {
       return null;
     }
   }
+
+  // Relationship
+
+  public getCaseManagerDetailByStudentId(studentId: number): Observable<CaseManager> {
+    const url = environment.apiUrl + '/api/v1/case-manager/student/' + studentId;
+    const token = this.tokenService.getToken();
+    if (token) {
+      return this.http.get<CaseManager>(url,
+        {
+          headers: this.httpService.setHeadersWithToken(),
+          observe: 'response',
+          params: {}
+        })
+        .pipe(
+          map(res => {
+            return res.body;
+          })
+        );
+    } else {
+      console.error('No token was present.');
+      return null;
+    }
+  }
+
+  // Remembered Fields
 
   public setCaseManagerListNameSearchValue(val) {
     this.caseManagerListNameSearchValue = val;

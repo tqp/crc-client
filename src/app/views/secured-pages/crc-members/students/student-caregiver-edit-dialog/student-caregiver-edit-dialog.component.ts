@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { CaregiverService } from '../../caregivers/caregiver.service';
@@ -7,11 +7,13 @@ import { RelationshipType } from '../../../reference-tables/relationship-type/Re
 import { RelationshipTypeService } from '../../../reference-tables/relationship-type/relationship-type.service';
 import { TierType } from '../../../reference-tables/tier-type/TierType';
 import { TierTypeService } from '../../../reference-tables/tier-type/tier-type.service';
+import { FormattingService } from '../../../../../../@tqp/services/formatting.service';
 
 @Component({
   selector: 'app-student-caregiver-edit-dialog',
   templateUrl: './student-caregiver-edit-dialog.component.html',
-  styleUrls: ['./student-caregiver-edit-dialog.component.css']
+  styleUrls: ['./student-caregiver-edit-dialog.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class StudentCaregiverEditDialogComponent implements OnInit {
   public studentCaregiverEditForm: FormGroup;
@@ -23,12 +25,12 @@ export class StudentCaregiverEditDialogComponent implements OnInit {
     'caregiverId': [
       {type: 'required', message: 'A Caregiver is required'}
     ],
-    // 'relationshipTypeId': [
-    //   {type: 'required', message: 'A Relationship Type is required'}
-    // ],
     'tierTypeId': [
       {type: 'required', message: 'A Support Tier is required'}
-    ]
+    ],
+    'relationshipEffectiveDate': [
+      {type: 'required', message: 'An Effective Date is required'}
+    ],
   };
 
   constructor(private dialogRef: MatDialogRef<StudentCaregiverEditDialogComponent>,
@@ -36,10 +38,10 @@ export class StudentCaregiverEditDialogComponent implements OnInit {
               private formBuilder: FormBuilder,
               private caregiverService: CaregiverService,
               private relationshipTypeService: RelationshipTypeService,
-              private tierTypeService: TierTypeService
+              private tierTypeService: TierTypeService,
+              private formattingService: FormattingService
   ) {
     this.getCaregiverList();
-    // this.getRelationshipTypeList();
     this.getSupportTierList();
   }
 
@@ -50,8 +52,8 @@ export class StudentCaregiverEditDialogComponent implements OnInit {
   private initializeForm(): void {
     this.studentCaregiverEditForm = this.formBuilder.group({
       caregiverId: new FormControl(0, Validators.required),
-      // relationshipTypeId: new FormControl('', Validators.required),
-      tierTypeId: new FormControl('', Validators.required)
+      tierTypeId: new FormControl('', Validators.required),
+      relationshipEffectiveDate: new FormControl('', Validators.required)
     });
 
     // setTimeout(() => {
@@ -73,18 +75,6 @@ export class StudentCaregiverEditDialogComponent implements OnInit {
     );
   }
 
-  // private getRelationshipTypeList(): void {
-  //   this.relationshipTypeService.getRelationshipTypeList().subscribe(
-  //     (response: RelationshipType[]) => {
-  //       console.log('response', response);
-  //       this.relationshipTypeList = response;
-  //     },
-  //     error => {
-  //       console.error('Error: ', error);
-  //     }
-  //   );
-  // }
-
   private getSupportTierList(): void {
     this.tierTypeService.getTierTypeList().subscribe(
       (response: TierType[]) => {
@@ -96,8 +86,6 @@ export class StudentCaregiverEditDialogComponent implements OnInit {
       }
     );
   }
-
-
 
   // BUTTONS
 

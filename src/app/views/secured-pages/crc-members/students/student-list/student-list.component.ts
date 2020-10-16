@@ -10,6 +10,7 @@ import { catchError, debounceTime, map, switchMap } from 'rxjs/operators';
 import { merge, of } from 'rxjs';
 import { StudentService } from '../student.service';
 import { Student } from '../Student';
+import { AuthService } from '../../../../../../@tqp/services/auth.service';
 
 @Component({
   selector: 'app-student-list',
@@ -51,7 +52,8 @@ export class StudentListComponent implements OnInit, AfterViewInit, OnDestroy {
 
   constructor(private studentService: StudentService,
               private eventService: EventService,
-              private router: Router) {
+              private router: Router,
+              public authService: AuthService) {
   }
 
   ngOnInit(): void {

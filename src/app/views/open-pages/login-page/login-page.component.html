@@ -13,11 +13,6 @@
                   <h1>CRC Staff Login</h1>
                   <p class="text-muted">Sign in to your account.</p>
 
-                  <!--
-                  <p>googleClientId: {{googleClientId}}</p>
-                  <p>googleRedirectUri: {{googleRedirectUri}}</p>
-                  -->
-
                   <div class="row mb-3">
                     <div class="col-12">
                       <form ngNoForm action="https://accounts.google.com/o/oauth2/v2/auth" method="GET"
@@ -92,6 +87,9 @@
                       b: {{errorMessage}}
                     </mat-error>
                   </div>
+
+                  <p>googleClientId: {{googleClientId}}</p>
+                  <p>googleRedirectUri: {{googleRedirectUri}}</p>
                 </form>
               </div>
             </div>

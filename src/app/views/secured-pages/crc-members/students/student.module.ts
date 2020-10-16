@@ -15,6 +15,7 @@ import { StudentCaregiverEditDialogComponent } from './student-caregiver-edit-di
 import { StudentProgramStatusEditDialogComponent } from './student-program-status-edit-dialog/student-program-status-edit-dialog.component';
 import { StudentCaseManagerEditDialogComponent } from './student-case-manager-edit-dialog/student-case-manager-edit-dialog.component';
 import { StudentSponsorEditDialogComponent } from './student-sponsor-edit-dialog/student-sponsor-edit-dialog.component';
+import { StudentStatusEditDialogComponent } from './student-status-edit-dialog/student-status-edit-dialog.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { StudentSponsorEditDialogComponent } from './student-sponsor-edit-dialog
     StudentCaregiverEditDialogComponent,
     StudentProgramStatusEditDialogComponent,
     StudentCaseManagerEditDialogComponent,
-    StudentSponsorEditDialogComponent
+    StudentSponsorEditDialogComponent,
+    StudentStatusEditDialogComponent
   ],
   imports: [
     CommonModule,

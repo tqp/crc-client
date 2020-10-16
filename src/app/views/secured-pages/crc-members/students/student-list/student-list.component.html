@@ -4,13 +4,14 @@
 
     <div class="card-header">
       <div class="float-left" style="line-height: 28px;">
-        <i class="fa fa-users mr-2"></i>
+        <i class="fa fa-graduation-cap mr-2"></i>
         {{listTitle}}
         <span class="badge badge-info ml-2" *ngIf="loadedFirstPage">
           Displaying {{pageStart}} to {{pageEnd}} of {{totalRecords}} records</span>
         <span class="badge badge-warning ml-2" style="cursor: pointer" *ngIf="isFilterApplied" (click)="clearFilters()">Clear Filters</span>
       </div>
-      <button class="btn btn-sm btn-outline-primary float-right" (click)="openCreateStudentPage()">
+      <button class="btn btn-sm btn-outline-primary float-right" (click)="openCreateStudentPage()"
+              [hidden]="authService.allowRoles('ROLE_MANAGER, ROLE_ADMIN')">
         <i class="fa fa-plus mr-1"></i>
         Create Student
       </button>
