@@ -33,7 +33,11 @@ export class StudentListComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public displayedColumns: string[] = [
     'studentSurname',
-    'studentGivenName'
+    'studentGivenName',
+    'address',
+    'supportTier',
+    'caregiverPhone',
+    'caregiverName'
   ];
 
   public studentListNameSearchFormControl = new FormControl();

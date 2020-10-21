@@ -59,6 +59,36 @@
             <td mat-cell *matCellDef="let row">{{row.caregiverGivenName}}</td>
           </ng-container>
 
+          <ng-container matColumnDef="caregiverPhone">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Phone Number</th>
+            <td mat-cell *matCellDef="let row">{{row.caregiverPhone}}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="caregiverEmail">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Email</th>
+            <td mat-cell *matCellDef="let row">{{row.caregiverEmail}}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="caregiverAddress">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Address</th>
+            <td mat-cell *matCellDef="let row">{{row.caregiverAddress}}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="caregiverNumberOfStudents">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header># Students</th>
+            <td mat-cell *matCellDef="let row">{{row.studentCount}}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="caregiverMicrofinance">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Microfinance</th>
+            <td mat-cell *matCellDef="let row">Yes</td>
+          </ng-container>
+
+          <ng-container matColumnDef="caregiverFamilySupport">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Family Support</th>
+            <td mat-cell *matCellDef="let row">Yes</td>
+          </ng-container>
+
           <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="openDetailPage(row);"></tr>
         </table>

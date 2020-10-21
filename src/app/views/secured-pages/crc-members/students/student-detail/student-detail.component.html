@@ -46,10 +46,6 @@
             <dd class="col-sm-8">{{student.studentDateOfBirth | date: 'MM/dd/yyyy'}}</dd>
           </dl>
           <dl class="row">
-            <dt class="col-sm-4">Support Tier:</dt>
-            <dd class="col-sm-8">{{student.tierTypeName}}</dd>
-          </dl>
-          <dl class="row">
             <dt class="col-sm-4">School:</dt>
             <dd class="col-sm-8">{{student.studentSchool}}</dd>
           </dl>
@@ -67,7 +63,7 @@
       <div class="card">
         <div class="card-header">
           <i class="fa fa-group"></i>
-          Events
+          Student Visits
         </div>
         <div class="card-body">
 
@@ -105,7 +101,7 @@
             </table>
 
             <div class="no-records" *ngIf="dataSource && dataSource.length <= 0">
-              No records to display.
+              Date, Visit Type, Interaction Type, Case Manager
             </div>
 
           </div>
@@ -113,9 +109,81 @@
         </div>
       </div>
 
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-group"></i>
+          CRC Events (Pause)
+        </div>
+        <div class="card-body">
+
+          <div class="table-container">
+
+            <table mat-table [dataSource]="dataSource" *ngIf="dataSource && dataSource.length > 0"
+                   matSort matSortActive="lastName" matSortDirection="asc" matSortDisableClear="true"
+                   class="table">
+
+              <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef>Name</th>
+                <td mat-cell *matCellDef="let row">
+                  <a [routerLink]="['/relation/relation-detail', row.personId]">
+                    {{row.personGivenName}} {{row.personSurname}}
+                  </a>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="relationship">
+                <th mat-header-cell *matHeaderCellDef>Relationship</th>
+                <td mat-cell *matCellDef="let row">
+                  {{row.relationshipTypeName}}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="bloodRelative">
+                <th mat-header-cell *matHeaderCellDef>Blood Relative</th>
+                <td mat-cell *matCellDef="let row">
+                  {{row.relationshipBloodRelative ? 'Yes' : 'No'}}
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true" [hidden]="false"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+
+            <div class="no-records" *ngIf="dataSource && dataSource.length <= 0">
+              Date, Event Type, POC (Case Manager/ Caregiver)
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+
+
     </div>
 
     <div class="col-lg-6 col-sm-12">
+
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-handshake-o"></i>
+          Program Status
+          <i *ngIf="sponsorLoading" class="fa fa-spinner fa-spin"></i>
+          <div class="card-header-actions" [hidden]="authService.allowRoles('ROLE_MANAGER, ROLE_ADMIN')">
+            <small class="tqp-nav-link" (click)="openStudentStatusEditDialog();">Assign Program Status</small>
+          </div>
+        </div>
+        <div class="card-body">
+          <dl class="row">
+            <dt class="col-sm-4">Program Status:</dt>
+            <dd class="col-sm-8">{{student.programStatus}}</dd>
+          </dl>
+          <dl class="row">
+            <dt class="col-sm-4">Status Date:</dt>
+            <dd class="col-sm-8">{{student.programStatusDate}}</dd>
+          </dl>
+        </div>
+      </div>
 
       <div class="card">
         <div class="card-header">
@@ -208,27 +276,6 @@
           <dl class="row">
             <dt class="col-sm-4">Assignment Date:</dt>
             <dd class="col-sm-8">{{sponsor.relationshipEffectiveDate}}</dd>
-          </dl>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-header">
-          <i class="fa fa-handshake-o"></i>
-          Program Status
-          <i *ngIf="sponsorLoading" class="fa fa-spinner fa-spin"></i>
-          <div class="card-header-actions" [hidden]="authService.allowRoles('ROLE_MANAGER, ROLE_ADMIN')">
-            <small class="tqp-nav-link" (click)="openStudentStatusEditDialog();">Assign Program Status</small>
-          </div>
-        </div>
-        <div class="card-body">
-          <dl class="row">
-            <dt class="col-sm-4">Program Status:</dt>
-            <dd class="col-sm-8">{{student.programStatus}}</dd>
-          </dl>
-          <dl class="row">
-            <dt class="col-sm-4">Status Date:</dt>
-            <dd class="col-sm-8">{{student.programStatusDate}}</dd>
           </dl>
         </div>
       </div>

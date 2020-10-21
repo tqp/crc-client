@@ -56,7 +56,7 @@ export class CaseManagerDetailComponent implements OnInit {
     this.caseManagerService.getCaseManagerDetail(caseManagerId).subscribe(
       response => {
         this.caseManager = response;
-        // console.log('response', response);
+        console.log('response', response);
         this.eventService.loadingEvent.emit(false);
         this.caseManagerLoading = false;
       },
@@ -69,7 +69,7 @@ export class CaseManagerDetailComponent implements OnInit {
   private getRelationshipListByPersonId(caseManagerId: number): void {
     this.relationshipService.getRelationshipListByPersonId(caseManagerId).subscribe(
       (studentList: Student[]) => {
-        console.log('studentList', studentList);
+        // console.log('studentList', studentList);
         studentList.forEach(item => {
           this.records.push(item);
         });

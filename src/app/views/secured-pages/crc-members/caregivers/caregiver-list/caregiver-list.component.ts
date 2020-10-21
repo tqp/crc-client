@@ -33,7 +33,13 @@ export class CaregiverListComponent implements OnInit, AfterViewInit, OnDestroy 
 
   public displayedColumns: string[] = [
     'caregiverSurname',
-    'caregiverGivenName'
+    'caregiverGivenName',
+    'caregiverPhone',
+    'caregiverEmail',
+    'caregiverAddress',
+    'caregiverNumberOfStudents',
+    'caregiverMicrofinance',
+    'caregiverFamilySupport'
   ];
 
   public caregiverListNameSearchFormControl = new FormControl();

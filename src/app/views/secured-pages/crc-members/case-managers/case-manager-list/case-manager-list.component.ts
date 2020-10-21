@@ -33,7 +33,11 @@ export class CaseManagerListComponent implements OnInit, AfterViewInit, OnDestro
 
   public displayedColumns: string[] = [
     'caseManagerSurname',
-    'caseManagerGivenName'
+    'caseManagerGivenName',
+    'caseManagerPhone',
+    'caseManagerEmail',
+    'caseManagerNumberOfStudents',
+    'caseManagerRegionOfCases'
   ];
 
   public caseManagerListNameSearchFormControl = new FormControl();

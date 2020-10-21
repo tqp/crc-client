@@ -56,7 +56,7 @@ export class CaregiverDetailComponent implements OnInit {
     this.caregiverService.getCaregiverDetail(caregiverId).subscribe(
       response => {
         this.caregiver = response;
-        // console.log('response', response);
+        console.log('response', response);
         this.eventService.loadingEvent.emit(false);
         this.caregiverLoading = false;
       },

@@ -33,7 +33,9 @@ export class SponsorListComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public displayedColumns: string[] = [
     'sponsorSurname',
-    'sponsorGivenName'
+    'sponsorGivenName',
+    'sponsorAddress',
+    'sponsorNumberOfStudents'
   ];
 
   public sponsorListNameSearchFormControl = new FormControl();

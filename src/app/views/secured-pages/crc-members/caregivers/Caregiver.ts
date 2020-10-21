@@ -5,6 +5,7 @@ export class Caregiver {
 
   public caregiverAddress?: string;
   public caregiverPhone?: string;
+  public caregiverEmail?: string;
   public caregiverSupportTier?: string;
   public caregiverFamilyRelationship?: string;
   public caregiverOriginalFamilyImpact?: string;
