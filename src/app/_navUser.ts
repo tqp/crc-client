@@ -48,12 +48,12 @@ export const navItemsUser: INavData[] = [
   },
   {
     name: 'Payments',
-    url: '/test-components/placeholder',
+    url: '/finance/payment-list',
     icon: 'fa fa-money'
   },
   {
     name: 'Summary',
-    url: '/finance',
+    url: '/crud-app',
     icon: 'fa fa-list-alt',
     children: [
       {

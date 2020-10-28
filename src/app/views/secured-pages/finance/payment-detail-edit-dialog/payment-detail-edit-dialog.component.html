@@ -1,0 +1,99 @@
+<h2 mat-dialog-title>
+  Add Payment
+</h2>
+
+<mat-dialog-content style="overflow: hidden">
+
+  <form [formGroup]="paymentEditForm">
+
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="form-group">
+          <label for="caregiverId">Participant*</label>
+          <select id="caregiverId" class="form-control" formControlName="caregiverId" (change)="caregiverChanged($event)">
+            <option value=0>Select a Caregiver</option>
+            <option *ngFor="let caregiver of caregiverList"
+                    value="{{caregiver.caregiverId}}">
+              {{caregiver.caregiverSurname}}, {{caregiver.caregiverGivenName}}
+            </option>
+          </select>
+          <mat-error *ngFor="let validation of validationMessages.caregiverId">
+            <mat-error class="error-message"
+                       *ngIf="paymentEditForm.get('caregiverId').hasError(validation.type)
+                                && (paymentEditForm.get('caregiverId').dirty ||
+                                paymentEditForm.get('caregiverId').touched)">
+              {{validation.message}}
+            </mat-error>
+          </mat-error>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="form-group">
+          <label for="loanId">Loan*</label>
+          <select id="loanId" class="form-control" formControlName="loanId">
+            <option value=0>Select a Loan</option>
+            <option *ngFor="let loan of loanList" value="{{loan.loanId}}">
+              {{('00000' + loan.loanId).slice(-5)}}: {{loan.loanDescription}}
+            </option>
+          </select>
+          <mat-error *ngFor="let validation of validationMessages.loanId">
+            <mat-error class="error-message"
+                       *ngIf="paymentEditForm.get('loanId').hasError(validation.type)
+                                && (paymentEditForm.get('loanId').dirty ||
+                                paymentEditForm.get('loanId').touched)">
+              {{validation.message}}
+            </mat-error>
+          </mat-error>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="form-group">
+          <label for="paymentDate">Payment Date*</label>
+          <input id="paymentDate" type="text" class="form-control" bsDatepicker formControlName="paymentDate">
+          <mat-error *ngFor="let validation of validationMessages.paymentDate">
+            <mat-error class="error-message"
+                       *ngIf="paymentEditForm.get('paymentDate').hasError(validation.type)
+                                && (paymentEditForm.get('paymentDate').dirty ||
+                                paymentEditForm.get('paymentDate').touched)">
+              {{validation.message}}
+            </mat-error>
+          </mat-error>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="form-group">
+          <label for="paymentAmount">Payment Amount*</label>
+          <input id="paymentAmount" type="text" class="form-control" formControlName="paymentAmount">
+          <mat-error *ngFor="let validation of validationMessages.paymentAmount">
+            <mat-error class="error-message"
+                       *ngIf="paymentEditForm.get('paymentAmount').hasError(validation.type)
+                                && (paymentEditForm.get('paymentAmount').dirty ||
+                                paymentEditForm.get('paymentAmount').touched)">
+              {{validation.message}}
+            </mat-error>
+          </mat-error>
+        </div>
+      </div>
+    </div>
+
+  </form>
+
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-raised-button mat-dialog-close>Cancel</button>
+  <button mat-raised-button (click)="reset();">Reset</button>
+  <div fxFlex></div>
+  <button mat-raised-button mat-dialog-close color="primary" (click)="save();" [disabled]="!paymentEditForm.valid">
+    Save
+  </button>
+</mat-dialog-actions>

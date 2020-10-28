@@ -173,6 +173,27 @@ export class CaregiverService {
     }
   }
 
+  public getCaregiverWithLoanList(): Observable<Caregiver[]> {
+    const url = environment.apiUrl + '/api/v1/caregiver/with-loan';
+    const token = this.tokenService.getToken();
+    if (token) {
+      return this.http.get<Caregiver[]>(url,
+        {
+          headers: this.httpService.setHeadersWithToken(),
+          observe: 'response',
+          params: {}
+        })
+        .pipe(
+          map(res => {
+            return res.body;
+          })
+        );
+    } else {
+      console.error('No token was present.');
+      return null;
+    }
+  }
+
   // PERSISTENT FIELDS
 
   public setCaregiverListNameSearchValue(val) {

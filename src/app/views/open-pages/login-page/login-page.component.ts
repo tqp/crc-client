@@ -106,7 +106,7 @@ export class LoginPageComponent implements OnInit {
         this.errorMessage = 'That User is currently disabled.';
         break;
       case 'CannotConnectToServer':
-        this.errorMessage = 'Cannot connect to the server1.';
+        this.errorMessage = 'Cannot connect to the server.';
         // Check again to see if server is back up.
         setTimeout(() => {
           console.log('Checking server connection...');

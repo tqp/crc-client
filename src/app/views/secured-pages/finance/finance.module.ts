@@ -11,6 +11,11 @@ import { FinanceReportByPaymentPeriodComponent } from './finance-report-by-payme
 import { FinanceReportByParticipantComponent } from './finance-report-by-participant/finance-report-by-participant.component';
 import { PaymentListComponent } from './payment-list/payment-list.component';
 import { FinanceAddPaymentDialogComponent } from './finance-add-payment-dialog/finance-add-payment-dialog.component';
+import { PaymentDetailComponent } from './payment-detail/payment-detail.component';
+import { PaymentDetailEditDialogComponent } from './payment-detail-edit-dialog/payment-detail-edit-dialog.component';
+import { LoanListComponent } from './loan-list/loan-list.component';
+import { LoanDetailComponent } from './loan-detail/loan-detail.component';
+import { LoanDetailEditComponent } from './loan-detail-edit/loan-detail-edit.component';
 
 
 @NgModule({
@@ -18,7 +23,12 @@ import { FinanceAddPaymentDialogComponent } from './finance-add-payment-dialog/f
     FinanceAddPaymentDialogComponent,
     FinanceReportByPaymentPeriodComponent,
     FinanceReportByParticipantComponent,
-    PaymentListComponent
+    PaymentListComponent,
+    PaymentDetailComponent,
+    PaymentDetailEditDialogComponent,
+    LoanListComponent,
+    LoanDetailComponent,
+    LoanDetailEditComponent
   ],
   imports: [
     CommonModule,

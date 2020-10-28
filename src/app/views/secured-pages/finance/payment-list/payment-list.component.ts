@@ -10,7 +10,11 @@ import { ServerSidePaginationResponse } from '../../../../../@tqp/models/ServerS
 import { merge, of } from 'rxjs';
 import { catchError, debounceTime, map, switchMap } from 'rxjs/operators';
 import { FinanceService } from '../finance.service';
-import { Finance } from '../Finance';
+import { Loan } from '../Loan';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { PaymentDetailEditDialogComponent } from '../payment-detail-edit-dialog/payment-detail-edit-dialog.component';
+import { Payment } from '../Payment';
+import { FormattingService } from '../../../../../@tqp/services/formatting.service';
 
 @Component({
   selector: 'app-payment-list',
@@ -32,14 +36,15 @@ export class PaymentListComponent implements OnInit, AfterViewInit, OnDestroy {
   public displayedColumns: string[] = [
     'participant',
     'loanId',
+    'loanDescription',
     'paymentDate',
     'paymentAmount'
   ];
 
   public caregiverListNameSearchFormControl = new FormControl();
 
-  public records: Finance[] = [];
-  public dataSource: Finance[] = [];
+  public records: Loan[] = [];
+  public dataSource: Loan[] = [];
   public stateList: string[] = [];
 
   public totalRecords: number;
@@ -52,8 +57,10 @@ export class PaymentListComponent implements OnInit, AfterViewInit, OnDestroy {
 
   constructor(private financeService: FinanceService,
               private eventService: EventService,
+              private formattingService: FormattingService,
               private router: Router,
-              public authService: AuthService) {
+              public authService: AuthService,
+              public _matDialog: MatDialog) {
   }
 
   ngOnInit(): void {
@@ -95,8 +102,8 @@ export class PaymentListComponent implements OnInit, AfterViewInit, OnDestroy {
   private getPage(searchParams: ServerSidePaginationRequest) {
     this.isLoading = true;
     this.eventService.loadingEvent.emit(true);
-    this.financeService.getPaymentList_SSP(searchParams).subscribe((response: ServerSidePaginationResponse<Finance>) => {
-        console.log('getPage response', response);
+    this.financeService.getPaymentList_SSP(searchParams).subscribe((response: ServerSidePaginationResponse<Loan>) => {
+        // console.log('getPage response', response);
         response.data.forEach(item => {
           this.records.push(item);
         }, error => {
@@ -158,7 +165,7 @@ export class PaymentListComponent implements OnInit, AfterViewInit, OnDestroy {
           this.isFilterApplied = nameFilter;
           return this.financeService.getPaymentList_SSP(serverSideSearchParams);
         }),
-        map((response: ServerSidePaginationResponse<Finance>) => {
+        map((response: ServerSidePaginationResponse<Loan>) => {
           return response;
         }),
         catchError((error: any) => {
@@ -168,7 +175,7 @@ export class PaymentListComponent implements OnInit, AfterViewInit, OnDestroy {
           return of([]);
         })
       )
-      .subscribe((response: ServerSidePaginationResponse<Finance>) => {
+      .subscribe((response: ServerSidePaginationResponse<Loan>) => {
           this.records = [];
           response.data.forEach(item => {
             this.records.push(item);
@@ -198,8 +205,37 @@ export class PaymentListComponent implements OnInit, AfterViewInit, OnDestroy {
     this.caregiverListNameSearchFormControl.setValue('');
   }
 
-  public openCreateCaregiverPage(): void {
-    this.router.navigate(['caregivers/caregiver-create']).then();
+  public openPaymentEditDialog(): void {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.minWidth = '25%';
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.data = {
+      action: 'create',
+    };
+    dialogConfig.autoFocus = false;
+    const dialogRef = this._matDialog.open(PaymentDetailEditDialogComponent, dialogConfig);
+
+    dialogRef.afterClosed().subscribe(dialogData => {
+      console.log('dialogData', dialogData);
+      if (dialogData) {
+        const payment: Payment = {};
+        payment.caregiverId = dialogData.caregiverId;
+        payment.loanId = dialogData.loanId;
+        payment.paymentDate = this.formattingService.formatStandardDateAsMySql(dialogData.paymentDate);
+        payment.paymentAmount = dialogData.paymentAmount;
+        console.log('payment', payment);
+        this.financeService.addPayment(payment).subscribe(
+          response => {
+            console.log('response', response);
+            this.getPage(this.searchParams);
+          },
+          error => {
+            console.error('Error: ', error);
+          }
+        );
+      }
+    });
   }
 
   public openDetailPage(row: any): void {
@@ -212,19 +248,6 @@ export class PaymentListComponent implements OnInit, AfterViewInit, OnDestroy {
       event.preventDefault();
       this.caregiverListNameSearchFormControl.setValue('');
       this.nameSearchElementRef.nativeElement.focus();
-    }
-    if (event.ctrlKey && event.key === 'c') {
-      event.preventDefault();
-      this.openCreateCaregiverPage();
-    }
-    if (event.ctrlKey && event.key === ',') {
-      event.preventDefault();
-      // console.log('next', this.paginator.pageIndex);
-      // this.paginator.pageIndex = 0;
-    }
-    if (event.ctrlKey && event.key === '.') {
-      event.preventDefault();
-      // console.log('next', this.paginator.pageIndex);
     }
   }
 }

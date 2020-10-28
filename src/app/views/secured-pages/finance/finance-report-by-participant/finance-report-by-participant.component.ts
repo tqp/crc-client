@@ -12,7 +12,7 @@ import { merge, of } from 'rxjs';
 import { catchError, debounceTime, map, switchMap } from 'rxjs/operators';
 import { FinanceService } from '../finance.service';
 import { FinanceAddPaymentDialogComponent } from '../finance-add-payment-dialog/finance-add-payment-dialog.component';
-import { Finance } from '../Finance';
+import { Loan } from '../Loan';
 
 @Component({
   selector: 'app-finance-report-by-participant',
@@ -46,8 +46,8 @@ export class FinanceReportByParticipantComponent implements OnInit, AfterViewIni
 
   public sponsorListNameSearchFormControl = new FormControl();
 
-  public records: Finance[] = [];
-  public dataSource: Finance[] = [];
+  public records: Loan[] = [];
+  public dataSource: Loan[] = [];
   public stateList: string[] = [];
 
   public totalRecords: number;
@@ -107,7 +107,7 @@ export class FinanceReportByParticipantComponent implements OnInit, AfterViewIni
   private getPage(searchParams: ServerSidePaginationRequest) {
     this.isLoading = true;
     this.eventService.loadingEvent.emit(true);
-    this.financeService.getFinanceListByParticipant_SSP(searchParams).subscribe((response: ServerSidePaginationResponse<Finance>) => {
+    this.financeService.getFinanceListByParticipant_SSP(searchParams).subscribe((response: ServerSidePaginationResponse<Loan>) => {
         console.log('getPage response', response);
         response.data.forEach(item => {
           this.records.push(item);
@@ -170,7 +170,7 @@ export class FinanceReportByParticipantComponent implements OnInit, AfterViewIni
           this.isFilterApplied = nameFilter;
           return this.financeService.getFinanceListByParticipant_SSP(serverSideSearchParams);
         }),
-        map((response: ServerSidePaginationResponse<Finance>) => {
+        map((response: ServerSidePaginationResponse<Loan>) => {
           return response;
         }),
         catchError((error: any) => {
@@ -180,7 +180,7 @@ export class FinanceReportByParticipantComponent implements OnInit, AfterViewIni
           return of([]);
         })
       )
-      .subscribe((response: ServerSidePaginationResponse<Finance>) => {
+      .subscribe((response: ServerSidePaginationResponse<Loan>) => {
           this.records = [];
           response.data.forEach(item => {
             this.records.push(item);
