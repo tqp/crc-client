@@ -1,42 +1,40 @@
 import { AfterViewInit, Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
-import { ServerSidePaginationRequest } from '../../../../../@tqp/models/ServerSidePaginationRequest';
+import { ServerSidePaginationRequest } from '../../../../../../@tqp/models/ServerSidePaginationRequest';
 import { FormControl } from '@angular/forms';
-import { Sponsor } from '../../people/sponsors/Sponsor';
-import { SponsorService } from '../../people/sponsors/sponsor.service';
-import { EventService } from '../../../../../@tqp/services/event.service';
+import { EventService } from '../../../../../../@tqp/services/event.service';
 import { Router } from '@angular/router';
-import { ServerSidePaginationResponse } from '../../../../../@tqp/models/ServerSidePaginationResponse';
+import { ServerSidePaginationResponse } from '../../../../../../@tqp/models/ServerSidePaginationResponse';
 import { merge, of } from 'rxjs';
 import { catchError, debounceTime, map, switchMap } from 'rxjs/operators';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { MicrofinanceAddPaymentDialogComponent } from '../microfinance-add-payment-dialog/microfinance-add-payment-dialog.component';
+import { Sponsor } from '../Sponsor';
+import { SponsorService } from '../sponsor.service';
+import { AuthService } from '../../../../../../@tqp/services/auth.service';
 
 @Component({
-  selector: 'app-microfinance-by-payment-period',
-  templateUrl: './microfinance-by-payment-period.component.html',
-  styleUrls: ['./microfinance-by-payment-period.component.css']
+  selector: 'app-sponsor-list',
+  templateUrl: './sponsor-list.component.html',
+  styleUrls: ['./sponsor-list.component.css']
 })
-export class MicrofinanceByPaymentPeriodComponent implements OnInit, AfterViewInit, OnDestroy {
+export class SponsorListComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild(MatSort, {static: true}) sort: MatSort;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild('tableContainer', {read: ElementRef, static: true}) public matTableRef: ElementRef;
   @ViewChild('dialogContent', {static: true}) public dialogRef: any;
   @ViewChild('nameSearchElementRef', {static: true}) nameSearchElementRef: ElementRef;
 
+  public listTitle = 'Sponsor List';
   private pageIndex = 0;
   public pageSize = 10;
   private totalNumberOfPages: number;
   private searchParams: ServerSidePaginationRequest = new ServerSidePaginationRequest();
 
   public displayedColumns: string[] = [
-    'year',
-    'month',
-    'week',
-    'sumOfAmount',
-    'percentPaidOfCommittedFunds',
-    'averageOfLoanAmount'
+    'sponsorSurname',
+    'sponsorGivenName',
+    'sponsorAddress',
+    'sponsorNumberOfStudents'
   ];
 
   public sponsorListNameSearchFormControl = new FormControl();
@@ -56,7 +54,7 @@ export class MicrofinanceByPaymentPeriodComponent implements OnInit, AfterViewIn
   constructor(private sponsorService: SponsorService,
               private eventService: EventService,
               private router: Router,
-              public _matDialog: MatDialog) {
+              public authService: AuthService) {
   }
 
   ngOnInit(): void {
@@ -99,7 +97,7 @@ export class MicrofinanceByPaymentPeriodComponent implements OnInit, AfterViewIn
     this.isLoading = true;
     this.eventService.loadingEvent.emit(true);
     this.sponsorService.getSponsorList_SSP(searchParams).subscribe((response: ServerSidePaginationResponse<Sponsor>) => {
-        // console.log('getPage response', response);
+        console.log('getPage response', response);
         response.data.forEach(item => {
           this.records.push(item);
         }, error => {
@@ -195,22 +193,6 @@ export class MicrofinanceByPaymentPeriodComponent implements OnInit, AfterViewIn
           console.error('Error: ', error.message);
         }
       );
-  }
-
-  public openAddPaymentDialog(): void {
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.minWidth = '25%';
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true;
-    dialogConfig.data = {
-      action: 'create'
-    };
-    dialogConfig.autoFocus = false;
-    const dialogRef = this._matDialog.open(MicrofinanceAddPaymentDialogComponent, dialogConfig);
-
-    dialogRef.afterClosed().subscribe(dialogData => {
-      console.log('dialogData', dialogData);
-    });
   }
 
   public clearFilters(): void {

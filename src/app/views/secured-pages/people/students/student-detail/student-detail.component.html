@@ -1,0 +1,309 @@
+<div class="tqp-crud-detail animated fadeIn" *ngIf="student">
+
+  <div class="row">
+    <div class="col-sm-6">
+      <h1>
+        <i class="fa fa-graduation-cap"></i>
+        {{student.studentSurname}}, {{student.studentGivenName}}
+      </h1>
+    </div>
+    <div class="col-sm-6">
+      <div class="form-group float-right">
+        <button class="btn btn-sm btn-outline-primary ml-3" (click)="returnToList()" style="width: 100px">
+          Return to <u>L</u>ist
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-6 col-sm-12">
+
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-user"></i>
+          Personal Information
+          <i *ngIf="studentLoading" class="fa fa-spinner fa-spin"></i>
+          <div class="card-header-actions" [hidden]="authService.allowRoles('ROLE_USER, ROLE_MANAGER, ROLE_ADMIN')">
+            <small class="tqp-nav-link" (click)="openEditPage();">Edit Student Info</small>
+          </div>
+        </div>
+        <div class="card-body">
+          <dl class="row">
+            <dt class="col-sm-4">Last Name:</dt>
+            <dd class="col-sm-8">{{student.studentSurname}}</dd>
+          </dl>
+          <dl class="row">
+            <dt class="col-sm-4">First Name:</dt>
+            <dd class="col-sm-8">{{student.studentGivenName}}</dd>
+          </dl>
+          <dl class="row">
+            <dt class="col-sm-4">Gender:</dt>
+            <dd class="col-sm-8">{{genderNames[student.studentGender]}}</dd>
+          </dl>
+          <dl class="row">
+            <dt class="col-sm-4">Date of Birth:</dt>
+            <dd class="col-sm-8">{{student.studentDateOfBirth | date: 'MM/dd/yyyy'}}</dd>
+          </dl>
+          <dl class="row">
+            <dt class="col-sm-4">School:</dt>
+            <dd class="col-sm-8">{{student.studentSchool}}</dd>
+          </dl>
+          <dl class="row">
+            <dt class="col-sm-4">Grade:</dt>
+            <dd class="col-sm-8">{{student.studentGrade}}</dd>
+          </dl>
+          <dl class="row">
+            <dt class="col-sm-4">Impairment:</dt>
+            <dd class="col-sm-8">{{student.studentImpairment}}</dd>
+          </dl>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-group"></i>
+          Student Visits
+        </div>
+        <div class="card-body">
+
+          <div class="table-container">
+
+            <table mat-table [dataSource]="dataSource" *ngIf="dataSource && dataSource.length > 0"
+                   matSort matSortActive="lastName" matSortDirection="asc" matSortDisableClear="true"
+                   class="table">
+
+              <ng-template matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef>Name</th>
+                <td mat-cell *matCellDef="let row">
+                  <a [routerLink]="['/relation/relation-detail', row.personId]">
+                    {{row.personGivenName}} {{row.personSurname}}
+                  </a>
+                </td>
+              </ng-template>
+
+              <ng-template matColumnDef="relationship">
+                <th mat-header-cell *matHeaderCellDef>Relationship</th>
+                <td mat-cell *matCellDef="let row">
+                  {{row.relationshipTypeName}}
+                </td>
+              </ng-template>
+
+              <ng-template matColumnDef="bloodRelative">
+                <th mat-header-cell *matHeaderCellDef>Blood Relative</th>
+                <td mat-cell *matCellDef="let row">
+                  {{row.relationshipBloodRelative ? 'Yes' : 'No'}}
+                </td>
+              </ng-template>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true" [hidden]="false"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+
+            <div class="no-records" *ngIf="dataSource && dataSource.length <= 0">
+              Date, Visit Type, Interaction Type, Case Manager
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-group"></i>
+          CRC Events (Pause)
+        </div>
+        <div class="card-body">
+
+          <div class="table-container">
+
+            <table mat-table [dataSource]="dataSource" *ngIf="dataSource && dataSource.length > 0"
+                   matSort matSortActive="lastName" matSortDirection="asc" matSortDisableClear="true"
+                   class="table">
+
+              <ng-template matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef>Name</th>
+                <td mat-cell *matCellDef="let row">
+                  <a [routerLink]="['/relation/relation-detail', row.personId]">
+                    {{row.personGivenName}} {{row.personSurname}}
+                  </a>
+                </td>
+              </ng-template>
+
+              <ng-template matColumnDef="relationship">
+                <th mat-header-cell *matHeaderCellDef>Relationship</th>
+                <td mat-cell *matCellDef="let row">
+                  {{row.relationshipTypeName}}
+                </td>
+              </ng-template>
+
+              <ng-template matColumnDef="bloodRelative">
+                <th mat-header-cell *matHeaderCellDef>Blood Relative</th>
+                <td mat-cell *matCellDef="let row">
+                  {{row.relationshipBloodRelative ? 'Yes' : 'No'}}
+                </td>
+              </ng-template>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true" [hidden]="false"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+
+            <div class="no-records" *ngIf="dataSource && dataSource.length <= 0">
+              Date, Event Type, POC (Case Manager/ Caregiver)
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+    <div class="col-lg-6 col-sm-12">
+
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-handshake-o"></i>
+          Program Status
+          <i *ngIf="sponsorLoading" class="fa fa-spinner fa-spin"></i>
+          <div class="card-header-actions" [hidden]="authService.allowRoles('ROLE_USER, ROLE_MANAGER, ROLE_ADMIN')">
+            <small class="tqp-nav-link" (click)="openStudentStatusEditDialog();">Set Program Status</small>
+          </div>
+        </div>
+        <div class="card-body">
+          <dl class="row">
+            <dt class="col-sm-4">Program Status:</dt>
+            <dd class="col-sm-8">
+              <span *ngIf="student.programStatus; else noProgramStatusAssigned;">
+                {{student.programStatus}}
+              </span>
+            </dd>
+            <ng-template #noProgramStatusAssigned>
+              <span class="text-danger">No Program Status Set</span>
+            </ng-template>
+          </dl>
+          <dl class="row">
+            <dt class="col-sm-4">Status Date:</dt>
+            <dd class="col-sm-8">{{student.programStatusDate}}</dd>
+          </dl>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-heartbeat"></i>
+          Current Caregiver
+          <i *ngIf="caregiverLoading" class="fa fa-spinner fa-spin"></i>
+          <div class="card-header-actions" [hidden]="authService.allowRoles('ROLE_USER, ROLE_MANAGER, ROLE_ADMIN')">
+            <small class="tqp-nav-link" (click)="openStudentCaregiverEditDialog();">Assign Caregiver</small>
+          </div>
+        </div>
+        <div class="card-body">
+          <dl class="row">
+            <dt class="col-sm-4">Caregiver Name:</dt>
+            <dd class="col-sm-8">
+              <span class="tqp-nav-link" *ngIf="caregiver && caregiver.caregiverId; else noCaregiverAssigned;"
+                    [routerLink]="['/caregivers/caregiver-detail', caregiver.caregiverId]">
+                {{caregiver.caregiverGivenName}} {{caregiver.caregiverSurname}}
+              </span>
+              <ng-template #noCaregiverAssigned>
+                <span class="text-danger">No Caregiver Assigned</span>
+              </ng-template>
+            </dd>
+          </dl>
+          <ng-container *ngIf="caregiver && caregiver.caregiverId">
+            <dl class="row">
+              <dt class="col-sm-4">Effective Date:</dt>
+              <dd class="col-sm-8">{{caregiver.relationshipStartDate}}</dd>
+            </dl>
+            <dl class="row">
+              <dt class="col-sm-4">Address:</dt>
+              <dd class="col-sm-8">{{caregiver.caregiverAddress}}</dd>
+            </dl>
+            <dl class="row">
+              <dt class="col-sm-4">Primary Phone:</dt>
+              <dd class="col-sm-8">{{caregiver.caregiverPhone}}</dd>
+            </dl>
+            <dl class="row">
+              <dt class="col-sm-4">Support Tier:</dt>
+              <dd class="col-sm-8">{{caregiver.relationshipTierTypeName}}</dd>
+            </dl>
+            <dl class="row">
+              <dt class="col-sm-4">Family Relationship:</dt>
+              <dd class="col-sm-8">{{caregiver.caregiverFamilyRelationship}}</dd>
+            </dl>
+            <dl class="row">
+              <dt class="col-sm-4">Original Family Impact:</dt>
+              <dd class="col-sm-8">{{caregiver.caregiverOriginalFamilyImpact}}</dd>
+            </dl>
+          </ng-container>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-folder"></i>
+          Current Case Manager
+          <i *ngIf="caregiverLoading" class="fa fa-spinner fa-spin"></i>
+          <div class="card-header-actions" [hidden]="authService.allowRoles('ROLE_USER, ROLE_MANAGER, ROLE_ADMIN')">
+            <small class="tqp-nav-link" (click)="openStudentCaseManagerEditDialog();">Assign Case Manager</small>
+          </div>
+        </div>
+        <div class="card-body">
+          <dl class="row">
+            <dt class="col-sm-4">Case Manager:</dt>
+            <dd class="col-sm-8">
+              <span class="tqp-nav-link" *ngIf="caseManager && caseManager.caseManagerId; else noCaseManagerAssigned;"
+                    [routerLink]="['/case-managers/case-manager-detail', caseManager.caseManagerId]">
+                {{caseManager.caseManagerGivenName}} {{caseManager.caseManagerSurname}}
+              </span>
+              <ng-template #noCaseManagerAssigned>
+                <span class="text-danger">No Case Manager Assigned</span>
+              </ng-template>
+            </dd>
+          </dl>
+          <ng-container *ngIf="caseManager && caseManager.caseManagerId">
+            <dl class="row">
+              <dt class="col-sm-4">Effective Date:</dt>
+              <dd class="col-sm-8">{{caseManager.relationshipStartDate}}</dd>
+            </dl>
+          </ng-container>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-handshake-o"></i>
+          Current Sponsor
+          <i *ngIf="sponsorLoading" class="fa fa-spinner fa-spin"></i>
+          <div class="card-header-actions" [hidden]="authService.allowRoles('ROLE_USER, ROLE_MANAGER, ROLE_ADMIN')">
+            <small class="tqp-nav-link" (click)="openStudentSponsorEditDialog();">Assign Sponsor</small>
+          </div>
+        </div>
+        <div class="card-body">
+          <dl class="row">
+            <dt class="col-sm-4">Sponsor:</dt>
+            <dd class="col-sm-8">
+              <span class="tqp-nav-link" *ngIf="sponsor && sponsor.sponsorId; else noSponsorAssigned;"
+                    [routerLink]="['/sponsors/sponsor-detail', sponsor.sponsorId]">
+                {{sponsor.sponsorGivenName}} {{sponsor.sponsorSurname}}
+              </span>
+              <ng-template #noSponsorAssigned>
+                <span class="text-danger">No Sponsor Assigned</span>
+              </ng-template>
+            </dd>
+          </dl>
+          <ng-container *ngIf="sponsor && sponsor.sponsorId">
+            <dl class="row">
+              <dt class="col-sm-4">Effective Date:</dt>
+              <dd class="col-sm-8">{{sponsor.relationshipStartDate}}</dd>
+            </dl>
+          </ng-container>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>

@@ -68,35 +68,28 @@ export const routes: Routes = [
       },
       {
         path: 'students',
-        loadChildren: () => import('./views/secured-pages/crc-members/students/student.module').then(m => m.StudentModule),
+        loadChildren: () => import('./views/secured-pages/people/students/student.module').then(m => m.StudentModule),
         resolve: {
           securedPageResolver: SecuredPageResolverService
         }
       },
       {
         path: 'caregivers',
-        loadChildren: () => import('./views/secured-pages/crc-members/caregivers/caregiver.module').then(m => m.CaregiverModule),
+        loadChildren: () => import('./views/secured-pages/people/caregivers/caregiver.module').then(m => m.CaregiverModule),
         resolve: {
           securedPageResolver: SecuredPageResolverService
         }
       },
       {
         path: 'case-managers',
-        loadChildren: () => import('./views/secured-pages/crc-members/case-managers/case-manager.module').then(m => m.CaseManagerModule),
-        resolve: {
-          securedPageResolver: SecuredPageResolverService
-        }
-      },
-      {
-        path: 'relation',
-        loadChildren: () => import('./views/secured-pages/crc-members/relations/relation.module').then(m => m.RelationModule),
+        loadChildren: () => import('./views/secured-pages/people/case-managers/case-manager.module').then(m => m.CaseManagerModule),
         resolve: {
           securedPageResolver: SecuredPageResolverService
         }
       },
       {
         path: 'sponsors',
-        loadChildren: () => import('./views/secured-pages/crc-members/sponsors/sponsor.module').then(m => m.SponsorModule),
+        loadChildren: () => import('./views/secured-pages/people/sponsors/sponsor.module').then(m => m.SponsorModule),
         resolve: {
           securedPageResolver: SecuredPageResolverService
         }

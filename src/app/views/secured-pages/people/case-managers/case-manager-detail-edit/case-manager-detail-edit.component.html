@@ -1,0 +1,131 @@
+<div class="tqp-crud-detail-edit animated fadeIn" *ngIf="caseManager">
+
+  <form [formGroup]="caseManagerEditForm">
+
+    <div class="row">
+
+      <div class="col-sm-6">
+        <h1 *ngIf="caseManager && newRecord && caseManagerEditForm.controls['caseManagerSurname'].value == ''; else notShow">
+          New Case Manager
+        </h1>
+        <ng-container #notShow>
+          <h1>
+            {{caseManagerEditForm.controls['caseManagerSurname'].value}}, {{caseManagerEditForm.controls['caseManagerGivenName'].value}}
+          </h1>
+        </ng-container>
+      </div>
+
+      <div class="col-sm-6">
+        <div class="form-group float-right">
+          <button type="button" class="btn btn-sm btn-outline-danger" style="width: 100px;" *ngIf="!newRecord"
+                  (click)="delete(caseManager.caseManagerId)">
+            <!--            [disabled]="authService.allowRoles('ROLE_ADMIN')"-->
+            <u>D</u>elete
+          </button>
+          <button type="button" class="btn btn-sm btn-outline-success" style="width: 100px;" (click)="save()"
+                  [disabled]="!caseManagerEditForm.valid">
+            <u>S</u>ave
+          </button>
+          <button type="button" class="btn btn-sm btn-outline-info ml-3" style="width: 100px;" (click)="cancel()">
+            <u>C</u>ancel
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="row">
+      <div class="col-lg-6 col-sm-12">
+
+        <div class="card">
+          <div class="card-header">
+            <i class="fa fa-user"></i>
+            Personal Information
+          </div>
+          <div class="card-body">
+
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="caseManagerSurname">Surname</label>
+                  <input matInput id="caseManagerSurname" #caseManagerSurnameInputField type="text" class="form-control" placeholder="Surname"
+                         formControlName="caseManagerSurname" autocomplete="chrome-off">
+                  <mat-error *ngFor="let validation of validationMessages.caseManagerSurname">
+                    <mat-error class="error-message"
+                               *ngIf="caseManagerEditForm.get('caseManagerSurname').hasError(validation.type)
+                                && (caseManagerEditForm.get('caseManagerSurname').dirty ||
+                                caseManagerEditForm.get('caseManagerSurname').touched)">
+                      {{validation.message}}
+                    </mat-error>
+                  </mat-error>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="caseManagerGivenName">Given Name</label>
+                  <input matInput id="caseManagerGivenName" type="text" class="form-control" placeholder="Given Name"
+                         formControlName="caseManagerGivenName">
+                  <mat-error *ngFor="let validation of validationMessages.caseManagerGivenName">
+                    <mat-error class="error-message"
+                               *ngIf="caseManagerEditForm.get('caseManagerGivenName').hasError(validation.type)
+                                && (caseManagerEditForm.get('caseManagerGivenName').dirty ||
+                                caseManagerEditForm.get('caseManagerGivenName').touched)">
+                      {{validation.message}}
+                    </mat-error>
+                  </mat-error>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="caseManagerPhone">Primary Phone</label>
+                  <input matInput id="caseManagerPhone" type="text" class="form-control" placeholder="Primary Phone"
+                         formControlName="caseManagerPhone">
+                  <mat-error *ngFor="let validation of validationMessages.caseManagerPhone">
+                    <mat-error class="error-message"
+                               *ngIf="caseManagerEditForm.get('caseManagerPhone').hasError(validation.type)
+                                && (caseManagerEditForm.get('caseManagerPhone').dirty ||
+                                caseManagerEditForm.get('caseManagerPhone').touched)">
+                      {{validation.message}}
+                    </mat-error>
+                  </mat-error>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="caseManagerEmail">E-Mail Address</label>
+                  <input matInput id="caseManagerEmail" type="text" class="form-control" placeholder="E-Mail Address"
+                         formControlName="caseManagerEmail">
+                  <mat-error *ngFor="let validation of validationMessages.caseManagerEmail">
+                    <mat-error class="error-message"
+                               *ngIf="caseManagerEditForm.get('caseManagerEmail').hasError(validation.type)
+                                && (caseManagerEditForm.get('caseManagerEmail').dirty ||
+                                caseManagerEditForm.get('caseManagerEmail').touched)">
+                      {{validation.message}}
+                    </mat-error>
+                  </mat-error>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+      <div class="col-lg-6 col-sm-12">
+
+      </div>
+    </div>
+
+  </form>
+
+</div>

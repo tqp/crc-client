@@ -35,7 +35,7 @@
           <label for="relationshipEffectiveDate">Payment Date*</label>
           <input id="relationshipEffectiveDate" type="text" class="form-control" bsDatepicker
                  formControlName="relationshipEffectiveDate">
-          <mat-error *ngFor="let validation of validationMessages.relationshipEffectiveDate">
+          <mat-error *ngFor="let validation of validationMessages.relationshipStartDate">
             <mat-error class="error-message"
                        *ngIf="addPaymentForm.get('relationshipEffectiveDate').hasError(validation.type)
                                 && (addPaymentForm.get('relationshipEffectiveDate').dirty ||

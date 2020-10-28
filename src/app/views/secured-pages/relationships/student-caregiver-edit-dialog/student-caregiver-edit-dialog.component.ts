@@ -1,21 +1,22 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { CaregiverService } from '../../people/caregivers/caregiver.service';
 import { Caregiver } from '../../people/caregivers/Caregiver';
 import { RelationshipType } from '../../reference-tables/relationship-type/RelationshipType';
-import { TierType } from '../../reference-tables/tier-type/TierType';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { CaregiverService } from '../../people/caregivers/caregiver.service';
 import { RelationshipTypeService } from '../../reference-tables/relationship-type/relationship-type.service';
+import { TierType } from '../../reference-tables/tier-type/TierType';
 import { TierTypeService } from '../../reference-tables/tier-type/tier-type.service';
 import { FormattingService } from '../../../../../@tqp/services/formatting.service';
 
 @Component({
-  selector: 'app-microfinance-add-payment-dialog',
-  templateUrl: './microfinance-add-payment-dialog.component.html',
-  styleUrls: ['./microfinance-add-payment-dialog.component.css']
+  selector: 'app-student-caregiver-edit-dialog',
+  templateUrl: './student-caregiver-edit-dialog.component.html',
+  styleUrls: ['./student-caregiver-edit-dialog.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
-export class MicrofinanceAddPaymentDialogComponent implements OnInit {
-  public addPaymentForm: FormGroup;
+export class StudentCaregiverEditDialogComponent implements OnInit {
+  public studentCaregiverEditForm: FormGroup;
   public caregiverList: Caregiver[];
   public relationshipTypeList: RelationshipType[];
   public tierTypeList: TierType[];
@@ -32,7 +33,7 @@ export class MicrofinanceAddPaymentDialogComponent implements OnInit {
     ],
   };
 
-  constructor(private dialogRef: MatDialogRef<MicrofinanceAddPaymentDialogComponent>,
+  constructor(private dialogRef: MatDialogRef<StudentCaregiverEditDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
               private formBuilder: FormBuilder,
               private caregiverService: CaregiverService,
@@ -49,7 +50,7 @@ export class MicrofinanceAddPaymentDialogComponent implements OnInit {
   }
 
   private initializeForm(): void {
-    this.addPaymentForm = this.formBuilder.group({
+    this.studentCaregiverEditForm = this.formBuilder.group({
       caregiverId: new FormControl(0, Validators.required),
       tierTypeId: new FormControl('', Validators.required),
       relationshipStartDate: new FormControl('', Validators.required)
@@ -93,7 +94,7 @@ export class MicrofinanceAddPaymentDialogComponent implements OnInit {
   }
 
   public save(): void {
-    this.dialogRef.close(this.addPaymentForm.value);
+    this.dialogRef.close(this.studentCaregiverEditForm.value);
   }
 
 }

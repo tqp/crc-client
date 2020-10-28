@@ -3,8 +3,8 @@ import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { ServerSidePaginationRequest } from '../../../../../@tqp/models/ServerSidePaginationRequest';
 import { FormControl } from '@angular/forms';
-import { Sponsor } from '../../crc-members/sponsors/Sponsor';
-import { SponsorService } from '../../crc-members/sponsors/sponsor.service';
+import { Sponsor } from '../../people/sponsors/Sponsor';
+import { SponsorService } from '../../people/sponsors/sponsor.service';
 import { EventService } from '../../../../../@tqp/services/event.service';
 import { Router } from '@angular/router';
 import { ServerSidePaginationResponse } from '../../../../../@tqp/models/ServerSidePaginationResponse';
@@ -25,7 +25,6 @@ export class MicrofinanceByParticipantComponent implements OnInit, AfterViewInit
   @ViewChild('dialogContent', {static: true}) public dialogRef: any;
   @ViewChild('nameSearchElementRef', {static: true}) nameSearchElementRef: ElementRef;
 
-  private defaultSortColumn = 'last_name';
   private pageIndex = 0;
   public pageSize = 10;
   private totalNumberOfPages: number;
@@ -87,7 +86,7 @@ export class MicrofinanceByParticipantComponent implements OnInit, AfterViewInit
     this.searchParams.stateFilter = '';
     this.searchParams.pageIndex = this.pageIndex;
     this.searchParams.pageSize = this.calculateTableSize();
-    this.searchParams.sortColumn = this.defaultSortColumn;
+    this.searchParams.sortColumn = null;
     this.searchParams.sortDirection = 'asc';
 
     if (this.sponsorService.getSponsorListNameSearchValue()) {
@@ -148,7 +147,7 @@ export class MicrofinanceByParticipantComponent implements OnInit, AfterViewInit
           // Translate table columns to database columns for sorting.
           // IMPORTANT: If this translation is incorrect, the query will break!!!
           const translateSortColumnsToDatabaseColumns = {
-            seriesName: this.defaultSortColumn
+            seriesName: null
           };
 
           const serverSideSearchParams: ServerSidePaginationRequest = new ServerSidePaginationRequest();
@@ -156,7 +155,7 @@ export class MicrofinanceByParticipantComponent implements OnInit, AfterViewInit
           serverSideSearchParams.pageIndex = this.paginator.pageIndex;
           serverSideSearchParams.pageSize = this.pageSize;
           serverSideSearchParams.sortColumn = (translateSortColumnsToDatabaseColumns[this.sort.active] != null) ?
-            translateSortColumnsToDatabaseColumns[this.sort.active] : this.defaultSortColumn;
+            translateSortColumnsToDatabaseColumns[this.sort.active] : null;
           serverSideSearchParams.sortDirection = this.sort.direction;
           this.searchParams = serverSideSearchParams;
 

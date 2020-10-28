@@ -1,0 +1,189 @@
+<div class="tqp-crud-detail-edit animated fadeIn" *ngIf="student">
+
+  <form [formGroup]="studentEditForm">
+
+    <div class="row">
+      <div class="col-sm-6">
+        <h1 *ngIf="student && newRecord && studentEditForm.controls['studentSurname'].value == ''; else notShow">
+          New Student
+        </h1>
+        <ng-container #notShow>
+          <h1>
+            {{studentEditForm.controls['studentSurname'].value}}, {{studentEditForm.controls['studentGivenName'].value}}
+          </h1>
+        </ng-container>
+      </div>
+
+      <div class="col-sm-6">
+        <div class="form-group float-right">
+          <button type="button" class="btn btn-sm btn-outline-danger" style="width: 100px;" *ngIf="!newRecord"
+                  (click)="delete(student.studentId)">
+            <!--            [disabled]="authService.allowRoles('ROLE_ADMIN')"-->
+            <u>D</u>elete
+          </button>
+          <button type="button" class="btn btn-sm btn-outline-success" style="width: 100px;" (click)="save()"
+                  [disabled]="!studentEditForm.valid">
+            <u>S</u>ave
+          </button>
+          <button type="button" class="btn btn-sm btn-outline-info ml-3" style="width: 100px;" (click)="cancel()">
+            <u>C</u>ancel
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="row">
+      <div class="col-lg-6 col-sm-12">
+
+        <div class="card">
+          <div class="card-header">
+            <i class="fa fa-user"></i>
+            Personal Information
+          </div>
+          <div class="card-body">
+
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="studentSurname">Surname*</label>
+                  <input matInput id="studentSurname" #studentSurnameInputField type="text" class="form-control"
+                         placeholder="Surname"
+                         formControlName="studentSurname" autocomplete="chrome-off">
+                  <mat-error *ngFor="let validation of validationMessages.studentSurname">
+                    <mat-error class="error-message"
+                               *ngIf="studentEditForm.get('studentSurname').hasError(validation.type)
+                                && (studentEditForm.get('studentSurname').dirty ||
+                                studentEditForm.get('studentSurname').touched)">
+                      {{validation.message}}
+                    </mat-error>
+                  </mat-error>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="studentGivenName">Given Name*</label>
+                  <input matInput id="studentGivenName" type="text" class="form-control" placeholder="Given Name"
+                         formControlName="studentGivenName">
+                  <mat-error *ngFor="let validation of validationMessages.studentGivenName">
+                    <mat-error class="error-message"
+                               *ngIf="studentEditForm.get('studentGivenName').hasError(validation.type)
+                                && (studentEditForm.get('studentGivenName').dirty ||
+                                studentEditForm.get('studentGivenName').touched)">
+                      {{validation.message}}
+                    </mat-error>
+                  </mat-error>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="studentGender">Gender*</label>
+                  <select id="studentGender" class="form-control" formControlName="studentGender">
+                    <option value="">Pick a Gender</option>
+                    <option value="M">Male</option>
+                    <option value="F">Female</option>
+                    <option value="O">Other</option>
+                  </select>
+                  <mat-error *ngFor="let validation of validationMessages.studentGender">
+                    <mat-error class="error-message"
+                               *ngIf="studentEditForm.get('studentGender').hasError(validation.type)
+                                && (studentEditForm.get('studentGender').dirty ||
+                                studentEditForm.get('studentGender').touched)">
+                      {{validation.message}}
+                    </mat-error>
+                  </mat-error>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="studentDateOfBirth">Date of Birth*</label>
+                  <input id="studentDateOfBirth" type="text" class="form-control" bsDatepicker
+                         formControlName="studentDateOfBirth">
+                  <mat-error *ngFor="let validation of validationMessages.studentDateOfBirth">
+                    <mat-error class="error-message"
+                               *ngIf="studentEditForm.get('studentDateOfBirth').hasError(validation.type)
+                                && (studentEditForm.get('studentDateOfBirth').dirty ||
+                                studentEditForm.get('studentDateOfBirth').touched)">
+                      {{validation.message}}
+                    </mat-error>
+                  </mat-error>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="studentSchool">School</label>
+                  <input matInput id="studentSchool" type="text" class="form-control" placeholder="School"
+                         formControlName="studentSchool">
+                  <mat-error *ngFor="let validation of validationMessages.studentSchool">
+                    <mat-error class="error-message"
+                               *ngIf="studentEditForm.get('studentSchool').hasError(validation.type)
+                                && (studentEditForm.get('studentSchool').dirty ||
+                                studentEditForm.get('studentSchool').touched)">
+                      {{validation.message}}
+                    </mat-error>
+                  </mat-error>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="studentGrade">Grade</label>
+                  <input matInput id="studentGrade" type="text" class="form-control" placeholder="Grade"
+                         formControlName="studentGrade">
+                  <mat-error *ngFor="let validation of validationMessages.studentGrade">
+                    <mat-error class="error-message"
+                               *ngIf="studentEditForm.get('studentGrade').hasError(validation.type)
+                                && (studentEditForm.get('studentGrade').dirty ||
+                                studentEditForm.get('studentGrade').touched)">
+                      {{validation.message}}
+                    </mat-error>
+                  </mat-error>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="studentImpairment">Impairment</label>
+                  <input matInput id="studentImpairment" type="text" class="form-control" placeholder="Impairment"
+                         formControlName="studentImpairment">
+                  <mat-error *ngFor="let validation of validationMessages.studentImpairment">
+                    <mat-error class="error-message"
+                               *ngIf="studentEditForm.get('studentImpairment').hasError(validation.type)
+                                && (studentEditForm.get('studentImpairment').dirty ||
+                                studentEditForm.get('studentImpairment').touched)">
+                      {{validation.message}}
+                    </mat-error>
+                  </mat-error>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+      <div class="col-lg-6 col-sm-12">
+
+      </div>
+    </div>
+
+  </form>
+
+</div>

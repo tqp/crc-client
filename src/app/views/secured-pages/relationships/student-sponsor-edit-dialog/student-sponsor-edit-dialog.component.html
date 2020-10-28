@@ -1,0 +1,62 @@
+<h2 mat-dialog-title>
+  Assign Sponsor
+</h2>
+
+<mat-dialog-content style="overflow: hidden">
+
+  <form [formGroup]="studentSponsorEditForm">
+
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="form-group">
+          <label for="sponsorId">Sponsor*</label>
+          <select id="sponsorId" class="form-control" formControlName="sponsorId">
+            <option value=0>Select a Sponsor</option>
+            <option *ngFor="let sponsor of sponsorList"
+                    value="{{sponsor.sponsorId}}">
+              {{sponsor.sponsorSurname}}, {{sponsor.sponsorGivenName}}
+            </option>
+          </select>
+          <mat-error *ngFor="let validation of validationMessages.sponsorId">
+            <mat-error class="error-message"
+                       *ngIf="studentSponsorEditForm.get('sponsorId').hasError(validation.type)
+                                && (studentSponsorEditForm.get('sponsorId').dirty ||
+                                studentSponsorEditForm.get('sponsorId').touched)">
+              {{validation.message}}
+            </mat-error>
+          </mat-error>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="form-group">
+          <label for="relationshipStartDate">Effective Date*</label>
+          <input id="relationshipStartDate" type="text" class="form-control" bsDatepicker
+                 formControlName="relationshipStartDate">
+          <mat-error *ngFor="let validation of validationMessages.relationshipStartDate">
+            <mat-error class="error-message"
+                       *ngIf="studentSponsorEditForm.get('relationshipStartDate').hasError(validation.type)
+                                && (studentSponsorEditForm.get('relationshipStartDate').dirty ||
+                                studentSponsorEditForm.get('relationshipStartDate').touched)">
+              {{validation.message}}
+            </mat-error>
+          </mat-error>
+        </div>
+      </div>
+    </div>
+
+  </form>
+
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-raised-button mat-dialog-close>Cancel</button>
+  <button mat-raised-button (click)="reset();">Reset</button>
+  <div fxFlex></div>
+  <button mat-raised-button mat-dialog-close color="primary" (click)="save();"
+          [disabled]="!studentSponsorEditForm.valid">
+    Save
+  </button>
+</mat-dialog-actions>

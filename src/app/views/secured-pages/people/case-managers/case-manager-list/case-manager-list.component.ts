@@ -1,47 +1,47 @@
 import { AfterViewInit, Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
-import { ServerSidePaginationRequest } from '../../../../../@tqp/models/ServerSidePaginationRequest';
+import { ServerSidePaginationRequest } from '../../../../../../@tqp/models/ServerSidePaginationRequest';
 import { FormControl } from '@angular/forms';
-import { Sponsor } from '../../people/sponsors/Sponsor';
-import { SponsorService } from '../../people/sponsors/sponsor.service';
-import { EventService } from '../../../../../@tqp/services/event.service';
+import { EventService } from '../../../../../../@tqp/services/event.service';
 import { Router } from '@angular/router';
-import { ServerSidePaginationResponse } from '../../../../../@tqp/models/ServerSidePaginationResponse';
+import { ServerSidePaginationResponse } from '../../../../../../@tqp/models/ServerSidePaginationResponse';
 import { merge, of } from 'rxjs';
 import { catchError, debounceTime, map, switchMap } from 'rxjs/operators';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { MicrofinanceAddPaymentDialogComponent } from '../microfinance-add-payment-dialog/microfinance-add-payment-dialog.component';
+import { CaseManager } from '../CaseManager';
+import { CaseManagerService } from '../case-manager.service';
+import { AuthService } from '../../../../../../@tqp/services/auth.service';
 
 @Component({
-  selector: 'app-microfinance-by-payment-period',
-  templateUrl: './microfinance-by-payment-period.component.html',
-  styleUrls: ['./microfinance-by-payment-period.component.css']
+  selector: 'app-case-manager-list',
+  templateUrl: './case-manager-list.component.html',
+  styleUrls: ['./case-manager-list.component.css']
 })
-export class MicrofinanceByPaymentPeriodComponent implements OnInit, AfterViewInit, OnDestroy {
+export class CaseManagerListComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild(MatSort, {static: true}) sort: MatSort;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild('tableContainer', {read: ElementRef, static: true}) public matTableRef: ElementRef;
   @ViewChild('dialogContent', {static: true}) public dialogRef: any;
   @ViewChild('nameSearchElementRef', {static: true}) nameSearchElementRef: ElementRef;
 
+  public listTitle = 'Case Manager List';
   private pageIndex = 0;
   public pageSize = 10;
   private totalNumberOfPages: number;
   private searchParams: ServerSidePaginationRequest = new ServerSidePaginationRequest();
 
   public displayedColumns: string[] = [
-    'year',
-    'month',
-    'week',
-    'sumOfAmount',
-    'percentPaidOfCommittedFunds',
-    'averageOfLoanAmount'
+    'caseManagerSurname',
+    'caseManagerGivenName',
+    'caseManagerPhone',
+    'caseManagerEmail',
+    'caseManagerNumberOfStudents',
+    'caseManagerRegionOfCases'
   ];
 
-  public sponsorListNameSearchFormControl = new FormControl();
+  public caseManagerListNameSearchFormControl = new FormControl();
 
-  public records: Sponsor[] = [];
+  public records: CaseManager[] = [];
   public dataSource: any[] = [];
   public stateList: string[] = [];
 
@@ -53,10 +53,10 @@ export class MicrofinanceByPaymentPeriodComponent implements OnInit, AfterViewIn
 
   public isFilterApplied = false;
 
-  constructor(private sponsorService: SponsorService,
+  constructor(private caseManagerService: CaseManagerService,
               private eventService: EventService,
               private router: Router,
-              public _matDialog: MatDialog) {
+              public authService: AuthService) {
   }
 
   ngOnInit(): void {
@@ -69,7 +69,7 @@ export class MicrofinanceByPaymentPeriodComponent implements OnInit, AfterViewIn
   }
 
   ngOnDestroy(): void {
-    this.sponsorService.setSponsorListNameSearchValue(this.sponsorListNameSearchFormControl.value);
+    this.caseManagerService.setCaseManagerListNameSearchValue(this.caseManagerListNameSearchFormControl.value);
   }
 
   private calculateTableSize(): number {
@@ -88,9 +88,9 @@ export class MicrofinanceByPaymentPeriodComponent implements OnInit, AfterViewIn
     this.searchParams.sortColumn = null;
     this.searchParams.sortDirection = 'asc';
 
-    if (this.sponsorService.getSponsorListNameSearchValue()) {
-      const nameSearchValue = this.sponsorService.getSponsorListNameSearchValue();
-      this.sponsorListNameSearchFormControl.setValue(nameSearchValue);
+    if (this.caseManagerService.getCaseManagerListNameSearchValue()) {
+      const nameSearchValue = this.caseManagerService.getCaseManagerListNameSearchValue();
+      this.caseManagerListNameSearchFormControl.setValue(nameSearchValue);
       this.searchParams.nameFilter = nameSearchValue;
     }
   }
@@ -98,7 +98,7 @@ export class MicrofinanceByPaymentPeriodComponent implements OnInit, AfterViewIn
   private getPage(searchParams: ServerSidePaginationRequest) {
     this.isLoading = true;
     this.eventService.loadingEvent.emit(true);
-    this.sponsorService.getSponsorList_SSP(searchParams).subscribe((response: ServerSidePaginationResponse<Sponsor>) => {
+    this.caseManagerService.getCaseManagerList_SSP(searchParams).subscribe((response: ServerSidePaginationResponse<CaseManager>) => {
         // console.log('getPage response', response);
         response.data.forEach(item => {
           this.records.push(item);
@@ -126,7 +126,7 @@ export class MicrofinanceByPaymentPeriodComponent implements OnInit, AfterViewIn
 
   private listenForChanges(): void {
     merge(
-      this.sponsorListNameSearchFormControl.valueChanges.pipe(debounceTime(100)),
+      this.caseManagerListNameSearchFormControl.valueChanges.pipe(debounceTime(100)),
       this.sort.sortChange,
       this.paginator.page
     )
@@ -141,7 +141,7 @@ export class MicrofinanceByPaymentPeriodComponent implements OnInit, AfterViewIn
           this.isLoading = true;
           this.eventService.loadingEvent.emit(true);
 
-          const nameFilter = this.sponsorListNameSearchFormControl.value != null ? this.sponsorListNameSearchFormControl.value : '';
+          const nameFilter = this.caseManagerListNameSearchFormControl.value != null ? this.caseManagerListNameSearchFormControl.value : '';
 
           // Translate table columns to database columns for sorting.
           // IMPORTANT: If this translation is incorrect, the query will break!!!
@@ -159,9 +159,9 @@ export class MicrofinanceByPaymentPeriodComponent implements OnInit, AfterViewIn
           this.searchParams = serverSideSearchParams;
 
           this.isFilterApplied = nameFilter;
-          return this.sponsorService.getSponsorList_SSP(serverSideSearchParams);
+          return this.caseManagerService.getCaseManagerList_SSP(serverSideSearchParams);
         }),
-        map((response: ServerSidePaginationResponse<Sponsor>) => {
+        map((response: ServerSidePaginationResponse<CaseManager>) => {
           return response;
         }),
         catchError((error: any) => {
@@ -171,7 +171,7 @@ export class MicrofinanceByPaymentPeriodComponent implements OnInit, AfterViewIn
           return of([]);
         })
       )
-      .subscribe((response: ServerSidePaginationResponse<Sponsor>) => {
+      .subscribe((response: ServerSidePaginationResponse<CaseManager>) => {
           this.records = [];
           response.data.forEach(item => {
             this.records.push(item);
@@ -197,44 +197,28 @@ export class MicrofinanceByPaymentPeriodComponent implements OnInit, AfterViewIn
       );
   }
 
-  public openAddPaymentDialog(): void {
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.minWidth = '25%';
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true;
-    dialogConfig.data = {
-      action: 'create'
-    };
-    dialogConfig.autoFocus = false;
-    const dialogRef = this._matDialog.open(MicrofinanceAddPaymentDialogComponent, dialogConfig);
-
-    dialogRef.afterClosed().subscribe(dialogData => {
-      console.log('dialogData', dialogData);
-    });
-  }
-
   public clearFilters(): void {
-    this.sponsorListNameSearchFormControl.setValue('');
+    this.caseManagerListNameSearchFormControl.setValue('');
   }
 
-  public openCreateSponsorPage(): void {
-    this.router.navigate(['sponsors/sponsor-create']).then();
+  public openCreateCaseManagerPage(): void {
+    this.router.navigate(['case-managers/case-manager-create']).then();
   }
 
   public openDetailPage(row: any): void {
-    this.router.navigate(['sponsors/sponsor-detail', row.sponsorId]).then();
+    this.router.navigate(['case-managers/case-manager-detail', row.caseManagerId]).then();
   }
 
   @HostListener('window:keydown', ['$event'])
   public handleKeyboardEvent(event: KeyboardEvent): void {
     if (event.ctrlKey && event.key === 'f') {
       event.preventDefault();
-      this.sponsorListNameSearchFormControl.setValue('');
+      this.caseManagerListNameSearchFormControl.setValue('');
       this.nameSearchElementRef.nativeElement.focus();
     }
     if (event.ctrlKey && event.key === 'c') {
       event.preventDefault();
-      this.openCreateSponsorPage();
+      this.openCreateCaseManagerPage();
     }
     if (event.ctrlKey && event.key === ',') {
       event.preventDefault();

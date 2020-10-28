@@ -7,7 +7,7 @@ import {BsDatepickerModule} from 'ngx-bootstrap/datepicker';
 import {RouterModule} from '@angular/router';
 import {ListAddRemoveItemsBasicModule} from '../../../../../@tqp/components/list-add-remove-items-basic/list-add-remove-items-basic.module';
 import {FlexLayoutModule} from '@angular/flex-layout';
-import {StudentRoutingModule} from '../../crc-members/students/student-routing.module';
+import {StudentRoutingModule} from '../../people/students/student-routing.module';
 import {PersonTypeListComponent} from './person-type-list/person-type-list.component';
 import {PersonTypeDetailComponent} from './person-type-detail/person-type-detail.component';
 import {PersonTypeDetailEditComponent} from './person-type-detail-edit/person-type-detail-edit.component';
