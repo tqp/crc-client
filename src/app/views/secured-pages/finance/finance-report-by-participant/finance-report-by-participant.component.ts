@@ -3,27 +3,31 @@ import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { ServerSidePaginationRequest } from '../../../../../@tqp/models/ServerSidePaginationRequest';
 import { FormControl } from '@angular/forms';
-import { Sponsor } from '../../people/sponsors/Sponsor';
 import { SponsorService } from '../../people/sponsors/sponsor.service';
 import { EventService } from '../../../../../@tqp/services/event.service';
 import { Router } from '@angular/router';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ServerSidePaginationResponse } from '../../../../../@tqp/models/ServerSidePaginationResponse';
 import { merge, of } from 'rxjs';
 import { catchError, debounceTime, map, switchMap } from 'rxjs/operators';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { MicrofinanceAddPaymentDialogComponent } from '../microfinance-add-payment-dialog/microfinance-add-payment-dialog.component';
+import { FinanceService } from '../finance.service';
+import { FinanceAddPaymentDialogComponent } from '../finance-add-payment-dialog/finance-add-payment-dialog.component';
+import { Finance } from '../Finance';
 
 @Component({
-  selector: 'app-microfinance-by-participant',
-  templateUrl: './microfinance-by-participant.component.html',
-  styleUrls: ['./microfinance-by-participant.component.css']
+  selector: 'app-finance-report-by-participant',
+  templateUrl: './finance-report-by-participant.component.html',
+  styleUrls: ['./finance-report-by-participant.component.css']
 })
-export class MicrofinanceByParticipantComponent implements OnInit, AfterViewInit, OnDestroy {
+export class FinanceReportByParticipantComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild(MatSort, {static: true}) sort: MatSort;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild('tableContainer', {read: ElementRef, static: true}) public matTableRef: ElementRef;
   @ViewChild('dialogContent', {static: true}) public dialogRef: any;
   @ViewChild('nameSearchElementRef', {static: true}) nameSearchElementRef: ElementRef;
+
+  public totalCommitted: number;
+  public totalPaid: number;
 
   private pageIndex = 0;
   public pageSize = 10;
@@ -42,8 +46,8 @@ export class MicrofinanceByParticipantComponent implements OnInit, AfterViewInit
 
   public sponsorListNameSearchFormControl = new FormControl();
 
-  public records: Sponsor[] = [];
-  public dataSource: any[] = [];
+  public records: Finance[] = [];
+  public dataSource: Finance[] = [];
   public stateList: string[] = [];
 
   public totalRecords: number;
@@ -56,6 +60,7 @@ export class MicrofinanceByParticipantComponent implements OnInit, AfterViewInit
 
   constructor(private sponsorService: SponsorService,
               private eventService: EventService,
+              private financeService: FinanceService,
               private router: Router,
               public _matDialog: MatDialog) {
   }
@@ -64,6 +69,9 @@ export class MicrofinanceByParticipantComponent implements OnInit, AfterViewInit
     this.setInitialFieldValues();
     this.getPage(this.searchParams);
     this.listenForChanges();
+
+    this.getTotalCommitted();
+    this.getTotalPaid();
   }
 
   ngAfterViewInit(): void {
@@ -99,8 +107,8 @@ export class MicrofinanceByParticipantComponent implements OnInit, AfterViewInit
   private getPage(searchParams: ServerSidePaginationRequest) {
     this.isLoading = true;
     this.eventService.loadingEvent.emit(true);
-    this.sponsorService.getSponsorList_SSP(searchParams).subscribe((response: ServerSidePaginationResponse<Sponsor>) => {
-        // console.log('getPage response', response);
+    this.financeService.getFinanceListByParticipant_SSP(searchParams).subscribe((response: ServerSidePaginationResponse<Finance>) => {
+        console.log('getPage response', response);
         response.data.forEach(item => {
           this.records.push(item);
         }, error => {
@@ -160,9 +168,9 @@ export class MicrofinanceByParticipantComponent implements OnInit, AfterViewInit
           this.searchParams = serverSideSearchParams;
 
           this.isFilterApplied = nameFilter;
-          return this.sponsorService.getSponsorList_SSP(serverSideSearchParams);
+          return this.financeService.getFinanceListByParticipant_SSP(serverSideSearchParams);
         }),
-        map((response: ServerSidePaginationResponse<Sponsor>) => {
+        map((response: ServerSidePaginationResponse<Finance>) => {
           return response;
         }),
         catchError((error: any) => {
@@ -172,7 +180,7 @@ export class MicrofinanceByParticipantComponent implements OnInit, AfterViewInit
           return of([]);
         })
       )
-      .subscribe((response: ServerSidePaginationResponse<Sponsor>) => {
+      .subscribe((response: ServerSidePaginationResponse<Finance>) => {
           this.records = [];
           response.data.forEach(item => {
             this.records.push(item);
@@ -198,6 +206,32 @@ export class MicrofinanceByParticipantComponent implements OnInit, AfterViewInit
       );
   }
 
+  private getTotalCommitted(): void {
+    this.financeService.getTotalCommitted().subscribe(
+      response => {
+        this.totalCommitted = response;
+        console.log('response', response);
+      },
+      error => {
+        console.error('Error: ', error);
+      }
+    );
+  }
+
+  private getTotalPaid(): void {
+    this.financeService.getTotalPaid().subscribe(
+      response => {
+        this.totalPaid = response;
+        console.log('response', response);
+      },
+      error => {
+        console.error('Error: ', error);
+      }
+    );
+  }
+
+  // DIALOGS
+
   public openAddPaymentDialog(): void {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.minWidth = '25%';
@@ -207,7 +241,7 @@ export class MicrofinanceByParticipantComponent implements OnInit, AfterViewInit
       action: 'create'
     };
     dialogConfig.autoFocus = false;
-    const dialogRef = this._matDialog.open(MicrofinanceAddPaymentDialogComponent, dialogConfig);
+    const dialogRef = this._matDialog.open(FinanceAddPaymentDialogComponent, dialogConfig);
 
     dialogRef.afterClosed().subscribe(dialogData => {
       console.log('dialogData', dialogData);

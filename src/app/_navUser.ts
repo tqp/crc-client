@@ -53,17 +53,17 @@ export const navItemsUser: INavData[] = [
   },
   {
     name: 'Summary',
-    url: '/crud-app',
+    url: '/finance',
     icon: 'fa fa-list-alt',
     children: [
       {
         name: 'By Participant',
-        url: '/microfinance/summary-by-participant',
+        url: '/finance/summary-by-participant',
         icon: 'fa fa-male'
       },
       {
         name: 'By Payment Period',
-        url: '/microfinance/summary-by-payment-period',
+        url: '/finance/summary-by-payment-period',
         icon: 'fa fa-calendar'
       }
     ]

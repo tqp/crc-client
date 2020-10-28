@@ -10,11 +10,11 @@ import { TierTypeService } from '../../reference-tables/tier-type/tier-type.serv
 import { FormattingService } from '../../../../../@tqp/services/formatting.service';
 
 @Component({
-  selector: 'app-microfinance-add-payment-dialog',
-  templateUrl: './microfinance-add-payment-dialog.component.html',
-  styleUrls: ['./microfinance-add-payment-dialog.component.css']
+  selector: 'app-finance-add-payment-dialog',
+  templateUrl: './finance-add-payment-dialog.component.html',
+  styleUrls: ['./finance-add-payment-dialog.component.css']
 })
-export class MicrofinanceAddPaymentDialogComponent implements OnInit {
+export class FinanceAddPaymentDialogComponent implements OnInit {
   public addPaymentForm: FormGroup;
   public caregiverList: Caregiver[];
   public relationshipTypeList: RelationshipType[];
@@ -32,7 +32,7 @@ export class MicrofinanceAddPaymentDialogComponent implements OnInit {
     ],
   };
 
-  constructor(private dialogRef: MatDialogRef<MicrofinanceAddPaymentDialogComponent>,
+  constructor(private dialogRef: MatDialogRef<FinanceAddPaymentDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
               private formBuilder: FormBuilder,
               private caregiverService: CaregiverService,

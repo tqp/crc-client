@@ -48,7 +48,7 @@ export const navItemsAdmin: INavData[] = [
   },
   {
     name: 'Payments',
-    url: '/test-components/placeholder',
+    url: '/finance/payment-list',
     icon: 'fa fa-money'
   },
   {
@@ -58,12 +58,12 @@ export const navItemsAdmin: INavData[] = [
     children: [
       {
         name: 'By Participant',
-        url: '/microfinance/summary-by-participant',
+        url: '/finance/summary-by-participant',
         icon: 'fa fa-male'
       },
       {
         name: 'By Payment Period',
-        url: '/microfinance/summary-by-payment-period',
+        url: '/finance/summary-by-payment-period',
         icon: 'fa fa-calendar'
       }
     ]

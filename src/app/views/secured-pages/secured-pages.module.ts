@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReportsModule } from './reports/reports.module';
 import { AccountModule } from './account/account.module';
-import { MicrofinanceModule } from './microfinance/microfinance.module';
+import { FinanceModule } from './finance/finance.module';
 
 
 @NgModule({
@@ -12,7 +12,7 @@ import { MicrofinanceModule } from './microfinance/microfinance.module';
     // Custom Modules
     ReportsModule,
     AccountModule,
-    MicrofinanceModule
+    FinanceModule
   ]
 })
 export class SecuredPagesModule {

@@ -95,8 +95,8 @@ export const routes: Routes = [
         }
       },
       {
-        path: 'microfinance',
-        loadChildren: () => import('./views/secured-pages/microfinance/microfinance.module').then(m => m.MicrofinanceModule),
+        path: 'finance',
+        loadChildren: () => import('./views/secured-pages/finance/finance.module').then(m => m.FinanceModule),
         resolve: {
           securedPageResolver: SecuredPageResolverService
         }
