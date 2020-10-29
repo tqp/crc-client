@@ -7,20 +7,19 @@ import { RouterModule } from '@angular/router';
 import { ListAddRemoveItemsBasicModule } from '../../../../@tqp/components/list-add-remove-items-basic/list-add-remove-items-basic.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FinanceRoutingModule } from './finance-routing.module';
-import { FinanceReportByPaymentPeriodComponent } from './finance-report-by-payment-period/finance-report-by-payment-period.component';
-import { FinanceReportByParticipantComponent } from './finance-report-by-participant/finance-report-by-participant.component';
-import { PaymentListComponent } from './payment-list/payment-list.component';
-import { FinanceAddPaymentDialogComponent } from './finance-add-payment-dialog/finance-add-payment-dialog.component';
-import { PaymentDetailComponent } from './payment-detail/payment-detail.component';
-import { PaymentDetailEditDialogComponent } from './payment-detail-edit-dialog/payment-detail-edit-dialog.component';
-import { LoanListComponent } from './loan-list/loan-list.component';
-import { LoanDetailComponent } from './loan-detail/loan-detail.component';
-import { LoanDetailEditComponent } from './loan-detail-edit/loan-detail-edit.component';
+import { FinanceReportByPaymentPeriodComponent } from './reports/finance-report-by-payment-period/finance-report-by-payment-period.component';
+import { FinanceReportByParticipantComponent } from './reports/finance-report-by-participant/finance-report-by-participant.component';
+import { PaymentListComponent } from './payments/payment-list/payment-list.component';
+import { PaymentDetailComponent } from './payments/payment-detail/payment-detail.component';
+import { PaymentDetailEditDialogComponent } from './payments/payment-detail-edit-dialog/payment-detail-edit-dialog.component';
+import { LoanListComponent } from './loans/loan-list/loan-list.component';
+import { LoanDetailComponent } from './loans/loan-detail/loan-detail.component';
+import { LoanDetailEditComponent } from './loans/loan-detail-edit/loan-detail-edit.component';
+import { LoanDetailEditDialogComponent } from './loans/loan-detail-edit-dialog/loan-detail-edit-dialog.component';
 
 
 @NgModule({
   declarations: [
-    FinanceAddPaymentDialogComponent,
     FinanceReportByPaymentPeriodComponent,
     FinanceReportByParticipantComponent,
     PaymentListComponent,
@@ -28,7 +27,8 @@ import { LoanDetailEditComponent } from './loan-detail-edit/loan-detail-edit.com
     PaymentDetailEditDialogComponent,
     LoanListComponent,
     LoanDetailComponent,
-    LoanDetailEditComponent
+    LoanDetailEditComponent,
+    LoanDetailEditDialogComponent
   ],
   imports: [
     CommonModule,

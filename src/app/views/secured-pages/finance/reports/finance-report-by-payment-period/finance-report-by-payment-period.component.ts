@@ -1,33 +1,28 @@
 import { AfterViewInit, Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
-import { ServerSidePaginationRequest } from '../../../../../@tqp/models/ServerSidePaginationRequest';
+import { ServerSidePaginationRequest } from '../../../../../../@tqp/models/ServerSidePaginationRequest';
 import { FormControl } from '@angular/forms';
-import { SponsorService } from '../../people/sponsors/sponsor.service';
-import { EventService } from '../../../../../@tqp/services/event.service';
+import { Sponsor } from '../../../people/sponsors/Sponsor';
+import { SponsorService } from '../../../people/sponsors/sponsor.service';
+import { EventService } from '../../../../../../@tqp/services/event.service';
 import { Router } from '@angular/router';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { ServerSidePaginationResponse } from '../../../../../@tqp/models/ServerSidePaginationResponse';
+import { ServerSidePaginationResponse } from '../../../../../../@tqp/models/ServerSidePaginationResponse';
 import { merge, of } from 'rxjs';
 import { catchError, debounceTime, map, switchMap } from 'rxjs/operators';
-import { FinanceService } from '../finance.service';
-import { FinanceAddPaymentDialogComponent } from '../finance-add-payment-dialog/finance-add-payment-dialog.component';
-import { Loan } from '../Loan';
 
 @Component({
-  selector: 'app-finance-report-by-participant',
-  templateUrl: './finance-report-by-participant.component.html',
-  styleUrls: ['./finance-report-by-participant.component.css']
+  selector: 'app-finance-report-by-payment-period',
+  templateUrl: './finance-report-by-payment-period.component.html',
+  styleUrls: ['./finance-report-by-payment-period.component.css']
 })
-export class FinanceReportByParticipantComponent implements OnInit, AfterViewInit, OnDestroy {
+export class FinanceReportByPaymentPeriodComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild(MatSort, {static: true}) sort: MatSort;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild('tableContainer', {read: ElementRef, static: true}) public matTableRef: ElementRef;
   @ViewChild('dialogContent', {static: true}) public dialogRef: any;
   @ViewChild('nameSearchElementRef', {static: true}) nameSearchElementRef: ElementRef;
-
-  public totalCommitted: number;
-  public totalPaid: number;
 
   private pageIndex = 0;
   public pageSize = 10;
@@ -35,19 +30,18 @@ export class FinanceReportByParticipantComponent implements OnInit, AfterViewIni
   private searchParams: ServerSidePaginationRequest = new ServerSidePaginationRequest();
 
   public displayedColumns: string[] = [
-    'participant',
-    'loanId',
-    'loanTotal',
-    'amountPaid',
-    'percentPaid',
-    'remainingFunds',
-    'percentRemaining'
+    'year',
+    'month',
+    'week',
+    'sumOfAmount',
+    'percentPaidOfCommittedFunds',
+    'averageOfLoanAmount'
   ];
 
   public sponsorListNameSearchFormControl = new FormControl();
 
-  public records: Loan[] = [];
-  public dataSource: Loan[] = [];
+  public records: Sponsor[] = [];
+  public dataSource: any[] = [];
   public stateList: string[] = [];
 
   public totalRecords: number;
@@ -60,7 +54,6 @@ export class FinanceReportByParticipantComponent implements OnInit, AfterViewIni
 
   constructor(private sponsorService: SponsorService,
               private eventService: EventService,
-              private financeService: FinanceService,
               private router: Router,
               public _matDialog: MatDialog) {
   }
@@ -69,9 +62,6 @@ export class FinanceReportByParticipantComponent implements OnInit, AfterViewIni
     this.setInitialFieldValues();
     this.getPage(this.searchParams);
     this.listenForChanges();
-
-    this.getTotalCommitted();
-    this.getTotalPaid();
   }
 
   ngAfterViewInit(): void {
@@ -107,8 +97,8 @@ export class FinanceReportByParticipantComponent implements OnInit, AfterViewIni
   private getPage(searchParams: ServerSidePaginationRequest) {
     this.isLoading = true;
     this.eventService.loadingEvent.emit(true);
-    this.financeService.getFinanceListByParticipant_SSP(searchParams).subscribe((response: ServerSidePaginationResponse<Loan>) => {
-        console.log('getPage response', response);
+    this.sponsorService.getSponsorList_SSP(searchParams).subscribe((response: ServerSidePaginationResponse<Sponsor>) => {
+        // console.log('getPage response', response);
         response.data.forEach(item => {
           this.records.push(item);
         }, error => {
@@ -168,9 +158,9 @@ export class FinanceReportByParticipantComponent implements OnInit, AfterViewIni
           this.searchParams = serverSideSearchParams;
 
           this.isFilterApplied = nameFilter;
-          return this.financeService.getFinanceListByParticipant_SSP(serverSideSearchParams);
+          return this.sponsorService.getSponsorList_SSP(serverSideSearchParams);
         }),
-        map((response: ServerSidePaginationResponse<Loan>) => {
+        map((response: ServerSidePaginationResponse<Sponsor>) => {
           return response;
         }),
         catchError((error: any) => {
@@ -180,7 +170,7 @@ export class FinanceReportByParticipantComponent implements OnInit, AfterViewIni
           return of([]);
         })
       )
-      .subscribe((response: ServerSidePaginationResponse<Loan>) => {
+      .subscribe((response: ServerSidePaginationResponse<Sponsor>) => {
           this.records = [];
           response.data.forEach(item => {
             this.records.push(item);
@@ -204,48 +194,6 @@ export class FinanceReportByParticipantComponent implements OnInit, AfterViewIni
           console.error('Error: ', error.message);
         }
       );
-  }
-
-  private getTotalCommitted(): void {
-    this.financeService.getTotalCommitted().subscribe(
-      response => {
-        this.totalCommitted = response;
-        console.log('response', response);
-      },
-      error => {
-        console.error('Error: ', error);
-      }
-    );
-  }
-
-  private getTotalPaid(): void {
-    this.financeService.getTotalPaid().subscribe(
-      response => {
-        this.totalPaid = response;
-        console.log('response', response);
-      },
-      error => {
-        console.error('Error: ', error);
-      }
-    );
-  }
-
-  // DIALOGS
-
-  public openAddPaymentDialog(): void {
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.minWidth = '25%';
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true;
-    dialogConfig.data = {
-      action: 'create'
-    };
-    dialogConfig.autoFocus = false;
-    const dialogRef = this._matDialog.open(FinanceAddPaymentDialogComponent, dialogConfig);
-
-    dialogRef.afterClosed().subscribe(dialogData => {
-      console.log('dialogData', dialogData);
-    });
   }
 
   public clearFilters(): void {

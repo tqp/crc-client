@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { FinanceReportByParticipantComponent } from './finance-report-by-participant/finance-report-by-participant.component';
-import { FinanceReportByPaymentPeriodComponent } from './finance-report-by-payment-period/finance-report-by-payment-period.component';
-import { PaymentListComponent } from './payment-list/payment-list.component';
+import { FinanceReportByParticipantComponent } from './reports/finance-report-by-participant/finance-report-by-participant.component';
+import { FinanceReportByPaymentPeriodComponent } from './reports/finance-report-by-payment-period/finance-report-by-payment-period.component';
+import { PaymentListComponent } from './payments/payment-list/payment-list.component';
 
 const routes: Routes = [
 

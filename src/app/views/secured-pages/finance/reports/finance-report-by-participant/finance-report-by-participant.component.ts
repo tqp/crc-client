@@ -1,32 +1,32 @@
 import { AfterViewInit, Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
-import { ServerSidePaginationRequest } from '../../../../../@tqp/models/ServerSidePaginationRequest';
+import { ServerSidePaginationRequest } from '../../../../../../@tqp/models/ServerSidePaginationRequest';
 import { FormControl } from '@angular/forms';
-import { EventService } from '../../../../../@tqp/services/event.service';
+import { SponsorService } from '../../../people/sponsors/sponsor.service';
+import { EventService } from '../../../../../../@tqp/services/event.service';
 import { Router } from '@angular/router';
-import { AuthService } from '../../../../../@tqp/services/auth.service';
-import { ServerSidePaginationResponse } from '../../../../../@tqp/models/ServerSidePaginationResponse';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { ServerSidePaginationResponse } from '../../../../../../@tqp/models/ServerSidePaginationResponse';
 import { merge, of } from 'rxjs';
 import { catchError, debounceTime, map, switchMap } from 'rxjs/operators';
-import { FinanceService } from '../finance.service';
-import { Loan } from '../Loan';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { PaymentDetailEditDialogComponent } from '../payment-detail-edit-dialog/payment-detail-edit-dialog.component';
-import { Payment } from '../Payment';
-import { FormattingService } from '../../../../../@tqp/services/formatting.service';
+import { FinanceService } from '../../finance.service';
+import { Loan } from '../../Loan';
 
 @Component({
-  selector: 'app-payment-list',
-  templateUrl: './payment-list.component.html',
-  styleUrls: ['./payment-list.component.css']
+  selector: 'app-finance-report-by-participant',
+  templateUrl: './finance-report-by-participant.component.html',
+  styleUrls: ['./finance-report-by-participant.component.css']
 })
-export class PaymentListComponent implements OnInit, AfterViewInit, OnDestroy {
+export class FinanceReportByParticipantComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild(MatSort, {static: true}) sort: MatSort;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild('tableContainer', {read: ElementRef, static: true}) public matTableRef: ElementRef;
   @ViewChild('dialogContent', {static: true}) public dialogRef: any;
   @ViewChild('nameSearchElementRef', {static: true}) nameSearchElementRef: ElementRef;
+
+  public totalCommitted: number;
+  public totalPaid: number;
 
   private pageIndex = 0;
   public pageSize = 10;
@@ -36,12 +36,14 @@ export class PaymentListComponent implements OnInit, AfterViewInit, OnDestroy {
   public displayedColumns: string[] = [
     'participant',
     'loanId',
-    'loanDescription',
-    'paymentDate',
-    'paymentAmount'
+    'loanTotal',
+    'amountPaid',
+    'percentPaid',
+    'remainingFunds',
+    'percentRemaining'
   ];
 
-  public caregiverListNameSearchFormControl = new FormControl();
+  public sponsorListNameSearchFormControl = new FormControl();
 
   public records: Loan[] = [];
   public dataSource: Loan[] = [];
@@ -55,11 +57,10 @@ export class PaymentListComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public isFilterApplied = false;
 
-  constructor(private financeService: FinanceService,
+  constructor(private sponsorService: SponsorService,
               private eventService: EventService,
-              private formattingService: FormattingService,
+              private financeService: FinanceService,
               private router: Router,
-              public authService: AuthService,
               public _matDialog: MatDialog) {
   }
 
@@ -67,13 +68,16 @@ export class PaymentListComponent implements OnInit, AfterViewInit, OnDestroy {
     this.setInitialFieldValues();
     this.getPage(this.searchParams);
     this.listenForChanges();
+
+    this.getTotalCommitted();
+    this.getTotalPaid();
   }
 
   ngAfterViewInit(): void {
   }
 
   ngOnDestroy(): void {
-    // this.financeService.setCaregiverListNameSearchValue(this.caregiverListNameSearchFormControl.value);
+    this.sponsorService.setSponsorListNameSearchValue(this.sponsorListNameSearchFormControl.value);
   }
 
   private calculateTableSize(): number {
@@ -92,18 +96,18 @@ export class PaymentListComponent implements OnInit, AfterViewInit, OnDestroy {
     this.searchParams.sortColumn = null;
     this.searchParams.sortDirection = 'asc';
 
-    // if (this.caregiverService.getCaregiverListNameSearchValue()) {
-    //   const nameSearchValue = this.caregiverService.getCaregiverListNameSearchValue();
-    //   this.caregiverListNameSearchFormControl.setValue(nameSearchValue);
-    //   this.searchParams.nameFilter = nameSearchValue;
-    // }
+    if (this.sponsorService.getSponsorListNameSearchValue()) {
+      const nameSearchValue = this.sponsorService.getSponsorListNameSearchValue();
+      this.sponsorListNameSearchFormControl.setValue(nameSearchValue);
+      this.searchParams.nameFilter = nameSearchValue;
+    }
   }
 
   private getPage(searchParams: ServerSidePaginationRequest) {
     this.isLoading = true;
     this.eventService.loadingEvent.emit(true);
-    this.financeService.getPaymentList_SSP(searchParams).subscribe((response: ServerSidePaginationResponse<Loan>) => {
-        // console.log('getPage response', response);
+    this.financeService.getFinanceListByParticipant_SSP(searchParams).subscribe((response: ServerSidePaginationResponse<Loan>) => {
+        console.log('getPage response', response);
         response.data.forEach(item => {
           this.records.push(item);
         }, error => {
@@ -130,7 +134,7 @@ export class PaymentListComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private listenForChanges(): void {
     merge(
-      this.caregiverListNameSearchFormControl.valueChanges.pipe(debounceTime(100)),
+      this.sponsorListNameSearchFormControl.valueChanges.pipe(debounceTime(100)),
       this.sort.sortChange,
       this.paginator.page
     )
@@ -145,7 +149,7 @@ export class PaymentListComponent implements OnInit, AfterViewInit, OnDestroy {
           this.isLoading = true;
           this.eventService.loadingEvent.emit(true);
 
-          const nameFilter = this.caregiverListNameSearchFormControl.value != null ? this.caregiverListNameSearchFormControl.value : '';
+          const nameFilter = this.sponsorListNameSearchFormControl.value != null ? this.sponsorListNameSearchFormControl.value : '';
 
           // Translate table columns to database columns for sorting.
           // IMPORTANT: If this translation is incorrect, the query will break!!!
@@ -163,7 +167,7 @@ export class PaymentListComponent implements OnInit, AfterViewInit, OnDestroy {
           this.searchParams = serverSideSearchParams;
 
           this.isFilterApplied = nameFilter;
-          return this.financeService.getPaymentList_SSP(serverSideSearchParams);
+          return this.financeService.getFinanceListByParticipant_SSP(serverSideSearchParams);
         }),
         map((response: ServerSidePaginationResponse<Loan>) => {
           return response;
@@ -201,53 +205,63 @@ export class PaymentListComponent implements OnInit, AfterViewInit, OnDestroy {
       );
   }
 
-  public clearFilters(): void {
-    this.caregiverListNameSearchFormControl.setValue('');
+  private getTotalCommitted(): void {
+    this.financeService.getTotalCommitted().subscribe(
+      response => {
+        this.totalCommitted = response;
+        console.log('response', response);
+      },
+      error => {
+        console.error('Error: ', error);
+      }
+    );
   }
 
-  public openPaymentEditDialog(): void {
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.minWidth = '25%';
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true;
-    dialogConfig.data = {
-      action: 'create',
-    };
-    dialogConfig.autoFocus = false;
-    const dialogRef = this._matDialog.open(PaymentDetailEditDialogComponent, dialogConfig);
-
-    dialogRef.afterClosed().subscribe(dialogData => {
-      console.log('dialogData', dialogData);
-      if (dialogData) {
-        const payment: Payment = {};
-        payment.caregiverId = dialogData.caregiverId;
-        payment.loanId = dialogData.loanId;
-        payment.paymentDate = this.formattingService.formatStandardDateAsMySql(dialogData.paymentDate);
-        payment.paymentAmount = dialogData.paymentAmount;
-        console.log('payment', payment);
-        this.financeService.addPayment(payment).subscribe(
-          response => {
-            console.log('response', response);
-            this.getPage(this.searchParams);
-          },
-          error => {
-            console.error('Error: ', error);
-          }
-        );
+  private getTotalPaid(): void {
+    this.financeService.getTotalPaid().subscribe(
+      response => {
+        this.totalPaid = response;
+        console.log('response', response);
+      },
+      error => {
+        console.error('Error: ', error);
       }
-    });
+    );
+  }
+
+  // DIALOGS
+
+  public clearFilters(): void {
+    this.sponsorListNameSearchFormControl.setValue('');
+  }
+
+  public openCreateSponsorPage(): void {
+    this.router.navigate(['sponsors/sponsor-create']).then();
   }
 
   public openDetailPage(row: any): void {
-    this.router.navigate(['caregivers/caregiver-detail', row.caregiverId]).then();
+    this.router.navigate(['sponsors/sponsor-detail', row.sponsorId]).then();
   }
 
   @HostListener('window:keydown', ['$event'])
   public handleKeyboardEvent(event: KeyboardEvent): void {
     if (event.ctrlKey && event.key === 'f') {
       event.preventDefault();
-      this.caregiverListNameSearchFormControl.setValue('');
+      this.sponsorListNameSearchFormControl.setValue('');
       this.nameSearchElementRef.nativeElement.focus();
+    }
+    if (event.ctrlKey && event.key === 'c') {
+      event.preventDefault();
+      this.openCreateSponsorPage();
+    }
+    if (event.ctrlKey && event.key === ',') {
+      event.preventDefault();
+      // console.log('next', this.paginator.pageIndex);
+      // this.paginator.pageIndex = 0;
+    }
+    if (event.ctrlKey && event.key === '.') {
+      event.preventDefault();
+      // console.log('next', this.paginator.pageIndex);
     }
   }
 }
