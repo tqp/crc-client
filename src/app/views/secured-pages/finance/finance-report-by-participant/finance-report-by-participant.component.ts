@@ -36,7 +36,7 @@ export class FinanceReportByParticipantComponent implements OnInit, AfterViewIni
 
   public displayedColumns: string[] = [
     'participant',
-    'businessType',
+    'loanId',
     'loanTotal',
     'amountPaid',
     'percentPaid',
