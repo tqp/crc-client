@@ -1,16 +1,91 @@
 <h2 mat-dialog-title>
-  Student-Program Status Edit Dialog
+  Set Program Status
 </h2>
 
 <mat-dialog-content style="overflow: hidden">
-  Content
+
+  <form [formGroup]="programStatusEditForm">
+
+    <div class="row" *ngIf="programStatusPackageLevelOne">
+      <div class="col-sm-12">
+        <div class="form-group">
+          <label for="programStatusLevelOneId">Select New Program Status*</label>
+          <select id="programStatusLevelOneId" class="form-control" formControlName="programStatusLevelOneId"
+                  (change)="programStatusLevelOneChanged($event)">
+            <option value=0>Select a Program Status</option>
+            <option *ngFor="let programStatusList of programStatusPackageLevelOne.childProgramStatusList" value="{{programStatusList.programStatusId}}">
+              {{programStatusList.programStatusName}}
+            </option>
+          </select>
+          <mat-error *ngFor="let validation of validationMessages.programStatusLevelOneId">
+            <mat-error class="error-message"
+                       *ngIf="programStatusEditForm.get('programStatusLevelOneId').hasError(validation.type)
+                                && (programStatusEditForm.get('programStatusLevelOneId').dirty ||
+                                programStatusEditForm.get('programStatusLevelOneId').touched)">
+              {{validation.message}}
+            </mat-error>
+          </mat-error>
+        </div>
+      </div>
+    </div>
+
+    <div class="row" *ngIf="programStatusPackageLevelTwo">
+      <div class="col-sm-12">
+        <div class="form-group">
+          <label for="programStatusLevelTwoId">{{programStatusPackageLevelTwo.childFieldTitle}}*</label>
+          <select id="programStatusLevelTwoId" class="form-control" formControlName="programStatusLevelTwoId"
+                  (change)="programStatusLevelTwoChanged($event)">
+            <option value=0>Select a Program Status</option>
+            <option *ngFor="let programStatusLevelTwo of programStatusPackageLevelTwo.childProgramStatusList"
+                    value="{{programStatusLevelTwo.programStatusId}}">
+              {{programStatusLevelTwo.programStatusName}}
+            </option>
+          </select>
+          <mat-error *ngFor="let validation of validationMessages.programStatusLevelTwoId">
+            <mat-error class="error-message"
+                       *ngIf="programStatusEditForm.get('programStatusLevelTwoId').hasError(validation.type)
+                                && (programStatusEditForm.get('programStatusLevelTwoId').dirty ||
+                                programStatusEditForm.get('programStatusLevelTwoId').touched)">
+              {{validation.message}}
+            </mat-error>
+          </mat-error>
+        </div>
+      </div>
+    </div>
+
+    <div class="row" *ngIf="programStatusPackageLevelThree && programStatusPackageLevelThree.childProgramStatusList.length > 0">
+      <div class="col-sm-12">
+        <div class="form-group">
+          <label for="programStatusLevelThreeId">{{programStatusPackageLevelThree.childFieldTitle}}*</label>
+          <select id="programStatusLevelThreeId" class="form-control" formControlName="programStatusLevelThreeId">
+            <option value=0>Select a Program Status</option>
+            <option *ngFor="let programStatusLevelThree of programStatusPackageLevelThree.childProgramStatusList"
+                    value="{{programStatusLevelThree.programStatusId}}">
+              {{programStatusLevelThree.programStatusName}}
+            </option>
+          </select>
+          <mat-error *ngFor="let validation of validationMessages.programStatusLevelThreeId">
+            <mat-error class="error-message"
+                       *ngIf="programStatusEditForm.get('programStatusLevelThreeId').hasError(validation.type)
+                                && (programStatusEditForm.get('programStatusLevelThreeId').dirty ||
+                                programStatusEditForm.get('programStatusLevelThreeId').touched)">
+              {{validation.message}}
+            </mat-error>
+          </mat-error>
+        </div>
+      </div>
+    </div>
+
+  </form>
+
 </mat-dialog-content>
 
 <mat-dialog-actions>
   <button mat-raised-button mat-dialog-close>Cancel</button>
   <button mat-raised-button (click)="reset();">Reset</button>
   <div fxFlex></div>
-  <button mat-raised-button mat-dialog-close color="primary" (click)="save();">
+  <button mat-raised-button mat-dialog-close color="primary" (click)="save();"
+          [disabled]="!programStatusEditForm.valid">
     Save
   </button>
 </mat-dialog-actions>

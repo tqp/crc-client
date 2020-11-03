@@ -1,6 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { ProgramStatusService } from '../program-status.service';
+import { ProgramStatusList } from '../ProgramStatusList';
+import { ProgramStatusPackage } from '../ProgramStatusPackage';
 
 @Component({
   selector: 'app-student-program-status-edit-dialog',
@@ -8,20 +11,98 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
   styleUrls: ['./student-program-status-edit-dialog.component.css']
 })
 export class StudentProgramStatusEditDialogComponent implements OnInit {
-  public studentProgramStatusEditForm: FormGroup;
+  public programStatusEditForm: FormGroup;
+  public programStatusPackageLevelOne: ProgramStatusPackage;
+  public programStatusPackageLevelTwo: ProgramStatusPackage;
+  public programStatusPackageLevelThree: ProgramStatusPackage;
+
+  public validationMessages = {
+    'programStatusLevelOneId': [
+      {type: 'required', message: 'A Program Status is required'}
+    ],
+    'programStatusLevelTwoId': [
+      {type: 'required', message: 'This field is required'}
+    ],
+    'programStatusLevelThreeId': [
+      {type: 'required', message: 'This field is required'}
+    ],
+  };
 
   constructor(private dialogRef: MatDialogRef<StudentProgramStatusEditDialogComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: any) { }
+              @Inject(MAT_DIALOG_DATA) public data: any,
+              private programStatusService: ProgramStatusService,
+              private formBuilder: FormBuilder) {
+    this.getProgramStatusPayload_LevelOne();
+  }
 
   ngOnInit(): void {
+    this.initializeForm();
   }
+
+  private initializeForm(): void {
+    this.programStatusEditForm = this.formBuilder.group({
+      programStatusLevelOneId: new FormControl(0, Validators.required),
+      programStatusLevelTwoId: new FormControl(0, Validators.required),
+      programStatusLevelThreeId: new FormControl(0, Validators.required),
+    });
+
+    // setTimeout(() => {
+    //   this.relationSurnameField.nativeElement.focus();
+    // }, 0);
+  }
+
+  // Load Option Value Lists
+
+  private getProgramStatusPayload_LevelOne(): void {
+    this.programStatusService.getProgramStatusPackage(0).subscribe(
+      (response: ProgramStatusPackage) => {
+        this.programStatusPackageLevelOne = response;
+        // console.log('programStatusPackageLevelOne', this.programStatusPackageLevelOne);
+      },
+      error => {
+        console.error('Error: ', error);
+      }
+    );
+  }
+
+  public programStatusLevelOneChanged(event: any): void {
+    const programStatusLevelOneId = event.target.value;
+    this.programStatusEditForm.get('programStatusLevelTwoId').patchValue(0);
+    // console.log('programStatusLevelOneChanged', programStatusLevelOneId);
+    this.programStatusService.getProgramStatusPackage(programStatusLevelOneId).subscribe(
+      (response: ProgramStatusPackage) => {
+        this.programStatusPackageLevelTwo = response;
+        // console.log('programStatusPackageLevelTwo', this.programStatusPackageLevelTwo);
+      },
+      error => {
+        console.error('Error: ', error);
+      }
+    );
+  }
+
+  public programStatusLevelTwoChanged(event: any): void {
+    const programStatusLevelTwoId = event.target.value;
+    this.programStatusEditForm.get('programStatusLevelThreeId').patchValue(0);
+    // console.log('programStatusLevelTwoChanged', programStatusLevelTwoId);
+    this.programStatusService.getProgramStatusPackage(programStatusLevelTwoId).subscribe(
+      (response: ProgramStatusPackage) => {
+        this.programStatusPackageLevelThree = response;
+        // console.log('programStatusPackageLevelThree', this.programStatusPackageLevelThree);
+      },
+      error => {
+        console.error('Error: ', error);
+      }
+    );
+  }
+
+  // Buttons
 
   public reset(): void {
     console.log('reset');
   }
 
   public save(): void {
-    this.dialogRef.close(this.studentProgramStatusEditForm.value);
+    this.dialogRef.close(this.programStatusEditForm.value);
   }
 
 }

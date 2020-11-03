@@ -16,10 +16,10 @@ import { CaseManagerService } from '../../case-managers/case-manager.service';
 import { Sponsor } from '../../sponsors/Sponsor';
 import { StudentSponsorEditDialogComponent } from '../../../relationships/student-sponsor-edit-dialog/student-sponsor-edit-dialog.component';
 import { SponsorService } from '../../sponsors/sponsor.service';
-
-import * as moment from 'moment';
-import { StudentStatusEditDialogComponent } from '../../../relationships/student-status-edit-dialog/student-status-edit-dialog.component';
 import { RelationshipService } from '../../../relationships/relationship.service';
+import { StudentProgramStatusEditDialogComponent } from '../../../relationships/student-program-status-edit-dialog/student-program-status-edit-dialog.component';
+import { ProgramStatusService } from '../../../relationships/program-status.service';
+import { ProgramStatus } from '../../../relationships/ProgramStatus';
 
 @Component({
   selector: 'app-student-detail',
@@ -32,6 +32,7 @@ export class StudentDetailComponent implements OnInit {
   public caregiver: Caregiver;
   public caseManager: CaseManager;
   public sponsor: Sponsor;
+  public programStatus: ProgramStatus;
 
   // Loading
   public studentLoading: boolean = false;
@@ -55,6 +56,7 @@ export class StudentDetailComponent implements OnInit {
               private caregiverService: CaregiverService,
               private caseManagerService: CaseManagerService,
               private sponsorService: SponsorService,
+              private programStatusService: ProgramStatusService,
               private relationshipService: RelationshipService,
               private eventService: EventService,
               private formattingService: FormattingService,
@@ -72,6 +74,7 @@ export class StudentDetailComponent implements OnInit {
         this.getCaregiverDetailByStudentId(studentId);
         this.getCaseManagerDetailByStudentId(studentId);
         this.getSponsorDetailByStudentId(studentId);
+        this.getProgramStatusDetailByStudentId(studentId);
       } else {
         console.error('No ID was present.');
       }
@@ -136,6 +139,23 @@ export class StudentDetailComponent implements OnInit {
         this.sponsor.relationshipStartDate = this.formattingService.formatMySqlDateAsStandard(this.sponsor.relationshipStartDate);
         this.eventService.loadingEvent.emit(false);
         this.sponsorLoading = false;
+      },
+      error => {
+        console.error('Error: ', error);
+      }
+    );
+  }
+
+  private getProgramStatusDetailByStudentId(studentId: number): void {
+    this.eventService.loadingEvent.emit(true);
+    this.sponsorLoading = true;
+    this.programStatusService.getProgramStatusDetailByStudentId(studentId).subscribe(
+      (response: ProgramStatus) => {
+        console.log('response', response);
+        this.programStatus = response;
+        this.programStatus.programStatusStartDate = this.formattingService.formatMySqlDateAsStandard(this.programStatus.programStatusStartDate);
+        // this.eventService.loadingEvent.emit(false);
+        // this.sponsorLoading = false;
       },
       error => {
         console.error('Error: ', error);
@@ -251,6 +271,7 @@ export class StudentDetailComponent implements OnInit {
   public openStudentStatusEditDialog(): void {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.minWidth = '25%';
+    dialogConfig.minHeight = '400px';
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     dialogConfig.data = {
@@ -258,7 +279,7 @@ export class StudentDetailComponent implements OnInit {
       studentId: this.student.studentId
     };
     dialogConfig.autoFocus = false;
-    const dialogRef = this._matDialog.open(StudentStatusEditDialogComponent, dialogConfig);
+    const dialogRef = this._matDialog.open(StudentProgramStatusEditDialogComponent, dialogConfig);
 
     dialogRef.afterClosed().subscribe(dialogData => {
       console.log('dialogData', dialogData);

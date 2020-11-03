@@ -21,11 +21,17 @@ export class MyProfileService {
   }
 
   public getMyUserInfo(): Observable<User> {
+    const url1 = environment.apiUrl + '/api/v1/my-profile/';
     const token = this.tokenService.getToken();
     if (token) {
-      return this.http.get<User>(environment.apiUrl + '/api/v1/my-profile/', {headers: this.httpService.setHeaders(token)}).pipe(
+      return this.http.get<User>(url1, {
+        headers: this.httpService.setHeaders(token)
+      }).pipe(
         switchMap(user => {
-          return this.http.get<Role[]>(environment.apiUrl + '/api/v1/my-profile/roles', {headers: this.httpService.setHeaders(token)})
+          const url2 = environment.apiUrl + '/api/v1/my-profile/roles';
+          return this.http.get<Role[]>(environment.apiUrl + '/api/v1/my-profile/roles', {
+            headers: this.httpService.setHeaders(token),
+          })
             .pipe(
               map(roles => {
                 user.roles = roles;

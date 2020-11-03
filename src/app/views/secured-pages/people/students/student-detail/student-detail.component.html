@@ -62,7 +62,56 @@
 
       <div class="card">
         <div class="card-header">
-          <i class="fa fa-group"></i>
+          <i class="fa fa-calendar"></i>
+          CRC Events
+        </div>
+        <div class="card-body">
+
+          <div class="table-container">
+
+            <table mat-table [dataSource]="dataSource" *ngIf="dataSource && dataSource.length > 0"
+                   matSort matSortActive="lastName" matSortDirection="asc" matSortDisableClear="true"
+                   class="table">
+
+              <ng-template matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef>Name</th>
+                <td mat-cell *matCellDef="let row">
+                  <a [routerLink]="['/relation/relation-detail', row.personId]">
+                    {{row.personGivenName}} {{row.personSurname}}
+                  </a>
+                </td>
+              </ng-template>
+
+              <ng-template matColumnDef="relationship">
+                <th mat-header-cell *matHeaderCellDef>Relationship</th>
+                <td mat-cell *matCellDef="let row">
+                  {{row.relationshipTypeName}}
+                </td>
+              </ng-template>
+
+              <ng-template matColumnDef="bloodRelative">
+                <th mat-header-cell *matHeaderCellDef>Blood Relative</th>
+                <td mat-cell *matCellDef="let row">
+                  {{row.relationshipBloodRelative ? 'Yes' : 'No'}}
+                </td>
+              </ng-template>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true" [hidden]="false"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+
+            <div class="no-records" *ngIf="dataSource && dataSource.length <= 0">
+              Date, Event Type, POC (Case Manager/ Caregiver)
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-home"></i>
           Student Visits
         </div>
         <div class="card-body">
@@ -109,55 +158,6 @@
         </div>
       </div>
 
-      <div class="card">
-        <div class="card-header">
-          <i class="fa fa-group"></i>
-          CRC Events (Pause)
-        </div>
-        <div class="card-body">
-
-          <div class="table-container">
-
-            <table mat-table [dataSource]="dataSource" *ngIf="dataSource && dataSource.length > 0"
-                   matSort matSortActive="lastName" matSortDirection="asc" matSortDisableClear="true"
-                   class="table">
-
-              <ng-template matColumnDef="name">
-                <th mat-header-cell *matHeaderCellDef>Name</th>
-                <td mat-cell *matCellDef="let row">
-                  <a [routerLink]="['/relation/relation-detail', row.personId]">
-                    {{row.personGivenName}} {{row.personSurname}}
-                  </a>
-                </td>
-              </ng-template>
-
-              <ng-template matColumnDef="relationship">
-                <th mat-header-cell *matHeaderCellDef>Relationship</th>
-                <td mat-cell *matCellDef="let row">
-                  {{row.relationshipTypeName}}
-                </td>
-              </ng-template>
-
-              <ng-template matColumnDef="bloodRelative">
-                <th mat-header-cell *matHeaderCellDef>Blood Relative</th>
-                <td mat-cell *matCellDef="let row">
-                  {{row.relationshipBloodRelative ? 'Yes' : 'No'}}
-                </td>
-              </ng-template>
-
-              <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true" [hidden]="false"></tr>
-              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-            </table>
-
-            <div class="no-records" *ngIf="dataSource && dataSource.length <= 0">
-              Date, Event Type, POC (Case Manager/ Caregiver)
-            </div>
-
-          </div>
-
-        </div>
-      </div>
-
     </div>
 
     <div class="col-lg-6 col-sm-12">
@@ -175,18 +175,28 @@
           <dl class="row">
             <dt class="col-sm-4">Program Status:</dt>
             <dd class="col-sm-8">
-              <span *ngIf="student.programStatus; else noProgramStatusAssigned;">
-                {{student.programStatus}}
+              <span *ngIf="programStatus && programStatus.programStudentStatusId; else noProgramStatusAssigned;">
+                {{programStatus.programStatusLevelOne}}
               </span>
             </dd>
             <ng-template #noProgramStatusAssigned>
               <span class="text-danger">No Program Status Set</span>
             </ng-template>
           </dl>
-          <dl class="row">
-            <dt class="col-sm-4">Status Date:</dt>
-            <dd class="col-sm-8">{{student.programStatusDate}}</dd>
-          </dl>
+          <ng-container *ngIf="programStatus && programStatus.programStudentStatusId">
+            <dl class="row" *ngIf="programStatus.programStatusLevelTwo">
+              <dt class="col-sm-4"></dt>
+              <dd class="col-sm-8">{{programStatus.programStatusLevelTwo}}</dd>
+            </dl>
+            <dl class="row" *ngIf="programStatus.programStatusLevelThree">
+              <dt class="col-sm-4"></dt>
+              <dd class="col-sm-8">{{programStatus.programStatusLevelThree}}</dd>
+            </dl>
+            <dl class="row">
+              <dt class="col-sm-4">Status Date:</dt>
+              <dd class="col-sm-8">{{programStatus.programStatusStartDate}}</dd>
+            </dl>
+          </ng-container>
         </div>
       </div>
 

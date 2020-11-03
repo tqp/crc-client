@@ -12,7 +12,10 @@ export class Student {
   public studentImpairment?: string;
   // Program Status
   public programStatus?: string;
-  public programStatusDate?: string;
+  public programStatusStartDate?: string;
+  public programStatusLevelOne?: string;
+  public programStatusLevelTwo?: string;
+  public programStatusLevelThree?: string;
   // Tier
   public relationshipTierTypeId?: number;
   public relationshipTierTypeName?: string;
