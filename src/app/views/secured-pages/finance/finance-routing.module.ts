@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { FinanceReportByParticipantComponent } from './reports/finance-report-by-participant/finance-report-by-participant.component';
 import { FinanceReportByPaymentPeriodComponent } from './reports/finance-report-by-payment-period/finance-report-by-payment-period.component';
 import { PaymentListComponent } from './payments/payment-list/payment-list.component';
+import { LoanListComponent } from './loans/loan-list/loan-list.component';
 
 const routes: Routes = [
 
@@ -36,6 +37,13 @@ const routes: Routes = [
         component: PaymentListComponent,
         data: {
           title: 'Payments'
+        }
+      },
+      {
+        path: 'loan-list',
+        component: LoanListComponent,
+        data: {
+          title: 'Loans'
         }
       }
     ]

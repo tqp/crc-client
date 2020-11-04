@@ -8,11 +8,12 @@
         <h1 *ngIf="caseManager && newRecord && caseManagerEditForm.controls['caseManagerSurname'].value == ''; else notShow">
           New Case Manager
         </h1>
-        <ng-container #notShow>
+        <ng-template #notShow>
           <h1>
+            <i class="fa fa-folder"></i>
             {{caseManagerEditForm.controls['caseManagerSurname'].value}}, {{caseManagerEditForm.controls['caseManagerGivenName'].value}}
           </h1>
-        </ng-container>
+        </ng-template>
       </div>
 
       <div class="col-sm-6">

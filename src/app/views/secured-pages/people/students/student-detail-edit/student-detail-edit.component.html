@@ -7,11 +7,12 @@
         <h1 *ngIf="student && newRecord && studentEditForm.controls['studentSurname'].value == ''; else notShow">
           New Student
         </h1>
-        <ng-container #notShow>
+        <ng-template #notShow>
           <h1>
+            <i class="fa fa-graduation-cap"></i>
             {{studentEditForm.controls['studentSurname'].value}}, {{studentEditForm.controls['studentGivenName'].value}}
           </h1>
-        </ng-container>
+        </ng-template>
       </div>
 
       <div class="col-sm-6">

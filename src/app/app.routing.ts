@@ -102,6 +102,27 @@ export const routes: Routes = [
         }
       },
       {
+        path: 'payments',
+        loadChildren: () => import('./views/secured-pages/finance/payments/payment.module').then(m => m.PaymentModule),
+        resolve: {
+          securedPageResolver: SecuredPageResolverService
+        }
+      },
+      {
+        path: 'loans',
+        loadChildren: () => import('./views/secured-pages/finance/loans/loan.module').then(m => m.LoanModule),
+        resolve: {
+          securedPageResolver: SecuredPageResolverService
+        }
+      },
+      {
+        path: 'visits',
+        loadChildren: () => import('./views/secured-pages/events/visits/visit.module').then(m => m.VisitModule),
+        resolve: {
+          securedPageResolver: SecuredPageResolverService
+        }
+      },
+      {
         path: 'person-type',
         loadChildren: () => import('./views/secured-pages/reference-tables/person-type/person-type.module').then(m => m.PersonTypeModule),
         resolve: {

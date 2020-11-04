@@ -1,1 +1,77 @@
-<p>loan-detail-edit-dialog works!</p>
+<h2 mat-dialog-title>
+  Add Payment
+</h2>
+
+<mat-dialog-content style="overflow: hidden">
+
+  <form [formGroup]="loanEditForm">
+
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="form-group">
+          <label for="caregiverId">Participant*</label>
+          <select id="caregiverId" class="form-control" formControlName="caregiverId">
+            <option value=0>Select a Caregiver</option>
+            <option *ngFor="let caregiver of caregiverList"
+                    value="{{caregiver.caregiverId}}">
+              {{caregiver.caregiverSurname}}, {{caregiver.caregiverGivenName}}
+            </option>
+          </select>
+          <mat-error *ngFor="let validation of validationMessages.caregiverId">
+            <mat-error class="error-message"
+                       *ngIf="loanEditForm.get('caregiverId').hasError(validation.type)
+                                && (loanEditForm.get('caregiverId').dirty ||
+                                loanEditForm.get('caregiverId').touched)">
+              {{validation.message}}
+            </mat-error>
+          </mat-error>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="form-group">
+          <label for="loanAmount">Loan Amount*</label>
+          <input id="loanAmount" type="text" class="form-control" formControlName="loanAmount">
+          <mat-error *ngFor="let validation of validationMessages.loanAmount">
+            <mat-error class="error-message"
+                       *ngIf="loanEditForm.get('loanAmount').hasError(validation.type)
+                                && (loanEditForm.get('loanAmount').dirty ||
+                                loanEditForm.get('loanAmount').touched)">
+              {{validation.message}}
+            </mat-error>
+          </mat-error>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="form-group">
+          <label for="loanDescription">Loan Description*</label>
+          <input id="loanDescription" type="text" class="form-control" formControlName="loanDescription">
+          <mat-error *ngFor="let validation of validationMessages.loanDescription">
+            <mat-error class="error-message"
+                       *ngIf="loanEditForm.get('loanDescription').hasError(validation.type)
+                                && (loanEditForm.get('loanDescription').dirty ||
+                                loanEditForm.get('loanDescription').touched)">
+              {{validation.message}}
+            </mat-error>
+          </mat-error>
+        </div>
+      </div>
+    </div>
+
+  </form>
+
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-raised-button mat-dialog-close>Cancel</button>
+  <button mat-raised-button (click)="reset();">Reset</button>
+  <div fxFlex></div>
+  <button mat-raised-button mat-dialog-close color="primary" (click)="save();" [disabled]="!loanEditForm.valid">
+    Save
+  </button>
+</mat-dialog-actions>

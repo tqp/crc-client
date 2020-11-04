@@ -39,7 +39,7 @@ export const navItemsUser: INavData[] = [
   {
     name: 'Student Visits',
     url: '/test-components/placeholder',
-    icon: 'fa fa-home'
+    icon: 'fa fa-calendar-check-o'
   },
 
   {
@@ -47,8 +47,13 @@ export const navItemsUser: INavData[] = [
     name: 'CRC Microfinance'
   },
   {
+    name: 'Loans',
+    url: '/loans/loan-list',
+    icon: 'fa fa-bank'
+  },
+  {
     name: 'Payments',
-    url: '/finance/payment-list',
+    url: '/payments/payment-list',
     icon: 'fa fa-money'
   },
   {

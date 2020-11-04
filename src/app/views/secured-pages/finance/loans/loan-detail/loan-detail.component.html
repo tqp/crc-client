@@ -1,1 +1,57 @@
-<p>loan-detail works!</p>
+<div class="tqp-crud-detail animated fadeIn" *ngIf="loan">
+
+  <div class="row">
+    <div class="col-sm-6">
+      <h1>
+        <i class="fa fa-bank"></i>
+        {{loan.caregiverGivenName}} {{loan.caregiverSurname}}: {{loan.loanAmount | currency}}
+      </h1>
+    </div>
+    <div class="col-sm-6">
+      <div class="form-group float-right">
+        <button class="btn btn-sm btn-outline-primary ml-3" (click)="returnToList()" style="width: 100px">
+          Return to <u>L</u>ist
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-6 col-sm-12">
+
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-user"></i>
+          Loan Information
+          <i *ngIf="loanLoading" class="fa fa-spinner fa-spin"></i>
+          <div class="card-header-actions" [hidden]="authService.allowRoles('ROLE_USER, ROLE_MANAGER, ROLE_ADMIN')">
+            <small class="tqp-nav-link" (click)="openEditPage();">Edit Loan Info</small>
+          </div>
+        </div>
+        <div class="card-body">
+          <dl class="row">
+            <dt class="col-sm-3">Loan ID:</dt>
+            <dd class="col-sm-9">{{('00000' + loan.loanId).slice(-5)}}</dd>
+          </dl>
+          <dl class="row">
+            <dt class="col-sm-3">Recipient:</dt>
+            <dd class="col-sm-9">{{loan.caregiverGivenName}} {{loan.caregiverSurname}}</dd>
+          </dl>
+          <dl class="row">
+            <dt class="col-sm-3">Amount:</dt>
+            <dd class="col-sm-9">{{loan.loanAmount | currency}}</dd>
+          </dl>
+          <dl class="row">
+            <dt class="col-sm-3">Description:</dt>
+            <dd class="col-sm-9">{{loan.loanDescription}}</dd>
+          </dl>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="col-lg-6 col-sm-12">
+    </div>
+  </div>
+
+</div>

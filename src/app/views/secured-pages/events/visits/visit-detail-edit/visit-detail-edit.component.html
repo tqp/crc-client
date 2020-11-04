@@ -1,0 +1,124 @@
+<div class="tqp-crud-detail-edit animated fadeIn" *ngIf="visit">
+
+  <form [formGroup]="visitEditForm">
+
+    <div class="row">
+
+      <div class="col-sm-6">
+        <h1 *ngIf="visit && newRecord && visitEditForm.controls['studentVisitId'].value == ''; else notShow">
+          New Visit
+        </h1>
+        <ng-template #notShow>
+          <h1>
+            <i class="fa fa-handshake-o"></i>
+            {{visitEditForm.controls['visitDate'].value}}
+          </h1>
+        </ng-template>
+      </div>
+
+      <div class="col-sm-6">
+        <div class="form-group float-right">
+          <button type="button" class="btn btn-sm btn-outline-danger" style="width: 100px;" *ngIf="!newRecord"
+                  (click)="delete(visit.studentVisitId)">
+            <!--            [disabled]="authService.allowRoles('ROLE_ADMIN')"-->
+            <u>D</u>elete
+          </button>
+          <button type="button" class="btn btn-sm btn-outline-success" style="width: 100px;" (click)="save()"
+                  [disabled]="!visitEditForm.valid">
+            <u>S</u>ave
+          </button>
+          <button type="button" class="btn btn-sm btn-outline-info ml-3" style="width: 100px;" (click)="cancel()">
+            <u>C</u>ancel
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="row">
+      <div class="col-lg-6 col-sm-12">
+
+        <div class="card">
+          <div class="card-header">
+            <i class="fa fa-user"></i>
+            Personal Information
+          </div>
+          <div class="card-body">
+
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="visitDate">Visit Date*</label>
+                  <input id="visitDate" type="text" class="form-control" bsDatepicker
+                         formControlName="visitDate">
+                  <mat-error *ngFor="let validation of validationMessages.visitDate">
+                    <mat-error class="error-message"
+                               *ngIf="visitEditForm.get('visitDate').hasError(validation.type)
+                                && (visitEditForm.get('visitDate').dirty ||
+                                visitEditForm.get('visitDate').touched)">
+                      {{validation.message}}
+                    </mat-error>
+                  </mat-error>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="visitTypeId">Visit Type*</label>
+                  <select id="visitTypeId" class="form-control" formControlName="visitTypeId">
+                    <option value=0>Select a Visit Type</option>
+                    <option *ngFor="let visitType of visitTypeList"
+                            value="{{visitType.visitTypeId}}">
+                      {{visitType.visitTypeName}}
+                    </option>
+                  </select>
+                  <mat-error *ngFor="let validation of validationMessages.visitTypeId">
+                    <mat-error class="error-message"
+                               *ngIf="visitEditForm.get('visitTypeId').hasError(validation.type)
+                                && (visitEditForm.get('visitTypeId').dirty ||
+                                visitEditForm.get('visitTypeId').touched)">
+                      {{validation.message}}
+                    </mat-error>
+                  </mat-error>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="interactionTypeId">Interaction Type*</label>
+                  <select id="interactionTypeId" class="form-control" formControlName="interactionTypeId">
+                    <option value=0>Select an Interaction Type</option>
+                    <option *ngFor="let interactionType of interactionTypeList"
+                            value="{{interactionType.interactionTypeId}}">
+                      {{interactionType.interactionTypeName}}
+                    </option>
+                  </select>
+                  <mat-error *ngFor="let validation of validationMessages.interactionTypeId">
+                    <mat-error class="error-message"
+                               *ngIf="visitEditForm.get('interactionTypeId').hasError(validation.type)
+                                && (visitEditForm.get('interactionTypeId').dirty ||
+                                visitEditForm.get('interactionTypeId').touched)">
+                      {{validation.message}}
+                    </mat-error>
+                  </mat-error>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+      <div class="col-lg-6 col-sm-12">
+
+      </div>
+    </div>
+
+  </form>
+
+</div>

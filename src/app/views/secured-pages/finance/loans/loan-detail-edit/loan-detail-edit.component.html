@@ -1,1 +1,96 @@
-<p>loan-detail-edit works!</p>
+<div class="tqp-crud-detail-edit animated fadeIn" *ngIf="loan">
+
+  <form [formGroup]="loanEditForm">
+
+    <div class="row">
+
+      <div class="col-sm-6">
+        <h1 *ngIf="loan && newRecord && loanEditForm.controls['loanId'].value == ''; else notShow">
+          New Loan
+        </h1>
+        <ng-template #notShow>
+          <h1>
+            <i class="fa fa-bank"></i>
+            {{loan.caregiverGivenName}}, {{loan.caregiverSurname}}: {{loanEditForm.controls['loanAmount'].value | currency}}
+          </h1>
+        </ng-template>
+      </div>
+
+      <div class="col-sm-6">
+        <div class="form-group float-right">
+          <button type="button" class="btn btn-sm btn-outline-danger" style="width: 100px;" *ngIf="!newRecord"
+                  (click)="delete(loan.loanId)">
+            <!--            [disabled]="authService.allowRoles('ROLE_ADMIN')"-->
+            <u>D</u>elete
+          </button>
+          <button type="button" class="btn btn-sm btn-outline-success" style="width: 100px;" (click)="save()"
+                  [disabled]="!loanEditForm.valid">
+            <u>S</u>ave
+          </button>
+          <button type="button" class="btn btn-sm btn-outline-info ml-3" style="width: 100px;" (click)="cancel()">
+            <u>C</u>ancel
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="row">
+      <div class="col-lg-6 col-sm-12">
+
+        <div class="card">
+          <div class="card-header">
+            <i class="fa fa-user"></i>
+            Loan Information
+          </div>
+          <div class="card-body">
+
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="loanAmount">Amount</label>
+                  <input matInput id="loanAmount" type="text" class="form-control" placeholder="Amount"
+                         formControlName="loanAmount">
+                  <mat-error *ngFor="let validation of validationMessages.loanAmount">
+                    <mat-error class="error-message"
+                               *ngIf="loanEditForm.get('loanAmount').hasError(validation.type)
+                                && (loanEditForm.get('loanAmount').dirty ||
+                                loanEditForm.get('loanAmount').touched)">
+                      {{validation.message}}
+                    </mat-error>
+                  </mat-error>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="loanDescription">Description</label>
+                  <input matInput id="loanDescription" type="text" class="form-control" placeholder="Description"
+                         formControlName="loanDescription">
+                  <mat-error *ngFor="let validation of validationMessages.loanDescription">
+                    <mat-error class="error-message"
+                               *ngIf="loanEditForm.get('loanDescription').hasError(validation.type)
+                                && (loanEditForm.get('loanDescription').dirty ||
+                                loanEditForm.get('loanDescription').touched)">
+                      {{validation.message}}
+                    </mat-error>
+                  </mat-error>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+      <div class="col-lg-6 col-sm-12">
+
+      </div>
+    </div>
+
+  </form>
+
+</div>

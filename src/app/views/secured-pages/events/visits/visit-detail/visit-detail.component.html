@@ -1,0 +1,65 @@
+<div class="tqp-crud-detail animated fadeIn" *ngIf="visit">
+
+  <div class="row">
+    <div class="col-sm-6">
+      <h1>
+        <i class="fa fa-calendar-check-o"></i>
+        {{visit.visitTypeName}}: {{visit.studentGivenName}} {{visit.studentSurname}}
+      </h1>
+    </div>
+    <div class="col-sm-6">
+      <div class="form-group float-right">
+        <button class="btn btn-sm btn-outline-primary ml-3" (click)="returnToList()" style="width: 100px">
+          Return to <u>L</u>ist
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-6 col-sm-12">
+
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-user"></i>
+          Student Visit Information
+          <i *ngIf="visitLoading" class="fa fa-spinner fa-spin"></i>
+          <div class="card-header-actions" [hidden]="authService.allowRoles('ROLE_USER, ROLE_MANAGER, ROLE_ADMIN')">
+            <small class="tqp-nav-link" (click)="openEditPage();">Edit Visit Info</small>
+          </div>
+        </div>
+        <div class="card-body">
+          <dl class="row">
+            <dt class="col-sm-3">Student:</dt>
+            <dd class="col-sm-9">{{visit.studentGivenName}} {{visit.studentSurname}}</dd>
+          </dl>
+          <dl class="row">
+            <dt class="col-sm-3">Visit Date:</dt>
+            <dd class="col-sm-9">{{visit.visitDate | date:'MM/dd/yyyy'}}</dd>
+          </dl>
+          <dl class="row">
+            <dt class="col-sm-3">Visit Type:</dt>
+            <dd class="col-sm-9">{{visit.visitTypeName}}</dd>
+          </dl>
+          <dl class="row">
+            <dt class="col-sm-3">Interaction Type:</dt>
+            <dd class="col-sm-9">{{visit.interactionTypeName}}</dd>
+          </dl>
+          <dl class="row">
+            <dt class="col-sm-3">CG Comments:</dt>
+            <dd class="col-sm-9">{{visit.caregiverComments}}</dd>
+          </dl>
+          <dl class="row">
+            <dt class="col-sm-3">CM Comments:</dt>
+            <dd class="col-sm-9">{{visit.caseManagerComments}}</dd>
+          </dl>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="col-lg-6 col-sm-12">
+    </div>
+  </div>
+
+</div>

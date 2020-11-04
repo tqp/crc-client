@@ -3,8 +3,8 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Caregiver } from '../../../people/caregivers/Caregiver';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { CaregiverService } from '../../../people/caregivers/caregiver.service';
-import { Loan } from '../../Loan';
-import { FinanceService } from '../../finance.service';
+import { Loan } from '../../loans/Loan';
+import { LoanService } from '../../loans/loan.service';
 
 @Component({
   selector: 'app-payment-detail-edit-dialog',
@@ -41,7 +41,7 @@ export class PaymentDetailEditDialogComponent implements OnInit {
   static validateNonZeroValue(fc: FormControl) {
     // This is just an example of a client-side validation
     console.log('fc', fc.value);
-    if (fc.value === 0 ) {
+    if (fc.value === 0) {
       console.log('here');
       return ({validateNonZeroValue: true});
     } else {
@@ -53,7 +53,7 @@ export class PaymentDetailEditDialogComponent implements OnInit {
               @Inject(MAT_DIALOG_DATA) public data: any,
               private formBuilder: FormBuilder,
               private caregiverService: CaregiverService,
-              private financeService: FinanceService
+              private loanService: LoanService
   ) {
     this.getCaregiverWithLoanList();
   }
@@ -97,7 +97,7 @@ export class PaymentDetailEditDialogComponent implements OnInit {
     } else {
       this.paymentEditForm.get('loanId').disable();
     }
-    this.financeService.getLoanListByCaregiverId(caregiverId).subscribe(
+    this.loanService.getLoanListByCaregiverId(caregiverId).subscribe(
       (response: Loan[]) => {
         console.log('response', response);
         this.loanList = response;

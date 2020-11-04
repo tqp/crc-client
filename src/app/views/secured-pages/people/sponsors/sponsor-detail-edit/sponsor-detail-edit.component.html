@@ -8,11 +8,12 @@
         <h1 *ngIf="sponsor && newRecord && sponsorEditForm.controls['sponsorSurname'].value == ''; else notShow">
           New Sponsor
         </h1>
-        <ng-container #notShow>
+        <ng-template #notShow>
           <h1>
+            <i class="fa fa-handshake-o"></i>
             {{sponsorEditForm.controls['sponsorSurname'].value}}, {{sponsorEditForm.controls['sponsorGivenName'].value}}
           </h1>
-        </ng-container>
+        </ng-template>
       </div>
 
       <div class="col-sm-6">

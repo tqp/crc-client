@@ -8,11 +8,12 @@
         <h1 *ngIf="caregiver && newRecord && caregiverEditForm.controls['caregiverSurname'].value == ''; else notShow">
           New Caregiver
         </h1>
-        <ng-container #notShow>
+        <ng-template #notShow>
           <h1>
+            <i class="fa fa-heartbeat"></i>
             {{caregiverEditForm.controls['caregiverSurname'].value}}, {{caregiverEditForm.controls['caregiverGivenName'].value}}
           </h1>
-        </ng-container>
+        </ng-template>
       </div>
 
       <div class="col-sm-6">

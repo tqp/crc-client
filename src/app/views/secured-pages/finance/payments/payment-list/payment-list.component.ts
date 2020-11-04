@@ -10,11 +10,12 @@ import { ServerSidePaginationResponse } from '../../../../../../@tqp/models/Serv
 import { merge, of } from 'rxjs';
 import { catchError, debounceTime, map, switchMap } from 'rxjs/operators';
 import { FinanceService } from '../../finance.service';
-import { Loan } from '../../Loan';
+import { Loan } from '../../loans/Loan';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { PaymentDetailEditDialogComponent } from '../payment-detail-edit-dialog/payment-detail-edit-dialog.component';
-import { Payment } from '../../Payment';
+import { Payment } from '../Payment';
 import { FormattingService } from '../../../../../../@tqp/services/formatting.service';
+import { PaymentService } from '../payment.service';
 
 @Component({
   selector: 'app-payment-list',
@@ -56,6 +57,7 @@ export class PaymentListComponent implements OnInit, AfterViewInit, OnDestroy {
   public isFilterApplied = false;
 
   constructor(private financeService: FinanceService,
+              private paymentService: PaymentService,
               private eventService: EventService,
               private formattingService: FormattingService,
               private router: Router,
@@ -102,7 +104,7 @@ export class PaymentListComponent implements OnInit, AfterViewInit, OnDestroy {
   private getPage(searchParams: ServerSidePaginationRequest) {
     this.isLoading = true;
     this.eventService.loadingEvent.emit(true);
-    this.financeService.getPaymentList_SSP(searchParams).subscribe((response: ServerSidePaginationResponse<Loan>) => {
+    this.paymentService.getPaymentList_SSP(searchParams).subscribe((response: ServerSidePaginationResponse<Loan>) => {
         // console.log('getPage response', response);
         response.data.forEach(item => {
           this.records.push(item);
@@ -163,7 +165,7 @@ export class PaymentListComponent implements OnInit, AfterViewInit, OnDestroy {
           this.searchParams = serverSideSearchParams;
 
           this.isFilterApplied = nameFilter;
-          return this.financeService.getPaymentList_SSP(serverSideSearchParams);
+          return this.paymentService.getPaymentList_SSP(serverSideSearchParams);
         }),
         map((response: ServerSidePaginationResponse<Loan>) => {
           return response;
@@ -225,7 +227,7 @@ export class PaymentListComponent implements OnInit, AfterViewInit, OnDestroy {
         payment.paymentDate = this.formattingService.formatStandardDateAsMySql(dialogData.paymentDate);
         payment.paymentAmount = dialogData.paymentAmount;
         console.log('payment', payment);
-        this.financeService.addPayment(payment).subscribe(
+        this.paymentService.createPayment(payment).subscribe(
           response => {
             console.log('response', response);
             this.getPage(this.searchParams);
@@ -239,7 +241,7 @@ export class PaymentListComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public openDetailPage(row: any): void {
-    this.router.navigate(['caregivers/caregiver-detail', row.caregiverId]).then();
+    this.router.navigate(['payments/payment-detail', row.paymentId]).then();
   }
 
   @HostListener('window:keydown', ['$event'])

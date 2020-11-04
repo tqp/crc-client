@@ -1,0 +1,96 @@
+<div class="tqp-crud-detail-edit animated fadeIn" *ngIf="payment">
+
+  <form [formGroup]="paymentEditForm">
+
+    <div class="row">
+
+      <div class="col-sm-6">
+        <h1 *ngIf="payment && newRecord && paymentEditForm.controls['paymentId'].value == ''; else notShow">
+          New Payment
+        </h1>
+        <ng-template #notShow>
+          <h1>
+            <i class="fa fa-bank"></i>
+            {{payment.caregiverGivenName}}, {{payment.caregiverSurname}}: {{paymentEditForm.controls['paymentAmount'].value | currency}}
+          </h1>
+        </ng-template>
+      </div>
+
+      <div class="col-sm-6">
+        <div class="form-group float-right">
+          <button type="button" class="btn btn-sm btn-outline-danger" style="width: 100px;" *ngIf="!newRecord"
+                  (click)="delete(payment.paymentId)">
+            <!--            [disabled]="authService.allowRoles('ROLE_ADMIN')"-->
+            <u>D</u>elete
+          </button>
+          <button type="button" class="btn btn-sm btn-outline-success" style="width: 100px;" (click)="save()"
+                  [disabled]="!paymentEditForm.valid">
+            <u>S</u>ave
+          </button>
+          <button type="button" class="btn btn-sm btn-outline-info ml-3" style="width: 100px;" (click)="cancel()">
+            <u>C</u>ancel
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="row">
+      <div class="col-lg-6 col-sm-12">
+
+        <div class="card">
+          <div class="card-header">
+            <i class="fa fa-user"></i>
+            Payment Information
+          </div>
+          <div class="card-body">
+
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="paymentAmount">Payment Amount</label>
+                  <input matInput id="paymentAmount" type="text" class="form-control" placeholder="Payment Amount"
+                         formControlName="paymentAmount">
+                  <mat-error *ngFor="let validation of validationMessages.paymentAmount">
+                    <mat-error class="error-message"
+                               *ngIf="paymentEditForm.get('paymentAmount').hasError(validation.type)
+                                && (paymentEditForm.get('paymentAmount').dirty ||
+                                paymentEditForm.get('paymentAmount').touched)">
+                      {{validation.message}}
+                    </mat-error>
+                  </mat-error>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="paymentDate">Payment Date</label>
+                  <input matInput id="paymentDate" type="text" class="form-control" bsDatepicker placeholder="Payment Date"
+                         formControlName="paymentDate">
+                  <mat-error *ngFor="let validation of validationMessages.paymentDate">
+                    <mat-error class="error-message"
+                               *ngIf="paymentEditForm.get('paymentDate').hasError(validation.type)
+                                && (paymentEditForm.get('paymentDate').dirty ||
+                                paymentEditForm.get('paymentDate').touched)">
+                      {{validation.message}}
+                    </mat-error>
+                  </mat-error>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+      <div class="col-lg-6 col-sm-12">
+
+      </div>
+    </div>
+
+  </form>
+
+</div>

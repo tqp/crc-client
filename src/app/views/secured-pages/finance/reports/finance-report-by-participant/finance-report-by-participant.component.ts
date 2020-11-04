@@ -11,7 +11,7 @@ import { ServerSidePaginationResponse } from '../../../../../../@tqp/models/Serv
 import { merge, of } from 'rxjs';
 import { catchError, debounceTime, map, switchMap } from 'rxjs/operators';
 import { FinanceService } from '../../finance.service';
-import { Loan } from '../../Loan';
+import { Loan } from '../../loans/Loan';
 
 @Component({
   selector: 'app-finance-report-by-participant',

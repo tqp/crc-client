@@ -6,6 +6,7 @@ import { FinanceModule } from './finance/finance.module';
 import { PeopleModule } from './people/people.module';
 import { ReferenceTablesModule } from './reference-tables/reference-tables.module';
 import { RelationshipsModule } from './relationships/relationships.module';
+import { EventsModule } from './events/events.module';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { RelationshipsModule } from './relationships/relationships.module';
     PeopleModule,
     ReferenceTablesModule,
     RelationshipsModule,
-    ReportsModule
+    ReportsModule,
+    EventsModule
   ]
 })
 export class SecuredPagesModule {
