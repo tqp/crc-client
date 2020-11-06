@@ -104,7 +104,7 @@ export class VisitListComponent implements OnInit, AfterViewInit, OnDestroy {
     this.isLoading = true;
     this.eventService.loadingEvent.emit(true);
     this.visitService.getVisitList_SSP(searchParams).subscribe((response: ServerSidePaginationResponse<Visit>) => {
-        console.log('getPage response', response);
+        // console.log('getPage response', response);
         response.data.forEach(item => {
           this.records.push(item);
         }, error => {

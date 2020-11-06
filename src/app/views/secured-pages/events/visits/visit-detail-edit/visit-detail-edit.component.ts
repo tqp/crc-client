@@ -39,7 +39,9 @@ export class VisitDetailEditComponent implements OnInit {
     ],
     'interactionTypeId': [
       {type: 'required', message: 'An Interaction Type is required'}
-    ]
+    ],
+    'caregiverComments': [],
+    'caseManagerComments': []
   };
 
   constructor(private route: ActivatedRoute,
@@ -58,9 +60,9 @@ export class VisitDetailEditComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.forEach((params: Params) => {
       if (params['id'] !== undefined) {
-        const visitId = params['id'];
-        // console.log('visitId', visitId);
-        this.getVisitDetail(visitId);
+        const studentVisitId = params['id'];
+        // console.log('studentVisitId', studentVisitId);
+        this.getVisitDetail(studentVisitId);
       } else {
         // Create new Person
         this.newRecord = true;
@@ -75,9 +77,12 @@ export class VisitDetailEditComponent implements OnInit {
 
   private initializeForm(): void {
     this.visitEditForm = this.formBuilder.group({
+      studentVisitId: new FormControl('', Validators.required),
       visitDate: new FormControl('', Validators.required),
       visitTypeId: new FormControl('', Validators.required),
-      interactionTypeId: new FormControl('', Validators.required)
+      interactionTypeId: new FormControl('', Validators.required),
+      caregiverComments: new FormControl('', Validators.required),
+      caseManagerComments: new FormControl('', Validators.required)
     });
   }
 
@@ -85,8 +90,13 @@ export class VisitDetailEditComponent implements OnInit {
     this.visitService.getVisitDetail(visitId).subscribe(
       response => {
         this.visit = response;
-        console.log('response', response);
+        // console.log('response', response);
+        this.visitEditForm.controls['studentVisitId'].patchValue(this.visit.studentVisitId);
         this.visitEditForm.controls['visitDate'].patchValue(this.formattingService.formatMySqlDateAsStandard(this.visit.visitDate));
+        this.visitEditForm.controls['visitTypeId'].patchValue(this.visit.visitTypeId);
+        this.visitEditForm.controls['interactionTypeId'].patchValue(this.visit.interactionTypeId);
+        this.visitEditForm.controls['caregiverComments'].patchValue(this.visit.caregiverComments);
+        this.visitEditForm.controls['caseManagerComments'].patchValue(this.visit.caseManagerComments);
       },
       error => {
         console.error('Error: ', error);
@@ -145,6 +155,11 @@ export class VisitDetailEditComponent implements OnInit {
     const visit = new Visit();
     // console.log('crudEditForm', this.visitEditForm.value);
     visit.studentVisitId = this.visitEditForm.value.studentVisitId;
+    visit.visitDate = this.formattingService.formatStandardDateAsMySql(this.visitEditForm.value.visitDate);
+    visit.visitTypeId = this.visitEditForm.value.visitTypeId;
+    visit.interactionTypeId = this.visitEditForm.value.interactionTypeId;
+    visit.caregiverComments = this.visitEditForm.value.caregiverComments;
+    visit.caseManagerComments = this.visitEditForm.value.caseManagerComments;
 
     if (this.newRecord) {
       this.visitService.createVisit(visit).subscribe(

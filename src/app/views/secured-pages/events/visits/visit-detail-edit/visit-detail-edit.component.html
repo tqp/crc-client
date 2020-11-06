@@ -11,7 +11,7 @@
         <ng-template #notShow>
           <h1>
             <i class="fa fa-handshake-o"></i>
-            {{visitEditForm.controls['visitDate'].value}}
+            {{visit.studentGivenName}} {{visit.studentSurname}} Visit
           </h1>
         </ng-template>
       </div>
@@ -102,6 +102,42 @@
                                *ngIf="visitEditForm.get('interactionTypeId').hasError(validation.type)
                                 && (visitEditForm.get('interactionTypeId').dirty ||
                                 visitEditForm.get('interactionTypeId').touched)">
+                      {{validation.message}}
+                    </mat-error>
+                  </mat-error>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="caregiverComments">Caregiver/Teacher Comment</label>
+                  <input matInput id="caregiverComments" type="text" class="form-control" placeholder="Caregiver/Teacher Comment"
+                         formControlName="caregiverComments">
+                  <mat-error *ngFor="let validation of validationMessages.caregiverComments">
+                    <mat-error class="error-message"
+                               *ngIf="visitEditForm.get('caregiverComments').hasError(validation.type)
+                                && (visitEditForm.get('caregiverComments').dirty ||
+                                visitEditForm.get('caregiverComments').touched)">
+                      {{validation.message}}
+                    </mat-error>
+                  </mat-error>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="caseManagerComments">Case Manager Comment</label>
+                  <input matInput id="caseManagerComments" type="text" class="form-control" placeholder="Caregiver/Teacher Comment"
+                         formControlName="caseManagerComments">
+                  <mat-error *ngFor="let validation of validationMessages.caseManagerComments">
+                    <mat-error class="error-message"
+                               *ngIf="visitEditForm.get('caseManagerComments').hasError(validation.type)
+                                && (visitEditForm.get('caseManagerComments').dirty ||
+                                visitEditForm.get('caseManagerComments').touched)">
                       {{validation.message}}
                     </mat-error>
                   </mat-error>

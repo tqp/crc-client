@@ -38,7 +38,7 @@ export const navItemsUser: INavData[] = [
   },
   {
     name: 'Student Visits',
-    url: '/test-components/placeholder',
+    url: '/visits/visit-list',
     icon: 'fa fa-calendar-check-o'
   },
 
