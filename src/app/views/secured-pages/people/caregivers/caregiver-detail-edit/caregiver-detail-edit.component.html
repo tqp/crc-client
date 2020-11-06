@@ -117,6 +117,24 @@
               </div>
             </div>
 
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="caregiverEmail">Email Address</label>
+                  <input matInput id="caregiverEmail" type="text" class="form-control" placeholder="Email Address"
+                         formControlName="caregiverEmail">
+                  <mat-error *ngFor="let validation of validationMessages.caregiverEmail">
+                    <mat-error class="error-message"
+                               *ngIf="caregiverEditForm.get('caregiverEmail').hasError(validation.type)
+                                && (caregiverEditForm.get('caregiverEmail').dirty ||
+                                caregiverEditForm.get('caregiverEmail').touched)">
+                      {{validation.message}}
+                    </mat-error>
+                  </mat-error>
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
 

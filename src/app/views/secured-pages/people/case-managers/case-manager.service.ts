@@ -131,6 +131,7 @@ export class CaseManagerService {
   }
 
   public deleteCaseManager(caseManagerId: number): Observable<string> {
+    console.log('caseManagerId', caseManagerId);
     const url = environment.apiUrl + '/api/v1/case-manager/' + caseManagerId;
     const token = this.tokenService.getToken();
     if (token) {

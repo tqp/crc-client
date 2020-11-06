@@ -101,8 +101,8 @@ export class CaseManagerDetailEditComponent implements OnInit {
       if (result) {
         this.caseManagerService.deleteCaseManager(caseManagerId).subscribe(
           response => {
-            // console.log('response: ', response);
-            this.router.navigate(['caseManager-list']).then();
+            console.log('response: ', response);
+            this.router.navigate(['case-managers/case-manager-list']).then();
           },
           error => {
             console.error('Error: ' + error.message);
@@ -125,7 +125,7 @@ export class CaseManagerDetailEditComponent implements OnInit {
     if (this.newRecord) {
       this.caseManagerService.createCaseManager(caseManager).subscribe(
         response => {
-          // console.log('response: ', response);
+          console.log('response: ', response);
           this.router.navigate(['case-managers/case-manager-detail', response.caseManagerId]).then();
         },
         error => {
