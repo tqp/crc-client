@@ -103,7 +103,8 @@ export class LoanListComponent implements OnInit, AfterViewInit, OnDestroy {
     this.isLoading = true;
     this.eventService.loadingEvent.emit(true);
     this.loanService.getLoanList_SSP(searchParams).subscribe((response: ServerSidePaginationResponse<Loan>) => {
-        console.log('getPage response', response);
+        // console.log('getPage response', response);
+        this.records = [];
         response.data.forEach(item => {
           this.records.push(item);
         }, error => {
@@ -210,6 +211,7 @@ export class LoanListComponent implements OnInit, AfterViewInit, OnDestroy {
     dialogConfig.minWidth = '25%';
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
+    dialogConfig.panelClass = 'full-screen-modal';
     dialogConfig.data = {
       action: 'create',
     };
@@ -223,7 +225,7 @@ export class LoanListComponent implements OnInit, AfterViewInit, OnDestroy {
         loan.caregiverId = dialogData.caregiverId;
         loan.loanAmount = dialogData.loanAmount;
         loan.loanDescription = dialogData.loanDescription;
-        console.log('loan', loan);
+        // console.log('loan', loan);
         this.loanService.createLoan(loan).subscribe(
           response => {
             console.log('response', response);

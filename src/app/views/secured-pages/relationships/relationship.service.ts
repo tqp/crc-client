@@ -10,6 +10,7 @@ import { Caregiver } from '../people/caregivers/Caregiver';
 import { CaseManager } from '../people/case-managers/CaseManager';
 import { Sponsor } from '../people/sponsors/Sponsor';
 import { Student } from '../people/students/Student';
+import { ProgramStatus } from './ProgramStatus';
 
 @Injectable({
   providedIn: 'root'
@@ -141,6 +142,30 @@ export class RelationshipService {
         observe: 'response',
         params: {}
       })
+        .pipe(
+          map(res => {
+            return res.body;
+          })
+        );
+    } else {
+      console.error('No token was present.');
+      return null;
+    }
+  }
+
+  // PROGRAM STATUS
+
+  public createProgramStatusRelationship(programStatus: ProgramStatus): Observable<ProgramStatus> {
+    const url = environment.apiUrl + '/api/v1/relationship/program-status';
+    const token = this.tokenService.getToken();
+    if (token) {
+      return this.http.post<ProgramStatus>(url,
+        programStatus,
+        {
+          headers: this.httpService.setHeadersWithToken(),
+          observe: 'response',
+          params: {}
+        })
         .pipe(
           map(res => {
             return res.body;

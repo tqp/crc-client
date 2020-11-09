@@ -31,6 +31,7 @@ export class CaseManagerListComponent implements OnInit, AfterViewInit, OnDestro
   private searchParams: ServerSidePaginationRequest = new ServerSidePaginationRequest();
 
   public displayedColumns: string[] = [
+    'caseManagerId',
     'caseManagerSurname',
     'caseManagerGivenName',
     'caseManagerPhone',

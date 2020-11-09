@@ -31,6 +31,7 @@ export class CaregiverListComponent implements OnInit, AfterViewInit, OnDestroy 
   private searchParams: ServerSidePaginationRequest = new ServerSidePaginationRequest();
 
   public displayedColumns: string[] = [
+    'caregiverId',
     'caregiverSurname',
     'caregiverGivenName',
     'caregiverPhone',

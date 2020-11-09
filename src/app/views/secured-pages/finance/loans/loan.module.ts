@@ -7,12 +7,10 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { RouterModule } from '@angular/router';
 import { ListAddRemoveItemsBasicModule } from '../../../../../@tqp/components/list-add-remove-items-basic/list-add-remove-items-basic.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { FinanceRoutingModule } from '../finance-routing.module';
 import { LoanListComponent } from './loan-list/loan-list.component';
 import { LoanDetailComponent } from './loan-detail/loan-detail.component';
 import { LoanDetailEditComponent } from './loan-detail-edit/loan-detail-edit.component';
 import { LoanDetailEditDialogComponent } from './loan-detail-edit-dialog/loan-detail-edit-dialog.component';
-
 
 
 @NgModule({
@@ -37,4 +35,5 @@ import { LoanDetailEditDialogComponent } from './loan-detail-edit-dialog/loan-de
     CurrencyPipe
   ]
 })
-export class LoanModule { }
+export class LoanModule {
+}

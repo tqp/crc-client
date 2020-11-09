@@ -1,4 +1,13 @@
-import { AfterViewInit, Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  HostListener,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+  ViewEncapsulation
+} from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { ServerSidePaginationRequest } from '../../../../../../@tqp/models/ServerSidePaginationRequest';
@@ -102,10 +111,12 @@ export class PaymentListComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private getPage(searchParams: ServerSidePaginationRequest) {
+    // console.log('getPage', searchParams);
     this.isLoading = true;
     this.eventService.loadingEvent.emit(true);
     this.paymentService.getPaymentList_SSP(searchParams).subscribe((response: ServerSidePaginationResponse<Loan>) => {
         // console.log('getPage response', response);
+        this.records = [];
         response.data.forEach(item => {
           this.records.push(item);
         }, error => {
@@ -219,14 +230,14 @@ export class PaymentListComponent implements OnInit, AfterViewInit, OnDestroy {
     const dialogRef = this._matDialog.open(PaymentDetailEditDialogComponent, dialogConfig);
 
     dialogRef.afterClosed().subscribe(dialogData => {
-      console.log('dialogData', dialogData);
+      // console.log('dialogData', dialogData);
       if (dialogData) {
         const payment: Payment = {};
         payment.caregiverId = dialogData.caregiverId;
         payment.loanId = dialogData.loanId;
         payment.paymentDate = this.formattingService.formatStandardDateAsMySql(dialogData.paymentDate);
         payment.paymentAmount = dialogData.paymentAmount;
-        console.log('payment', payment);
+        // console.log('payment', payment);
         this.paymentService.createPayment(payment).subscribe(
           response => {
             console.log('response', response);

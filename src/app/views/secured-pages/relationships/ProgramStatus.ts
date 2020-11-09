@@ -1,7 +1,10 @@
 export class ProgramStatus {
-  public programStudentStatusId?: number;
+  public studentId?: number;
+  public programStatusLevelOneId?: number;
+  public programStatusLevelOneName?: number;
+  public programStatusLevelTwoId?: number;
+  public programStatusLevelTwoName?: number;
+  public programStatusLevelThreeId?: number;
+  public programStatusLevelThreeName?: number;
   public programStatusStartDate?: string;
-  public programStatusLevelOne?: string;
-  public programStatusLevelTwo?: string;
-  public programStatusLevelThree?: string;
 }

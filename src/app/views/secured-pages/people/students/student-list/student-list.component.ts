@@ -30,6 +30,7 @@ export class StudentListComponent implements OnInit, AfterViewInit, OnDestroy {
   private totalNumberOfPages: number;
   private searchParams: ServerSidePaginationRequest = new ServerSidePaginationRequest();
   public displayedColumns: string[] = [
+    'studentId',
     'studentSurname',
     'studentGivenName',
     'caregiverName',

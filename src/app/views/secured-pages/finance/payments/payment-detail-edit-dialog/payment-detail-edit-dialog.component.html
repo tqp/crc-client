@@ -10,7 +10,8 @@
       <div class="col-sm-12">
         <div class="form-group">
           <label for="caregiverId">Participant*</label>
-          <select id="caregiverId" class="form-control" formControlName="caregiverId" (change)="caregiverChanged($event)">
+          <select id="caregiverId" class="form-control" formControlName="caregiverId"
+                  (change)="caregiverChanged($event)">
             <option value=0>Select a Caregiver</option>
             <option *ngFor="let caregiver of caregiverList"
                     value="{{caregiver.caregiverId}}">

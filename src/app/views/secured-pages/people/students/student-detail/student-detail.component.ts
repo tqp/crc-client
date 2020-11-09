@@ -283,21 +283,22 @@ export class StudentDetailComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(dialogData => {
       console.log('dialogData', dialogData);
-      // const relationship: Relationship = {};
-      // relationship.studentId = this.student.studentId;
-      // relationship.personId = dialogData.caseManagerId;
-      // relationship.relationshipTypeId = 15; // Case Manager
-      // relationship.relationshipEffectiveDate = this.formattingService.formatStandardDateAsMySql(dialogData.relationshipEffectiveDate);
-      // this.relationshipService.createSRelationship(relationship).subscribe(
-      //   response => {
-      //     console.log('response', response);
-      //     this.getCaseManagerDetailByStudentId(this.student.studentId);
-      //     this.eventService.loadingEvent.emit(false);
-      //   },
-      //   error => {
-      //     console.error('Error: ', error);
-      //   }
-      // );
+      const programStatus: ProgramStatus = {};
+      programStatus.studentId = this.student.studentId;
+      programStatus.programStatusLevelOneId = dialogData.programStatusLevelOneId;
+      programStatus.programStatusLevelTwoId = dialogData.programStatusLevelTwoId;
+      programStatus.programStatusLevelThreeId = dialogData.programStatusLevelThreeId;
+      programStatus.programStatusStartDate = this.formattingService.formatStandardDateAsMySql(dialogData.programStatusStartDate);
+      this.relationshipService.createProgramStatusRelationship(programStatus).subscribe(
+        response => {
+          console.log('response', response);
+          this.getProgramStatusDetailByStudentId(this.student.studentId);
+          this.eventService.loadingEvent.emit(false);
+        },
+        error => {
+          console.error('Error: ', error);
+        }
+      );
     });
   }
 

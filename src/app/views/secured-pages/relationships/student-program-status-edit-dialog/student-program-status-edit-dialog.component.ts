@@ -1,14 +1,14 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ProgramStatusService } from '../program-status.service';
-import { ProgramStatusList } from '../ProgramStatusList';
 import { ProgramStatusPackage } from '../ProgramStatusPackage';
 
 @Component({
   selector: 'app-student-program-status-edit-dialog',
   templateUrl: './student-program-status-edit-dialog.component.html',
-  styleUrls: ['./student-program-status-edit-dialog.component.css']
+  styleUrls: ['./student-program-status-edit-dialog.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class StudentProgramStatusEditDialogComponent implements OnInit {
   public programStatusEditForm: FormGroup;
@@ -26,6 +26,9 @@ export class StudentProgramStatusEditDialogComponent implements OnInit {
     'programStatusLevelThreeId': [
       {type: 'required', message: 'This field is required'}
     ],
+    'programStatusStartDate': [
+      {type: 'required', message: 'An Effective Date is required'}
+    ]
   };
 
   constructor(private dialogRef: MatDialogRef<StudentProgramStatusEditDialogComponent>,
@@ -44,6 +47,7 @@ export class StudentProgramStatusEditDialogComponent implements OnInit {
       programStatusLevelOneId: new FormControl(0, Validators.required),
       programStatusLevelTwoId: new FormControl(0, Validators.required),
       programStatusLevelThreeId: new FormControl(0, Validators.required),
+      programStatusStartDate: new FormControl(0, Validators.required),
     });
 
     // setTimeout(() => {

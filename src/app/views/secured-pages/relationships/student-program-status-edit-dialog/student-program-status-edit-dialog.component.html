@@ -76,6 +76,24 @@
       </div>
     </div>
 
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="form-group">
+          <label for="programStatusStartDate">Effective Date*</label>
+          <input id="programStatusStartDate" type="text" class="form-control" bsDatepicker
+                 formControlName="programStatusStartDate">
+          <mat-error *ngFor="let validation of validationMessages.programStatusStartDate">
+            <mat-error class="error-message"
+                       *ngIf="programStatusEditForm.get('programStatusStartDate').hasError(validation.type)
+                                && (programStatusEditForm.get('programStatusStartDate').dirty ||
+                                programStatusEditForm.get('programStatusStartDate').touched)">
+              {{validation.message}}
+            </mat-error>
+          </mat-error>
+        </div>
+      </div>
+    </div>
+
   </form>
 
 </mat-dialog-content>
