@@ -161,8 +161,11 @@
               <div class="col-sm-12">
                 <div class="form-group">
                   <label for="studentImpairment">Impairment</label>
-                  <input matInput id="studentImpairment" type="text" class="form-control" placeholder="Impairment"
-                         formControlName="studentImpairment">
+                  <select id="studentImpairment" class="form-control" formControlName="studentImpairment">
+                    <option value="">Pick an Option</option>
+                    <option value="M" selected>No</option>
+                    <option value="F">Yes</option>
+                  </select>
                   <mat-error *ngFor="let validation of validationMessages.studentImpairment">
                     <mat-error class="error-message"
                                *ngIf="studentEditForm.get('studentImpairment').hasError(validation.type)

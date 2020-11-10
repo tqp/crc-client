@@ -48,7 +48,7 @@
             <div class="row">
               <div class="col-sm-12">
                 <div class="form-group">
-                  <label for="sponsorSurname">Surname</label>
+                  <label for="sponsorSurname">Surname*</label>
                   <input matInput id="sponsorSurname" #sponsorSurnameInputField type="text" class="form-control" placeholder="Surname"
                          formControlName="sponsorSurname" autocomplete="chrome-off">
                   <mat-error *ngFor="let validation of validationMessages.sponsorSurname">
@@ -66,7 +66,7 @@
             <div class="row">
               <div class="col-sm-12">
                 <div class="form-group">
-                  <label for="sponsorGivenName">Given Name</label>
+                  <label for="sponsorGivenName">Given Name*</label>
                   <input matInput id="sponsorGivenName" type="text" class="form-control" placeholder="Given Name"
                          formControlName="sponsorGivenName">
                   <mat-error *ngFor="let validation of validationMessages.sponsorGivenName">

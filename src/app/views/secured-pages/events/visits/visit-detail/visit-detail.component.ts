@@ -83,7 +83,7 @@ export class VisitDetailComponent implements OnInit {
   }
 
   public openEditPage(): void {
-    this.router.navigate(['visits/visit-detail-edit', this.visit.studentVisitId]).then();
+    this.router.navigate(['visits/visit-detail-edit', this.visit.visitId]).then();
   }
 
   public openTwitter(twitterHandle: string): void {

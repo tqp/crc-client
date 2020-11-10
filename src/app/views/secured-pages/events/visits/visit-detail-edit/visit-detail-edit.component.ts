@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../../../../../../@tqp/components/confirm-dialog/confirm-dialog.component';
@@ -14,7 +14,8 @@ import { VisitType } from '../../../reference-tables/visit-type/VisitType';
 @Component({
   selector: 'app-visit-detail-edit',
   templateUrl: './visit-detail-edit.component.html',
-  styleUrls: ['./visit-detail-edit.component.css']
+  styleUrls: ['./visit-detail-edit.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class VisitDetailEditComponent implements OnInit {
   @ViewChild('visitSurnameInputField', {static: false}) visitSurnameInputField: ElementRef;
@@ -28,7 +29,7 @@ export class VisitDetailEditComponent implements OnInit {
   public interactionTypeList: InteractionType[];
 
   public validationMessages = {
-    'studentVisitId': [
+    'visitId': [
       {type: 'required', message: 'An Student Visit ID is required'}
     ],
     'visitDate': [
@@ -60,14 +61,14 @@ export class VisitDetailEditComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.forEach((params: Params) => {
       if (params['id'] !== undefined) {
-        const studentVisitId = params['id'];
-        // console.log('studentVisitId', studentVisitId);
-        this.getVisitDetail(studentVisitId);
+        const visitId = params['id'];
+        // console.log('visitId', visitId);
+        this.getVisitDetail(visitId);
       } else {
         // Create new Person
         this.newRecord = true;
         this.visit = new Visit();
-        this.visit.studentVisitId = null;
+        this.visit.visitId = null;
         setTimeout(() => {
           this.visitSurnameInputField.nativeElement.focus();
         }, 0);
@@ -77,7 +78,7 @@ export class VisitDetailEditComponent implements OnInit {
 
   private initializeForm(): void {
     this.visitEditForm = this.formBuilder.group({
-      studentVisitId: new FormControl('', Validators.required),
+      visitId: new FormControl('', Validators.required),
       visitDate: new FormControl('', Validators.required),
       visitTypeId: new FormControl('', Validators.required),
       interactionTypeId: new FormControl('', Validators.required),
@@ -91,7 +92,7 @@ export class VisitDetailEditComponent implements OnInit {
       response => {
         this.visit = response;
         // console.log('response', response);
-        this.visitEditForm.controls['studentVisitId'].patchValue(this.visit.studentVisitId);
+        this.visitEditForm.controls['visitId'].patchValue(this.visit.visitId);
         this.visitEditForm.controls['visitDate'].patchValue(this.formattingService.formatMySqlDateAsStandard(this.visit.visitDate));
         this.visitEditForm.controls['visitTypeId'].patchValue(this.visit.visitTypeId);
         this.visitEditForm.controls['interactionTypeId'].patchValue(this.visit.interactionTypeId);
@@ -154,7 +155,7 @@ export class VisitDetailEditComponent implements OnInit {
   public save(): void {
     const visit = new Visit();
     // console.log('crudEditForm', this.visitEditForm.value);
-    visit.studentVisitId = this.visitEditForm.value.studentVisitId;
+    visit.visitId = this.visitEditForm.value.visitId;
     visit.visitDate = this.formattingService.formatStandardDateAsMySql(this.visitEditForm.value.visitDate);
     visit.visitTypeId = this.visitEditForm.value.visitTypeId;
     visit.interactionTypeId = this.visitEditForm.value.interactionTypeId;
@@ -165,7 +166,7 @@ export class VisitDetailEditComponent implements OnInit {
       this.visitService.createVisit(visit).subscribe(
         response => {
           console.log('response: ', response);
-          this.router.navigate(['visits/visit-detail', response.studentVisitId]).then();
+          this.router.navigate(['visits/visit-detail', response.visitId]).then();
         },
         error => {
           console.error('Error: ' + error.message);
@@ -175,7 +176,7 @@ export class VisitDetailEditComponent implements OnInit {
       this.visitService.updateVisit(visit).subscribe(
         response => {
           // console.log('response: ', response);
-          this.router.navigate(['visits/visit-detail', response.studentVisitId]).then();
+          this.router.navigate(['visits/visit-detail', response.visitId]).then();
         },
         error => {
           console.error('Error: ' + error.message);
@@ -185,8 +186,8 @@ export class VisitDetailEditComponent implements OnInit {
   }
 
   public cancel(): void {
-    if (this.visit.studentVisitId) {
-      this.router.navigate(['visits/visit-detail', this.visit.studentVisitId]).then();
+    if (this.visit.visitId) {
+      this.router.navigate(['visits/visit-detail', this.visit.visitId]).then();
     } else {
       this.router.navigate(['visits/visit-list']).then();
     }
@@ -202,7 +203,7 @@ export class VisitDetailEditComponent implements OnInit {
     }
     if (event.ctrlKey && event.key === 'd') {
       event.preventDefault();
-      this.delete(this.visit.studentVisitId);
+      this.delete(this.visit.visitId);
     }
     if (event.ctrlKey && event.key === 's') {
       event.preventDefault();

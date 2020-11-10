@@ -35,10 +35,11 @@ export class VisitListComponent implements OnInit, AfterViewInit, OnDestroy {
   private searchParams: ServerSidePaginationRequest = new ServerSidePaginationRequest();
 
   public displayedColumns: string[] = [
+    'visitId',
     'visitDate',
+    'studentName',
     'visitType',
-    'interactionType',
-    'studentName'
+    'interactionType'
   ];
 
   public caregiverListNameSearchFormControl = new FormControl();
@@ -105,6 +106,7 @@ export class VisitListComponent implements OnInit, AfterViewInit, OnDestroy {
     this.eventService.loadingEvent.emit(true);
     this.visitService.getVisitList_SSP(searchParams).subscribe((response: ServerSidePaginationResponse<Visit>) => {
         // console.log('getPage response', response);
+        this.records = [];
         response.data.forEach(item => {
           this.records.push(item);
         }, error => {
@@ -218,11 +220,16 @@ export class VisitListComponent implements OnInit, AfterViewInit, OnDestroy {
     const dialogRef = this._matDialog.open(VisitDetailEditDialogComponent, dialogConfig);
 
     dialogRef.afterClosed().subscribe(dialogData => {
-      console.log('dialogData', dialogData);
+      // console.log('dialogData', dialogData);
       if (dialogData) {
         const visit: Visit = {};
-        visit.studentVisitId = dialogData.visitId;
-        // visit.visitDate = this.formattingService.formatStandardDateAsMySql(dialogData.visitDate);
+        visit.studentId = dialogData.studentId;
+        visit.visitDate = this.formattingService.formatStandardDateAsMySql(dialogData.visitDate);
+        visit.caseManagerId = dialogData.caseManagerId;
+        visit.interactionTypeId = dialogData.interactionTypeId;
+        visit.visitTypeId = dialogData.visitTypeId;
+        visit.caregiverComments = dialogData.caregiverComments;
+        visit.caseManagerComments = dialogData.caseManagerComments;
         console.log('visit', visit);
         this.visitService.createVisit(visit).subscribe(
           response => {
@@ -238,7 +245,7 @@ export class VisitListComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public openDetailPage(row: any): void {
-    this.router.navigate(['visits/visit-detail', row.studentVisitId]).then();
+    this.router.navigate(['visits/visit-detail', row.visitId]).then();
   }
 
   @HostListener('window:keydown', ['$event'])

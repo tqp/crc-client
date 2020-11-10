@@ -1,1 +1,139 @@
-<p>visit-detail-edit-dialog works!</p>
+<h2 mat-dialog-title>
+  Add Student Visit
+</h2>
+
+<mat-dialog-content style="overflow: hidden">
+
+  <form [formGroup]="visitEditForm">
+
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="form-group">
+          <label for="studentId">Student*</label>
+          <select id="studentId" class="form-control" formControlName="studentId">
+            <option value=0>Select a Student</option>
+            <option *ngFor="let student of studentList"
+                    value="{{student.studentId}}">
+              {{student.studentSurname}}, {{student.studentGivenName}}
+            </option>
+          </select>
+          <mat-error *ngFor="let validation of validationMessages.studentId">
+            <mat-error class="error-message"
+                       *ngIf="visitEditForm.get('studentId').hasError(validation.type)
+                                && (visitEditForm.get('studentId').dirty ||
+                                visitEditForm.get('studentId').touched)">
+              {{validation.message}}
+            </mat-error>
+          </mat-error>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="form-group">
+          <label for="visitDate">Visit Date*</label>
+          <input id="visitDate" type="text" class="form-control" bsDatepicker
+                 formControlName="visitDate">
+          <mat-error *ngFor="let validation of validationMessages.visitDate">
+            <mat-error class="error-message"
+                       *ngIf="visitEditForm.get('visitDate').hasError(validation.type)
+                                && (visitEditForm.get('visitDate').dirty ||
+                                visitEditForm.get('visitDate').touched)">
+              {{validation.message}}
+            </mat-error>
+          </mat-error>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="form-group">
+          <label for="visitTypeId">Visit Type*</label>
+          <select id="visitTypeId" class="form-control" formControlName="visitTypeId">
+            <option value=0>Select a Visit Type</option>
+            <option *ngFor="let visitType of visitTypeList" value="{{visitType.visitTypeId}}">
+              {{visitType.visitTypeName}}
+            </option>
+          </select>
+          <mat-error *ngFor="let validation of validationMessages.visitTypeId">
+            <mat-error class="error-message"
+                       *ngIf="visitEditForm.get('visitTypeId').hasError(validation.type)
+                                && (visitEditForm.get('visitTypeId').dirty ||
+                                visitEditForm.get('visitTypeId').touched)">
+              {{validation.message}}
+            </mat-error>
+          </mat-error>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="form-group">
+          <label for="interactionTypeId">Interaction Type*</label>
+          <select id="interactionTypeId" class="form-control" formControlName="interactionTypeId">
+            <option value=0>Select an Interaction Type</option>
+            <option *ngFor="let interactionType of interactionTypeList" value="{{interactionType.interactionTypeId}}">
+              {{interactionType.interactionTypeName}}
+            </option>
+          </select>
+          <mat-error *ngFor="let validation of validationMessages.interactionTypeId">
+            <mat-error class="error-message"
+                       *ngIf="visitEditForm.get('interactionTypeId').hasError(validation.type)
+                                && (visitEditForm.get('interactionTypeId').dirty ||
+                                visitEditForm.get('interactionTypeId').touched)">
+              {{validation.message}}
+            </mat-error>
+          </mat-error>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="form-group">
+          <label for="caregiverComments">Caregiver/Teacher Comments</label>
+          <input id="caregiverComments" type="text" class="form-control" formControlName="caregiverComments">
+          <mat-error *ngFor="let validation of validationMessages.caregiverComments">
+            <mat-error class="error-message"
+                       *ngIf="visitEditForm.get('caregiverComments').hasError(validation.type)
+                                && (visitEditForm.get('caregiverComments').dirty ||
+                                visitEditForm.get('caregiverComments').touched)">
+              {{validation.message}}
+            </mat-error>
+          </mat-error>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="form-group">
+          <label for="caseManagerComments">Case Manager Comments</label>
+          <input id="caseManagerComments" type="text" class="form-control" formControlName="caseManagerComments">
+          <mat-error *ngFor="let validation of validationMessages.caseManagerComments">
+            <mat-error class="error-message"
+                       *ngIf="visitEditForm.get('caseManagerComments').hasError(validation.type)
+                                && (visitEditForm.get('caseManagerComments').dirty ||
+                                visitEditForm.get('caseManagerComments').touched)">
+              {{validation.message}}
+            </mat-error>
+          </mat-error>
+        </div>
+      </div>
+    </div>
+
+  </form>
+
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-raised-button mat-dialog-close>Cancel</button>
+  <button mat-raised-button (click)="reset();">Reset</button>
+  <div fxFlex></div>
+  <button mat-raised-button mat-dialog-close color="primary" (click)="save();" [disabled]="!visitEditForm.valid">
+    Save
+  </button>
+</mat-dialog-actions>

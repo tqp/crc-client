@@ -1,12 +1,16 @@
 export class Visit {
-  public studentVisitId?: number;
-  public studentSurname?: string;
-  public studentGivenName?: string;
+  public visitId?: number;
+  public studentId?: number;
   public visitDate?: string;
+  public caseManagerId?: number;
   public interactionTypeId?: number;
-  public interactionTypeName?: string;
   public visitTypeId?: number;
-  public visitTypeName?: string;
   public caregiverComments?: string;
   public caseManagerComments?: string;
+
+  // Joined Tables
+  public studentSurname?: string;
+  public studentGivenName?: string;
+  public interactionTypeName?: string;
+  public visitTypeName?: string;
 }

@@ -26,12 +26,8 @@ export class SponsorDetailEditComponent implements OnInit {
     'sponsorSurname': [
       {type: 'required', message: 'A Surname is required'}
     ],
-    'sponsorGivenName': [
-      {type: 'required', message: 'A Given Name is required'}
-    ],
-    'sponsorAddress': [
-      {type: 'required', message: 'An Address is required'}
-    ]
+    'sponsorGivenName': [],
+    'sponsorAddress': []
   };
 
   constructor(private route: ActivatedRoute,

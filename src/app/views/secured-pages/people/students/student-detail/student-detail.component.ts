@@ -20,6 +20,9 @@ import { RelationshipService } from '../../../relationships/relationship.service
 import { StudentProgramStatusEditDialogComponent } from '../../../relationships/student-program-status-edit-dialog/student-program-status-edit-dialog.component';
 import { ProgramStatusService } from '../../../relationships/program-status.service';
 import { ProgramStatus } from '../../../relationships/ProgramStatus';
+import { Visit } from '../../../events/visits/Visit';
+import { VisitService } from '../../../events/visits/visit.service';
+import { VisitDetailEditDialogComponent } from '../../../events/visits/visit-detail-edit-dialog/visit-detail-edit-dialog.component';
 
 @Component({
   selector: 'app-student-detail',
@@ -42,13 +45,15 @@ export class StudentDetailComponent implements OnInit {
 
   public genderNames = {'M': 'Male', 'F': 'Female', 'O': 'Other'};
 
-  // Relationships List
-  public records: Relationship[] = [];
-  public dataSource: Relationship[] = [];
+  // Visit List
+  public visitListLoading: boolean = false;
+  public records: Visit[] = [];
+  public dataSource: Visit[] = [];
   public displayedColumns: string[] = [
-    'name',
-    'relationship',
-    'bloodRelative'
+    'visitId',
+    'visitDate',
+    'visitTypeName',
+    'interactionTypeName'
   ];
 
   constructor(private route: ActivatedRoute,
@@ -58,6 +63,7 @@ export class StudentDetailComponent implements OnInit {
               private sponsorService: SponsorService,
               private programStatusService: ProgramStatusService,
               private relationshipService: RelationshipService,
+              private visitService: VisitService,
               private eventService: EventService,
               private formattingService: FormattingService,
               private router: Router,
@@ -71,6 +77,7 @@ export class StudentDetailComponent implements OnInit {
         const studentId = params['id'];
         // console.log('studentId', studentId);
         this.getStudentDetail(studentId);
+        this.getVisitListByStudentId(studentId);
         this.getCaregiverDetailByStudentId(studentId);
         this.getCaseManagerDetailByStudentId(studentId);
         this.getSponsorDetailByStudentId(studentId);
@@ -88,6 +95,22 @@ export class StudentDetailComponent implements OnInit {
         this.student = response;
         // console.log('response', response);
         this.eventService.loadingEvent.emit(false);
+      },
+      error => {
+        console.error('Error: ', error);
+      }
+    );
+  }
+
+  private getVisitListByStudentId(studentId: number): void {
+    this.visitService.getVisitListByStudentId(studentId).subscribe(
+      (visitList: Visit[]) => {
+        console.log('visitList', visitList);
+        this.records = [];
+        visitList.forEach(item => {
+          this.records.push(item);
+        });
+        this.dataSource = this.records;
       },
       error => {
         console.error('Error: ', error);
@@ -151,7 +174,7 @@ export class StudentDetailComponent implements OnInit {
     this.sponsorLoading = true;
     this.programStatusService.getProgramStatusDetailByStudentId(studentId).subscribe(
       (response: ProgramStatus) => {
-        console.log('response', response);
+        // console.log('response', response);
         this.programStatus = response;
         this.programStatus.programStatusStartDate = this.formattingService.formatMySqlDateAsStandard(this.programStatus.programStatusStartDate);
         // this.eventService.loadingEvent.emit(false);
@@ -164,6 +187,43 @@ export class StudentDetailComponent implements OnInit {
   }
 
   // DIALOGS
+
+  public openVisitEditDialog(studentId: number): void {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.minWidth = '25%';
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.data = {
+      action: 'create',
+      studentId: studentId
+    };
+    dialogConfig.autoFocus = false;
+    const dialogRef = this._matDialog.open(VisitDetailEditDialogComponent, dialogConfig);
+
+    dialogRef.afterClosed().subscribe(dialogData => {
+      console.log('dialogData', dialogData);
+      if (dialogData) {
+        const visit: Visit = {};
+        visit.studentId = dialogData.studentId;
+        visit.visitDate = this.formattingService.formatStandardDateAsMySql(dialogData.visitDate);
+        visit.caseManagerId = dialogData.caseManagerId;
+        visit.interactionTypeId = dialogData.interactionTypeId;
+        visit.visitTypeId = dialogData.visitTypeId;
+        visit.caregiverComments = dialogData.caregiverComments;
+        visit.caseManagerComments = dialogData.caseManagerComments;
+        console.log('visit', visit);
+        this.visitService.createVisit(visit).subscribe(
+          response => {
+            console.log('response', response);
+            this.getVisitListByStudentId(this.student.studentId);
+          },
+          error => {
+            console.error('Error: ', error);
+          }
+        );
+      }
+    });
+  }
 
   public openStudentCaregiverEditDialog(): void {
     const dialogConfig = new MatDialogConfig();

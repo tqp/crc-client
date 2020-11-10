@@ -9,7 +9,7 @@ const routes: Routes = [
   {
     path: '',
     data: {
-      title: 'Visit'
+      title: 'Student Visit'
     },
     children: [
       {
@@ -21,28 +21,28 @@ const routes: Routes = [
         path: 'visit-list',
         component: VisitListComponent,
         data: {
-          title: 'Visit List'
+          title: 'Student Visit List'
         }
       },
       {
         path: 'visit-detail/:id',
         component: VisitDetailComponent,
         data: {
-          title: 'Visit Detail'
+          title: 'Student Visit Detail'
         }
       },
       {
         path: 'visit-create',
         component: VisitDetailEditComponent,
         data: {
-          title: 'Create Visit'
+          title: 'Create Student Visit'
         }
       },
       {
         path: 'visit-detail-edit/:id',
         component: VisitDetailEditComponent,
         data: {
-          title: 'Edit Visit'
+          title: 'Edit Student Visit'
         }
       }
     ]

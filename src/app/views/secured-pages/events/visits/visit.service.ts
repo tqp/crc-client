@@ -130,8 +130,28 @@ export class VisitService {
 
   // JOINED TABLES
 
+  public getVisitListByStudentId(studentId: number): Observable<Visit[]> {
+    const url = environment.apiUrl + '/api/v1/visit/student/' + studentId;
+    const token = this.tokenService.getToken();
+    if (token) {
+      return this.http.get<Visit[]>(url, {
+        headers: this.httpService.setHeadersWithToken(),
+        observe: 'response',
+        params: {}
+      })
+        .pipe(
+          map(res => {
+            return res.body;
+          })
+        );
+    } else {
+      console.error('No token was present.');
+      return null;
+    }
+  }
+
   public getVisitListByCaregiverId(caregiverId: string): Observable<Visit[]> {
-    const url = environment.apiUrl + '/api/v1/finance/visit/caregiver/' + caregiverId;
+    const url = environment.apiUrl + '/api/v1/visit/caregiver/' + caregiverId;
     const token = this.tokenService.getToken();
     if (token) {
       return this.http.get<Visit[]>(url, {

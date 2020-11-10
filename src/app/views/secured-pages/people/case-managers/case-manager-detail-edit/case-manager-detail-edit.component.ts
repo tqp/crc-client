@@ -29,12 +29,8 @@ export class CaseManagerDetailEditComponent implements OnInit {
     'caseManagerGivenName': [
       {type: 'required', message: 'A Given Name is required'}
     ],
-    'caseManagerPhone': [
-      {type: 'required', message: 'A Phone Number is required'}
-    ],
-    'caseManagerEmail': [
-      {type: 'required', message: 'An E-Mail Address is required'}
-    ]
+    'caseManagerPhone': [],
+    'caseManagerEmail': []
   };
 
   constructor(private route: ActivatedRoute,

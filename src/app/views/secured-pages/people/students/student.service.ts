@@ -8,6 +8,7 @@ import { HttpService } from '@tqp/services/http.service';
 import { TokenService } from '@tqp/services/token.service';
 import { map } from 'rxjs/operators';
 import { Student } from './Student';
+import { Caregiver } from '../caregivers/Caregiver';
 
 @Injectable({
   providedIn: 'root'
@@ -33,6 +34,26 @@ export class StudentService {
           observe: 'response',
           params: {}
         })
+        .pipe(
+          map(res => {
+            return res.body;
+          })
+        );
+    } else {
+      console.error('No token was present.');
+      return null;
+    }
+  }
+
+  public getStudentList(): Observable<Student[]> {
+    const url = environment.apiUrl + '/api/v1/student/';
+    const token = this.tokenService.getToken();
+    if (token) {
+      return this.http.get<Student[]>(url, {
+        headers: this.httpService.setHeadersWithToken(),
+        observe: 'response',
+        params: {}
+      })
         .pipe(
           map(res => {
             return res.body;
