@@ -34,6 +34,9 @@ export class StudentCaregiverEditDialogComponent implements OnInit {
     ],
     'relationshipTypeId': [
       {type: 'required', message: 'A Relationship Type is required'}
+    ],
+    'familyOfOriginTypeId': [
+      {type: 'required', message: 'A Family of Origin response required'}
     ]
   };
 
@@ -60,6 +63,7 @@ export class StudentCaregiverEditDialogComponent implements OnInit {
       relationshipStartDate: new FormControl('', Validators.required),
       tierTypeId: new FormControl('', Validators.required),
       relationshipTypeId: new FormControl('', Validators.required),
+      familyOfOriginTypeId: new FormControl('', Validators.required),
     });
 
     // setTimeout(() => {

@@ -93,6 +93,27 @@
       </div>
     </div>
 
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="form-group">
+          <label for="familyOfOriginTypeId">Is the placement the family of origin?*</label>
+          <select id="familyOfOriginTypeId" class="form-control" formControlName="familyOfOriginTypeId">
+            <option value="">Select a Response</option>
+            <option value="1">No</option>
+            <option value="2">Yes</option>
+          </select>
+          <mat-error *ngFor="let validation of validationMessages.familyOfOriginTypeId">
+            <mat-error class="error-message"
+                       *ngIf="studentCaregiverEditForm.get('familyOfOriginTypeId').hasError(validation.type)
+                                && (studentCaregiverEditForm.get('familyOfOriginTypeId').dirty ||
+                                studentCaregiverEditForm.get('familyOfOriginTypeId').touched)">
+              {{validation.message}}
+            </mat-error>
+          </mat-error>
+        </div>
+      </div>
+    </div>
+
   </form>
 
 </mat-dialog-content>
