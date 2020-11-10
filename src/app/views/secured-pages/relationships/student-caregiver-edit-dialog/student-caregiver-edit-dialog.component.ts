@@ -8,6 +8,7 @@ import { RelationshipTypeService } from '../../reference-tables/relationship-typ
 import { TierType } from '../../reference-tables/tier-type/TierType';
 import { TierTypeService } from '../../reference-tables/tier-type/tier-type.service';
 import { FormattingService } from '../../../../../@tqp/services/formatting.service';
+import { RelationshipsModule } from '../relationships.module';
 
 @Component({
   selector: 'app-student-caregiver-edit-dialog',
@@ -25,12 +26,15 @@ export class StudentCaregiverEditDialogComponent implements OnInit {
     'caregiverId': [
       {type: 'required', message: 'A Caregiver is required'}
     ],
-    'tierTypeId': [
-      {type: 'required', message: 'A Support Tier is required'}
-    ],
     'relationshipStartDate': [
       {type: 'required', message: 'An Effective Date is required'}
     ],
+    'tierTypeId': [
+      {type: 'required', message: 'A Support Tier is required'}
+    ],
+    'relationshipTypeId': [
+      {type: 'required', message: 'A Relationship Type is required'}
+    ]
   };
 
   constructor(private dialogRef: MatDialogRef<StudentCaregiverEditDialogComponent>,
@@ -43,6 +47,7 @@ export class StudentCaregiverEditDialogComponent implements OnInit {
   ) {
     this.getCaregiverList();
     this.getSupportTierList();
+    this.getRelationshipTypeList();
   }
 
   ngOnInit(): void {
@@ -52,8 +57,9 @@ export class StudentCaregiverEditDialogComponent implements OnInit {
   private initializeForm(): void {
     this.studentCaregiverEditForm = this.formBuilder.group({
       caregiverId: new FormControl(0, Validators.required),
+      relationshipStartDate: new FormControl('', Validators.required),
       tierTypeId: new FormControl('', Validators.required),
-      relationshipStartDate: new FormControl('', Validators.required)
+      relationshipTypeId: new FormControl('', Validators.required),
     });
 
     // setTimeout(() => {
@@ -80,6 +86,18 @@ export class StudentCaregiverEditDialogComponent implements OnInit {
       (response: TierType[]) => {
         // console.log('response', response);
         this.tierTypeList = response;
+      },
+      error => {
+        console.error('Error: ', error);
+      }
+    );
+  }
+
+  private getRelationshipTypeList(): void {
+    this.relationshipTypeService.getRelationshipTypeList().subscribe(
+      (response: RelationshipType[]) => {
+        // console.log('response', response);
+        this.relationshipTypeList = response;
       },
       error => {
         console.error('Error: ', error);

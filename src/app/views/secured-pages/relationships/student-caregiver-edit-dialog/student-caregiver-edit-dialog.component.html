@@ -32,6 +32,24 @@
     <div class="row">
       <div class="col-sm-12">
         <div class="form-group">
+          <label for="relationshipStartDate">Effective Date*</label>
+          <input id="relationshipStartDate" type="text" class="form-control" bsDatepicker
+                 formControlName="relationshipStartDate">
+          <mat-error *ngFor="let validation of validationMessages.relationshipStartDate">
+            <mat-error class="error-message"
+                       *ngIf="studentCaregiverEditForm.get('relationshipStartDate').hasError(validation.type)
+                                && (studentCaregiverEditForm.get('relationshipStartDate').dirty ||
+                                studentCaregiverEditForm.get('relationshipStartDate').touched)">
+              {{validation.message}}
+            </mat-error>
+          </mat-error>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="form-group">
           <label for="tierTypeId">Support Tier*</label>
           <select id="tierTypeId" class="form-control" formControlName="tierTypeId">
             <option value="">Select a Support Tier</option>
@@ -52,18 +70,22 @@
       </div>
     </div>
 
-
     <div class="row">
       <div class="col-sm-12">
         <div class="form-group">
-          <label for="relationshipStartDate">Effective Date*</label>
-          <input id="relationshipStartDate" type="text" class="form-control" bsDatepicker
-                 formControlName="relationshipStartDate">
-          <mat-error *ngFor="let validation of validationMessages.relationshipStartDate">
+          <label for="relationshipTypeId">Family Relationship*</label>
+          <select id="relationshipTypeId" class="form-control" formControlName="relationshipTypeId">
+            <option value="">Select a Family Relationship</option>
+            <option *ngFor="let relationshipType of relationshipTypeList"
+                    value="{{relationshipType.relationshipTypeId}}">
+              {{relationshipType.relationshipTypeName}}
+            </option>
+          </select>
+          <mat-error *ngFor="let validation of validationMessages.relationshipTypeId">
             <mat-error class="error-message"
-                       *ngIf="studentCaregiverEditForm.get('relationshipStartDate').hasError(validation.type)
-                                && (studentCaregiverEditForm.get('relationshipStartDate').dirty ||
-                                studentCaregiverEditForm.get('relationshipStartDate').touched)">
+                       *ngIf="studentCaregiverEditForm.get('relationshipTypeId').hasError(validation.type)
+                                && (studentCaregiverEditForm.get('relationshipTypeId').dirty ||
+                                studentCaregiverEditForm.get('relationshipTypeId').touched)">
               {{validation.message}}
             </mat-error>
           </mat-error>

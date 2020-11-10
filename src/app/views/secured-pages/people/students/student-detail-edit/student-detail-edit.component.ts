@@ -207,7 +207,7 @@ export class StudentDetailEditComponent implements OnInit {
     this.impairmentTypeService.getImpairmentTypeList().subscribe(
       (response: ImpairmentType[]) => {
         this.impairmentTypeList = response;
-        console.log('response', response);
+        // console.log('response', response);
       },
       error => {
         console.error('Error: ', error);
@@ -342,7 +342,7 @@ export class StudentDetailEditComponent implements OnInit {
     } else {
       this.studentService.updateStudent(student).subscribe(
         response => {
-          console.log('response: ', response);
+          // console.log('response: ', response);
           this.router.navigate(['students/student-detail', response.studentId]).then();
         },
         error => {

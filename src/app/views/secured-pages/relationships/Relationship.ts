@@ -6,6 +6,7 @@ export class Relationship {
   // Fields
   public relationshipType?: string;
   public relationshipTierTypeId?: string;
+  public relationshipTypeId?: string;
   public relationshipStartDate?: string;
   public relationshipBloodRelative?: number;
   public relationshipFamilyOfOrigin?: number;

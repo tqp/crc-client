@@ -247,10 +247,11 @@ export class StudentDetailComponent implements OnInit {
         relationship.relationshipPersonId = dialogData.caregiverId;
         relationship.relationshipStartDate = this.formattingService.formatStandardDateAsMySql(dialogData.relationshipStartDate);
         relationship.relationshipTierTypeId = dialogData.tierTypeId;
-        console.log('relationship', relationship);
+        relationship.relationshipTypeId = dialogData.relationshipTypeId;
+        // console.log('relationship', relationship);
         this.relationshipService.createCaregiverRelationship(relationship).subscribe(
           response => {
-            console.log('response', response);
+            // console.log('response', response);
             this.getCaregiverDetailByStudentId(this.student.studentId);
             this.eventService.loadingEvent.emit(false);
           },
