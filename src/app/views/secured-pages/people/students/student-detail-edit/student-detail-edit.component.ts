@@ -13,6 +13,10 @@ import { StudentCaregiverEditDialogComponent } from '../../../relationships/stud
 import { StudentProgramStatusEditDialogComponent } from '../../../relationships/student-program-status-edit-dialog/student-program-status-edit-dialog.component';
 import { StudentCaseManagerEditDialogComponent } from '../../../relationships/student-case-manager-edit-dialog/student-case-manager-edit-dialog.component';
 import { StudentSponsorEditDialogComponent } from '../../../relationships/student-sponsor-edit-dialog/student-sponsor-edit-dialog.component';
+import { SchoolClassTypeService } from '../../../reference-tables/school-class-type/school-class-type.service';
+import { SchoolClassType } from '../../../reference-tables/school-class-type/SchoolClassType';
+import { ImpairmentType } from '../../../reference-tables/impairment-type/ImpairmentType';
+import { ImpairmentTypeService } from '../../../reference-tables/impairment-type/impairment-type.service';
 
 @Component({
   selector: 'app-student-detail-edit',
@@ -26,6 +30,9 @@ export class StudentDetailEditComponent implements OnInit {
   public newRecord: boolean;
   public student: Student;
   public tierTypeList: TierType[];
+  public schoolLevelList: SchoolClassType[];
+  public classLevelList: SchoolClassType[];
+  public impairmentTypeList: ImpairmentType[];
   public studentEditForm: FormGroup;
   public confirmDialogRef: MatDialogRef<ConfirmDialogComponent>;
 
@@ -53,9 +60,10 @@ export class StudentDetailEditComponent implements OnInit {
       {type: 'required', message: 'A Gender is required'}
     ],
     'studentDateOfBirth': [],
-    'studentGrade': [],
     'studentSchool': [],
-    'studentImpairment': [],
+    'schoolLevelId': [],
+    'classLevelId': [],
+    'impairmentTypeId': [],
 
     // Program Status
     'programStatus': [],
@@ -68,12 +76,16 @@ export class StudentDetailEditComponent implements OnInit {
   constructor(private route: ActivatedRoute,
               private studentService: StudentService,
               private tierTypeService: TierTypeService,
+              private schoolClassTypeService: SchoolClassTypeService,
+              private impairmentTypeService: ImpairmentTypeService,
               private router: Router,
               private formBuilder: FormBuilder,
               private formattingService: FormattingService,
               public _matDialog: MatDialog) {
     this.initializeForm();
     this.getTierTypeList();
+    this.getSchoolLevelList();
+    this.getImpairmentTypeList();
   }
 
   ngOnInit(): void {
@@ -104,19 +116,20 @@ export class StudentDetailEditComponent implements OnInit {
       studentGender: new FormControl('', Validators.required),
       studentDateOfBirth: new FormControl(''),
       studentSchool: new FormControl(''),
-      studentGrade: new FormControl(''),
-      studentImpairment: new FormControl(''),
+      schoolLevelId: new FormControl(''),
+      classLevelId: new FormControl(''),
+      impairmentTypeId: new FormControl(''),
       // Program Status
       caregiverId: new FormControl(''),
       caregiverName: new FormControl(''),
     });
   }
 
-  private getStudentDetail(id: number): void {
-    this.studentService.getStudentDetail(id).subscribe(
+  private getStudentDetail(studentId: number): void {
+    this.studentService.getStudentDetail(studentId).subscribe(
       response => {
         this.student = response;
-        console.log('getStudentDetail', response);
+        // console.log('getStudentDetail', response);
         // Personal Information
         this.studentEditForm.controls['studentId'].patchValue(this.student.studentId);
         this.studentEditForm.controls['studentSurname'].patchValue(this.student.studentSurname);
@@ -124,10 +137,13 @@ export class StudentDetailEditComponent implements OnInit {
         this.studentEditForm.controls['studentGender'].patchValue(this.student.studentGender);
         this.studentEditForm.controls['studentDateOfBirth'].patchValue(this.formattingService.formatMySqlDateAsStandard(this.student.studentDateOfBirth));
         this.studentEditForm.controls['studentSchool'].patchValue(this.student.studentSchool);
-        this.studentEditForm.controls['studentGrade'].patchValue(this.student.studentGrade);
-        this.studentEditForm.controls['studentImpairment'].patchValue(this.student.studentImpairment);
+        this.studentEditForm.controls['schoolLevelId'].patchValue(this.student.schoolLevelId);
+        this.studentEditForm.controls['impairmentTypeId'].patchValue(this.student.impairmentTypeId);
         // Program Status
         this.studentEditForm.controls['caregiverId'].patchValue(this.student.caregiverId);
+
+        this.getClassLevelList(this.student.schoolLevelId);
+        this.studentEditForm.controls['classLevelId'].patchValue(this.student.classLevelId);
       },
       error => {
         console.error('Error: ', error);
@@ -161,6 +177,54 @@ export class StudentDetailEditComponent implements OnInit {
         console.error('Error: ', error);
       }
     );
+  }
+
+  private getSchoolLevelList(): void {
+    this.schoolClassTypeService.getSchoolClassChildListByParentId(0).subscribe(
+      (response: SchoolClassType[]) => {
+        this.schoolLevelList = response;
+        // console.log('response', response);
+      },
+      error => {
+        console.error('Error: ', error);
+      }
+    );
+  }
+
+  private getClassLevelList(schoolLevelId: number): void {
+    this.schoolClassTypeService.getSchoolClassChildListByParentId(schoolLevelId).subscribe(
+      (response: SchoolClassType[]) => {
+        this.classLevelList = response;
+        // console.log('classLevelList', this.classLevelList);
+      },
+      error => {
+        console.error('Error: ', error);
+      }
+    );
+  }
+
+  private getImpairmentTypeList(): void {
+    this.impairmentTypeService.getImpairmentTypeList().subscribe(
+      (response: ImpairmentType[]) => {
+        this.impairmentTypeList = response;
+        console.log('response', response);
+      },
+      error => {
+        console.error('Error: ', error);
+      }
+    );
+  }
+
+  public schoolLevelIdChanged(event: any): void {
+    const schoolLevelId = event.target.value;
+    // console.log('schoolLevelId', schoolLevelId);
+    this.studentEditForm.controls['classLevelId'].patchValue(0);
+    if (Number(schoolLevelId) === 0) {
+      this.studentEditForm.get('classLevelId').disable();
+    } else {
+      this.getClassLevelList(this.studentEditForm.get('schoolLevelId').value);
+      this.studentEditForm.get('classLevelId').enable();
+    }
   }
 
   // DIALOGS
@@ -259,8 +323,9 @@ export class StudentDetailEditComponent implements OnInit {
     student.studentGender = this.studentEditForm.value.studentGender;
     student.studentDateOfBirth = this.formattingService.formatStandardDateAsMySql(this.studentEditForm.value.studentDateOfBirth);
     student.studentSchool = this.studentEditForm.value.studentSchool;
-    student.studentGrade = this.studentEditForm.value.studentGrade;
-    student.studentImpairment = this.studentEditForm.value.studentImpairment;
+    student.schoolLevelId = this.studentEditForm.value.schoolLevelId;
+    student.classLevelId = this.studentEditForm.value.classLevelId;
+    student.impairmentTypeId = this.studentEditForm.value.impairmentTypeId;
     // Program Status
     student.caregiverId = this.studentEditForm.value.caregiverId;
 
@@ -277,7 +342,7 @@ export class StudentDetailEditComponent implements OnInit {
     } else {
       this.studentService.updateStudent(student).subscribe(
         response => {
-          // console.log('response: ', response);
+          console.log('response: ', response);
           this.router.navigate(['students/student-detail', response.studentId]).then();
         },
         error => {

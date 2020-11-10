@@ -42,14 +42,15 @@ export class StudentDetailComponent implements OnInit {
   public caregiverLoading: boolean = false;
   public caseManagerLoading: boolean = false;
   public sponsorLoading: boolean = false;
+  public programStatusLoading: boolean = false;
 
   public genderNames = {'M': 'Male', 'F': 'Female', 'O': 'Other'};
 
   // Visit List
   public visitListLoading: boolean = false;
-  public records: Visit[] = [];
-  public dataSource: Visit[] = [];
-  public displayedColumns: string[] = [
+  public visitListRecords: Visit[] = [];
+  public visitListDataSource: Visit[] = [];
+  public visitListDisplayedColumns: string[] = [
     'visitId',
     'visitDate',
     'visitTypeName',
@@ -105,12 +106,12 @@ export class StudentDetailComponent implements OnInit {
   private getVisitListByStudentId(studentId: number): void {
     this.visitService.getVisitListByStudentId(studentId).subscribe(
       (visitList: Visit[]) => {
-        console.log('visitList', visitList);
-        this.records = [];
+        // console.log('visitList', visitList);
+        this.visitListRecords = [];
         visitList.forEach(item => {
-          this.records.push(item);
+          this.visitListRecords.push(item);
         });
-        this.dataSource = this.records;
+        this.visitListDataSource = this.visitListRecords;
       },
       error => {
         console.error('Error: ', error);
@@ -328,7 +329,7 @@ export class StudentDetailComponent implements OnInit {
     });
   }
 
-  public openStudentStatusEditDialog(): void {
+  public openStudentProgramStatusEditDialog(): void {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.minWidth = '25%';
     dialogConfig.minHeight = '400px';
@@ -342,7 +343,7 @@ export class StudentDetailComponent implements OnInit {
     const dialogRef = this._matDialog.open(StudentProgramStatusEditDialogComponent, dialogConfig);
 
     dialogRef.afterClosed().subscribe(dialogData => {
-      console.log('dialogData', dialogData);
+      // console.log('dialogData', dialogData);
       const programStatus: ProgramStatus = {};
       programStatus.studentId = this.student.studentId;
       programStatus.programStatusLevelOneId = dialogData.programStatusLevelOneId;
@@ -351,7 +352,7 @@ export class StudentDetailComponent implements OnInit {
       programStatus.programStatusStartDate = this.formattingService.formatStandardDateAsMySql(dialogData.programStatusStartDate);
       this.relationshipService.createProgramStatusRelationship(programStatus).subscribe(
         response => {
-          console.log('response', response);
+          // console.log('response', response);
           this.getProgramStatusDetailByStudentId(this.student.studentId);
           this.eventService.loadingEvent.emit(false);
         },

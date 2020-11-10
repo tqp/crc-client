@@ -6,10 +6,15 @@ export class Student {
   public studentGender?: string;
   public studentDateOfBirth?: string;
   public studentSchool?: string;
-  public studentGrade?: string;
   public studentAddress?: string;
   public studentPhone?: string;
-  public studentImpairment?: string;
+  public schoolLevelId?: number;
+  public classLevelId?: number;
+  public impairmentTypeId?: number;
+  // JOINED TABLES
+  public schoolLevelName?: string;
+  public classLevelName?: string;
+  public impairmentTypeName?: string;
   // Program Status
   public programStatus?: string;
   public programStatusStartDate?: string;

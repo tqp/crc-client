@@ -50,16 +50,19 @@
             <dd class="col-sm-8">{{student.studentSchool}}</dd>
           </dl>
           <dl class="row">
-            <dt class="col-sm-4">Grade:</dt>
-            <dd class="col-sm-8">{{student.studentGrade}}</dd>
+            <dt class="col-sm-4">School Level:</dt>
+            <dd class="col-sm-8">{{student.schoolLevelName}}</dd>
+          </dl>
+          <dl class="row">
+            <dt class="col-sm-4">Class Level:</dt>
+            <dd class="col-sm-8">{{student.classLevelName}}</dd>
           </dl>
           <dl class="row">
             <dt class="col-sm-4">Impairment:</dt>
-            <dd class="col-sm-8">{{student.studentImpairment}}</dd>
+            <dd class="col-sm-8">{{student.impairmentTypeName}}</dd>
           </dl>
         </div>
       </div>
-
 
       <div class="card">
         <div class="card-header">
@@ -74,7 +77,7 @@
 
           <div class="table-container">
 
-            <table mat-table [dataSource]="dataSource" *ngIf="dataSource && dataSource.length > 0" class="table">
+            <table mat-table [dataSource]="visitListDataSource" *ngIf="visitListDataSource && visitListDataSource.length > 0" class="table">
 
               <ng-container matColumnDef="visitId">
                 <th mat-header-cell *matHeaderCellDef>Visit ID</th>
@@ -100,11 +103,11 @@
                 <td mat-cell *matCellDef="let row">{{row.interactionTypeName}}</td>
               </ng-container>
 
-              <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true" [hidden]="false"></tr>
-              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+              <tr mat-header-row *matHeaderRowDef="visitListDisplayedColumns; sticky: true" [hidden]="false"></tr>
+              <tr mat-row *matRowDef="let row; columns: visitListDisplayedColumns;"></tr>
             </table>
 
-            <div class="no-records" *ngIf="dataSource && dataSource.length <= 0">
+            <div class="no-records" *ngIf="visitListDataSource && visitListDataSource.length <= 0">
               Date, Visit Type, Interaction Type, Case Manager
             </div>
 
@@ -123,7 +126,7 @@
 
           <div class="table-container">
 
-            <table mat-table [dataSource]="dataSource" *ngIf="dataSource && dataSource.length > 0"
+            <table mat-table [dataSource]="visitListDataSource" *ngIf="visitListDataSource && visitListDataSource.length > 0"
                    matSort matSortActive="lastName" matSortDirection="asc" matSortDisableClear="true"
                    class="table">
 
@@ -150,11 +153,11 @@
                 </td>
               </ng-template>
 
-              <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true" [hidden]="false"></tr>
-              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+              <tr mat-header-row *matHeaderRowDef="visitListDisplayedColumns; sticky: true" [hidden]="false"></tr>
+              <tr mat-row *matRowDef="let row; columns: visitListDisplayedColumns;"></tr>
             </table>
 
-            <div class="no-records" *ngIf="dataSource && dataSource.length <= 0">
+            <div class="no-records" *ngIf="visitListDataSource && visitListDataSource.length <= 0">
               Date, Event Type, POC (Case Manager/ Caregiver)
             </div>
 
@@ -168,36 +171,35 @@
 
     <div class="col-lg-6 col-sm-12">
 
-      <!--
       <div class="card">
         <div class="card-header">
           <i class="fa fa-handshake-o"></i>
           Program Status
-          <i *ngIf="sponsorLoading" class="fa fa-spinner fa-spin"></i>
+          <i *ngIf="programStatusLoading" class="fa fa-spinner fa-spin"></i>
           <div class="card-header-actions" [hidden]="authService.allowRoles('ROLE_USER, ROLE_MANAGER, ROLE_ADMIN')">
-            <small class="tqp-nav-link" (click)="openStudentStatusEditDialog();">Set Program Status</small>
+            <small class="tqp-nav-link" (click)="openStudentProgramStatusEditDialog();">Set Program Status</small>
           </div>
         </div>
         <div class="card-body">
           <dl class="row">
             <dt class="col-sm-4">Program Status:</dt>
             <dd class="col-sm-8">
-              <span *ngIf="programStatus && programStatus.programStudentStatusId; else noProgramStatusAssigned;">
-                {{programStatus.programStatusLevelOne}}
+              <span *ngIf="programStatus && programStatus.programStatusLevelOneId; else noProgramStatusAssigned;">
+                {{programStatus.programStatusLevelOneName}}
               </span>
             </dd>
             <ng-template #noProgramStatusAssigned>
               <span class="text-danger">No Program Status Set</span>
             </ng-template>
           </dl>
-          <ng-container *ngIf="programStatus && programStatus.programStudentStatusId">
-            <dl class="row" *ngIf="programStatus.programStatusLevelTwo">
+          <ng-container *ngIf="programStatus && programStatus.programStatusLevelTwoId">
+            <dl class="row" *ngIf="programStatus.programStatusLevelTwoName">
               <dt class="col-sm-4">Previous Home:</dt>
-              <dd class="col-sm-8">{{programStatus.programStatusLevelTwo}}</dd>
+              <dd class="col-sm-8">{{programStatus.programStatusLevelTwoName}}</dd>
             </dl>
-            <dl class="row" *ngIf="programStatus.programStatusLevelThree">
+            <dl class="row" *ngIf="programStatus.programStatusLevelThreeId">
               <dt class="col-sm-4"></dt>
-              <dd class="col-sm-8">{{programStatus.programStatusLevelThree}}</dd>
+              <dd class="col-sm-8">{{programStatus.programStatusLevelThreeName}}</dd>
             </dl>
             <dl class="row">
               <dt class="col-sm-4">Status Date:</dt>
@@ -206,7 +208,6 @@
           </ng-container>
         </div>
       </div>
-      -->
 
       <div class="card">
         <div class="card-header">

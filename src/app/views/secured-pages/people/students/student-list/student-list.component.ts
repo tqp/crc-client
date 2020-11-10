@@ -94,7 +94,7 @@ export class StudentListComponent implements OnInit, AfterViewInit, OnDestroy {
     this.isLoading = true;
     this.eventService.loadingEvent.emit(true);
     this.studentService.getStudentList_SSP(searchParams).subscribe((response: ServerSidePaginationResponse<Student>) => {
-        console.log('getPage response', response);
+        // console.log('getPage response', response);
         const student: Student[] = response.data;
         student.forEach(item => {
           this.records.push(item);
