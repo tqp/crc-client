@@ -23,6 +23,7 @@ import { ProgramStatus } from '../../../relationships/ProgramStatus';
 import { Visit } from '../../../events/visits/Visit';
 import { VisitService } from '../../../events/visits/visit.service';
 import { VisitDetailEditDialogComponent } from '../../../events/visits/visit-detail-edit-dialog/visit-detail-edit-dialog.component';
+import { HistoryService } from '../../../events/history/history.service';
 
 @Component({
   selector: 'app-student-detail',
@@ -58,6 +59,17 @@ export class StudentDetailComponent implements OnInit {
     'interactionTypeName'
   ];
 
+  // History List
+  public historyListLoading: boolean = false;
+  public historyListRecords: History[] = [];
+  public historyListDataSource: History[] = [];
+  public historyListDisplayedColumns: string[] = [
+    'startDate',
+    'historyAction',
+    'historyType',
+    'historyDescription'
+  ];
+
   constructor(private route: ActivatedRoute,
               private studentService: StudentService,
               private caregiverService: CaregiverService,
@@ -65,6 +77,7 @@ export class StudentDetailComponent implements OnInit {
               private sponsorService: SponsorService,
               private programStatusService: ProgramStatusService,
               private relationshipService: RelationshipService,
+              private historyService: HistoryService,
               private visitService: VisitService,
               private eventService: EventService,
               private formattingService: FormattingService,
@@ -80,6 +93,7 @@ export class StudentDetailComponent implements OnInit {
         // console.log('studentId', studentId);
         this.getStudentDetail(studentId);
         this.getVisitListByStudentId(studentId);
+        this.getHistoryListByStudentId(studentId);
         this.getCaregiverDetailByStudentId(studentId);
         this.getCaseManagerDetailByStudentId(studentId);
         this.getSponsorDetailByStudentId(studentId);
@@ -113,6 +127,22 @@ export class StudentDetailComponent implements OnInit {
           this.visitListRecords.push(item);
         });
         this.visitListDataSource = this.visitListRecords;
+      },
+      error => {
+        console.error('Error: ', error);
+      }
+    );
+  }
+
+  private getHistoryListByStudentId(studentId: number): void {
+    this.historyService.getHistoryListByStudentId(studentId).subscribe(
+      (historyList: History[]) => {
+        console.log('historyList', historyList);
+        this.historyListRecords = [];
+        historyList.forEach(item => {
+          this.historyListRecords.push(item);
+        });
+        this.historyListDataSource = this.historyListRecords;
       },
       error => {
         console.error('Error: ', error);
