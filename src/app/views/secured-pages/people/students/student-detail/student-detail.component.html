@@ -51,11 +51,15 @@
           </dl>
           <dl class="row">
             <dt class="col-sm-4">School Level:</dt>
-            <dd class="col-sm-8">{{student.schoolLevelName}}</dd>
+            <dd class="col-sm-8">{{student.schoolLevelTypeName}}</dd>
           </dl>
           <dl class="row">
             <dt class="col-sm-4">Class Level:</dt>
-            <dd class="col-sm-8">{{student.classLevelName}}</dd>
+            <dd class="col-sm-8">{{student.classLevelTypeName}}</dd>
+          </dl>
+          <dl class="row">
+            <dt class="col-sm-4">Repeat Year:</dt>
+            <dd class="col-sm-8">{{yesNoFromInteger[student.classRepeatYearTypeId]}}</dd>
           </dl>
           <dl class="row">
             <dt class="col-sm-4">Impairment:</dt>

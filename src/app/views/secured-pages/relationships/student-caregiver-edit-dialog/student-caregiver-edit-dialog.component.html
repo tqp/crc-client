@@ -98,9 +98,9 @@
         <div class="form-group">
           <label for="familyOfOriginTypeId">Is the placement the family of origin?*</label>
           <select id="familyOfOriginTypeId" class="form-control" formControlName="familyOfOriginTypeId">
-            <option value="">Select a Response</option>
-            <option value="1">No</option>
-            <option value="2">Yes</option>
+            <option value=0>Select a Response</option>
+            <option value=1>No</option>
+            <option value=2>Yes</option>
           </select>
           <mat-error *ngFor="let validation of validationMessages.familyOfOriginTypeId">
             <mat-error class="error-message"

@@ -8,12 +8,13 @@ export class Student {
   public studentSchool?: string;
   public studentAddress?: string;
   public studentPhone?: string;
-  public schoolLevelId?: number;
-  public classLevelId?: number;
+  public schoolLevelTypeId?: number;
+  public classLevelTypeId?: number;
+  public classRepeatYearTypeId?: number;
   public impairmentTypeId?: number;
   // JOINED TABLES
-  public schoolLevelName?: string;
-  public classLevelName?: string;
+  public schoolLevelTypeName?: string;
+  public classLevelTypeName?: string;
   public impairmentTypeName?: string;
   // Program Status
   public programStatus?: string;

@@ -36,6 +36,7 @@ export class StudentDetailComponent implements OnInit {
   public caseManager: CaseManager;
   public sponsor: Sponsor;
   public programStatus: ProgramStatus;
+  public yesNoFromInteger = {0: 'Unknown', 1: 'Yes', 2: 'No'};
 
   // Loading
   public studentLoading: boolean = false;
@@ -124,7 +125,7 @@ export class StudentDetailComponent implements OnInit {
     this.caregiverLoading = true;
     this.caregiverService.getCaregiverDetailByStudentId(studentId).subscribe(
       response => {
-        console.log('response', response);
+        // console.log('response', response);
         this.caregiver = response;
         this.caregiver.relationshipStartDate = this.formattingService.formatMySqlDateAsStandard(this.caregiver.relationshipStartDate);
         this.eventService.loadingEvent.emit(false);
@@ -344,7 +345,7 @@ export class StudentDetailComponent implements OnInit {
     const dialogRef = this._matDialog.open(StudentProgramStatusEditDialogComponent, dialogConfig);
 
     dialogRef.afterClosed().subscribe(dialogData => {
-      // console.log('dialogData', dialogData);
+      console.log('dialogData', dialogData);
       const programStatus: ProgramStatus = {};
       programStatus.studentId = this.student.studentId;
       programStatus.programStatusLevelOneId = dialogData.programStatusLevelOneId;

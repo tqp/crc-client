@@ -61,8 +61,9 @@ export class StudentDetailEditComponent implements OnInit {
     ],
     'studentDateOfBirth': [],
     'studentSchool': [],
-    'schoolLevelId': [],
-    'classLevelId': [],
+    'schoolLevelTypeId': [],
+    'classLevelTypeId': [],
+    'classRepeatYearTypeId': [],
     'impairmentTypeId': [],
 
     // Program Status
@@ -116,8 +117,9 @@ export class StudentDetailEditComponent implements OnInit {
       studentGender: new FormControl('', Validators.required),
       studentDateOfBirth: new FormControl(''),
       studentSchool: new FormControl(''),
-      schoolLevelId: new FormControl(''),
-      classLevelId: new FormControl(''),
+      schoolLevelTypeId: new FormControl(''),
+      classLevelTypeId: new FormControl(''),
+      classRepeatYearTypeId: new FormControl(''),
       impairmentTypeId: new FormControl(''),
       // Program Status
       caregiverId: new FormControl(''),
@@ -137,13 +139,14 @@ export class StudentDetailEditComponent implements OnInit {
         this.studentEditForm.controls['studentGender'].patchValue(this.student.studentGender);
         this.studentEditForm.controls['studentDateOfBirth'].patchValue(this.formattingService.formatMySqlDateAsStandard(this.student.studentDateOfBirth));
         this.studentEditForm.controls['studentSchool'].patchValue(this.student.studentSchool);
-        this.studentEditForm.controls['schoolLevelId'].patchValue(this.student.schoolLevelId);
+        this.studentEditForm.controls['schoolLevelTypeId'].patchValue(this.student.schoolLevelTypeId);
+        this.studentEditForm.controls['classRepeatYearTypeId'].patchValue(this.student.classRepeatYearTypeId);
         this.studentEditForm.controls['impairmentTypeId'].patchValue(this.student.impairmentTypeId);
         // Program Status
         this.studentEditForm.controls['caregiverId'].patchValue(this.student.caregiverId);
 
-        this.getClassLevelList(this.student.schoolLevelId);
-        this.studentEditForm.controls['classLevelId'].patchValue(this.student.classLevelId);
+        this.getClassLevelList(this.student.schoolLevelTypeId);
+        this.studentEditForm.controls['classLevelTypeId'].patchValue(this.student.classLevelTypeId);
       },
       error => {
         console.error('Error: ', error);
@@ -315,7 +318,7 @@ export class StudentDetailEditComponent implements OnInit {
 
   public save(): void {
     const student = new Student();
-    // console.log('crudEditForm', this.studentEditForm.value);
+    console.log('crudEditForm', this.studentEditForm.value);
     // Personal Information
     student.studentId = this.studentEditForm.value.studentId;
     student.studentSurname = this.studentEditForm.value.studentSurname;
@@ -323,8 +326,9 @@ export class StudentDetailEditComponent implements OnInit {
     student.studentGender = this.studentEditForm.value.studentGender;
     student.studentDateOfBirth = this.formattingService.formatStandardDateAsMySql(this.studentEditForm.value.studentDateOfBirth);
     student.studentSchool = this.studentEditForm.value.studentSchool;
-    student.schoolLevelId = this.studentEditForm.value.schoolLevelId;
-    student.classLevelId = this.studentEditForm.value.classLevelId;
+    student.schoolLevelTypeId = this.studentEditForm.value.schoolLevelTypeId;
+    student.classLevelTypeId = this.studentEditForm.value.classLevelTypeId;
+    student.classRepeatYearTypeId = this.studentEditForm.value.classRepeatYearTypeId;
     student.impairmentTypeId = this.studentEditForm.value.impairmentTypeId;
     // Program Status
     student.caregiverId = this.studentEditForm.value.caregiverId;

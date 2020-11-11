@@ -124,19 +124,19 @@
             <div class="row">
               <div class="col-sm-12">
                 <div class="form-group">
-                  <label for="schoolLevelId">Select School Level*</label>
-                  <select id="schoolLevelId" class="form-control" formControlName="schoolLevelId"
+                  <label for="schoolLevelTypeId">Select School Level*</label>
+                  <select id="schoolLevelTypeId" class="form-control" formControlName="schoolLevelTypeId"
                           (change)="schoolLevelIdChanged($event)">
                     <option value=0>Select a School Level</option>
                     <option *ngFor="let schoolLevel of schoolLevelList" value="{{schoolLevel.schoolClassTypeId}}">
                       {{schoolLevel.schoolClassTypeName}}
                     </option>
                   </select>
-                  <mat-error *ngFor="let validation of validationMessages.schoolLevelId">
+                  <mat-error *ngFor="let validation of validationMessages.schoolLevelTypeId">
                     <mat-error class="error-message"
-                               *ngIf="studentEditForm.get('schoolLevelId').hasError(validation.type)
-                                && (studentEditForm.get('schoolLevelId').dirty ||
-                                studentEditForm.get('schoolLevelId').touched)">
+                               *ngIf="studentEditForm.get('schoolLevelTypeId').hasError(validation.type)
+                                && (studentEditForm.get('schoolLevelTypeId').dirty ||
+                                studentEditForm.get('schoolLevelTypeId').touched)">
                       {{validation.message}}
                     </mat-error>
                   </mat-error>
@@ -147,18 +147,39 @@
             <div class="row">
               <div class="col-sm-12">
                 <div class="form-group">
-                  <label for="classLevelId">Class Level*</label>
-                  <select id="classLevelId" class="form-control" formControlName="classLevelId">
+                  <label for="classLevelTypeId">Class Level*</label>
+                  <select id="classLevelTypeId" class="form-control" formControlName="classLevelTypeId">
                     <option value=0>Select a Class Level</option>
                     <option *ngFor="let classLevel of classLevelList" value="{{classLevel.schoolClassTypeId}}">
                       {{classLevel.schoolClassTypeName}}
                     </option>
                   </select>
-                  <mat-error *ngFor="let validation of validationMessages.classLevelId">
+                  <mat-error *ngFor="let validation of validationMessages.classLevelTypeId">
                     <mat-error class="error-message"
-                               *ngIf="studentEditForm.get('classLevelId').hasError(validation.type)
-                                && (studentEditForm.get('classLevelId').dirty ||
-                                studentEditForm.get('classLevelId').touched)">
+                               *ngIf="studentEditForm.get('classLevelTypeId').hasError(validation.type)
+                                && (studentEditForm.get('classLevelTypeId').dirty ||
+                                studentEditForm.get('classLevelTypeId').touched)">
+                      {{validation.message}}
+                    </mat-error>
+                  </mat-error>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="classRepeatYearTypeId">Was this a repeat year?*</label>
+                  <select id="classRepeatYearTypeId" class="form-control" formControlName="classRepeatYearTypeId">
+                    <option value=0>Select a Response</option>
+                    <option value=1>Yes</option>
+                    <option value=2>No</option>
+                  </select>
+                  <mat-error *ngFor="let validation of validationMessages.classRepeatYearTypeId">
+                    <mat-error class="error-message"
+                               *ngIf="studentEditForm.get('classRepeatYearTypeId').hasError(validation.type)
+                                && (studentEditForm.get('classRepeatYearTypeId').dirty ||
+                                studentEditForm.get('classRepeatYearTypeId').touched)">
                       {{validation.message}}
                     </mat-error>
                   </mat-error>
