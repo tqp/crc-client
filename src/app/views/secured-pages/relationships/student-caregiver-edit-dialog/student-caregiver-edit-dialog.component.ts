@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { CaregiverService } from '../../people/caregivers/caregiver.service';
 import { Caregiver } from '../../people/caregivers/Caregiver';
@@ -8,7 +8,11 @@ import { RelationshipTypeService } from '../../reference-tables/relationship-typ
 import { TierType } from '../../reference-tables/tier-type/TierType';
 import { TierTypeService } from '../../reference-tables/tier-type/tier-type.service';
 import { FormattingService } from '../../../../../@tqp/services/formatting.service';
-import { RelationshipsModule } from '../relationships.module';
+
+import * as moment from 'moment';
+import { validateNonZeroValue } from '../../../../../@tqp/validators/custom.validators';
+import { ConfirmDialogComponent } from '../../../../../@tqp/components/confirm-dialog/confirm-dialog.component';
+import { RelationshipService } from '../relationship.service';
 
 @Component({
   selector: 'app-student-caregiver-edit-dialog',
@@ -17,12 +21,16 @@ import { RelationshipsModule } from '../relationships.module';
   encapsulation: ViewEncapsulation.None
 })
 export class StudentCaregiverEditDialogComponent implements OnInit {
+  public confirmDialogRef: MatDialogRef<ConfirmDialogComponent>;
+  public dataLoaded: boolean = false;
   public studentCaregiverEditForm: FormGroup;
   public caregiverList: Caregiver[];
   public relationshipTypeList: RelationshipType[];
   public tierTypeList: TierType[];
+  public caregiver: Caregiver;
 
   public validationMessages = {
+    'relationshipId': [],
     'caregiverId': [
       {type: 'required', message: 'A Caregiver is required'}
     ],
@@ -35,7 +43,7 @@ export class StudentCaregiverEditDialogComponent implements OnInit {
     'relationshipTypeId': [
       {type: 'required', message: 'A Relationship Type is required'}
     ],
-    'familyOfOriginTypeId': [
+    'relationshipFamilyOfOriginTypeId': [
       {type: 'required', message: 'A Family of Origin response required'}
     ]
   };
@@ -44,13 +52,20 @@ export class StudentCaregiverEditDialogComponent implements OnInit {
               @Inject(MAT_DIALOG_DATA) public data: any,
               private formBuilder: FormBuilder,
               private caregiverService: CaregiverService,
+              private relationshipService: RelationshipService,
               private relationshipTypeService: RelationshipTypeService,
               private tierTypeService: TierTypeService,
-              private formattingService: FormattingService
+              private formattingService: FormattingService,
+              public _matDialog: MatDialog
   ) {
     this.getCaregiverList();
     this.getSupportTierList();
     this.getRelationshipTypeList();
+    if (this.data.action === 'edit') {
+      this.getCaregiverDetailByStudentId(this.data.studentId);
+    } else {
+      this.dataLoaded = true;
+    }
   }
 
   ngOnInit(): void {
@@ -59,11 +74,12 @@ export class StudentCaregiverEditDialogComponent implements OnInit {
 
   private initializeForm(): void {
     this.studentCaregiverEditForm = this.formBuilder.group({
-      caregiverId: new FormControl(0, Validators.required),
-      relationshipStartDate: new FormControl('', Validators.required),
-      tierTypeId: new FormControl('', Validators.required),
-      relationshipTypeId: new FormControl('', Validators.required),
-      familyOfOriginTypeId: new FormControl('', Validators.required),
+      relationshipId: new FormControl(0),
+      caregiverId: new FormControl(0, [Validators.required, validateNonZeroValue]),
+      relationshipStartDate: new FormControl(moment().format('MM/DD/YYYY'), Validators.required),
+      tierTypeId: new FormControl(0, [Validators.required, validateNonZeroValue]),
+      relationshipTypeId: new FormControl(0, [Validators.required, validateNonZeroValue]),
+      relationshipFamilyOfOriginTypeId: new FormControl(0, [Validators.required, validateNonZeroValue]),
     });
 
     // setTimeout(() => {
@@ -71,7 +87,29 @@ export class StudentCaregiverEditDialogComponent implements OnInit {
     // }, 0);
   }
 
-  // Load Option Value Lists
+  // LOAD DATA
+
+  private getCaregiverDetailByStudentId(studentId: number): void {
+    this.caregiverService.getCaregiverDetailByStudentId(studentId).subscribe(
+      response => {
+        // console.log('response', response);
+        this.caregiver = response;
+        this.caregiver.relationshipStartDate = this.formattingService.formatMySqlDateAsStandard(this.caregiver.relationshipStartDate);
+        this.studentCaregiverEditForm.controls['relationshipId'].patchValue(this.caregiver.relationshipId);
+        this.studentCaregiverEditForm.controls['caregiverId'].patchValue(this.caregiver.caregiverId);
+        this.studentCaregiverEditForm.controls['relationshipStartDate'].patchValue(this.caregiver.relationshipStartDate);
+        this.studentCaregiverEditForm.controls['tierTypeId'].patchValue(this.caregiver.relationshipTierTypeId);
+        this.studentCaregiverEditForm.controls['relationshipTypeId'].patchValue(this.caregiver.relationshipTypeId);
+        this.studentCaregiverEditForm.controls['relationshipFamilyOfOriginTypeId'].patchValue(this.caregiver.relationshipFamilyOfOriginTypeId);
+        this.dataLoaded = true;
+      },
+      error => {
+        console.error('Error: ', error);
+      }
+    );
+  }
+
+  // LOAD OPTION VALUE LISTS
 
   private getCaregiverList(): void {
     this.caregiverService.getCaregiverList().subscribe(
@@ -111,8 +149,27 @@ export class StudentCaregiverEditDialogComponent implements OnInit {
 
   // BUTTONS
 
-  public reset(): void {
-    console.log('reset');
+  public delete(): void {
+    this.confirmDialogRef = this._matDialog.open(ConfirmDialogComponent, {
+      disableClose: false,
+      minWidth: '30%'
+    });
+    this.confirmDialogRef.componentInstance.confirmMessage = 'Are you sure you want to delete?';
+    this.confirmDialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.relationshipService.deleteCaregiverRelationship(this.caregiver.relationshipId).subscribe(
+          response => {
+            // console.log('response: ', response);
+          },
+          error => {
+            console.error('Error: ' + error.message);
+          }, () => {
+            this.dialogRef.close(this.studentCaregiverEditForm.value);
+          }
+        );
+      }
+      this.confirmDialogRef = null;
+    });
   }
 
   public save(): void {

@@ -3,6 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ProgramStatusService } from '../program-status.service';
 import { ProgramStatusPackage } from '../ProgramStatusPackage';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-student-program-status-edit-dialog',
@@ -47,7 +48,7 @@ export class StudentProgramStatusEditDialogComponent implements OnInit {
       programStatusLevelOneId: new FormControl(0, Validators.required),
       programStatusLevelTwoId: new FormControl(0, Validators.required),
       programStatusLevelThreeId: new FormControl(0, Validators.required),
-      programStatusStartDate: new FormControl(0, Validators.required),
+      programStatusStartDate: new FormControl(moment().format('MM/DD/YYYY'), Validators.required),
     });
 
     // setTimeout(() => {

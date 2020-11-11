@@ -6,12 +6,12 @@ export class Caregiver {
   public caregiverPhone?: string;
   public caregiverEmail?: string;
   public caregiverSupportTier?: string;
-  public familyOfOriginTypeId?: string;
   // Joined Tables
+  public relationshipId?: number;
   public relationshipStartDate?: string;
   public relationshipTypeId?: number;
   public relationshipTypeName?: string;
   public relationshipTierTypeId?: number;
   public relationshipTierTypeName?: string;
-  public relationshipBloodRelative?: boolean;
+  public relationshipFamilyOfOriginTypeId?: string;
 }

@@ -65,6 +65,49 @@ export class RelationshipService {
     }
   }
 
+  public updateCaregiverRelationship(relationship: Relationship): Observable<Relationship> {
+    const url = environment.apiUrl + '/api/v1/relationship/caregiver';
+    const token = this.tokenService.getToken();
+    if (token) {
+      return this.http.put<Relationship>(url,
+        relationship,
+        {
+          headers: this.httpService.setHeadersWithToken(),
+          observe: 'response',
+          params: {}
+        })
+        .pipe(
+          map(res => {
+            return res.body;
+          })
+        );
+    } else {
+      console.error('No token was present.');
+      return null;
+    }
+  }
+
+  public deleteCaregiverRelationship(relationshipId: number): Observable<string> {
+    const url = environment.apiUrl + '/api/v1/relationship/caregiver/' + relationshipId;
+    const token = this.tokenService.getToken();
+    if (token) {
+      return this.http.delete<string>(url,
+        {
+          headers: this.httpService.setHeadersWithToken(),
+          observe: 'response',
+          params: {}
+        })
+        .pipe(
+          map(res => {
+            return res.body;
+          })
+        );
+    } else {
+      console.error('No token was present.');
+      return null;
+    }
+  }
+
   // CASE MANAGER
 
   public createCaseManagerRelationship(relationship: Relationship): Observable<Relationship> {

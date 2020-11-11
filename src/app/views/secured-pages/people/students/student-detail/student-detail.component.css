@@ -1,3 +1,12 @@
 .table-container {
   height: 200px !important;
 }
+
+.tqp-nav-link {
+  color: #20A8D8 !important;
+  cursor: pointer !important;
+}
+
+.tqp-nav-link:focus {
+  outline: none !important;
+}

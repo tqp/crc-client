@@ -70,7 +70,7 @@
 
       <div class="card">
         <div class="card-header">
-          <i class="fa fa-home"></i>
+          <i class="fa fa-calendar-check-o"></i>
           Student Visits
           <i *ngIf="visitListLoading" class="fa fa-spinner fa-spin"></i>
           <div class="card-header-actions" [hidden]="authService.allowRoles('ROLE_USER, ROLE_MANAGER, ROLE_ADMIN')">
@@ -81,30 +81,38 @@
 
           <div class="table-container">
 
-            <table mat-table [dataSource]="visitListDataSource" *ngIf="visitListDataSource && visitListDataSource.length > 0" class="table">
+            <table mat-table [dataSource]="visitListDataSource"
+                   *ngIf="visitListDataSource && visitListDataSource.length > 0" class="table">
 
               <ng-container matColumnDef="visitId">
                 <th mat-header-cell *matHeaderCellDef>Visit ID</th>
                 <td mat-cell *matCellDef="let row">{{row.visitId}}</td>
               </ng-container>
 
-              <ng-container matColumnDef="visitDate">
-                <th mat-header-cell *matHeaderCellDef>Date</th>
-                <td mat-cell *matCellDef="let row">
-                  <a [routerLink]="['/visits/visit-detail', row.visitId]">
-                    {{row.visitDate | date: 'MM/dd/yyyy'}}
-                  </a>
-                </td>
-              </ng-container>
-
               <ng-container matColumnDef="visitTypeName">
                 <th mat-header-cell *matHeaderCellDef>Visit Type</th>
-                <td mat-cell *matCellDef="let row">{{row.visitTypeName}}</td>
+                <td mat-cell *matCellDef="let row">
+                  <a [routerLink]="['/visits/visit-detail', row.visitId]">
+                    {{row.visitTypeName}}
+                  </a>
+                </td>
               </ng-container>
 
               <ng-container matColumnDef="interactionTypeName">
                 <th mat-header-cell *matHeaderCellDef>Interaction</th>
                 <td mat-cell *matCellDef="let row">{{row.interactionTypeName}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="caseManagerName">
+                <th mat-header-cell *matHeaderCellDef>Case Manager</th>
+                <td mat-cell *matCellDef="let row"></td>
+              </ng-container>
+
+              <ng-container matColumnDef="visitDate">
+                <th mat-header-cell *matHeaderCellDef>Date</th>
+                <td mat-cell *matCellDef="let row">
+                  {{row.visitDate | date: 'MM/dd/yyyy'}}
+                </td>
               </ng-container>
 
               <tr mat-header-row *matHeaderRowDef="visitListDisplayedColumns; sticky: true" [hidden]="false"></tr>
@@ -129,35 +137,45 @@
 
           <div class="table-container">
 
-            <table mat-table [dataSource]="historyListDataSource" *ngIf="historyListDataSource && historyListDataSource.length > 0"
+            <table mat-table [dataSource]="historyListDataSource"
+                   *ngIf="historyListDataSource && historyListDataSource.length > 0"
                    matSort matSortActive="lastName" matSortDirection="asc" matSortDisableClear="true"
                    class="table">
 
-              <ng-container matColumnDef="startDate">
-                <th mat-header-cell *matHeaderCellDef>Date</th>
+              <ng-container matColumnDef="relationshipId">
+                <th mat-header-cell *matHeaderCellDef>ID</th>
                 <td mat-cell *matCellDef="let row">
-                  {{row.startDate | date: 'MM/dd/yyyy'}}
+                  {{row.relationshipId}}
                 </td>
               </ng-container>
 
               <ng-container matColumnDef="historyAction">
                 <th mat-header-cell *matHeaderCellDef>Action</th>
                 <td mat-cell *matCellDef="let row">
-                  {{row.deletedStatus == 0 ? 'Updated' : 'Deleted'}}
+                  {{row.deletedStatus == 0 ? 'Assigned' : 'Deleted'}}
                 </td>
               </ng-container>
 
-              <ng-container matColumnDef="historyType">
+              <ng-container matColumnDef="entityType">
                 <th mat-header-cell *matHeaderCellDef>Type</th>
                 <td mat-cell *matCellDef="let row">
-                  {{row.historyTypeName}}
+                  <a class="tqp-nav-link" (click)="openEntityEditDialog(row.entityTypeId, row.entityId)">
+                    {{row.entityTypeName}}
+                  </a>
                 </td>
               </ng-container>
 
-              <ng-container matColumnDef="historyDescription">
+              <ng-container matColumnDef="entityDescription">
                 <th mat-header-cell *matHeaderCellDef>Description</th>
                 <td mat-cell *matCellDef="let row">
-                  {{row.historyDescription}}
+                  {{row.entityDescription}}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="startDate">
+                <th mat-header-cell *matHeaderCellDef>Date</th>
+                <td mat-cell *matCellDef="let row">
+                  {{row.startDate | date: 'MM/dd/yyyy'}}
                 </td>
               </ng-container>
 
@@ -222,7 +240,7 @@
           Current Caregiver
           <i *ngIf="caregiverLoading" class="fa fa-spinner fa-spin"></i>
           <div class="card-header-actions" [hidden]="authService.allowRoles('ROLE_USER, ROLE_MANAGER, ROLE_ADMIN')">
-            <small class="tqp-nav-link" (click)="openStudentCaregiverEditDialog();">Assign Caregiver</small>
+            <small class="tqp-nav-link" (click)="openStudentCaregiverEditDialog(null);">Assign Caregiver</small>
           </div>
         </div>
         <div class="card-body">
@@ -261,7 +279,7 @@
             </dl>
             <dl class="row">
               <dt class="col-sm-4">Original Family Impact:</dt>
-              <dd class="col-sm-8">{{caregiver.familyOfOriginTypeId == 1 ? 'No' : 'Yes'}}</dd>
+              <dd class="col-sm-8">{{caregiver.relationshipFamilyOfOriginTypeId == 1 ? 'No' : 'Yes'}}</dd>
             </dl>
           </ng-container>
         </div>
@@ -271,7 +289,7 @@
         <div class="card-header">
           <i class="fa fa-folder"></i>
           Current Case Manager
-          <i *ngIf="caregiverLoading" class="fa fa-spinner fa-spin"></i>
+          <i *ngIf="caseManagerLoading" class="fa fa-spinner fa-spin"></i>
           <div class="card-header-actions" [hidden]="authService.allowRoles('ROLE_USER, ROLE_MANAGER, ROLE_ADMIN')">
             <small class="tqp-nav-link" (click)="openStudentCaseManagerEditDialog();">Assign Case Manager</small>
           </div>

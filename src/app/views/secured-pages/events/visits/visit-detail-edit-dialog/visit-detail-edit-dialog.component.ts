@@ -9,6 +9,7 @@ import { VisitType } from '../../../reference-tables/visit-type/VisitType';
 import { VisitTypeService } from '../../../reference-tables/visit-type/visit-type.service';
 import { InteractionTypeService } from '../../../reference-tables/interaction-type/interaction-type.service';
 import { validateNonZeroValue } from '@tqp/validators/custom.validators';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-visit-detail-edit-dialog',
@@ -71,7 +72,7 @@ export class VisitDetailEditDialogComponent implements OnInit {
         value: this.data.studentId !== undefined ? this.data.studentId : 0,
         disabled: this.data.studentId !== undefined
       }, [Validators.required, validateNonZeroValue]),
-      visitDate: new FormControl('', Validators.required),
+      visitDate: new FormControl(moment().format('MM/DD/YYYY'), Validators.required),
       visitTypeId: new FormControl(0, [Validators.required, validateNonZeroValue]),
       interactionTypeId: new FormControl(0, [Validators.required, validateNonZeroValue]),
       caregiverComments: new FormControl(''),

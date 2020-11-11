@@ -54,9 +54,10 @@ export class StudentDetailComponent implements OnInit {
   public visitListDataSource: Visit[] = [];
   public visitListDisplayedColumns: string[] = [
     'visitId',
-    'visitDate',
     'visitTypeName',
-    'interactionTypeName'
+    'interactionTypeName',
+    'caseManagerName',
+    'visitDate'
   ];
 
   // History List
@@ -64,10 +65,11 @@ export class StudentDetailComponent implements OnInit {
   public historyListRecords: History[] = [];
   public historyListDataSource: History[] = [];
   public historyListDisplayedColumns: string[] = [
-    'startDate',
+    'relationshipId',
     'historyAction',
-    'historyType',
-    'historyDescription'
+    'entityType',
+    'entityDescription',
+    'startDate'
   ];
 
   constructor(private route: ActivatedRoute,
@@ -257,108 +259,24 @@ export class StudentDetailComponent implements OnInit {
     });
   }
 
-  public openStudentCaregiverEditDialog(): void {
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.minWidth = '25%';
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true;
-    dialogConfig.data = {
-      action: 'create',
-      studentId: this.student.studentId
-    };
-    dialogConfig.autoFocus = false;
-    const dialogRef = this._matDialog.open(StudentCaregiverEditDialogComponent, dialogConfig);
-
-    dialogRef.afterClosed().subscribe(dialogData => {
-      console.log('dialogData', dialogData);
-      if (dialogData) {
-        const relationship: Relationship = {};
-        relationship.relationshipType = 'Student-Caregiver';
-        relationship.studentId = this.student.studentId;
-        relationship.relationshipPersonId = dialogData.caregiverId;
-        relationship.relationshipStartDate = this.formattingService.formatStandardDateAsMySql(dialogData.relationshipStartDate);
-        relationship.relationshipTierTypeId = dialogData.tierTypeId;
-        relationship.relationshipTypeId = dialogData.relationshipTypeId;
-        // console.log('relationship', relationship);
-        this.relationshipService.createCaregiverRelationship(relationship).subscribe(
-          response => {
-            // console.log('response', response);
-            this.getCaregiverDetailByStudentId(this.student.studentId);
-            this.eventService.loadingEvent.emit(false);
-          },
-          error => {
-            console.error('Error: ', error);
-          }
-        );
-      }
-    });
-  }
-
-  public openStudentCaseManagerEditDialog(): void {
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.minWidth = '25%';
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true;
-    dialogConfig.data = {
-      action: 'create',
-      studentId: this.student.studentId
-    };
-    dialogConfig.autoFocus = false;
-    const dialogRef = this._matDialog.open(StudentCaseManagerEditDialogComponent, dialogConfig);
-
-    dialogRef.afterClosed().subscribe(dialogData => {
-      console.log('dialogData', dialogData);
-      if (dialogData) {
-        const relationship: Relationship = {};
-        relationship.relationshipType = 'Student-Caregiver';
-        relationship.studentId = this.student.studentId;
-        relationship.relationshipPersonId = dialogData.caseManagerId;
-        relationship.relationshipStartDate = this.formattingService.formatStandardDateAsMySql(dialogData.relationshipStartDate);
-        this.relationshipService.createCaseManagerRelationship(relationship).subscribe(
-          response => {
-            console.log('response', response);
-            this.getCaseManagerDetailByStudentId(this.student.studentId);
-            this.eventService.loadingEvent.emit(false);
-          },
-          error => {
-            console.error('Error: ', error);
-          }
-        );
-      }
-    });
-  }
-
-  public openStudentSponsorEditDialog(): void {
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.minWidth = '25%';
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true;
-    dialogConfig.data = {
-      action: 'create',
-      studentId: this.student.studentId
-    };
-    dialogConfig.autoFocus = false;
-    const dialogRef = this._matDialog.open(StudentSponsorEditDialogComponent, dialogConfig);
-
-    dialogRef.afterClosed().subscribe(dialogData => {
-      console.log('dialogData', dialogData);
-      if (dialogData) {
-        const relationship: Relationship = {};
-        relationship.studentId = this.student.studentId;
-        relationship.relationshipPersonId = dialogData.sponsorId;
-        relationship.relationshipStartDate = this.formattingService.formatStandardDateAsMySql(dialogData.relationshipStartDate);
-        this.relationshipService.createSponsorRelationship(relationship).subscribe(
-          response => {
-            console.log('response', response);
-            this.getSponsorDetailByStudentId(this.student.studentId);
-            this.eventService.loadingEvent.emit(false);
-          },
-          error => {
-            console.error('Error: ', error);
-          }
-        );
-      }
-    });
+  public openEntityEditDialog(entityTypeId: number, entityId: number): void {
+    // console.log(entityTypeId, entityId);
+    switch (entityTypeId) {
+      case 1:
+        this.openStudentProgramStatusEditDialog();
+        break;
+      case 2:
+        this.openStudentCaregiverEditDialog(entityId);
+        break;
+      case 3:
+        this.openStudentCaseManagerEditDialog();
+        break;
+      case 4:
+        this.openStudentSponsorEditDialog();
+        break;
+      default:
+        console.log('Unknown Entity Type', entityTypeId);
+    }
   }
 
   public openStudentProgramStatusEditDialog(): void {
@@ -392,6 +310,134 @@ export class StudentDetailComponent implements OnInit {
           console.error('Error: ', error);
         }
       );
+    });
+  }
+
+  public openStudentCaregiverEditDialog(studentCaregiverId: number): void {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.minWidth = '25%';
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.data = {
+      action: studentCaregiverId === null ? 'create' : 'edit',
+      studentId: this.student.studentId,
+      studentCaregiverId: studentCaregiverId
+    };
+    dialogConfig.autoFocus = false;
+    const dialogRef = this._matDialog.open(StudentCaregiverEditDialogComponent, dialogConfig);
+
+    dialogRef.afterClosed().subscribe(dialogData => {
+      // console.log('dialogData', dialogData);
+      if (dialogData) {
+        const relationship: Relationship = {};
+        relationship.studentId = this.student.studentId;
+        relationship.relationshipType = 'Student-Caregiver';
+        relationship.relationshipId = dialogData.relationshipId;
+        relationship.relationshipEntityId = dialogData.caregiverId;
+        relationship.relationshipStartDate = this.formattingService.formatStandardDateAsMySql(dialogData.relationshipStartDate);
+        relationship.relationshipTierTypeId = dialogData.tierTypeId;
+        relationship.relationshipTypeId = dialogData.relationshipTypeId;
+        relationship.relationshipFamilyOfOriginTypeId = dialogData.relationshipFamilyOfOriginTypeId;
+        console.log('relationship', relationship);
+
+        const actionType = relationship.relationshipId > 0 ? 'update' : 'create';
+        switch (actionType) {
+          case 'create':
+            this.relationshipService.createCaregiverRelationship(relationship).subscribe(
+              response => {
+                // console.log('response', response);
+                this.getCaregiverDetailByStudentId(this.student.studentId);
+                this.getHistoryListByStudentId(this.student.studentId);
+              },
+              error => {
+                console.error('Error: ', error);
+              }
+            );
+            break;
+          case 'update':
+            this.relationshipService.updateCaregiverRelationship(relationship).subscribe(
+              response => {
+                console.log('response', response);
+                this.getCaregiverDetailByStudentId(this.student.studentId);
+                this.getHistoryListByStudentId(this.student.studentId);
+              },
+              error => {
+                console.error('Error: ', error);
+              }
+            );
+            break;
+          default:
+            console.error('Unknown Action Type', actionType);
+        }
+
+      }
+    });
+  }
+
+  public openStudentCaseManagerEditDialog(): void {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.minWidth = '25%';
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.data = {
+      action: 'create',
+      studentId: this.student.studentId
+    };
+    dialogConfig.autoFocus = false;
+    const dialogRef = this._matDialog.open(StudentCaseManagerEditDialogComponent, dialogConfig);
+
+    dialogRef.afterClosed().subscribe(dialogData => {
+      console.log('dialogData', dialogData);
+      if (dialogData) {
+        const relationship: Relationship = {};
+        relationship.relationshipType = 'Student-Caregiver';
+        relationship.studentId = this.student.studentId;
+        relationship.relationshipEntityId = dialogData.caseManagerId;
+        relationship.relationshipStartDate = this.formattingService.formatStandardDateAsMySql(dialogData.relationshipStartDate);
+        this.relationshipService.createCaseManagerRelationship(relationship).subscribe(
+          response => {
+            console.log('response', response);
+            this.getCaseManagerDetailByStudentId(this.student.studentId);
+            this.eventService.loadingEvent.emit(false);
+          },
+          error => {
+            console.error('Error: ', error);
+          }
+        );
+      }
+    });
+  }
+
+  public openStudentSponsorEditDialog(): void {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.minWidth = '25%';
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.data = {
+      action: 'create',
+      studentId: this.student.studentId
+    };
+    dialogConfig.autoFocus = false;
+    const dialogRef = this._matDialog.open(StudentSponsorEditDialogComponent, dialogConfig);
+
+    dialogRef.afterClosed().subscribe(dialogData => {
+      console.log('dialogData', dialogData);
+      if (dialogData) {
+        const relationship: Relationship = {};
+        relationship.studentId = this.student.studentId;
+        relationship.relationshipEntityId = dialogData.sponsorId;
+        relationship.relationshipStartDate = this.formattingService.formatStandardDateAsMySql(dialogData.relationshipStartDate);
+        this.relationshipService.createSponsorRelationship(relationship).subscribe(
+          response => {
+            console.log('response', response);
+            this.getSponsorDetailByStudentId(this.student.studentId);
+            this.eventService.loadingEvent.emit(false);
+          },
+          error => {
+            console.error('Error: ', error);
+          }
+        );
+      }
     });
   }
 

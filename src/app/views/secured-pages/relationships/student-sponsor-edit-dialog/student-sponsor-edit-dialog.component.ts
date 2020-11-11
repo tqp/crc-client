@@ -3,6 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Sponsor } from '../../people/sponsors/Sponsor';
 import { SponsorService } from '../../people/sponsors/sponsor.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-student-sponsor-edit-dialog',
@@ -37,7 +38,7 @@ export class StudentSponsorEditDialogComponent implements OnInit {
   private initializeForm(): void {
     this.studentSponsorEditForm = this.formBuilder.group({
       sponsorId: new FormControl(0, Validators.required),
-      relationshipStartDate: new FormControl('', Validators.required)
+      relationshipStartDate: new FormControl(moment().format('MM/DD/YYYY'), Validators.required)
     });
 
     // setTimeout(() => {

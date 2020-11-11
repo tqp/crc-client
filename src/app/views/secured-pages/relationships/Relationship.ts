@@ -2,14 +2,13 @@ export class Relationship {
   public relationshipId?: number;
   // Foreign Keys
   public studentId?: number;
-  public relationshipPersonId?: number;
+  public relationshipEntityId?: number;
   // Fields
   public relationshipType?: string;
   public relationshipTierTypeId?: string;
   public relationshipTypeId?: string;
   public relationshipStartDate?: string;
-  public relationshipBloodRelative?: number;
-  public relationshipFamilyOfOrigin?: number;
+  public relationshipFamilyOfOriginTypeId?: number;
   public relationshipComments?: string;
   // Metadata
   public createdOn?: string;

@@ -38,7 +38,7 @@ export class StudentCaseManagerEditDialogComponent implements OnInit {
   private initializeForm(): void {
     this.studentCaseManagerEditForm = this.formBuilder.group({
       caseManagerId: new FormControl(0, Validators.required),
-      relationshipStartDate: new FormControl('', Validators.required)
+      relationshipStartDate: new FormControl(moment().format('MM/DD/YYYY'), Validators.required)
     });
 
     // setTimeout(() => {
