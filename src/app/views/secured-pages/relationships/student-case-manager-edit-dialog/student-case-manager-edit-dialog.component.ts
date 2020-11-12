@@ -1,9 +1,13 @@
 import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { CaseManager } from '../../people/case-managers/CaseManager';
 import { CaseManagerService } from '../../people/case-managers/case-manager.service';
 import * as moment from 'moment';
+import { ConfirmDialogComponent } from '../../../../../@tqp/components/confirm-dialog/confirm-dialog.component';
+import { FormattingService } from '../../../../../@tqp/services/formatting.service';
+import { RelationshipService } from '../relationship.service';
+import { validateNonZeroValue } from '../../../../../@tqp/validators/custom.validators';
 
 @Component({
   selector: 'app-student-case-manager-edit-dialog',
@@ -12,12 +16,17 @@ import * as moment from 'moment';
   encapsulation: ViewEncapsulation.None
 })
 export class StudentCaseManagerEditDialogComponent implements OnInit {
+  public confirmDialogRef: MatDialogRef<ConfirmDialogComponent>;
+  public dataLoaded: boolean = false;
   public studentCaseManagerEditForm: FormGroup;
   public caseManagerList: CaseManager[];
+  public caseManagerRelationship: CaseManager;
 
   public validationMessages = {
+    'relationshipId': [],
     'caseManagerId': [
-      {type: 'required', message: 'A Case Manager is required'}
+      {type: 'required', message: 'A Case Manager is required'},
+      {type: 'validateNonZeroValue', message: 'A Case Manager is required'}
     ],
     'relationshipStartDate': [
       {type: 'required', message: 'An Effective Date is required'}
@@ -27,8 +36,16 @@ export class StudentCaseManagerEditDialogComponent implements OnInit {
   constructor(private dialogRef: MatDialogRef<StudentCaseManagerEditDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
               private caseManagerService: CaseManagerService,
-              private formBuilder: FormBuilder) {
+              private formBuilder: FormBuilder,
+              private formattingService: FormattingService,
+              private relationshipService: RelationshipService,
+              public _matDialog: MatDialog) {
     this.getCaseManagerList();
+    if (this.data.action === 'update') {
+      this.getCaseManagerDetailByStudentId(this.data.studentId);
+    } else {
+      this.dataLoaded = true;
+    }
   }
 
   ngOnInit(): void {
@@ -37,7 +54,8 @@ export class StudentCaseManagerEditDialogComponent implements OnInit {
 
   private initializeForm(): void {
     this.studentCaseManagerEditForm = this.formBuilder.group({
-      caseManagerId: new FormControl(0, Validators.required),
+      relationshipId: new FormControl({value: 0, disabled: true}),
+      caseManagerId: new FormControl(0, [Validators.required, validateNonZeroValue]),
       relationshipStartDate: new FormControl(moment().format('MM/DD/YYYY'), Validators.required)
     });
 
@@ -46,12 +64,32 @@ export class StudentCaseManagerEditDialogComponent implements OnInit {
     // }, 0);
   }
 
-  // Load Option Value Lists
+  // LOAD DATA
+
+  private getCaseManagerDetailByStudentId(studentId: number): void {
+    this.caseManagerService.getCaseManagerDetailByStudentId(studentId).subscribe(
+      response => {
+        console.log('response', response);
+        this.caseManagerRelationship = response;
+        this.caseManagerRelationship.relationshipStartDate = this.formattingService.formatMySqlDateAsStandard(this.caseManagerRelationship.relationshipStartDate);
+        this.studentCaseManagerEditForm.controls['relationshipId'].patchValue(this.caseManagerRelationship.relationshipId);
+        this.studentCaseManagerEditForm.controls['relationshipId'].patchValue(this.caseManagerRelationship.relationshipId);
+        this.studentCaseManagerEditForm.controls['caseManagerId'].patchValue(this.caseManagerRelationship.caseManagerId);
+        this.studentCaseManagerEditForm.controls['relationshipStartDate'].patchValue(this.caseManagerRelationship.relationshipStartDate);
+        this.dataLoaded = true;
+      },
+      error => {
+        console.error('Error: ', error);
+      }
+    );
+  }
+
+  // LOAD OPTION VALUE LISTS
 
   private getCaseManagerList(): void {
     this.caseManagerService.getCaseManagerList().subscribe(
       (response: CaseManager[]) => {
-        console.log('response', response);
+        // console.log('response', response);
         this.caseManagerList = response;
       },
       error => {
@@ -60,14 +98,24 @@ export class StudentCaseManagerEditDialogComponent implements OnInit {
     );
   }
 
-  // Buttons
+  // BUTTONS
 
-  public reset(): void {
-    console.log('reset');
+  public delete(): void {
+    this.confirmDialogRef = this._matDialog.open(ConfirmDialogComponent, {
+      disableClose: false,
+      minWidth: '30%'
+    });
+    this.confirmDialogRef.componentInstance.confirmMessage = 'Are you sure you want to delete?';
+    this.confirmDialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.dialogRef.close(['delete', this.studentCaseManagerEditForm.getRawValue()]);
+      }
+      this.confirmDialogRef = null;
+    });
   }
 
   public save(): void {
-    this.dialogRef.close(this.studentCaseManagerEditForm.value);
+    this.dialogRef.close([this.data.action, this.studentCaseManagerEditForm.getRawValue()]);
   }
 
 }

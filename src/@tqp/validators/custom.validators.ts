@@ -3,7 +3,7 @@ import * as moment from 'moment';
 
 
 export function validateNonZeroValue(fc: FormControl) {
-  if (fc.value === 0) {
+  if (Number(fc.value) === 0) {
     return ({validateNonZeroValue: true});
   } else {
     return null;

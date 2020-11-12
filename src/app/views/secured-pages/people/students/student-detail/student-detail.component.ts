@@ -139,7 +139,7 @@ export class StudentDetailComponent implements OnInit {
   private getHistoryListByStudentId(studentId: number): void {
     this.historyService.getHistoryListByStudentId(studentId).subscribe(
       (historyList: History[]) => {
-        console.log('historyList', historyList);
+        // console.log('historyList', historyList);
         this.historyListRecords = [];
         historyList.forEach(item => {
           this.historyListRecords.push(item);
@@ -269,7 +269,7 @@ export class StudentDetailComponent implements OnInit {
         this.openStudentCaregiverEditDialog(entityId);
         break;
       case 3:
-        this.openStudentCaseManagerEditDialog();
+        this.openStudentCaseManagerEditDialog(entityId);
         break;
       case 4:
         this.openStudentSponsorEditDialog();
@@ -301,7 +301,7 @@ export class StudentDetailComponent implements OnInit {
       programStatus.programStatusLevelThreeId = dialogData.programStatusLevelThreeId;
       programStatus.programStatusStartDate = this.formattingService.formatStandardDateAsMySql(dialogData.programStatusStartDate);
       this.relationshipService.createProgramStatusRelationship(programStatus).subscribe(
-        response => {
+        () => {
           // console.log('response', response);
           this.getProgramStatusDetailByStudentId(this.student.studentId);
           this.eventService.loadingEvent.emit(false);
@@ -319,7 +319,7 @@ export class StudentDetailComponent implements OnInit {
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     dialogConfig.data = {
-      action: studentCaregiverId === null ? 'create' : 'edit',
+      action: studentCaregiverId === null ? 'create' : 'update',
       studentId: this.student.studentId,
       studentCaregiverId: studentCaregiverId
     };
@@ -327,24 +327,24 @@ export class StudentDetailComponent implements OnInit {
     const dialogRef = this._matDialog.open(StudentCaregiverEditDialogComponent, dialogConfig);
 
     dialogRef.afterClosed().subscribe(dialogData => {
-      // console.log('dialogData', dialogData);
+      console.log('dialogData', dialogData);
       if (dialogData) {
         const relationship: Relationship = {};
+        const formData = dialogData[1];
         relationship.studentId = this.student.studentId;
         relationship.relationshipType = 'Student-Caregiver';
-        relationship.relationshipId = dialogData.relationshipId;
-        relationship.relationshipEntityId = dialogData.caregiverId;
-        relationship.relationshipStartDate = this.formattingService.formatStandardDateAsMySql(dialogData.relationshipStartDate);
-        relationship.relationshipTierTypeId = dialogData.tierTypeId;
-        relationship.relationshipTypeId = dialogData.relationshipTypeId;
-        relationship.relationshipFamilyOfOriginTypeId = dialogData.relationshipFamilyOfOriginTypeId;
-        console.log('relationship', relationship);
+        relationship.relationshipId = formData.relationshipId;
+        relationship.relationshipEntityId = formData.caregiverId;
+        relationship.relationshipStartDate = this.formattingService.formatStandardDateAsMySql(formData.relationshipStartDate);
+        relationship.relationshipTierTypeId = formData.tierTypeId;
+        relationship.relationshipTypeId = formData.relationshipTypeId;
+        relationship.relationshipFamilyOfOriginTypeId = formData.relationshipFamilyOfOriginTypeId;
+        // console.log('relationship', relationship);
 
-        const actionType = relationship.relationshipId > 0 ? 'update' : 'create';
-        switch (actionType) {
+        switch (dialogData[0]) {
           case 'create':
             this.relationshipService.createCaregiverRelationship(relationship).subscribe(
-              response => {
+              () => {
                 // console.log('response', response);
                 this.getCaregiverDetailByStudentId(this.student.studentId);
                 this.getHistoryListByStudentId(this.student.studentId);
@@ -366,22 +366,34 @@ export class StudentDetailComponent implements OnInit {
               }
             );
             break;
+          case 'delete':
+            this.relationshipService.deleteCaregiverRelationship(relationship).subscribe(
+              response => {
+                console.log('response', response);
+                this.getCaregiverDetailByStudentId(this.student.studentId);
+                this.getHistoryListByStudentId(this.student.studentId);
+              },
+              error => {
+                console.error('Error: ', error);
+              }
+            );
+            break;
           default:
-            console.error('Unknown Action Type', actionType);
+            console.error('Unknown Action Type', dialogData[0]);
         }
-
       }
     });
   }
 
-  public openStudentCaseManagerEditDialog(): void {
+  public openStudentCaseManagerEditDialog(studentCaregiverId: number): void {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.minWidth = '25%';
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     dialogConfig.data = {
-      action: 'create',
-      studentId: this.student.studentId
+      action: studentCaregiverId === null ? 'create' : 'update',
+      studentId: this.student.studentId,
+      studentCaregiverId: studentCaregiverId
     };
     dialogConfig.autoFocus = false;
     const dialogRef = this._matDialog.open(StudentCaseManagerEditDialogComponent, dialogConfig);
@@ -390,20 +402,55 @@ export class StudentDetailComponent implements OnInit {
       console.log('dialogData', dialogData);
       if (dialogData) {
         const relationship: Relationship = {};
-        relationship.relationshipType = 'Student-Caregiver';
+        const formData = dialogData[1];
         relationship.studentId = this.student.studentId;
-        relationship.relationshipEntityId = dialogData.caseManagerId;
-        relationship.relationshipStartDate = this.formattingService.formatStandardDateAsMySql(dialogData.relationshipStartDate);
-        this.relationshipService.createCaseManagerRelationship(relationship).subscribe(
-          response => {
-            console.log('response', response);
-            this.getCaseManagerDetailByStudentId(this.student.studentId);
-            this.eventService.loadingEvent.emit(false);
-          },
-          error => {
-            console.error('Error: ', error);
-          }
-        );
+        relationship.relationshipType = 'Student-Caregiver';
+        relationship.relationshipId = formData.relationshipId;
+        relationship.relationshipEntityId = formData.caseManagerId;
+        relationship.relationshipStartDate = this.formattingService.formatStandardDateAsMySql(formData.relationshipStartDate);
+        // console.log('relationship', relationship);
+
+        switch (dialogData[0]) {
+          case 'create':
+            this.relationshipService.createCaseManagerRelationship(relationship).subscribe(
+              () => {
+                // console.log('response', response);
+                this.getCaseManagerDetailByStudentId(this.student.studentId);
+                this.getHistoryListByStudentId(this.student.studentId);
+              },
+              error => {
+                console.error('Error: ', error);
+              }
+            );
+            break;
+          case 'update':
+            this.relationshipService.updateCaseManagerRelationship(relationship).subscribe(
+              response => {
+                console.log('response', response);
+                this.getCaseManagerDetailByStudentId(this.student.studentId);
+                this.getHistoryListByStudentId(this.student.studentId);
+              },
+              error => {
+                console.error('Error: ', error);
+              }
+            );
+            break;
+          case 'delete':
+            console.log('relationship', relationship);
+            this.relationshipService.deleteCaseManagerRelationship(relationship).subscribe(
+              response => {
+                console.log('response', response);
+                this.getCaseManagerDetailByStudentId(this.student.studentId);
+                this.getHistoryListByStudentId(this.student.studentId);
+              },
+              error => {
+                console.error('Error: ', error);
+              }
+            );
+            break;
+          default:
+            console.error('Unknown Action Type', dialogData[0]);
+        }
       }
     });
   }

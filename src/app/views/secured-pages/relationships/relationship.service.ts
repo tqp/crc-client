@@ -87,8 +87,8 @@ export class RelationshipService {
     }
   }
 
-  public deleteCaregiverRelationship(relationshipId: number): Observable<string> {
-    const url = environment.apiUrl + '/api/v1/relationship/caregiver/' + relationshipId;
+  public deleteCaregiverRelationship(relationship: Relationship): Observable<string> {
+    const url = environment.apiUrl + '/api/v1/relationship/caregiver/' + relationship.relationshipId;
     const token = this.tokenService.getToken();
     if (token) {
       return this.http.delete<string>(url,
@@ -141,6 +141,49 @@ export class RelationshipService {
         observe: 'response',
         params: {}
       })
+        .pipe(
+          map(res => {
+            return res.body;
+          })
+        );
+    } else {
+      console.error('No token was present.');
+      return null;
+    }
+  }
+
+  public updateCaseManagerRelationship(relationship: Relationship): Observable<Relationship> {
+    const url = environment.apiUrl + '/api/v1/relationship/case-manager';
+    const token = this.tokenService.getToken();
+    if (token) {
+      return this.http.put<Relationship>(url,
+        relationship,
+        {
+          headers: this.httpService.setHeadersWithToken(),
+          observe: 'response',
+          params: {}
+        })
+        .pipe(
+          map(res => {
+            return res.body;
+          })
+        );
+    } else {
+      console.error('No token was present.');
+      return null;
+    }
+  }
+
+  public deleteCaseManagerRelationship(relationship: Relationship): Observable<string> {
+    const url = environment.apiUrl + '/api/v1/relationship/case-manager/' + relationship.relationshipId;
+    const token = this.tokenService.getToken();
+    if (token) {
+      return this.http.delete<string>(url,
+        {
+          headers: this.httpService.setHeadersWithToken(),
+          observe: 'response',
+          params: {}
+        })
         .pipe(
           map(res => {
             return res.body;

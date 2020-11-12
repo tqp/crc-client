@@ -4,8 +4,7 @@ export class CaseManager {
   public caseManagerGivenName?: string;
   public caseManagerPhone?: string;
   public caseManagerEmail?: string;
-
-  public studentCount?: number;
-
+  // JOINED TABLES
+  public relationshipId?: number;
   public relationshipStartDate?: string;
 }

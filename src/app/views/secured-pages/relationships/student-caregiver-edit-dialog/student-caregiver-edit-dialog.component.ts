@@ -27,7 +27,7 @@ export class StudentCaregiverEditDialogComponent implements OnInit {
   public caregiverList: Caregiver[];
   public relationshipTypeList: RelationshipType[];
   public tierTypeList: TierType[];
-  public caregiver: Caregiver;
+  public caregiverRelationship: Caregiver;
 
   public validationMessages = {
     'relationshipId': [],
@@ -61,7 +61,7 @@ export class StudentCaregiverEditDialogComponent implements OnInit {
     this.getCaregiverList();
     this.getSupportTierList();
     this.getRelationshipTypeList();
-    if (this.data.action === 'edit') {
+    if (this.data.action === 'update') {
       this.getCaregiverDetailByStudentId(this.data.studentId);
     } else {
       this.dataLoaded = true;
@@ -74,7 +74,7 @@ export class StudentCaregiverEditDialogComponent implements OnInit {
 
   private initializeForm(): void {
     this.studentCaregiverEditForm = this.formBuilder.group({
-      relationshipId: new FormControl(0),
+      relationshipId: new FormControl({value: 0, disabled: true}),
       caregiverId: new FormControl(0, [Validators.required, validateNonZeroValue]),
       relationshipStartDate: new FormControl(moment().format('MM/DD/YYYY'), Validators.required),
       tierTypeId: new FormControl(0, [Validators.required, validateNonZeroValue]),
@@ -93,14 +93,14 @@ export class StudentCaregiverEditDialogComponent implements OnInit {
     this.caregiverService.getCaregiverDetailByStudentId(studentId).subscribe(
       response => {
         // console.log('response', response);
-        this.caregiver = response;
-        this.caregiver.relationshipStartDate = this.formattingService.formatMySqlDateAsStandard(this.caregiver.relationshipStartDate);
-        this.studentCaregiverEditForm.controls['relationshipId'].patchValue(this.caregiver.relationshipId);
-        this.studentCaregiverEditForm.controls['caregiverId'].patchValue(this.caregiver.caregiverId);
-        this.studentCaregiverEditForm.controls['relationshipStartDate'].patchValue(this.caregiver.relationshipStartDate);
-        this.studentCaregiverEditForm.controls['tierTypeId'].patchValue(this.caregiver.relationshipTierTypeId);
-        this.studentCaregiverEditForm.controls['relationshipTypeId'].patchValue(this.caregiver.relationshipTypeId);
-        this.studentCaregiverEditForm.controls['relationshipFamilyOfOriginTypeId'].patchValue(this.caregiver.relationshipFamilyOfOriginTypeId);
+        this.caregiverRelationship = response;
+        this.caregiverRelationship.relationshipStartDate = this.formattingService.formatMySqlDateAsStandard(this.caregiverRelationship.relationshipStartDate);
+        this.studentCaregiverEditForm.controls['relationshipId'].patchValue(this.caregiverRelationship.relationshipId);
+        this.studentCaregiverEditForm.controls['caregiverId'].patchValue(this.caregiverRelationship.caregiverId);
+        this.studentCaregiverEditForm.controls['relationshipStartDate'].patchValue(this.caregiverRelationship.relationshipStartDate);
+        this.studentCaregiverEditForm.controls['tierTypeId'].patchValue(this.caregiverRelationship.relationshipTierTypeId);
+        this.studentCaregiverEditForm.controls['relationshipTypeId'].patchValue(this.caregiverRelationship.relationshipTypeId);
+        this.studentCaregiverEditForm.controls['relationshipFamilyOfOriginTypeId'].patchValue(this.caregiverRelationship.relationshipFamilyOfOriginTypeId);
         this.dataLoaded = true;
       },
       error => {
@@ -157,23 +157,14 @@ export class StudentCaregiverEditDialogComponent implements OnInit {
     this.confirmDialogRef.componentInstance.confirmMessage = 'Are you sure you want to delete?';
     this.confirmDialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.relationshipService.deleteCaregiverRelationship(this.caregiver.relationshipId).subscribe(
-          response => {
-            // console.log('response: ', response);
-          },
-          error => {
-            console.error('Error: ' + error.message);
-          }, () => {
-            this.dialogRef.close(this.studentCaregiverEditForm.value);
-          }
-        );
+        this.dialogRef.close(['delete', this.studentCaregiverEditForm.getRawValue()]);
       }
       this.confirmDialogRef = null;
     });
   }
 
   public save(): void {
-    this.dialogRef.close(this.studentCaregiverEditForm.value);
+    this.dialogRef.close([this.data.action, this.studentCaregiverEditForm.getRawValue()]);
   }
 
 }
