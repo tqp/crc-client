@@ -272,7 +272,7 @@ export class StudentDetailComponent implements OnInit {
         this.openStudentCaseManagerEditDialog(entityId);
         break;
       case 4:
-        this.openStudentSponsorEditDialog();
+        this.openStudentSponsorEditDialog(entityId);
         break;
       default:
         console.log('Unknown Entity Type', entityTypeId);
@@ -293,7 +293,7 @@ export class StudentDetailComponent implements OnInit {
     const dialogRef = this._matDialog.open(StudentProgramStatusEditDialogComponent, dialogConfig);
 
     dialogRef.afterClosed().subscribe(dialogData => {
-      console.log('dialogData', dialogData);
+      // console.log('dialogData', dialogData);
       const programStatus: ProgramStatus = {};
       programStatus.studentId = this.student.studentId;
       programStatus.programStatusLevelOneId = dialogData.programStatusLevelOneId;
@@ -455,14 +455,15 @@ export class StudentDetailComponent implements OnInit {
     });
   }
 
-  public openStudentSponsorEditDialog(): void {
+  public openStudentSponsorEditDialog(studentSponsorId: number): void {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.minWidth = '25%';
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     dialogConfig.data = {
-      action: 'create',
-      studentId: this.student.studentId
+      action: studentSponsorId === null ? 'create' : 'update',
+      studentId: this.student.studentId,
+      studentSponsorId: studentSponsorId
     };
     dialogConfig.autoFocus = false;
     const dialogRef = this._matDialog.open(StudentSponsorEditDialogComponent, dialogConfig);
@@ -471,19 +472,55 @@ export class StudentDetailComponent implements OnInit {
       console.log('dialogData', dialogData);
       if (dialogData) {
         const relationship: Relationship = {};
+        const formData = dialogData[1];
         relationship.studentId = this.student.studentId;
-        relationship.relationshipEntityId = dialogData.sponsorId;
-        relationship.relationshipStartDate = this.formattingService.formatStandardDateAsMySql(dialogData.relationshipStartDate);
-        this.relationshipService.createSponsorRelationship(relationship).subscribe(
-          response => {
-            console.log('response', response);
-            this.getSponsorDetailByStudentId(this.student.studentId);
-            this.eventService.loadingEvent.emit(false);
-          },
-          error => {
-            console.error('Error: ', error);
-          }
-        );
+        relationship.relationshipType = 'Student-Sponsor';
+        relationship.relationshipId = formData.relationshipId;
+        relationship.relationshipEntityId = formData.sponsorId;
+        relationship.relationshipStartDate = this.formattingService.formatStandardDateAsMySql(formData.relationshipStartDate);
+        // console.log('relationship', relationship);
+
+        switch (dialogData[0]) {
+          case 'create':
+            this.relationshipService.createSponsorRelationship(relationship).subscribe(
+              () => {
+                // console.log('response', response);
+                this.getSponsorDetailByStudentId(this.student.studentId);
+                this.getHistoryListByStudentId(this.student.studentId);
+              },
+              error => {
+                console.error('Error: ', error);
+              }
+            );
+            break;
+          case 'update':
+            this.relationshipService.updateSponsorRelationship(relationship).subscribe(
+              response => {
+                console.log('response', response);
+                this.getSponsorDetailByStudentId(this.student.studentId);
+                this.getHistoryListByStudentId(this.student.studentId);
+              },
+              error => {
+                console.error('Error: ', error);
+              }
+            );
+            break;
+          case 'delete':
+            console.log('relationship', relationship);
+            this.relationshipService.deleteSponsorRelationship(relationship).subscribe(
+              response => {
+                console.log('response', response);
+                this.getSponsorDetailByStudentId(this.student.studentId);
+                this.getHistoryListByStudentId(this.student.studentId);
+              },
+              error => {
+                console.error('Error: ', error);
+              }
+            );
+            break;
+          default:
+            console.error('Unknown Action Type', dialogData[0]);
+        }
       }
     });
   }

@@ -1,9 +1,11 @@
 import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Sponsor } from '../../people/sponsors/Sponsor';
 import { SponsorService } from '../../people/sponsors/sponsor.service';
 import * as moment from 'moment';
+import { ConfirmDialogComponent } from '../../../../../@tqp/components/confirm-dialog/confirm-dialog.component';
+import { FormattingService } from '../../../../../@tqp/services/formatting.service';
 
 @Component({
   selector: 'app-student-sponsor-edit-dialog',
@@ -12,10 +14,14 @@ import * as moment from 'moment';
   encapsulation: ViewEncapsulation.None
 })
 export class StudentSponsorEditDialogComponent implements OnInit {
+  public confirmDialogRef: MatDialogRef<ConfirmDialogComponent>;
+  public dataLoaded: boolean = false;
   public studentSponsorEditForm: FormGroup;
   public sponsorList: Sponsor[];
+  public sponsorRelationship: Sponsor;
 
   public validationMessages = {
+    'relationshipId': [],
     'sponsorId': [
       {type: 'required', message: 'A Case Manager is required'}
     ],
@@ -27,8 +33,15 @@ export class StudentSponsorEditDialogComponent implements OnInit {
   constructor(private dialogRef: MatDialogRef<StudentSponsorEditDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
               private sponsorService: SponsorService,
-              private formBuilder: FormBuilder) {
+              private formBuilder: FormBuilder,
+              private formattingService: FormattingService,
+              public _matDialog: MatDialog) {
     this.getSponsorList();
+    if (this.data.action === 'update') {
+      this.getSponsorDetailByStudentId(this.data.studentId);
+    } else {
+      this.dataLoaded = true;
+    }
   }
 
   ngOnInit(): void {
@@ -37,6 +50,7 @@ export class StudentSponsorEditDialogComponent implements OnInit {
 
   private initializeForm(): void {
     this.studentSponsorEditForm = this.formBuilder.group({
+      relationshipId: new FormControl({value: 0, disabled: true}),
       sponsorId: new FormControl(0, Validators.required),
       relationshipStartDate: new FormControl(moment().format('MM/DD/YYYY'), Validators.required)
     });
@@ -46,7 +60,26 @@ export class StudentSponsorEditDialogComponent implements OnInit {
     // }, 0);
   }
 
-  // Load Option Value Lists
+  // LOAD DATA
+
+  private getSponsorDetailByStudentId(studentId: number): void {
+    this.sponsorService.getSponsorDetailByStudentId(studentId).subscribe(
+      response => {
+        console.log('response', response);
+        this.sponsorRelationship = response;
+        this.sponsorRelationship.relationshipStartDate = this.formattingService.formatMySqlDateAsStandard(this.sponsorRelationship.relationshipStartDate);
+        this.studentSponsorEditForm.controls['relationshipId'].patchValue(this.sponsorRelationship.relationshipId);
+        this.studentSponsorEditForm.controls['sponsorId'].patchValue(this.sponsorRelationship.sponsorId);
+        this.studentSponsorEditForm.controls['relationshipStartDate'].patchValue(this.sponsorRelationship.relationshipStartDate);
+        this.dataLoaded = true;
+      },
+      error => {
+        console.error('Error: ', error);
+      }
+    );
+  }
+
+  // LOAD OPTION VALUE LISTS
 
   private getSponsorList(): void {
     this.sponsorService.getSponsorList().subscribe(
@@ -60,14 +93,24 @@ export class StudentSponsorEditDialogComponent implements OnInit {
     );
   }
 
-  // Buttons
+  // BUTTONS
 
-  public reset(): void {
-    console.log('reset');
+  public delete(): void {
+    this.confirmDialogRef = this._matDialog.open(ConfirmDialogComponent, {
+      disableClose: false,
+      minWidth: '30%'
+    });
+    this.confirmDialogRef.componentInstance.confirmMessage = 'Are you sure you want to delete?';
+    this.confirmDialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.dialogRef.close(['delete', this.studentSponsorEditForm.getRawValue()]);
+      }
+      this.confirmDialogRef = null;
+    });
   }
 
   public save(): void {
-    this.dialogRef.close(this.studentSponsorEditForm.value);
+    this.dialogRef.close([this.data.action, this.studentSponsorEditForm.getRawValue()]);
   }
 
 }

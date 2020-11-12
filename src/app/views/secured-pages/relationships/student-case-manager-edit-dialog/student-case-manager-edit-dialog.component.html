@@ -5,7 +5,7 @@
 
 <mat-dialog-content style="overflow: hidden">
 
-  <form [formGroup]="studentCaseManagerEditForm">
+  <form [formGroup]="studentCaseManagerEditForm" [hidden]="!dataLoaded">
 
     <div class="row">
       <div class="col-sm-12">
@@ -66,6 +66,13 @@
     </div>
 
   </form>
+
+  <mat-card class="spinner-container" *ngIf="!dataLoaded">
+    <mat-progress-spinner
+      color="primary"
+      mode="indeterminate">
+    </mat-progress-spinner>
+  </mat-card>
 
 </mat-dialog-content>
 

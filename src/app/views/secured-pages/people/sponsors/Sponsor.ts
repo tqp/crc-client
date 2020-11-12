@@ -3,6 +3,7 @@ export class Sponsor {
   public sponsorSurname?: string;
   public sponsorGivenName?: string;
   public sponsorAddress?: string;
-
+  // JOINED TABLES
+  public relationshipId?: number;
   public relationshipStartDate?: string;
 }

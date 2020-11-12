@@ -73,7 +73,6 @@ export class StudentCaseManagerEditDialogComponent implements OnInit {
         this.caseManagerRelationship = response;
         this.caseManagerRelationship.relationshipStartDate = this.formattingService.formatMySqlDateAsStandard(this.caseManagerRelationship.relationshipStartDate);
         this.studentCaseManagerEditForm.controls['relationshipId'].patchValue(this.caseManagerRelationship.relationshipId);
-        this.studentCaseManagerEditForm.controls['relationshipId'].patchValue(this.caseManagerRelationship.relationshipId);
         this.studentCaseManagerEditForm.controls['caseManagerId'].patchValue(this.caseManagerRelationship.caseManagerId);
         this.studentCaseManagerEditForm.controls['relationshipStartDate'].patchValue(this.caseManagerRelationship.relationshipStartDate);
         this.dataLoaded = true;
