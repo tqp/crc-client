@@ -8,5 +8,5 @@ export const environment = {
   production: false,
   hmr: false,
   apiUrl: 'http://localhost:8080',
-  buildTimestamp: '11/11/2020 01:03:13'
+  buildTimestamp: '11/12/2020 02:21:18'
 };

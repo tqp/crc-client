@@ -6,8 +6,8 @@ import { FormControl } from '@angular/forms';
 import { EventService } from '../../../../../../@tqp/services/event.service';
 import { Router } from '@angular/router';
 import { ServerSidePaginationResponse } from '../../../../../../@tqp/models/ServerSidePaginationResponse';
-import { merge, of } from 'rxjs';
-import { catchError, debounceTime, map, switchMap } from 'rxjs/operators';
+import { fromEvent, merge, of } from 'rxjs';
+import { catchError, debounceTime, distinctUntilChanged, map, switchMap } from 'rxjs/operators';
 import { CaseManager } from '../CaseManager';
 import { CaseManagerService } from '../case-manager.service';
 import { AuthService } from '../../../../../../@tqp/services/auth.service';
@@ -17,7 +17,7 @@ import { AuthService } from '../../../../../../@tqp/services/auth.service';
   templateUrl: './case-manager-list.component.html',
   styleUrls: ['./case-manager-list.component.css']
 })
-export class CaseManagerListComponent implements OnInit, AfterViewInit, OnDestroy {
+export class CaseManagerListComponent implements OnInit, OnDestroy {
   @ViewChild(MatSort, {static: true}) sort: MatSort;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild('tableContainer', {read: ElementRef, static: true}) public matTableRef: ElementRef;
@@ -58,6 +58,7 @@ export class CaseManagerListComponent implements OnInit, AfterViewInit, OnDestro
               private eventService: EventService,
               private router: Router,
               public authService: AuthService) {
+    this.initWindowResizeListener();
   }
 
   ngOnInit(): void {
@@ -66,11 +67,18 @@ export class CaseManagerListComponent implements OnInit, AfterViewInit, OnDestro
     this.listenForChanges();
   }
 
-  ngAfterViewInit(): void {
-  }
-
   ngOnDestroy(): void {
     this.caseManagerService.setCaseManagerListNameSearchValue(this.caseManagerListNameSearchFormControl.value);
+  }
+
+  public initWindowResizeListener(): void {
+    fromEvent(window, 'resize').pipe(
+      debounceTime(300),
+      distinctUntilChanged()).subscribe(
+      () => {
+        this.ngOnInit();
+      }
+    );
   }
 
   private calculateTableSize(): number {

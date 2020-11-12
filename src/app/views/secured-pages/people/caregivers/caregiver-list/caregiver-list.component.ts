@@ -7,8 +7,8 @@ import { CaregiverService } from '../caregiver.service';
 import { EventService } from '../../../../../../@tqp/services/event.service';
 import { Router } from '@angular/router';
 import { ServerSidePaginationResponse } from '../../../../../../@tqp/models/ServerSidePaginationResponse';
-import { merge, of } from 'rxjs';
-import { catchError, debounceTime, map, switchMap } from 'rxjs/operators';
+import { fromEvent, merge, of } from 'rxjs';
+import { catchError, debounceTime, distinctUntilChanged, map, switchMap } from 'rxjs/operators';
 import { Caregiver } from '../Caregiver';
 import { AuthService } from '../../../../../../@tqp/services/auth.service';
 
@@ -17,7 +17,7 @@ import { AuthService } from '../../../../../../@tqp/services/auth.service';
   templateUrl: './caregiver-list.component.html',
   styleUrls: ['./caregiver-list.component.css']
 })
-export class CaregiverListComponent implements OnInit, AfterViewInit, OnDestroy {
+export class CaregiverListComponent implements OnInit, OnDestroy {
   @ViewChild(MatSort, {static: true}) sort: MatSort;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild('tableContainer', {read: ElementRef, static: true}) public matTableRef: ElementRef;
@@ -60,6 +60,7 @@ export class CaregiverListComponent implements OnInit, AfterViewInit, OnDestroy 
               private eventService: EventService,
               private router: Router,
               public authService: AuthService) {
+    this.initWindowResizeListener();
   }
 
   ngOnInit(): void {
@@ -68,11 +69,18 @@ export class CaregiverListComponent implements OnInit, AfterViewInit, OnDestroy 
     this.listenForChanges();
   }
 
-  ngAfterViewInit(): void {
-  }
-
   ngOnDestroy(): void {
     this.caregiverService.setCaregiverListNameSearchValue(this.caregiverListNameSearchFormControl.value);
+  }
+
+  public initWindowResizeListener(): void {
+    fromEvent(window, 'resize').pipe(
+      debounceTime(300),
+      distinctUntilChanged()).subscribe(
+      () => {
+        this.ngOnInit();
+      }
+    );
   }
 
   private calculateTableSize(): number {

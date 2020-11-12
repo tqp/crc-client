@@ -6,18 +6,19 @@ import { FormControl } from '@angular/forms';
 import { EventService } from '../../../../../../@tqp/services/event.service';
 import { Router } from '@angular/router';
 import { ServerSidePaginationResponse } from '../../../../../../@tqp/models/ServerSidePaginationResponse';
-import { catchError, debounceTime, map, switchMap } from 'rxjs/operators';
-import { merge, of } from 'rxjs';
+import { catchError, debounceTime, distinctUntilChanged, map, switchMap } from 'rxjs/operators';
+import { fromEvent, merge, Observable, of } from 'rxjs';
 import { StudentService } from '../student.service';
 import { Student } from '../Student';
 import { AuthService } from '../../../../../../@tqp/services/auth.service';
+import { ViewportScroller } from '@angular/common';
 
 @Component({
   selector: 'app-student-list',
   templateUrl: './student-list.component.html',
   styleUrls: ['./student-list.component.css']
 })
-export class StudentListComponent implements OnInit, AfterViewInit, OnDestroy {
+export class StudentListComponent implements OnInit, OnDestroy {
   @ViewChild(MatSort, {static: true}) sort: MatSort;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild('tableContainer', {read: ElementRef, static: true}) public matTableRef: ElementRef;
@@ -51,7 +52,9 @@ export class StudentListComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(private studentService: StudentService,
               private eventService: EventService,
               private router: Router,
-              public authService: AuthService) {
+              public authService: AuthService,
+              private vc: ViewportScroller) {
+    this.initWindowResizeListener();
   }
 
   ngOnInit(): void {
@@ -60,11 +63,18 @@ export class StudentListComponent implements OnInit, AfterViewInit, OnDestroy {
     this.listenForChanges();
   }
 
-  ngAfterViewInit(): void {
-  }
-
   ngOnDestroy(): void {
     this.studentService.setStudentListNameSearchValue(this.studentListNameSearchFormControl.value);
+  }
+
+  public initWindowResizeListener(): void {
+    fromEvent(window, 'resize').pipe(
+      debounceTime(300),
+      distinctUntilChanged()).subscribe(
+      () => {
+        this.ngOnInit();
+      }
+    );
   }
 
   private calculateTableSize(): number {
@@ -128,7 +138,7 @@ export class StudentListComponent implements OnInit, AfterViewInit, OnDestroy {
     )
       .pipe(
         switchMap(changesDetected => {
-          console.log('changesDetected', changesDetected);
+          // console.log('changesDetected', changesDetected);
           const paginationChange: boolean = changesDetected.pageIndex && changesDetected.pageSize;
           const sortChange: boolean = changesDetected.active && changesDetected.direction;
           if (!paginationChange && !sortChange) {
@@ -154,7 +164,7 @@ export class StudentListComponent implements OnInit, AfterViewInit, OnDestroy {
           serverSideSearchParams.sortDirection = this.sort.direction;
           this.searchParams = serverSideSearchParams;
 
-          console.log('this.searchParams', this.searchParams);
+          // console.log('this.searchParams', this.searchParams);
 
           this.isFilterApplied = nameFilter;
           return this.studentService.getStudentList_SSP(serverSideSearchParams);
@@ -206,6 +216,11 @@ export class StudentListComponent implements OnInit, AfterViewInit, OnDestroy {
   public openDetailPage(row: any): void {
     this.router.navigate(['students/student-detail', row.studentId]).then();
   }
+
+  // @HostListener('window:resize', ['$event'])
+  // onResize(event) {
+  //   console.log('Height: ' + event.target.innerHeight);
+  // }
 
   @HostListener('window:keydown', ['$event'])
   public handleKeyboardEvent(event: KeyboardEvent): void {
