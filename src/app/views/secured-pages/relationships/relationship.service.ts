@@ -305,4 +305,47 @@ export class RelationshipService {
       return null;
     }
   }
+
+  public updateProgramStatusRelationship(relationship: Relationship): Observable<Relationship> {
+    const url = environment.apiUrl + '/api/v1/relationship/program-status';
+    const token = this.tokenService.getToken();
+    if (token) {
+      return this.http.put<Relationship>(url,
+        relationship,
+        {
+          headers: this.httpService.setHeadersWithToken(),
+          observe: 'response',
+          params: {}
+        })
+        .pipe(
+          map(res => {
+            return res.body;
+          })
+        );
+    } else {
+      console.error('No token was present.');
+      return null;
+    }
+  }
+
+  public deleteProgramStatusRelationship(programStatus: ProgramStatus): Observable<string> {
+    const url = environment.apiUrl + '/api/v1/relationship/program-status/' + programStatus.programStatusId;
+    const token = this.tokenService.getToken();
+    if (token) {
+      return this.http.delete<string>(url,
+        {
+          headers: this.httpService.setHeadersWithToken(),
+          observe: 'response',
+          params: {}
+        })
+        .pipe(
+          map(res => {
+            return res.body;
+          })
+        );
+    } else {
+      console.error('No token was present.');
+      return null;
+    }
+  }
 }

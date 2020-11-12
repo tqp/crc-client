@@ -1,10 +1,28 @@
-<h2 mat-dialog-title>
-  Set Program Status
-</h2>
+<h2 mat-dialog-title *ngIf="data.action == 'update'; else create;">Edit Program Status Assignment</h2>
+<ng-template #create>
+  <h2 mat-dialog-title>Set Program Status</h2>
+</ng-template>
 
 <mat-dialog-content style="overflow: hidden">
 
-  <form [formGroup]="programStatusEditForm">
+  <form [formGroup]="programStatusEditForm" [hidden]="!dataLoaded && !programStatusPackageLevelOne">
+
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="form-group">
+          <label for="programStatusId">Program Status ID</label>
+          <input id="programStatusId" type="text" class="form-control" formControlName="programStatusId">
+          <mat-error *ngFor="let validation of validationMessages.programStatusId">
+            <mat-error class="error-message"
+                       *ngIf="programStatusEditForm.get('programStatusId').hasError(validation.type)
+                                && (programStatusEditForm.get('programStatusId').dirty ||
+                                programStatusEditForm.get('programStatusId').touched)">
+              {{validation.message}}
+            </mat-error>
+          </mat-error>
+        </div>
+      </div>
+    </div>
 
     <div class="row" *ngIf="programStatusPackageLevelOne">
       <div class="col-sm-12">
@@ -33,8 +51,7 @@
       <div class="col-sm-12">
         <div class="form-group">
           <label for="programStatusLevelTwoId">{{programStatusPackageLevelTwo.childFieldTitle}}*</label>
-          <select id="programStatusLevelTwoId" class="form-control" formControlName="programStatusLevelTwoId"
-                  (change)="programStatusLevelTwoChanged($event)">
+          <select id="programStatusLevelTwoId" class="form-control" formControlName="programStatusLevelTwoId">
             <option value=0>Select a Program Status</option>
             <option *ngFor="let programStatusLevelTwo of programStatusPackageLevelTwo.childProgramStatusList"
                     value="{{programStatusLevelTwo.programStatusId}}">
@@ -53,40 +70,17 @@
       </div>
     </div>
 
-    <div class="row" *ngIf="programStatusPackageLevelThree && programStatusPackageLevelThree.childProgramStatusList.length > 0">
-      <div class="col-sm-12">
-        <div class="form-group">
-          <label for="programStatusLevelThreeId">{{programStatusPackageLevelThree.childFieldTitle}}*</label>
-          <select id="programStatusLevelThreeId" class="form-control" formControlName="programStatusLevelThreeId">
-            <option value=0>Select a Program Status</option>
-            <option *ngFor="let programStatusLevelThree of programStatusPackageLevelThree.childProgramStatusList"
-                    value="{{programStatusLevelThree.programStatusId}}">
-              {{programStatusLevelThree.programStatusName}}
-            </option>
-          </select>
-          <mat-error *ngFor="let validation of validationMessages.programStatusLevelThreeId">
-            <mat-error class="error-message"
-                       *ngIf="programStatusEditForm.get('programStatusLevelThreeId').hasError(validation.type)
-                                && (programStatusEditForm.get('programStatusLevelThreeId').dirty ||
-                                programStatusEditForm.get('programStatusLevelThreeId').touched)">
-              {{validation.message}}
-            </mat-error>
-          </mat-error>
-        </div>
-      </div>
-    </div>
-
     <div class="row">
       <div class="col-sm-12">
         <div class="form-group">
-          <label for="programStatusStartDate">Effective Date*</label>
-          <input id="programStatusStartDate" type="text" class="form-control" bsDatepicker
-                 formControlName="programStatusStartDate">
-          <mat-error *ngFor="let validation of validationMessages.programStatusStartDate">
+          <label for="relationshipStartDate">Effective Date*</label>
+          <input id="relationshipStartDate" type="text" class="form-control" bsDatepicker
+                 formControlName="relationshipStartDate">
+          <mat-error *ngFor="let validation of validationMessages.relationshipStartDate">
             <mat-error class="error-message"
-                       *ngIf="programStatusEditForm.get('programStatusStartDate').hasError(validation.type)
-                                && (programStatusEditForm.get('programStatusStartDate').dirty ||
-                                programStatusEditForm.get('programStatusStartDate').touched)">
+                       *ngIf="programStatusEditForm.get('relationshipStartDate').hasError(validation.type)
+                                && (programStatusEditForm.get('relationshipStartDate').dirty ||
+                                programStatusEditForm.get('relationshipStartDate').touched)">
               {{validation.message}}
             </mat-error>
           </mat-error>
@@ -96,14 +90,22 @@
 
   </form>
 
+  <mat-card class="spinner-container" *ngIf="!dataLoaded">
+    <mat-progress-spinner
+      color="primary"
+      mode="indeterminate">
+    </mat-progress-spinner>
+  </mat-card>
+
 </mat-dialog-content>
 
 <mat-dialog-actions>
+  <button mat-raised-button class="btn btn-danger" (click)="delete();" *ngIf="data.action == 'update'">
+    Delete
+  </button>
   <button mat-raised-button mat-dialog-close>Cancel</button>
-  <button mat-raised-button (click)="reset();">Reset</button>
   <div fxFlex></div>
-  <button mat-raised-button mat-dialog-close color="primary" (click)="save();"
-          [disabled]="!programStatusEditForm.valid">
-    Save
+  <button mat-raised-button mat-dialog-close class="btn btn-primary" (click)="save();"
+          [disabled]="!programStatusEditForm.valid">Save
   </button>
 </mat-dialog-actions>

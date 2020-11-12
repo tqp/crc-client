@@ -1,5 +1,6 @@
 export class ProgramStatus {
   public studentId?: number;
+  public programStatusId?: number;
   public programStatusLevelOneId?: number;
   public programStatusLevelOneName?: number;
   public programStatusLevelTwoId?: number;

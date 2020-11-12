@@ -71,7 +71,7 @@
       <div class="card">
         <div class="card-header">
           <i class="fa fa-calendar-check-o"></i>
-          Student Visits
+          Student Visits<span class="badge badge-secondary ml-2">{{visitListDataSource.length}}</span>
           <i *ngIf="visitListLoading" class="fa fa-spinner fa-spin"></i>
           <div class="card-header-actions" [hidden]="authService.allowRoles('ROLE_USER, ROLE_MANAGER, ROLE_ADMIN')">
             <small class="tqp-nav-link" (click)="openVisitEditDialog(this.student.studentId);">Add Student Visit</small>
@@ -131,7 +131,7 @@
       <div class="card">
         <div class="card-header">
           <i class="fa fa-calendar"></i>
-          History
+          History<span class="badge badge-secondary ml-2">{{historyListDataSource.length}}</span>
         </div>
         <div class="card-body">
 
@@ -202,7 +202,7 @@
           Program Status
           <i *ngIf="programStatusLoading" class="fa fa-spinner fa-spin"></i>
           <div class="card-header-actions" [hidden]="authService.allowRoles('ROLE_USER, ROLE_MANAGER, ROLE_ADMIN')">
-            <small class="tqp-nav-link" (click)="openStudentProgramStatusEditDialog();">Set Program Status</small>
+            <small class="tqp-nav-link" (click)="openStudentProgramStatusEditDialog(null);">Set Program Status</small>
           </div>
         </div>
         <div class="card-body">
