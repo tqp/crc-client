@@ -11,8 +11,8 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../../../../../@tqp/services/auth.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ServerSidePaginationResponse } from '../../../../../../@tqp/models/ServerSidePaginationResponse';
-import { merge, of } from 'rxjs';
-import { catchError, debounceTime, map, switchMap } from 'rxjs/operators';
+import { fromEvent, merge, of } from 'rxjs';
+import { catchError, debounceTime, distinctUntilChanged, map, switchMap } from 'rxjs/operators';
 import { LoanDetailEditDialogComponent } from '../loan-detail-edit-dialog/loan-detail-edit-dialog.component';
 import { LoanService } from '../loan.service';
 
@@ -21,7 +21,7 @@ import { LoanService } from '../loan.service';
   templateUrl: './loan-list.component.html',
   styleUrls: ['./loan-list.component.css']
 })
-export class LoanListComponent implements OnInit, AfterViewInit, OnDestroy {
+export class LoanListComponent implements OnInit, OnDestroy {
   @ViewChild(MatSort, {static: true}) sort: MatSort;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild('tableContainer', {read: ElementRef, static: true}) public matTableRef: ElementRef;
@@ -61,6 +61,7 @@ export class LoanListComponent implements OnInit, AfterViewInit, OnDestroy {
               private router: Router,
               public authService: AuthService,
               public _matDialog: MatDialog) {
+    this.initWindowResizeListener();
   }
 
   ngOnInit(): void {
@@ -69,11 +70,18 @@ export class LoanListComponent implements OnInit, AfterViewInit, OnDestroy {
     this.listenForChanges();
   }
 
-  ngAfterViewInit(): void {
-  }
-
   ngOnDestroy(): void {
     // this.financeService.setCaregiverListNameSearchValue(this.caregiverListNameSearchFormControl.value);
+  }
+
+  public initWindowResizeListener(): void {
+    fromEvent(window, 'resize').pipe(
+      debounceTime(300),
+      distinctUntilChanged()).subscribe(
+      () => {
+        this.ngOnInit();
+      }
+    );
   }
 
   private calculateTableSize(): number {

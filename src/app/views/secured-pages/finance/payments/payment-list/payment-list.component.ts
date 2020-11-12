@@ -16,8 +16,8 @@ import { EventService } from '../../../../../../@tqp/services/event.service';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../../../../@tqp/services/auth.service';
 import { ServerSidePaginationResponse } from '../../../../../../@tqp/models/ServerSidePaginationResponse';
-import { merge, of } from 'rxjs';
-import { catchError, debounceTime, map, switchMap } from 'rxjs/operators';
+import { fromEvent, merge, of } from 'rxjs';
+import { catchError, debounceTime, distinctUntilChanged, map, switchMap } from 'rxjs/operators';
 import { FinanceService } from '../../finance.service';
 import { Loan } from '../../loans/Loan';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
@@ -31,7 +31,7 @@ import { PaymentService } from '../payment.service';
   templateUrl: './payment-list.component.html',
   styleUrls: ['./payment-list.component.css']
 })
-export class PaymentListComponent implements OnInit, AfterViewInit, OnDestroy {
+export class PaymentListComponent implements OnInit, OnDestroy {
   @ViewChild(MatSort, {static: true}) sort: MatSort;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild('tableContainer', {read: ElementRef, static: true}) public matTableRef: ElementRef;
@@ -72,6 +72,7 @@ export class PaymentListComponent implements OnInit, AfterViewInit, OnDestroy {
               private router: Router,
               public authService: AuthService,
               public _matDialog: MatDialog) {
+    this.initWindowResizeListener();
   }
 
   ngOnInit(): void {
@@ -80,11 +81,18 @@ export class PaymentListComponent implements OnInit, AfterViewInit, OnDestroy {
     this.listenForChanges();
   }
 
-  ngAfterViewInit(): void {
-  }
-
   ngOnDestroy(): void {
     // this.financeService.setCaregiverListNameSearchValue(this.caregiverListNameSearchFormControl.value);
+  }
+
+  public initWindowResizeListener(): void {
+    fromEvent(window, 'resize').pipe(
+      debounceTime(300),
+      distinctUntilChanged()).subscribe(
+      () => {
+        this.ngOnInit();
+      }
+    );
   }
 
   private calculateTableSize(): number {
