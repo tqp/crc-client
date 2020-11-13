@@ -220,13 +220,13 @@ export class StudentDetailEditComponent implements OnInit {
 
   public schoolLevelIdChanged(event: any): void {
     const schoolLevelId = event.target.value;
-    // console.log('schoolLevelId', schoolLevelId);
-    this.studentEditForm.controls['classLevelId'].patchValue(0);
+    // console.log('schoolLevelTypeId', schoolLevelTypeId);
+    this.studentEditForm.controls['classLevelTypeId'].patchValue(0);
     if (Number(schoolLevelId) === 0) {
-      this.studentEditForm.get('classLevelId').disable();
+      this.studentEditForm.get('classLevelTypeId').disable();
     } else {
-      this.getClassLevelList(this.studentEditForm.get('schoolLevelId').value);
-      this.studentEditForm.get('classLevelId').enable();
+      this.getClassLevelList(this.studentEditForm.get('schoolLevelTypeId').value);
+      this.studentEditForm.get('classLevelTypeId').enable();
     }
   }
 
