@@ -10,6 +10,8 @@ import { VisitTypeService } from '../../../reference-tables/visit-type/visit-typ
 import { InteractionTypeService } from '../../../reference-tables/interaction-type/interaction-type.service';
 import { InteractionType } from '../../../reference-tables/interaction-type/InteractionType';
 import { VisitType } from '../../../reference-tables/visit-type/VisitType';
+import { CaseManager } from '../../../people/case-managers/CaseManager';
+import { CaseManagerService } from '../../../people/case-managers/case-manager.service';
 
 @Component({
   selector: 'app-visit-detail-edit',
@@ -27,8 +29,12 @@ export class VisitDetailEditComponent implements OnInit {
 
   public visitTypeList: VisitType[];
   public interactionTypeList: InteractionType[];
+  public caseManagerList: CaseManager[];
 
   public validationMessages = {
+    'caseManagerId': [
+      {type: 'required', message: 'A Case Manager is required'}
+    ],
     'visitId': [
       {type: 'required', message: 'An Student Visit ID is required'}
     ],
@@ -48,12 +54,14 @@ export class VisitDetailEditComponent implements OnInit {
   constructor(private route: ActivatedRoute,
               private visitService: VisitService,
               private visitTypeService: VisitTypeService,
+              private caseManagerService: CaseManagerService,
               private interactionTypeService: InteractionTypeService,
               private formattingService: FormattingService,
               private router: Router,
               private formBuilder: FormBuilder,
               public _matDialog: MatDialog) {
     this.initializeForm();
+    this.getCaseManagerList();
     this.getVisitTypeList();
     this.getInteractionTypeList();
   }
@@ -78,6 +86,7 @@ export class VisitDetailEditComponent implements OnInit {
 
   private initializeForm(): void {
     this.visitEditForm = this.formBuilder.group({
+      caseManagerId: new FormControl('', Validators.required),
       visitId: new FormControl('', Validators.required),
       visitDate: new FormControl('', Validators.required),
       visitTypeId: new FormControl('', Validators.required),
@@ -92,12 +101,25 @@ export class VisitDetailEditComponent implements OnInit {
       response => {
         this.visit = response;
         // console.log('response', response);
+        this.visitEditForm.controls['caseManagerId'].patchValue(this.visit.caseManagerId);
         this.visitEditForm.controls['visitId'].patchValue(this.visit.visitId);
         this.visitEditForm.controls['visitDate'].patchValue(this.formattingService.formatMySqlDateAsStandard(this.visit.visitDate));
         this.visitEditForm.controls['visitTypeId'].patchValue(this.visit.visitTypeId);
         this.visitEditForm.controls['interactionTypeId'].patchValue(this.visit.interactionTypeId);
         this.visitEditForm.controls['caregiverComments'].patchValue(this.visit.caregiverComments);
         this.visitEditForm.controls['caseManagerComments'].patchValue(this.visit.caseManagerComments);
+      },
+      error => {
+        console.error('Error: ', error);
+      }
+    );
+  }
+
+  private getCaseManagerList(): void {
+    this.caseManagerService.getCaseManagerList().subscribe(
+      (response: CaseManager[]) => {
+        // console.log('response', response);
+        this.caseManagerList = response;
       },
       error => {
         console.error('Error: ', error);
@@ -156,6 +178,7 @@ export class VisitDetailEditComponent implements OnInit {
     const visit = new Visit();
     // console.log('crudEditForm', this.visitEditForm.value);
     visit.visitId = this.visitEditForm.value.visitId;
+    visit.caseManagerId = this.visitEditForm.value.caseManagerId;
     visit.visitDate = this.formattingService.formatStandardDateAsMySql(this.visitEditForm.value.visitDate);
     visit.visitTypeId = this.visitEditForm.value.visitTypeId;
     visit.interactionTypeId = this.visitEditForm.value.interactionTypeId;

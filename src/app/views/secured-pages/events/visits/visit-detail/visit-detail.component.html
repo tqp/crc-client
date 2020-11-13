@@ -42,6 +42,10 @@
             <dd class="col-sm-9">{{visit.visitDate | date:'MM/dd/yyyy'}}</dd>
           </dl>
           <dl class="row">
+            <dt class="col-sm-3">Case Manager:</dt>
+            <dd class="col-sm-9">{{visit.caseManagerGivenName}} {{visit.caseManagerSurname}}</dd>
+          </dl>
+          <dl class="row">
             <dt class="col-sm-3">Visit Type:</dt>
             <dd class="col-sm-9">{{visit.visitTypeName}}</dd>
           </dl>

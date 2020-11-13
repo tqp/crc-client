@@ -11,6 +11,8 @@ export class Visit {
   // Joined Tables
   public studentSurname?: string;
   public studentGivenName?: string;
+  public caseManagerSurname?: string;
+  public caseManagerGivenName?: string;
   public interactionTypeName?: string;
   public visitTypeName?: string;
 }
