@@ -50,6 +50,29 @@
     <div class="row">
       <div class="col-sm-12">
         <div class="form-group">
+          <label for="caseManagerId">Case Manager*</label>
+          <select id="caseManagerId" class="form-control" formControlName="caseManagerId">
+            <option value=0>Select a Case Manager</option>
+            <option *ngFor="let caseManager of caseManagerList"
+                    value="{{caseManager.caseManagerId}}">
+              {{caseManager.caseManagerGivenName}} {{caseManager.caseManagerSurname}}
+            </option>
+          </select>
+          <mat-error *ngFor="let validation of validationMessages.caseManagerId">
+            <mat-error class="error-message"
+                       *ngIf="visitEditForm.get('caseManagerId').hasError(validation.type)
+                                && (visitEditForm.get('caseManagerId').dirty ||
+                                visitEditForm.get('caseManagerId').touched)">
+              {{validation.message}}
+            </mat-error>
+          </mat-error>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="form-group">
           <label for="visitTypeId">Visit Type*</label>
           <select id="visitTypeId" class="form-control" formControlName="visitTypeId">
             <option value=0>Select a Visit Type</option>

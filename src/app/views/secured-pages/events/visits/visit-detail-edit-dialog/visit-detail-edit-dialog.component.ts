@@ -10,6 +10,8 @@ import { VisitTypeService } from '../../../reference-tables/visit-type/visit-typ
 import { InteractionTypeService } from '../../../reference-tables/interaction-type/interaction-type.service';
 import { validateNonZeroValue } from '@tqp/validators/custom.validators';
 import * as moment from 'moment';
+import { CaseManager } from '../../../people/case-managers/CaseManager';
+import { CaseManagerService } from '../../../people/case-managers/case-manager.service';
 
 @Component({
   selector: 'app-visit-detail-edit-dialog',
@@ -21,6 +23,7 @@ export class VisitDetailEditDialogComponent implements OnInit {
   public visitEditForm: FormGroup;
   public studentId: number;
   public studentList: Student[];
+  public caseManagerList: CaseManager[];
   public visitTypeList: VisitType[];
   public interactionTypeList: InteractionType[];
 
@@ -28,6 +31,10 @@ export class VisitDetailEditDialogComponent implements OnInit {
     'studentId': [
       {type: 'required', message: 'A Student is required'},
       {type: 'validateNonZeroValue', message: 'You must select a Student'}
+    ],
+    'caseManagerId': [
+      {type: 'required', message: 'A Case Manager is required'},
+      {type: 'validateNonZeroValue', message: 'You must select a Case Manager'}
     ],
     'visitDate': [
       {type: 'required', message: 'A Visit Date is required'}
@@ -54,10 +61,12 @@ export class VisitDetailEditDialogComponent implements OnInit {
               @Inject(MAT_DIALOG_DATA) public data: any,
               private formBuilder: FormBuilder,
               private studentService: StudentService,
+              private caseManagerService: CaseManagerService,
               private visitTypeService: VisitTypeService,
               private interactionTypeService: InteractionTypeService
   ) {
     this.getStudentList();
+    this.getCaseManagerList();
     this.getVisitTypeList();
     this.getInteractionTypeList();
   }
@@ -72,6 +81,7 @@ export class VisitDetailEditDialogComponent implements OnInit {
         value: this.data.studentId !== undefined ? this.data.studentId : 0,
         disabled: this.data.studentId !== undefined
       }, [Validators.required, validateNonZeroValue]),
+      caseManagerId: new FormControl(0, [Validators.required, validateNonZeroValue]),
       visitDate: new FormControl(moment().format('MM/DD/YYYY'), Validators.required),
       visitTypeId: new FormControl(0, [Validators.required, validateNonZeroValue]),
       interactionTypeId: new FormControl(0, [Validators.required, validateNonZeroValue]),
@@ -91,6 +101,18 @@ export class VisitDetailEditDialogComponent implements OnInit {
       (response: Caregiver[]) => {
         // console.log('response', response);
         this.studentList = response;
+      },
+      error => {
+        console.error('Error: ', error);
+      }
+    );
+  }
+
+  private getCaseManagerList(): void {
+    this.caseManagerService.getCaseManagerList().subscribe(
+      (response: Caregiver[]) => {
+        console.log('response', response);
+        this.caseManagerList = response;
       },
       error => {
         console.error('Error: ', error);
