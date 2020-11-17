@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../../../../../../@tqp/components/confirm-dialog/confirm-dialog.component';
@@ -9,7 +9,8 @@ import { LoanService } from '../loan.service';
 @Component({
   selector: 'app-loan-detail-edit',
   templateUrl: './loan-detail-edit.component.html',
-  styleUrls: ['./loan-detail-edit.component.css']
+  styleUrls: ['./loan-detail-edit.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class LoanDetailEditComponent implements OnInit {
   @ViewChild('loanSurnameInputField', {static: false}) loanSurnameInputField: ElementRef;
@@ -145,18 +146,6 @@ export class LoanDetailEditComponent implements OnInit {
       this.save();
     }
     if (event.key === 'Escape') {
-      this.cancel();
-    }
-    if (event.ctrlKey && event.key === 'd') {
-      event.preventDefault();
-      this.delete(this.loan.loanId);
-    }
-    if (event.ctrlKey && event.key === 's') {
-      event.preventDefault();
-      this.save();
-    }
-    if (event.ctrlKey && event.key === 'c') {
-      event.preventDefault();
       this.cancel();
     }
   }

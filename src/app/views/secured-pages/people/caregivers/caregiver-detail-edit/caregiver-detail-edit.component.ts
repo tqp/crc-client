@@ -161,18 +161,6 @@ export class CaregiverDetailEditComponent implements OnInit {
     if (event.key === 'Escape') {
       this.cancel();
     }
-    if (event.ctrlKey && event.key === 'd') {
-      event.preventDefault();
-      this.delete(this.caregiver.caregiverId);
-    }
-    if (event.ctrlKey && event.key === 's') {
-      event.preventDefault();
-      this.save();
-    }
-    if (event.ctrlKey && event.key === 'c') {
-      event.preventDefault();
-      this.cancel();
-    }
   }
 
 }

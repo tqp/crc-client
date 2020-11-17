@@ -4,7 +4,7 @@
     <div class="col-sm-6">
       <h1>
         <i class="fa fa-bank"></i>
-        {{loan.caregiverGivenName}} {{loan.caregiverSurname}}: {{loan.loanAmount | currency}}
+        {{loan.caregiverGivenName}} {{loan.caregiverSurname}}: {{loan.loanAmount | currency: 'Le'}}
       </h1>
     </div>
     <div class="col-sm-6">
@@ -35,11 +35,15 @@
           </dl>
           <dl class="row">
             <dt class="col-sm-3">Recipient:</dt>
-            <dd class="col-sm-9">{{loan.caregiverGivenName}} {{loan.caregiverSurname}}</dd>
+            <dd class="col-sm-9">
+              <a [routerLink]="['/caregivers/caregiver-detail', loan.caregiverId]">
+                {{loan.caregiverGivenName}} {{loan.caregiverSurname}}
+              </a>
+            </dd>
           </dl>
           <dl class="row">
             <dt class="col-sm-3">Amount:</dt>
-            <dd class="col-sm-9">{{loan.loanAmount | currency}}</dd>
+            <dd class="col-sm-9">{{loan.loanAmount | currency: 'Le'}}</dd>
           </dl>
           <dl class="row">
             <dt class="col-sm-3">Description:</dt>

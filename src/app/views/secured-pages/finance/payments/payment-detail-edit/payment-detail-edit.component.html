@@ -11,26 +11,9 @@
         <ng-template #notShow>
           <h1>
             <i class="fa fa-bank"></i>
-            {{payment.caregiverGivenName}}, {{payment.caregiverSurname}}: {{paymentEditForm.controls['paymentAmount'].value | currency}}
+            {{payment.caregiverGivenName}}, {{payment.caregiverSurname}}: {{paymentEditForm.controls['paymentAmount'].value | currency: 'Le'}}
           </h1>
         </ng-template>
-      </div>
-
-      <div class="col-sm-6">
-        <div class="form-group float-right">
-          <button type="button" class="btn btn-sm btn-outline-danger" style="width: 100px;" *ngIf="!newRecord"
-                  (click)="delete(payment.paymentId)">
-            <!--            [disabled]="authService.allowRoles('ROLE_ADMIN')"-->
-            <u>D</u>elete
-          </button>
-          <button type="button" class="btn btn-sm btn-outline-success" style="width: 100px;" (click)="save()"
-                  [disabled]="!paymentEditForm.valid">
-            <u>S</u>ave
-          </button>
-          <button type="button" class="btn btn-sm btn-outline-info ml-3" style="width: 100px;" (click)="cancel()">
-            <u>C</u>ancel
-          </button>
-        </div>
       </div>
 
     </div>
@@ -82,6 +65,20 @@
             </div>
 
           </div>
+
+          <div class="card-footer">
+            <button type="button" class="btn btn-primary float-right" (click)="save()"
+                    [disabled]="!paymentEditForm.valid">
+              <i class="fa fa-save mr-2"></i>Save
+            </button>
+            <button type="button" class="btn btn-secondary" (click)="cancel()">
+              <i class="fa fa-ban mr-2"></i>Cancel
+            </button>
+            <button type="button" class="btn btn-danger" (click)="delete(payment.paymentId)">
+              <i class="fa fa-trash-o mr-2"></i>Delete
+            </button>
+          </div>
+
         </div>
 
       </div>

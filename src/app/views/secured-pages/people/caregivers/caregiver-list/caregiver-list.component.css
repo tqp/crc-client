@@ -1,0 +1,5 @@
+td > span.truncate-text {
+  text-overflow: ellipsis !important;
+  overflow: hidden !important;
+  white-space: nowrap !important;
+}

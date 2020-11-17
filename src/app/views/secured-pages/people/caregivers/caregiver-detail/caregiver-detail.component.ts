@@ -6,6 +6,8 @@ import { CaregiverService } from '../caregiver.service';
 import { Student } from '../../students/Student';
 import { AuthService } from '../../../../../../@tqp/services/auth.service';
 import { RelationshipService } from '../../../relationships/relationship.service';
+import { Loan } from '../../../finance/loans/Loan';
+import { LoanService } from '../../../finance/loans/loan.service';
 
 @Component({
   selector: 'app-caregiver-detail',
@@ -20,17 +22,28 @@ export class CaregiverDetailComponent implements OnInit {
   public caregiverLoading: boolean = false;
 
   // Associated Students List
-  public records: Student[] = [];
-  public dataSource: Student[] = [];
-  public displayedColumns: string[] = [
+  public studentsRecords: Student[] = [];
+  public studentsDataSource: Student[] = [];
+  public studentsDisplayedColumns: string[] = [
     'name',
     'relationshipTierTypeName',
     'relationshipStartDate'
   ];
 
+  // Associated Loans List
+  public loansRecords: Student[] = [];
+  public loansDataSource: Student[] = [];
+  public loansDisplayedColumns: string[] = [
+    'loanId',
+    'loanAmount',
+    'amountPaid',
+    'percentPaid'
+  ];
+
   constructor(private route: ActivatedRoute,
               private caregiverService: CaregiverService,
               private relationshipService: RelationshipService,
+              private loanService: LoanService,
               private eventService: EventService,
               private router: Router,
               public authService: AuthService) {
@@ -43,6 +56,7 @@ export class CaregiverDetailComponent implements OnInit {
         // console.log('caregiverId', caregiverId);
         this.getCaregiverDetail(caregiverId);
         this.getStudentListByCaregiverId(caregiverId);
+        this.getLoanListByCaregiverId(caregiverId);
       } else {
         console.error('No ID was present.');
       }
@@ -70,9 +84,24 @@ export class CaregiverDetailComponent implements OnInit {
       (studentList: Student[]) => {
         // console.log('studentList', studentList);
         studentList.forEach(item => {
-          this.records.push(item);
+          this.studentsRecords.push(item);
         });
-        this.dataSource = this.records;
+        this.studentsDataSource = this.studentsRecords;
+      },
+      error => {
+        console.error('Error: ', error);
+      }
+    );
+  }
+
+  private getLoanListByCaregiverId(caregiverId: number): void {
+    this.loanService.getLoanListByCaregiverId(caregiverId).subscribe(
+      (loanList: Loan[]) => {
+        console.log('loanList', loanList);
+        loanList.forEach(item => {
+          this.loansRecords.push(item);
+        });
+        this.loansDataSource = this.loansRecords;
       },
       error => {
         console.error('Error: ', error);

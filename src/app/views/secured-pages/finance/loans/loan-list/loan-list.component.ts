@@ -36,8 +36,8 @@ export class LoanListComponent implements OnInit, OnDestroy {
   public displayedColumns: string[] = [
     'participant',
     'loanId',
-    'loanAmount',
-    'loanDescription'
+    'loanDescription',
+    'loanAmount'
   ];
 
   public caregiverListNameSearchFormControl = new FormControl();

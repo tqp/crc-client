@@ -59,7 +59,9 @@ export class StudentDetailEditComponent implements OnInit {
     'studentGender': [
       {type: 'required', message: 'A Gender is required'}
     ],
-    'studentDateOfBirth': [],
+    'studentDateOfBirth': [
+      {type: 'required', message: 'A Date of Birth is required'}
+    ],
     'studentSchool': [],
     'schoolLevelTypeId': [],
     'classLevelTypeId': [],
@@ -115,12 +117,12 @@ export class StudentDetailEditComponent implements OnInit {
       studentSurname: new FormControl('', Validators.required),
       studentGivenName: new FormControl('', Validators.required),
       studentGender: new FormControl('', Validators.required),
-      studentDateOfBirth: new FormControl(''),
+      studentDateOfBirth: new FormControl('', Validators.required),
       studentSchool: new FormControl(''),
-      schoolLevelTypeId: new FormControl(''),
-      classLevelTypeId: new FormControl(''),
-      classRepeatYearTypeId: new FormControl(''),
-      impairmentTypeId: new FormControl(''),
+      schoolLevelTypeId: new FormControl(0),
+      classLevelTypeId: new FormControl(0),
+      classRepeatYearTypeId: new FormControl(0),
+      impairmentTypeId: new FormControl(0),
       // Program Status
       caregiverId: new FormControl(''),
       caregiverName: new FormControl(''),

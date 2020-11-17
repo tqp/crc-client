@@ -1,4 +1,13 @@
-import { AfterViewInit, Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  HostListener,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+  ViewEncapsulation
+} from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { ServerSidePaginationRequest } from '../../../../../../@tqp/models/ServerSidePaginationRequest';
@@ -101,6 +110,7 @@ export class StudentListComponent implements OnInit, OnDestroy {
   }
 
   private getPage(searchParams: ServerSidePaginationRequest) {
+    // console.log('getPage searchParams', searchParams);
     this.isLoading = true;
     this.eventService.loadingEvent.emit(true);
     this.studentService.getStudentList_SSP(searchParams).subscribe((response: ServerSidePaginationResponse<Student>) => {
@@ -120,6 +130,7 @@ export class StudentListComponent implements OnInit, OnDestroy {
         this.pageEnd = pageEnd >= this.totalRecords ? this.totalRecords : pageEnd;
         this.totalNumberOfPages = Math.ceil(this.totalRecords / this.pageSize);
         this.dataSource = this.records;
+        console.log('dataSource', this.dataSource);
         this.isLoading = false;
         this.eventService.loadingEvent.emit(false);
       }, error => {
@@ -138,7 +149,7 @@ export class StudentListComponent implements OnInit, OnDestroy {
     )
       .pipe(
         switchMap(changesDetected => {
-          // console.log('changesDetected', changesDetected);
+          console.log('changesDetected', changesDetected);
           const paginationChange: boolean = changesDetected.pageIndex && changesDetected.pageSize;
           const sortChange: boolean = changesDetected.active && changesDetected.direction;
           if (!paginationChange && !sortChange) {

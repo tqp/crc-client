@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../../../../../../@tqp/components/confirm-dialog/confirm-dialog.component';
@@ -10,7 +10,8 @@ import { FormattingService } from '../../../../../../@tqp/services/formatting.se
 @Component({
   selector: 'app-payment-detail-edit',
   templateUrl: './payment-detail-edit.component.html',
-  styleUrls: ['./payment-detail-edit.component.scss']
+  styleUrls: ['./payment-detail-edit.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class PaymentDetailEditComponent implements OnInit {
   @ViewChild('paymentSurnameInputField', {static: false}) paymentSurnameInputField: ElementRef;
@@ -110,6 +111,7 @@ export class PaymentDetailEditComponent implements OnInit {
     // console.log('crudEditForm', this.paymentEditForm.value);
     payment.paymentId = this.paymentEditForm.value.paymentId;
     payment.paymentAmount = this.paymentEditForm.value.paymentAmount;
+    payment.paymentDate = this.formattingService.formatStandardDateAsMySql(this.paymentEditForm.value.paymentDate);
 
     if (this.newRecord) {
       this.paymentService.createPayment(payment).subscribe(
@@ -148,18 +150,6 @@ export class PaymentDetailEditComponent implements OnInit {
       this.save();
     }
     if (event.key === 'Escape') {
-      this.cancel();
-    }
-    if (event.ctrlKey && event.key === 'd') {
-      event.preventDefault();
-      this.delete(this.payment.paymentId);
-    }
-    if (event.ctrlKey && event.key === 's') {
-      event.preventDefault();
-      this.save();
-    }
-    if (event.ctrlKey && event.key === 'c') {
-      event.preventDefault();
       this.cancel();
     }
   }

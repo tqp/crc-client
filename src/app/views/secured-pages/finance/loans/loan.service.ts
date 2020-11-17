@@ -130,7 +130,7 @@ export class LoanService {
 
   // JOINED TABLES
 
-  public getLoanListByCaregiverId(caregiverId: string): Observable<Loan[]> {
+  public getLoanListByCaregiverId(caregiverId: number): Observable<Loan[]> {
     const url = environment.apiUrl + '/api/v1/finance/loan/caregiver/' + caregiverId;
     const token = this.tokenService.getToken();
     if (token) {
