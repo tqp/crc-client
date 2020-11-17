@@ -123,6 +123,13 @@ export const routes: Routes = [
         }
       },
       {
+        path: 'csi',
+        loadChildren: () => import('./views/secured-pages/events/csi/csi.module').then(m => m.CsiModule),
+        resolve: {
+          securedPageResolver: SecuredPageResolverService
+        }
+      },
+      {
         path: 'person-type',
         loadChildren: () => import('./views/secured-pages/reference-tables/person-type/person-type.module').then(m => m.PersonTypeModule),
         resolve: {

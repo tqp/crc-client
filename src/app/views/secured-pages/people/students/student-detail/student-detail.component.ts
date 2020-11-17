@@ -24,6 +24,7 @@ import { Visit } from '../../../events/visits/Visit';
 import { VisitService } from '../../../events/visits/visit.service';
 import { VisitDetailEditDialogComponent } from '../../../events/visits/visit-detail-edit-dialog/visit-detail-edit-dialog.component';
 import { HistoryService } from '../../../events/history/history.service';
+import { CsiRecord } from '../../../events/csi/CsiRecord';
 
 @Component({
   selector: 'app-student-detail',
@@ -70,6 +71,14 @@ export class StudentDetailComponent implements OnInit {
     'entityType',
     'entityDescription',
     'startDate'
+  ];
+
+  // CSI List
+  public csiListLoading: boolean = false;
+  public csiListRecords: CsiRecord[] = [];
+  public csiListDataSource: CsiRecord[] = [];
+  public csiListDisplayedColumns: string[] = [
+    'csiId'
   ];
 
   constructor(private route: ActivatedRoute,
@@ -568,8 +577,12 @@ export class StudentDetailComponent implements OnInit {
     this.router.navigate(['students/student-list']).then();
   }
 
-  public openEditPage(): void {
+  public openStudentEditPage(): void {
     this.router.navigate(['students/student-detail-edit', this.student.studentId]).then();
+  }
+
+  public openCsiEditPage(): void {
+    this.router.navigate(['csi/csi-create']).then();
   }
 
   public openTwitter(twitterHandle: string): void {
@@ -581,7 +594,7 @@ export class StudentDetailComponent implements OnInit {
   public handleKeyboardEvent(event: KeyboardEvent): void {
     if (event.ctrlKey && event.key === 'e') {
       event.preventDefault();
-      this.openEditPage();
+      this.openStudentEditPage();
     }
     if (event.ctrlKey && event.key === 'l') {
       event.preventDefault();

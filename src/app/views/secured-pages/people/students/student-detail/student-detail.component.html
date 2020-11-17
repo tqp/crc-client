@@ -25,7 +25,7 @@
           Personal Information
           <i *ngIf="studentLoading" class="fa fa-spinner fa-spin"></i>
           <div class="card-header-actions" [hidden]="authService.allowRoles('ROLE_USER, ROLE_MANAGER, ROLE_ADMIN')">
-            <small class="tqp-nav-link" (click)="openEditPage();">Edit Student Info</small>
+            <small class="tqp-nav-link" (click)="openStudentEditPage();">Edit Student Info</small>
           </div>
         </div>
         <div class="card-body">
@@ -65,6 +65,40 @@
             <dt class="col-sm-4">Impairment:</dt>
             <dd class="col-sm-8">{{student.impairmentTypeName}}</dd>
           </dl>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-calendar-check-o"></i>
+          CSI Records<span class="badge badge-secondary ml-2">{{visitListDataSource.length}}</span>
+          <i *ngIf="visitListLoading" class="fa fa-spinner fa-spin"></i>
+          <div class="card-header-actions" [hidden]="authService.allowRoles('ROLE_USER, ROLE_MANAGER, ROLE_ADMIN')">
+            <small class="tqp-nav-link" (click)="openCsiEditPage();">Add CSI Record</small>
+          </div>
+        </div>
+        <div class="card-body">
+
+          <div class="table-container">
+
+            <table mat-table [dataSource]="csiListDataSource"
+                   *ngIf="csiListDataSource && csiListDataSource.length > 0" class="table">
+
+              <ng-container matColumnDef="csiId">
+                <th mat-header-cell *matHeaderCellDef>CSI ID</th>
+                <td mat-cell *matCellDef="let row">{{row.csiId}}</td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="csiListDisplayedColumns; sticky: true" [hidden]="false"></tr>
+              <tr mat-row *matRowDef="let row; columns: csiListDisplayedColumns;"></tr>
+            </table>
+
+            <div class="no-records" *ngIf="csiListDataSource && csiListDataSource.length <= 0">
+              No Records Found
+            </div>
+
+          </div>
+
         </div>
       </div>
 

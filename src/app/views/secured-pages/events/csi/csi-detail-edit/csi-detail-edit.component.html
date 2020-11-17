@@ -1,0 +1,127 @@
+<div class="tqp-crud-detail-edit animated fadeIn" *ngIf="csiRecord">
+
+  <form [formGroup]="csiRecordEditForm">
+
+    <div class="row">
+
+      <div class="col-sm-6">
+        <h1 *ngIf="csiRecord && newRecord && csiRecordEditForm.controls['csiId'].value == ''; else notShow">
+          New CSI Record
+        </h1>
+        <ng-template #notShow>
+          <h1>
+            <i class="fa fa-heartbeat"></i>
+            {{csiRecordEditForm.controls['csiId'].value}}}}
+          </h1>
+        </ng-template>
+      </div>
+
+    </div>
+
+    <div class="row">
+      <div class="col-lg-6 col-sm-12">
+
+        <div class="card">
+          <div class="card-header">
+            <i class="fa fa-user"></i>
+            Personal Information
+          </div>
+          <div class="card-body">
+
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="csiId">CSI ID*</label>
+                  <input matInput id="csiId" #caregiverSurnameInputField type="text" class="form-control" placeholder="CSI Record ID"
+                         formControlName="csiId" autocomplete="chrome-off">
+                  <mat-error *ngFor="let validation of validationMessages.csiId">
+                    <mat-error class="error-message"
+                               *ngIf="csiRecordEditForm.get('csiId').hasError(validation.type)
+                                && (csiRecordEditForm.get('csiId').dirty ||
+                                csiRecordEditForm.get('csiId').touched)">
+                      {{validation.message}}
+                    </mat-error>
+                  </mat-error>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="csiDate">Date of Collection*<small class="ml-2">(MM/DD/YYYY)</small></label>
+                  <input id="csiDate" type="text" class="form-control" bsDatepicker
+                         formControlName="csiDate">
+                  <mat-error *ngFor="let validation of validationMessages.csiDate">
+                    <mat-error class="error-message"
+                               *ngIf="csiRecordEditForm.get('csiDate').hasError(validation.type)
+                                && (csiRecordEditForm.get('csiDate').dirty ||
+                                csiRecordEditForm.get('csiDate').touched)">
+                      {{validation.message}}
+                    </mat-error>
+                  </mat-error>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="csiFoodSecurity">Food Security*</label>
+                  <div class="col-md-9 col-form-label">
+                    <div class="form-check form-check-inline mr-1" id="csiFoodSecurity">
+                      <input class="form-check-input" type="radio" name="inline-radios" id="inlineRadio1" value="option1">
+                      <label class="form-check-label" for="inlineRadio1" style="width: 50px;">One</label>
+                    </div>
+                    <div class="form-check form-check-inline mr-1">
+                      <input class="form-check-input" type="radio" name="csiFoodSecurity" id="inlineRadio2" value="option2">
+                      <label class="form-check-label" for="inlineRadio2" style="width: 50px;">Two</label>
+                    </div>
+                    <div class="form-check form-check-inline mr-1">
+                      <input class="form-check-input" type="radio" name="csiFoodSecurity" id="inlineRadio3" value="option3">
+                      <label class="form-check-label" for="inlineRadio3" style="width: 50px;">Three</label>
+                    </div>
+                    <div class="form-check form-check-inline mr-1">
+                      <input class="form-check-input" type="radio" name="csiFoodSecurity" id="inlineRadio4" value="option4">
+                      <label class="form-check-label" for="inlineRadio4" style="width: 50px;">Four</label>
+                    </div>
+                  </div>
+                  <mat-error *ngFor="let validation of validationMessages.csiFoodSecurity">
+                    <mat-error class="error-message"
+                               *ngIf="csiRecordEditForm.get('csiFoodSecurity').hasError(validation.type)
+                                && (csiRecordEditForm.get('csiFoodSecurity').dirty ||
+                                csiRecordEditForm.get('csiFoodSecurity').touched)">
+                      {{validation.message}}
+                    </mat-error>
+                  </mat-error>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="card-footer">
+            <button type="button" class="btn btn-primary float-right" (click)="save()"
+                    [disabled]="!csiRecordEditForm.valid">
+              <i class="fa fa-save mr-2"></i>Save
+            </button>
+            <button type="button" class="btn btn-secondary" (click)="cancel()">
+              <i class="fa fa-ban mr-2"></i>Cancel
+            </button>
+            <button type="button" class="btn btn-danger" (click)="delete(csiRecord.csiId)">
+              <i class="fa fa-trash-o mr-2"></i>Delete
+            </button>
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="col-lg-6 col-sm-12">
+
+      </div>
+    </div>
+
+  </form>
+
+</div>
