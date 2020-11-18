@@ -29,7 +29,6 @@ import {PersonTypeDetailEditComponent} from './person-type-detail-edit/person-ty
     RouterModule,
     ListAddRemoveItemsBasicModule,
     FlexLayoutModule,
-    StudentRoutingModule,
     PersonTypeRoutingModule
   ]
 })

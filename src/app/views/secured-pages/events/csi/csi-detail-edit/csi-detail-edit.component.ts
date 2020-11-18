@@ -28,7 +28,47 @@ export class CsiDetailEditComponent implements OnInit {
     'csiDate': [
       {type: 'required', message: 'A date is required'}
     ],
+    'csiServicesProvided': [
+      {type: 'required', message: 'Please check the services provided'}
+    ],
+    'csiSuggestionsAndRecommendations': [
+      {type: 'required', message: 'A response is required'}
+    ],
+
     'csiFoodSecurity': [
+      {type: 'required', message: 'A response is required'}
+    ],
+    'csiNutritionAndGrowth': [
+      {type: 'required', message: 'A response is required'}
+    ],
+    'csiShelter': [
+      {type: 'required', message: 'A response is required'}
+    ],
+    'csiCare': [
+      {type: 'required', message: 'A response is required'}
+    ],
+    'csiAbuseAndExploitation': [
+      {type: 'required', message: 'A response is required'}
+    ],
+    'csiLegalProtection': [
+      {type: 'required', message: 'A response is required'}
+    ],
+    'csiWellness': [
+      {type: 'required', message: 'A response is required'}
+    ],
+    'csiHealthCareServices': [
+      {type: 'required', message: 'A response is required'}
+    ],
+    'csiEmotionalHealth': [
+      {type: 'required', message: 'A response is required'}
+    ],
+    'csiSocialBehavior': [
+      {type: 'required', message: 'A response is required'}
+    ],
+    'csiPerformance': [
+      {type: 'required', message: 'A response is required'}
+    ],
+    'csiEducationAndWork': [
       {type: 'required', message: 'A response is required'}
     ]
   };
@@ -61,9 +101,23 @@ export class CsiDetailEditComponent implements OnInit {
 
   private initializeForm(): void {
     this.csiRecordEditForm = this.formBuilder.group({
-      csiId: new FormControl('', Validators.required),
+      csiId: new FormControl(''),
       csiDate: new FormControl(moment().format('MM/DD/YYYY'), Validators.required),
+      csiServicesProvided: new FormControl('', Validators.required),
+      csiSuggestionsAndRecommendations: new FormControl('', Validators.required),
+
       csiFoodSecurity: new FormControl('', Validators.required),
+      csiNutritionAndGrowth: new FormControl('', Validators.required),
+      csiShelter: new FormControl('', Validators.required),
+      csiCare: new FormControl('', Validators.required),
+      csiAbuseAndExploitation: new FormControl('', Validators.required),
+      csiLegalProtection: new FormControl('', Validators.required),
+      csiWellness: new FormControl('', Validators.required),
+      csiHealthCareServices: new FormControl('', Validators.required),
+      csiEmotionalHealth: new FormControl('', Validators.required),
+      csiSocialBehavior: new FormControl('', Validators.required),
+      csiPerformance: new FormControl('', Validators.required),
+      csiEducationAndWork: new FormControl('', Validators.required)
     });
   }
 

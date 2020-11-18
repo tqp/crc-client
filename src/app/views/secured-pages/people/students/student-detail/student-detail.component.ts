@@ -18,13 +18,16 @@ import { StudentSponsorEditDialogComponent } from '../../../relationships/studen
 import { SponsorService } from '../../sponsors/sponsor.service';
 import { RelationshipService } from '../../../relationships/relationship.service';
 import { StudentProgramStatusEditDialogComponent } from '../../../relationships/student-program-status-edit-dialog/student-program-status-edit-dialog.component';
-import { ProgramStatusService } from '../../../relationships/program-status.service';
-import { ProgramStatus } from '../../../relationships/ProgramStatus';
+import { ProgramStatusService } from '../../../relationships/student-program-status-edit-dialog/program-status.service';
+import { ProgramStatus } from '../../../relationships/student-program-status-edit-dialog/ProgramStatus';
 import { Visit } from '../../../events/visits/Visit';
 import { VisitService } from '../../../events/visits/visit.service';
 import { VisitDetailEditDialogComponent } from '../../../events/visits/visit-detail-edit-dialog/visit-detail-edit-dialog.component';
 import { HistoryService } from '../../../events/history/history.service';
 import { CsiRecord } from '../../../events/csi/CsiRecord';
+import { StudentPostGradEventEditDialogComponent } from '../../../relationships/student-post-grad-event-edit-dialog/student-post-grad-event-edit-dialog.component';
+import { PostGradEventService } from '../../../relationships/student-post-grad-event-edit-dialog/post-grad-event.service';
+import { PostGradEvent } from '../../../relationships/student-post-grad-event-edit-dialog/PostGradEvent';
 
 @Component({
   selector: 'app-student-detail',
@@ -81,6 +84,16 @@ export class StudentDetailComponent implements OnInit {
     'csiId'
   ];
 
+  // Post Grad Event List
+  public postGradEventListLoading: boolean = false;
+  public postGradEventListRecords: PostGradEvent[] = [];
+  public postGradEventListDataSource: PostGradEvent[] = [];
+  public postGradEventListDisplayedColumns: string[] = [
+    'postGradEventId',
+    'postGradEventTypeName',
+    'postGradEventDate'
+  ];
+
   constructor(private route: ActivatedRoute,
               private studentService: StudentService,
               private caregiverService: CaregiverService,
@@ -88,6 +101,7 @@ export class StudentDetailComponent implements OnInit {
               private sponsorService: SponsorService,
               private programStatusService: ProgramStatusService,
               private relationshipService: RelationshipService,
+              private postGradEventService: PostGradEventService,
               private historyService: HistoryService,
               private visitService: VisitService,
               private eventService: EventService,
@@ -104,6 +118,7 @@ export class StudentDetailComponent implements OnInit {
         // console.log('studentId', studentId);
         this.getStudentDetail(studentId);
         this.getVisitListByStudentId(studentId);
+        this.getPostGradEventListByStudentId(studentId);
         this.getHistoryListByStudentId(studentId);
         this.getCaregiverDetailByStudentId(studentId);
         this.getCaseManagerDetailByStudentId(studentId);
@@ -138,6 +153,22 @@ export class StudentDetailComponent implements OnInit {
           this.visitListRecords.push(item);
         });
         this.visitListDataSource = this.visitListRecords;
+      },
+      error => {
+        console.error('Error: ', error);
+      }
+    );
+  }
+
+  private getPostGradEventListByStudentId(studentId: number): void {
+    this.postGradEventService.getPostGradEventListByStudentId(studentId).subscribe(
+      (postGradEventList: PostGradEvent[]) => {
+        console.log('postGradEventList', postGradEventList);
+        this.postGradEventListRecords = [];
+        postGradEventList.forEach(item => {
+          this.postGradEventListRecords.push(item);
+        });
+        this.postGradEventListDataSource = this.postGradEventListRecords;
       },
       error => {
         console.error('Error: ', error);
@@ -231,7 +262,73 @@ export class StudentDetailComponent implements OnInit {
 
   // DIALOGS
 
-  public openVisitEditDialog(studentId: number): void {
+  public openPostGradEventCreateDialog(studentId: number): void {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.minWidth = '25%';
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.data = {
+      action: 'create',
+      studentId: studentId
+    };
+    dialogConfig.autoFocus = false;
+    const dialogRef = this._matDialog.open(StudentPostGradEventEditDialogComponent, dialogConfig);
+
+    dialogRef.afterClosed().subscribe(dialogData => {
+      console.log('dialogData', dialogData);
+      if (dialogData) {
+        const postGradEvent: PostGradEvent = {};
+        const formData = dialogData[1];
+        postGradEvent.studentId = this.student.studentId;
+        postGradEvent.postGradEventTypeId = formData.postGradEventTypeId;
+        postGradEvent.postGradEventDate = this.formattingService.formatStandardDateAsMySql(formData.postGradEventDate);
+        console.log('postGradEvent', postGradEvent);
+
+        switch (dialogData[0]) {
+          case 'create':
+            this.postGradEventService.createPostGradEvent(postGradEvent).subscribe(
+              (response) => {
+                console.log('response', response);
+                // this.getPostGradEventDetailByStudentId(this.student.studentId);
+                // this.getHistoryListByStudentId(this.student.studentId);
+              },
+              error => {
+                console.error('Error: ', error);
+              }
+            );
+            break;
+          case 'update':
+            this.postGradEventService.updatePostGradEvent(postGradEvent).subscribe(
+              response => {
+                console.log('response', response);
+                // this.getProgramStatusDetailByStudentId(this.student.studentId);
+                // this.getHistoryListByStudentId(this.student.studentId);
+              },
+              error => {
+                console.error('Error: ', error);
+              }
+            );
+            break;
+          case 'delete':
+            this.postGradEventService.deletePostGradEvent(postGradEvent.postGradEventId).subscribe(
+              response => {
+                console.log('response', response);
+                // this.getProgramStatusDetailByStudentId(this.student.studentId);
+                // this.getHistoryListByStudentId(this.student.studentId);
+              },
+              error => {
+                console.error('Error: ', error);
+              }
+            );
+            break;
+          default:
+            console.error('Unknown Action Type', dialogData[0]);
+        }
+      }
+    });
+  }
+
+  public openVisitCreateDialog(studentId: number): void {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.minWidth = '25%';
     dialogConfig.disableClose = true;
@@ -272,23 +369,23 @@ export class StudentDetailComponent implements OnInit {
     // console.log(entityTypeId, entityId);
     switch (entityTypeId) {
       case 1:
-        this.openStudentProgramStatusEditDialog(entityId);
+        this.openStudentProgramStatusCreateDialog(entityId);
         break;
       case 2:
-        this.openStudentCaregiverEditDialog(entityId);
+        this.openStudentCaregiverCreateDialog(entityId);
         break;
       case 3:
-        this.openStudentCaseManagerEditDialog(entityId);
+        this.openStudentCaseManagerCreateDialog(entityId);
         break;
       case 4:
-        this.openStudentSponsorEditDialog(entityId);
+        this.openStudentSponsorCreateDialog(entityId);
         break;
       default:
         console.log('Unknown Entity Type', entityTypeId);
     }
   }
 
-  public openStudentProgramStatusEditDialog(studentCaregiverId: number): void {
+  public openStudentProgramStatusCreateDialog(studentCaregiverId: number): void {
     // console.log('studentCaregiverId', studentCaregiverId);
     const dialogConfig = new MatDialogConfig();
     dialogConfig.minWidth = '25%';
@@ -359,7 +456,7 @@ export class StudentDetailComponent implements OnInit {
     });
   }
 
-  public openStudentCaregiverEditDialog(studentCaregiverId: number): void {
+  public openStudentCaregiverCreateDialog(studentCaregiverId: number): void {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.minWidth = '25%';
     dialogConfig.disableClose = true;
@@ -431,7 +528,7 @@ export class StudentDetailComponent implements OnInit {
     });
   }
 
-  public openStudentCaseManagerEditDialog(studentCaregiverId: number): void {
+  public openStudentCaseManagerCreateDialog(studentCaregiverId: number): void {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.minWidth = '25%';
     dialogConfig.disableClose = true;
@@ -501,7 +598,7 @@ export class StudentDetailComponent implements OnInit {
     });
   }
 
-  public openStudentSponsorEditDialog(studentSponsorId: number): void {
+  public openStudentSponsorCreateDialog(studentSponsorId: number): void {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.minWidth = '25%';
     dialogConfig.disableClose = true;
@@ -581,7 +678,7 @@ export class StudentDetailComponent implements OnInit {
     this.router.navigate(['students/student-detail-edit', this.student.studentId]).then();
   }
 
-  public openCsiEditPage(): void {
+  public openCsiCreatePage(): void {
     this.router.navigate(['csi/csi-create']).then();
   }
 

@@ -32,7 +32,8 @@
               <div class="col-sm-12">
                 <div class="form-group">
                   <label for="csiId">CSI ID*</label>
-                  <input matInput id="csiId" #caregiverSurnameInputField type="text" class="form-control" placeholder="CSI Record ID"
+                  <input matInput id="csiId" #caregiverSurnameInputField type="text" class="form-control"
+                         placeholder="CSI Record ID"
                          formControlName="csiId" autocomplete="chrome-off">
                   <mat-error *ngFor="let validation of validationMessages.csiId">
                     <mat-error class="error-message"
@@ -67,30 +68,76 @@
             <div class="row">
               <div class="col-sm-12">
                 <div class="form-group">
-                  <label for="csiFoodSecurity">Food Security*</label>
-                  <div class="col-md-9 col-form-label">
-                    <div class="form-check form-check-inline mr-1" id="csiFoodSecurity">
-                      <input class="form-check-input" type="radio" name="inline-radios" id="inlineRadio1" value="option1">
-                      <label class="form-check-label" for="inlineRadio1" style="width: 50px;">One</label>
+                  <label>Services Provided by CRC</label>
+                  <div class="col-md-9 col-form-label"
+                       style="border: 1px solid rgb(228, 231, 234); border-radius: 0.25rem;">
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="counselingServices" id="counselingServices"
+                             formControlName="csiServicesProvided">
+                      <label class="form-check-label" for="counselingServices">
+                        Counseling Services
+                      </label>
                     </div>
-                    <div class="form-check form-check-inline mr-1">
-                      <input class="form-check-input" type="radio" name="csiFoodSecurity" id="inlineRadio2" value="option2">
-                      <label class="form-check-label" for="inlineRadio2" style="width: 50px;">Two</label>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="educationMaterials" id="educationMaterials"
+                             formControlName="csiServicesProvided">
+                      <label class="form-check-label" for="educationMaterials">
+                        Education Materials
+                      </label>
                     </div>
-                    <div class="form-check form-check-inline mr-1">
-                      <input class="form-check-input" type="radio" name="csiFoodSecurity" id="inlineRadio3" value="option3">
-                      <label class="form-check-label" for="inlineRadio3" style="width: 50px;">Three</label>
+                    <div class="form-check checkbox">
+                      <input class="form-check-input" type="checkbox" value="foodItems" id="foodItems"
+                             formControlName="csiServicesProvided">
+                      <label class="form-check-label" for="foodItems">
+                        Food Items
+                      </label>
                     </div>
-                    <div class="form-check form-check-inline mr-1">
-                      <input class="form-check-input" type="radio" name="csiFoodSecurity" id="inlineRadio4" value="option4">
-                      <label class="form-check-label" for="inlineRadio4" style="width: 50px;">Four</label>
+                    <div class="form-check checkbox">
+                      <input class="form-check-input" type="checkbox" value="medicalServices" id="medicalServices"
+                             formControlName="csiServicesProvided">
+                      <label class="form-check-label" for="medicalServices">
+                        Medical Services
+                      </label>
+                    </div>
+                    <div class="form-check checkbox">
+                      <input class="form-check-input" type="checkbox" value="stipend" id="stipend"
+                             formControlName="csiServicesProvided">
+                      <label class="form-check-label" for="stipend">
+                        Stipend
+                      </label>
+                    </div>
+                    <div class="form-check checkbox">
+                      <input class="form-check-input" type="checkbox" value="microfinance" id="microfinance"
+                             formControlName="csiServicesProvided">
+                      <label class="form-check-label" for="microfinance">
+                        Microfinance
+                      </label>
                     </div>
                   </div>
-                  <mat-error *ngFor="let validation of validationMessages.csiFoodSecurity">
+                  <mat-error *ngFor="let validation of validationMessages.csiServicesProvided">
                     <mat-error class="error-message"
-                               *ngIf="csiRecordEditForm.get('csiFoodSecurity').hasError(validation.type)
-                                && (csiRecordEditForm.get('csiFoodSecurity').dirty ||
-                                csiRecordEditForm.get('csiFoodSecurity').touched)">
+                               *ngIf="csiRecordEditForm.get('csiServicesProvided').hasError(validation.type)
+                                && (csiRecordEditForm.get('csiServicesProvided').dirty ||
+                                csiRecordEditForm.get('csiServicesProvided').touched)">
+                      {{validation.message}}
+                    </mat-error>
+                  </mat-error>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="csiSuggestionsAndRecommendations">Suggestions & Recommendations*</label>
+                  <textarea id="csiSuggestionsAndRecommendations" rows="9" class="form-control"
+                            placeholder="Suggestions & Recommendations"
+                            formControlName="csiSuggestionsAndRecommendations"></textarea>
+                  <mat-error *ngFor="let validation of validationMessages.csiSuggestionsAndRecommendations">
+                    <mat-error class="error-message"
+                               *ngIf="csiRecordEditForm.get('csiSuggestionsAndRecommendations').hasError(validation.type)
+                                && (csiRecordEditForm.get('csiSuggestionsAndRecommendations').dirty ||
+                                csiRecordEditForm.get('csiSuggestionsAndRecommendations').touched)">
                       {{validation.message}}
                     </mat-error>
                   </mat-error>
@@ -118,6 +165,290 @@
       </div>
 
       <div class="col-lg-6 col-sm-12">
+
+        <div class="card">
+          <div class="card-header">
+            <i class="fa fa-user"></i>
+            CSI Scores
+          </div>
+          <div class="card-body">
+
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="csiFoodSecurity" class="rating-label">Food Security*</label>
+                  <mat-button-toggle-group id="csiFoodSecurity" class="tqp-custom-toggle"
+                                           formControlName="csiFoodSecurity">
+                    <mat-button-toggle value=1 disableRipple>1</mat-button-toggle>
+                    <mat-button-toggle value=2 disableRipple>2</mat-button-toggle>
+                    <mat-button-toggle value=3 disableRipple>3</mat-button-toggle>
+                    <mat-button-toggle value=4 disableRipple>4</mat-button-toggle>
+                  </mat-button-toggle-group>
+                  <mat-error *ngFor="let validation of validationMessages.csiFoodSecurity">
+                    <mat-error class="error-message"
+                               *ngIf="csiRecordEditForm.get('csiFoodSecurity').hasError(validation.type)
+                                && (csiRecordEditForm.get('csiFoodSecurity').dirty ||
+                                csiRecordEditForm.get('csiFoodSecurity').touched)">
+                      {{validation.message}}
+                    </mat-error>
+                  </mat-error>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="csiNutritionAndGrowth" class="rating-label">Nutrition & Growth*</label>
+                  <mat-button-toggle-group id="csiNutritionAndGrowth" class="tqp-custom-toggle"
+                                           formControlName="csiNutritionAndGrowth">
+                    <mat-button-toggle value=1 disableRipple>1</mat-button-toggle>
+                    <mat-button-toggle value=2 disableRipple>2</mat-button-toggle>
+                    <mat-button-toggle value=3 disableRipple>3</mat-button-toggle>
+                    <mat-button-toggle value=4 disableRipple>4</mat-button-toggle>
+                  </mat-button-toggle-group>
+                  <mat-error *ngFor="let validation of validationMessages.csiNutritionAndGrowth">
+                    <mat-error class="error-message"
+                               *ngIf="csiRecordEditForm.get('csiNutritionAndGrowth').hasError(validation.type)
+                                && (csiRecordEditForm.get('csiNutritionAndGrowth').dirty ||
+                                csiRecordEditForm.get('csiNutritionAndGrowth').touched)">
+                      {{validation.message}}
+                    </mat-error>
+                  </mat-error>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="csiShelter" class="rating-label">Shelter*</label>
+                  <mat-button-toggle-group id="csiShelter" class="tqp-custom-toggle" formControlName="csiShelter">
+                    <mat-button-toggle value=1 disableRipple>1</mat-button-toggle>
+                    <mat-button-toggle value=2 disableRipple>2</mat-button-toggle>
+                    <mat-button-toggle value=3 disableRipple>3</mat-button-toggle>
+                    <mat-button-toggle value=4 disableRipple>4</mat-button-toggle>
+                  </mat-button-toggle-group>
+                  <mat-error *ngFor="let validation of validationMessages.csiShelter">
+                    <mat-error class="error-message"
+                               *ngIf="csiRecordEditForm.get('csiShelter').hasError(validation.type)
+                                && (csiRecordEditForm.get('csiShelter').dirty ||
+                                csiRecordEditForm.get('csiShelter').touched)">
+                      {{validation.message}}
+                    </mat-error>
+                  </mat-error>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="csiCare" class="rating-label">Care*</label>
+                  <mat-button-toggle-group id="csiCare" class="tqp-custom-toggle" formControlName="csiCare">
+                    <mat-button-toggle value=1 disableRipple>1</mat-button-toggle>
+                    <mat-button-toggle value=2 disableRipple>2</mat-button-toggle>
+                    <mat-button-toggle value=3 disableRipple>3</mat-button-toggle>
+                    <mat-button-toggle value=4 disableRipple>4</mat-button-toggle>
+                  </mat-button-toggle-group>
+                  <mat-error *ngFor="let validation of validationMessages.csiCare">
+                    <mat-error class="error-message"
+                               *ngIf="csiRecordEditForm.get('csiCare').hasError(validation.type)
+                                && (csiRecordEditForm.get('csiCare').dirty ||
+                                csiRecordEditForm.get('csiCare').touched)">
+                      {{validation.message}}
+                    </mat-error>
+                  </mat-error>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="csiAbuseAndExploitation" class="rating-label">Abuse & Exploitation*</label>
+                  <mat-button-toggle-group id="csiAbuseAndExploitation" class="tqp-custom-toggle"
+                                           formControlName="csiAbuseAndExploitation">
+                    <mat-button-toggle value=1 disableRipple>1</mat-button-toggle>
+                    <mat-button-toggle value=2 disableRipple>2</mat-button-toggle>
+                    <mat-button-toggle value=3 disableRipple>3</mat-button-toggle>
+                    <mat-button-toggle value=4 disableRipple>4</mat-button-toggle>
+                  </mat-button-toggle-group>
+                  <mat-error *ngFor="let validation of validationMessages.csiAbuseAndExploitation">
+                    <mat-error class="error-message"
+                               *ngIf="csiRecordEditForm.get('csiAbuseAndExploitation').hasError(validation.type)
+                                && (csiRecordEditForm.get('csiAbuseAndExploitation').dirty ||
+                                csiRecordEditForm.get('csiAbuseAndExploitation').touched)">
+                      {{validation.message}}
+                    </mat-error>
+                  </mat-error>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="csiLegalProtection" class="rating-label">Legal Protection*</label>
+                  <mat-button-toggle-group id="csiLegalProtection" class="tqp-custom-toggle"
+                                           formControlName="csiLegalProtection">
+                    <mat-button-toggle value=1 disableRipple>1</mat-button-toggle>
+                    <mat-button-toggle value=2 disableRipple>2</mat-button-toggle>
+                    <mat-button-toggle value=3 disableRipple>3</mat-button-toggle>
+                    <mat-button-toggle value=4 disableRipple>4</mat-button-toggle>
+                  </mat-button-toggle-group>
+                  <mat-error *ngFor="let validation of validationMessages.csiLegalProtection">
+                    <mat-error class="error-message"
+                               *ngIf="csiRecordEditForm.get('csiLegalProtection').hasError(validation.type)
+                                && (csiRecordEditForm.get('csiLegalProtection').dirty ||
+                                csiRecordEditForm.get('csiLegalProtection').touched)">
+                      {{validation.message}}
+                    </mat-error>
+                  </mat-error>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="csiWellness" class="rating-label">Wellness*</label>
+                  <mat-button-toggle-group id="csiWellness" class="tqp-custom-toggle" formControlName="csiWellness">
+                    <mat-button-toggle value=1 disableRipple>1</mat-button-toggle>
+                    <mat-button-toggle value=2 disableRipple>2</mat-button-toggle>
+                    <mat-button-toggle value=3 disableRipple>3</mat-button-toggle>
+                    <mat-button-toggle value=4 disableRipple>4</mat-button-toggle>
+                  </mat-button-toggle-group>
+                  <mat-error *ngFor="let validation of validationMessages.csiWellness">
+                    <mat-error class="error-message"
+                               *ngIf="csiRecordEditForm.get('csiWellness').hasError(validation.type)
+                                && (csiRecordEditForm.get('csiWellness').dirty ||
+                                csiRecordEditForm.get('csiWellness').touched)">
+                      {{validation.message}}
+                    </mat-error>
+                  </mat-error>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="csiHealthCareServices" class="rating-label">Health Care Services*</label>
+                  <mat-button-toggle-group id="csiHealthCareServices" class="tqp-custom-toggle"
+                                           formControlName="csiHealthCareServices">
+                    <mat-button-toggle value=1 disableRipple>1</mat-button-toggle>
+                    <mat-button-toggle value=2 disableRipple>2</mat-button-toggle>
+                    <mat-button-toggle value=3 disableRipple>3</mat-button-toggle>
+                    <mat-button-toggle value=4 disableRipple>4</mat-button-toggle>
+                  </mat-button-toggle-group>
+                  <mat-error *ngFor="let validation of validationMessages.csiHealthCareServices">
+                    <mat-error class="error-message"
+                               *ngIf="csiRecordEditForm.get('csiHealthCareServices').hasError(validation.type)
+                                && (csiRecordEditForm.get('csiHealthCareServices').dirty ||
+                                csiRecordEditForm.get('csiHealthCareServices').touched)">
+                      {{validation.message}}
+                    </mat-error>
+                  </mat-error>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="csiEmotionalHealth" class="rating-label">Emotional Health*</label>
+                  <mat-button-toggle-group id="csiEmotionalHealth" class="tqp-custom-toggle"
+                                           formControlName="csiEmotionalHealth">
+                    <mat-button-toggle value=1 disableRipple>1</mat-button-toggle>
+                    <mat-button-toggle value=2 disableRipple>2</mat-button-toggle>
+                    <mat-button-toggle value=3 disableRipple>3</mat-button-toggle>
+                    <mat-button-toggle value=4 disableRipple>4</mat-button-toggle>
+                  </mat-button-toggle-group>
+                  <mat-error *ngFor="let validation of validationMessages.csiEmotionalHealth">
+                    <mat-error class="error-message"
+                               *ngIf="csiRecordEditForm.get('csiEmotionalHealth').hasError(validation.type)
+                                && (csiRecordEditForm.get('csiEmotionalHealth').dirty ||
+                                csiRecordEditForm.get('csiEmotionalHealth').touched)">
+                      {{validation.message}}
+                    </mat-error>
+                  </mat-error>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="csiSocialBehavior" class="rating-label">Social Behavior*</label>
+                  <mat-button-toggle-group id="csiSocialBehavior" class="tqp-custom-toggle"
+                                           formControlName="csiSocialBehavior">
+                    <mat-button-toggle value=1 disableRipple>1</mat-button-toggle>
+                    <mat-button-toggle value=2 disableRipple>2</mat-button-toggle>
+                    <mat-button-toggle value=3 disableRipple>3</mat-button-toggle>
+                    <mat-button-toggle value=4 disableRipple>4</mat-button-toggle>
+                  </mat-button-toggle-group>
+                  <mat-error *ngFor="let validation of validationMessages.csiSocialBehavior">
+                    <mat-error class="error-message"
+                               *ngIf="csiRecordEditForm.get('csiSocialBehavior').hasError(validation.type)
+                                && (csiRecordEditForm.get('csiSocialBehavior').dirty ||
+                                csiRecordEditForm.get('csiSocialBehavior').touched)">
+                      {{validation.message}}
+                    </mat-error>
+                  </mat-error>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="csiPerformance" class="rating-label">Performance*</label>
+                  <mat-button-toggle-group id="csiPerformance" class="tqp-custom-toggle"
+                                           formControlName="csiPerformance">
+                    <mat-button-toggle value=1 disableRipple>1</mat-button-toggle>
+                    <mat-button-toggle value=2 disableRipple>2</mat-button-toggle>
+                    <mat-button-toggle value=3 disableRipple>3</mat-button-toggle>
+                    <mat-button-toggle value=4 disableRipple>4</mat-button-toggle>
+                  </mat-button-toggle-group>
+                  <mat-error *ngFor="let validation of validationMessages.csiPerformance">
+                    <mat-error class="error-message"
+                               *ngIf="csiRecordEditForm.get('csiPerformance').hasError(validation.type)
+                                && (csiRecordEditForm.get('csiPerformance').dirty ||
+                                csiRecordEditForm.get('csiPerformance').touched)">
+                      {{validation.message}}
+                    </mat-error>
+                  </mat-error>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="csiEducationAndWork" class="rating-label">Education & Work*</label>
+                  <mat-button-toggle-group id="csiEducationAndWork" class="tqp-custom-toggle"
+                                           formControlName="csiEducationAndWork">
+                    <mat-button-toggle value=1 disableRipple>1</mat-button-toggle>
+                    <mat-button-toggle value=2 disableRipple>2</mat-button-toggle>
+                    <mat-button-toggle value=3 disableRipple>3</mat-button-toggle>
+                    <mat-button-toggle value=4 disableRipple>4</mat-button-toggle>
+                  </mat-button-toggle-group>
+                  <mat-error *ngFor="let validation of validationMessages.csiEducationAndWork">
+                    <mat-error class="error-message"
+                               *ngIf="csiRecordEditForm.get('csiEducationAndWork').hasError(validation.type)
+                                && (csiRecordEditForm.get('csiEducationAndWork').dirty ||
+                                csiRecordEditForm.get('csiEducationAndWork').touched)">
+                      {{validation.message}}
+                    </mat-error>
+                  </mat-error>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
 
       </div>
     </div>

@@ -1,0 +1,88 @@
+<h2 mat-dialog-title *ngIf="data.action == 'update'; else create;">Edit Program Status Assignment</h2>
+<ng-template #create>
+  <h2 mat-dialog-title>Add Post-Graduate Event</h2>
+</ng-template>
+
+<mat-dialog-content style="overflow: hidden">
+
+  <form [formGroup]="postGradEventEditForm" [hidden]="!dataLoaded">
+
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="form-group">
+          <label for="postGradEventId">Post-Grad Event ID</label>
+          <input id="postGradEventId" type="text" class="form-control" formControlName="postGradEventId">
+          <mat-error *ngFor="let validation of validationMessages.postGradEventId">
+            <mat-error class="error-message"
+                       *ngIf="postGradEventEditForm.get('postGradEventId').hasError(validation.type)
+                                && (postGradEventEditForm.get('postGradEventId').dirty ||
+                                postGradEventEditForm.get('postGradEventId').touched)">
+              {{validation.message}}
+            </mat-error>
+          </mat-error>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="form-group">
+          <label for="postGradEventTypeId">Event Type*</label>
+          <select id="postGradEventTypeId" class="form-control" formControlName="postGradEventTypeId"
+                  (change)="postGradEventTypeChanged($event)">
+            <option value=0>Select an Event Type</option>
+            <option *ngFor="let postGradEventType of postGradEventTypeList" value="{{postGradEventType.postGradEventTypeId}}">
+              {{postGradEventType.postGradEventTypeName}}
+            </option>
+          </select>
+          <mat-error *ngFor="let validation of validationMessages.postGradEventTypeId">
+            <mat-error class="error-message"
+                       *ngIf="postGradEventEditForm.get('postGradEventTypeId').hasError(validation.type)
+                                && (postGradEventEditForm.get('postGradEventTypeId').dirty ||
+                                postGradEventEditForm.get('postGradEventTypeId').touched)">
+              {{validation.message}}
+            </mat-error>
+          </mat-error>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="form-group">
+          <label for="postGradEventDate">Date*</label>
+          <input id="postGradEventDate" type="text" class="form-control" bsDatepicker
+                 formControlName="postGradEventDate">
+          <mat-error *ngFor="let validation of validationMessages.postGradEventDate">
+            <mat-error class="error-message"
+                       *ngIf="postGradEventEditForm.get('postGradEventDate').hasError(validation.type)
+                                && (postGradEventEditForm.get('postGradEventDate').dirty ||
+                                postGradEventEditForm.get('postGradEventDate').touched)">
+              {{validation.message}}
+            </mat-error>
+          </mat-error>
+        </div>
+      </div>
+    </div>
+
+  </form>
+
+  <mat-card class="spinner-container" *ngIf="!dataLoaded">
+    <mat-progress-spinner
+      color="primary"
+      mode="indeterminate">
+    </mat-progress-spinner>
+  </mat-card>
+
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-raised-button class="btn btn-danger" (click)="delete();" *ngIf="data.action == 'update'">
+    Delete
+  </button>
+  <button mat-raised-button mat-dialog-close>Cancel</button>
+  <div fxFlex></div>
+  <button mat-raised-button mat-dialog-close class="btn btn-primary" (click)="save();"
+          [disabled]="!postGradEventEditForm.valid">Save
+  </button>
+</mat-dialog-actions>

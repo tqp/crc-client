@@ -1,2 +1,37 @@
 @import "src/scss/vendors/bs-datepicker/datepicker";
 @import "node_modules/ngx-bootstrap/datepicker/bs-datepicker";
+
+mat-button-toggle-group {
+  border: none !important;
+  height: 32px;
+}
+
+.tqp-custom-toggle mat-button-toggle {
+  width: 50px;
+  margin-left: 3px;
+  margin-right: 3px;
+}
+
+.tqp-custom-toggle .mat-button-toggle {
+  background-color: rgb(240, 243, 245);
+  color: rgb(35, 40, 44);
+  border-radius: 3px;
+}
+
+.tqp-custom-toggle .mat-button-toggle-checked {
+  background-color: rgb(0, 200, 0);
+}
+
+::ng-deep .tqp-custom-toggle .mat-button-toggle-label-content {
+  height: 32px !important;
+  line-height: 32px !important;
+}
+
+.mat-button-toggle-appearance-standard .mat-button-toggle-label-content {
+  height: 32px !important;
+  line-height: 32px !important;
+}
+
+.rating-label {
+  width: 200px;
+}

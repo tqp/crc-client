@@ -88,10 +88,14 @@ export const navItemsUser: INavData[] = [
     url: '/test-components/placeholder',
     icon: 'fa fa-list-alt'
   },
-
   {
     title: true,
     name: 'Manager Functions'
+  },
+  {
+    name: 'Summary Report',
+    url: '/reports/summary-report',
+    icon: 'fa fa-file-text-o'
   },
   {
     name: 'Reference Tables',

@@ -11,6 +11,7 @@ import { RouterModule } from '@angular/router';
 import { ListAddRemoveItemsBasicModule } from '../../../../@tqp/components/list-add-remove-items-basic/list-add-remove-items-basic.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { StudentRoutingModule } from '../people/students/student-routing.module';
+import { StudentPostGradEventEditDialogComponent } from './student-post-grad-event-edit-dialog/student-post-grad-event-edit-dialog.component';
 
 
 
@@ -19,7 +20,8 @@ import { StudentRoutingModule } from '../people/students/student-routing.module'
     StudentCaregiverEditDialogComponent,
     StudentProgramStatusEditDialogComponent,
     StudentCaseManagerEditDialogComponent,
-    StudentSponsorEditDialogComponent
+    StudentSponsorEditDialogComponent,
+    StudentPostGradEventEditDialogComponent
   ],
   imports: [
     CommonModule,

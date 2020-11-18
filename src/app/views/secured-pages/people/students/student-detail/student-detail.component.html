@@ -42,7 +42,7 @@
             <dd class="col-sm-8">{{genderNames[student.studentGender]}}</dd>
           </dl>
           <dl class="row">
-            <dt class="col-sm-4">Date of Birth:<small class="ml-2">(MM/DD/YYYY)</small></dt>
+            <dt class="col-sm-4">Date of Birth:</dt>
             <dd class="col-sm-8">{{student.studentDateOfBirth | date: 'MM/dd/yyyy'}}</dd>
           </dl>
           <dl class="row">
@@ -74,7 +74,7 @@
           CSI Records<span class="badge badge-secondary ml-2">{{visitListDataSource.length}}</span>
           <i *ngIf="visitListLoading" class="fa fa-spinner fa-spin"></i>
           <div class="card-header-actions" [hidden]="authService.allowRoles('ROLE_USER, ROLE_MANAGER, ROLE_ADMIN')">
-            <small class="tqp-nav-link" (click)="openCsiEditPage();">Add CSI Record</small>
+            <small class="tqp-nav-link" (click)="openCsiCreatePage();">Add CSI Record</small>
           </div>
         </div>
         <div class="card-body">
@@ -105,10 +105,58 @@
       <div class="card">
         <div class="card-header">
           <i class="fa fa-calendar-check-o"></i>
+          Post-Graduate Events<span class="badge badge-secondary ml-2">{{postGradEventListDataSource.length}}</span>
+          <i *ngIf="postGradEventListLoading" class="fa fa-spinner fa-spin"></i>
+          <div class="card-header-actions" [hidden]="authService.allowRoles('ROLE_USER, ROLE_MANAGER, ROLE_ADMIN')">
+            <small class="tqp-nav-link" (click)="openPostGradEventCreateDialog(null);">Add Post-Graduate Event</small>
+          </div>
+        </div>
+        <div class="card-body">
+
+          <div class="table-container">
+
+            <table mat-table [dataSource]="postGradEventListDataSource"
+                   *ngIf="postGradEventListDataSource && postGradEventListDataSource.length > 0" class="table">
+
+              <ng-container matColumnDef="postGradEventId">
+                <th mat-header-cell *matHeaderCellDef>ID</th>
+                <td mat-cell *matCellDef="let row">{{row.postGradEventId}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="postGradEventTypeName">
+                <th mat-header-cell *matHeaderCellDef>Event Type</th>
+                <td mat-cell *matCellDef="let row">
+                  <a [routerLink]="['/post-grad-event/post-grad-event-detail', row.postGradEventId]">
+                    {{row.postGradEventTypeName}}
+                  </a>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="postGradEventDate">
+                <th mat-header-cell *matHeaderCellDef>Date</th>
+                <td mat-cell *matCellDef="let row">{{row.postGradEventDate | date: 'MM/dd/yyyy'}}</td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="postGradEventListDisplayedColumns; sticky: true" [hidden]="false"></tr>
+              <tr mat-row *matRowDef="let row; columns: postGradEventListDisplayedColumns;"></tr>
+            </table>
+
+            <div class="no-records" *ngIf="postGradEventListDataSource && postGradEventListDataSource.length <= 0">
+              No Records Found
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-calendar-check-o"></i>
           Student Visits<span class="badge badge-secondary ml-2">{{visitListDataSource.length}}</span>
           <i *ngIf="visitListLoading" class="fa fa-spinner fa-spin"></i>
           <div class="card-header-actions" [hidden]="authService.allowRoles('ROLE_USER, ROLE_MANAGER, ROLE_ADMIN')">
-            <small class="tqp-nav-link" (click)="openVisitEditDialog(this.student.studentId);">Add Student Visit</small>
+            <small class="tqp-nav-link" (click)="openVisitCreateDialog(this.student.studentId);">Add Student Visit</small>
           </div>
         </div>
         <div class="card-body">
@@ -238,7 +286,7 @@
           Program Status
           <i *ngIf="programStatusLoading" class="fa fa-spinner fa-spin"></i>
           <div class="card-header-actions" [hidden]="authService.allowRoles('ROLE_USER, ROLE_MANAGER, ROLE_ADMIN')">
-            <small class="tqp-nav-link" (click)="openStudentProgramStatusEditDialog(null);">Set Program Status</small>
+            <small class="tqp-nav-link" (click)="openStudentProgramStatusCreateDialog(null);">Set Program Status</small>
           </div>
         </div>
         <div class="card-body">
@@ -276,7 +324,7 @@
           Current Caregiver
           <i *ngIf="caregiverLoading" class="fa fa-spinner fa-spin"></i>
           <div class="card-header-actions" [hidden]="authService.allowRoles('ROLE_USER, ROLE_MANAGER, ROLE_ADMIN')">
-            <small class="tqp-nav-link" (click)="openStudentCaregiverEditDialog(null);">Assign Caregiver</small>
+            <small class="tqp-nav-link" (click)="openStudentCaregiverCreateDialog(null);">Assign Caregiver</small>
           </div>
         </div>
         <div class="card-body">
@@ -327,7 +375,7 @@
           Current Case Manager
           <i *ngIf="caseManagerLoading" class="fa fa-spinner fa-spin"></i>
           <div class="card-header-actions" [hidden]="authService.allowRoles('ROLE_USER, ROLE_MANAGER, ROLE_ADMIN')">
-            <small class="tqp-nav-link" (click)="openStudentCaseManagerEditDialog(null);">Assign Case Manager</small>
+            <small class="tqp-nav-link" (click)="openStudentCaseManagerCreateDialog(null);">Assign Case Manager</small>
           </div>
         </div>
         <div class="card-body">
@@ -358,7 +406,7 @@
           Current Sponsor
           <i *ngIf="sponsorLoading" class="fa fa-spinner fa-spin"></i>
           <div class="card-header-actions" [hidden]="authService.allowRoles('ROLE_USER, ROLE_MANAGER, ROLE_ADMIN')">
-            <small class="tqp-nav-link" (click)="openStudentSponsorEditDialog(null);">Assign Sponsor</small>
+            <small class="tqp-nav-link" (click)="openStudentSponsorCreateDialog(null);">Assign Sponsor</small>
           </div>
         </div>
         <div class="card-body">

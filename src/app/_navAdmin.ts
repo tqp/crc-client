@@ -94,6 +94,11 @@ export const navItemsAdmin: INavData[] = [
     name: 'Manager Functions'
   },
   {
+    name: 'Summary Report',
+    url: '/reports/summary-report',
+    icon: 'fa fa-file-text-o'
+  },
+  {
     name: 'Reference Tables',
     url: '/crud-app',
     icon: 'fa fa-table',

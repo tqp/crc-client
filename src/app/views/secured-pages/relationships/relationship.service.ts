@@ -10,7 +10,7 @@ import { Caregiver } from '../people/caregivers/Caregiver';
 import { CaseManager } from '../people/case-managers/CaseManager';
 import { Sponsor } from '../people/sponsors/Sponsor';
 import { Student } from '../people/students/Student';
-import { ProgramStatus } from './ProgramStatus';
+import { ProgramStatus } from './student-program-status-edit-dialog/ProgramStatus';
 
 @Injectable({
   providedIn: 'root'
