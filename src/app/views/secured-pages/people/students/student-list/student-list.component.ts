@@ -130,7 +130,7 @@ export class StudentListComponent implements OnInit, OnDestroy {
         this.pageEnd = pageEnd >= this.totalRecords ? this.totalRecords : pageEnd;
         this.totalNumberOfPages = Math.ceil(this.totalRecords / this.pageSize);
         this.dataSource = this.records;
-        console.log('dataSource', this.dataSource);
+        // console.log('dataSource', this.dataSource);
         this.isLoading = false;
         this.eventService.loadingEvent.emit(false);
       }, error => {

@@ -12,6 +12,8 @@ import { InteractionType } from '../../../reference-tables/interaction-type/Inte
 import { VisitType } from '../../../reference-tables/visit-type/VisitType';
 import { CaseManager } from '../../../people/case-managers/CaseManager';
 import { CaseManagerService } from '../../../people/case-managers/case-manager.service';
+import { Student } from '../../../people/students/Student';
+import { StudentService } from '../../../people/students/student.service';
 
 @Component({
   selector: 'app-visit-detail-edit',
@@ -30,8 +32,12 @@ export class VisitDetailEditComponent implements OnInit {
   public visitTypeList: VisitType[];
   public interactionTypeList: InteractionType[];
   public caseManagerList: CaseManager[];
+  public studentList: Student[];
 
   public validationMessages = {
+    'studentId': [
+      {type: 'required', message: 'A Student is required'}
+    ],
     'caseManagerId': [
       {type: 'required', message: 'A Case Manager is required'}
     ],
@@ -55,12 +61,14 @@ export class VisitDetailEditComponent implements OnInit {
               private visitService: VisitService,
               private visitTypeService: VisitTypeService,
               private caseManagerService: CaseManagerService,
+              private studentService: StudentService,
               private interactionTypeService: InteractionTypeService,
               private formattingService: FormattingService,
               private router: Router,
               private formBuilder: FormBuilder,
               public _matDialog: MatDialog) {
     this.initializeForm();
+    this.getStudentList();
     this.getCaseManagerList();
     this.getVisitTypeList();
     this.getInteractionTypeList();
@@ -70,6 +78,7 @@ export class VisitDetailEditComponent implements OnInit {
     this.route.params.forEach((params: Params) => {
       if (params['id'] !== undefined) {
         const visitId = params['id'];
+        this.newRecord = false;
         // console.log('visitId', visitId);
         this.getVisitDetail(visitId);
       } else {
@@ -86,6 +95,7 @@ export class VisitDetailEditComponent implements OnInit {
 
   private initializeForm(): void {
     this.visitEditForm = this.formBuilder.group({
+      studentId: new FormControl({value: 0, disabled: true}, Validators.required),
       caseManagerId: new FormControl('', Validators.required),
       visitId: new FormControl('', Validators.required),
       visitDate: new FormControl('', Validators.required),
@@ -100,7 +110,8 @@ export class VisitDetailEditComponent implements OnInit {
     this.visitService.getVisitDetail(visitId).subscribe(
       response => {
         this.visit = response;
-        // console.log('response', response);
+        console.log('response', response);
+        this.visitEditForm.controls['studentId'].patchValue(this.visit.studentId);
         this.visitEditForm.controls['caseManagerId'].patchValue(this.visit.caseManagerId);
         this.visitEditForm.controls['visitId'].patchValue(this.visit.visitId);
         this.visitEditForm.controls['visitDate'].patchValue(this.formattingService.formatMySqlDateAsStandard(this.visit.visitDate));
@@ -108,6 +119,18 @@ export class VisitDetailEditComponent implements OnInit {
         this.visitEditForm.controls['interactionTypeId'].patchValue(this.visit.interactionTypeId);
         this.visitEditForm.controls['caregiverComments'].patchValue(this.visit.caregiverComments);
         this.visitEditForm.controls['caseManagerComments'].patchValue(this.visit.caseManagerComments);
+      },
+      error => {
+        console.error('Error: ', error);
+      }
+    );
+  }
+
+  private getStudentList(): void {
+    this.studentService.getStudentList().subscribe(
+      (response: Student[]) => {
+        // console.log('response', response);
+        this.studentList = response;
       },
       error => {
         console.error('Error: ', error);

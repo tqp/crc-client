@@ -3,47 +3,47 @@ import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { ServerSidePaginationRequest } from '../../../../../../@tqp/models/ServerSidePaginationRequest';
 import { FormControl } from '@angular/forms';
+import { FinanceService } from '../../../finance/finance.service';
 import { EventService } from '../../../../../../@tqp/services/event.service';
+import { FormattingService } from '../../../../../../@tqp/services/formatting.service';
 import { Router } from '@angular/router';
-import { ServerSidePaginationResponse } from '../../../../../../@tqp/models/ServerSidePaginationResponse';
-import { fromEvent, merge, of } from 'rxjs';
-import { catchError, debounceTime, distinctUntilChanged, map, switchMap } from 'rxjs/operators';
-import { CaseManager } from '../CaseManager';
-import { CaseManagerService } from '../case-manager.service';
 import { AuthService } from '../../../../../../@tqp/services/auth.service';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { ServerSidePaginationResponse } from '../../../../../../@tqp/models/ServerSidePaginationResponse';
+import { merge, of } from 'rxjs';
+import { catchError, debounceTime, map, switchMap } from 'rxjs/operators';
+import { Csi } from '../Csi';
+import { CsiService } from '../csi.service';
+import { CsiDetailEditDialogComponent } from '../csi-detail-edit-dialog/csi-detail-edit-dialog.component';
 
 @Component({
-  selector: 'app-case-manager-list',
-  templateUrl: './case-manager-list.component.html',
-  styleUrls: ['./case-manager-list.component.css']
+  selector: 'app-csi-list',
+  templateUrl: './csi-list.component.html',
+  styleUrls: ['./csi-list.component.css']
 })
-export class CaseManagerListComponent implements OnInit, OnDestroy {
+export class CsiListComponent implements  OnInit, AfterViewInit, OnDestroy {
   @ViewChild(MatSort, {static: true}) sort: MatSort;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild('tableContainer', {read: ElementRef, static: true}) public matTableRef: ElementRef;
   @ViewChild('dialogContent', {static: true}) public dialogRef: any;
   @ViewChild('nameSearchElementRef', {static: true}) nameSearchElementRef: ElementRef;
 
-  public listTitle = 'Case Manager List';
   private pageIndex = 0;
   public pageSize = 10;
   private totalNumberOfPages: number;
   private searchParams: ServerSidePaginationRequest = new ServerSidePaginationRequest();
 
   public displayedColumns: string[] = [
-    // 'caseManagerId',
-    'caseManagerSurname',
-    'caseManagerGivenName',
-    'caseManagerPhone',
-    'caseManagerEmail',
-    'caseManagerNumberOfStudents',
-    'caseManagerRegionOfCases'
+    // 'csiId',
+    'csiDate',
+    'studentName',
+    'caseManager'
   ];
 
-  public caseManagerListNameSearchFormControl = new FormControl();
+  public caregiverListNameSearchFormControl = new FormControl();
 
-  public records: CaseManager[] = [];
-  public dataSource: any[] = [];
+  public records: Csi[] = [];
+  public dataSource: Csi[] = [];
   public stateList: string[] = [];
 
   public totalRecords: number;
@@ -54,11 +54,13 @@ export class CaseManagerListComponent implements OnInit, OnDestroy {
 
   public isFilterApplied = false;
 
-  constructor(private caseManagerService: CaseManagerService,
+  constructor(private financeService: FinanceService,
+              private csiService: CsiService,
               private eventService: EventService,
+              private formattingService: FormattingService,
               private router: Router,
-              public authService: AuthService) {
-    this.initWindowResizeListener();
+              public authService: AuthService,
+              public _matDialog: MatDialog) {
   }
 
   ngOnInit(): void {
@@ -67,18 +69,11 @@ export class CaseManagerListComponent implements OnInit, OnDestroy {
     this.listenForChanges();
   }
 
-  ngOnDestroy(): void {
-    this.caseManagerService.setCaseManagerListNameSearchValue(this.caseManagerListNameSearchFormControl.value);
+  ngAfterViewInit(): void {
   }
 
-  public initWindowResizeListener(): void {
-    fromEvent(window, 'resize').pipe(
-      debounceTime(300),
-      distinctUntilChanged()).subscribe(
-      () => {
-        this.ngOnInit();
-      }
-    );
+  ngOnDestroy(): void {
+    // this.financeService.setCaregiverListNameSearchValue(this.caregiverListNameSearchFormControl.value);
   }
 
   private calculateTableSize(): number {
@@ -97,18 +92,19 @@ export class CaseManagerListComponent implements OnInit, OnDestroy {
     this.searchParams.sortColumn = null;
     this.searchParams.sortDirection = 'asc';
 
-    if (this.caseManagerService.getCaseManagerListNameSearchValue()) {
-      const nameSearchValue = this.caseManagerService.getCaseManagerListNameSearchValue();
-      this.caseManagerListNameSearchFormControl.setValue(nameSearchValue);
-      this.searchParams.nameFilter = nameSearchValue;
-    }
+    // if (this.caregiverService.getCaregiverListNameSearchValue()) {
+    //   const nameSearchValue = this.caregiverService.getCaregiverListNameSearchValue();
+    //   this.caregiverListNameSearchFormControl.setValue(nameSearchValue);
+    //   this.searchParams.nameFilter = nameSearchValue;
+    // }
   }
 
   private getPage(searchParams: ServerSidePaginationRequest) {
     this.isLoading = true;
     this.eventService.loadingEvent.emit(true);
-    this.caseManagerService.getCaseManagerList_SSP(searchParams).subscribe((response: ServerSidePaginationResponse<CaseManager>) => {
+    this.csiService.getCsiList_SSP(searchParams).subscribe((response: ServerSidePaginationResponse<Csi>) => {
         // console.log('getPage response', response);
+        this.records = [];
         response.data.forEach(item => {
           this.records.push(item);
         }, error => {
@@ -135,7 +131,7 @@ export class CaseManagerListComponent implements OnInit, OnDestroy {
 
   private listenForChanges(): void {
     merge(
-      this.caseManagerListNameSearchFormControl.valueChanges.pipe(debounceTime(100)),
+      this.caregiverListNameSearchFormControl.valueChanges.pipe(debounceTime(100)),
       this.sort.sortChange,
       this.paginator.page
     )
@@ -150,7 +146,7 @@ export class CaseManagerListComponent implements OnInit, OnDestroy {
           this.isLoading = true;
           this.eventService.loadingEvent.emit(true);
 
-          const nameFilter = this.caseManagerListNameSearchFormControl.value != null ? this.caseManagerListNameSearchFormControl.value : '';
+          const nameFilter = this.caregiverListNameSearchFormControl.value != null ? this.caregiverListNameSearchFormControl.value : '';
 
           // Translate table columns to database columns for sorting.
           // IMPORTANT: If this translation is incorrect, the query will break!!!
@@ -168,9 +164,9 @@ export class CaseManagerListComponent implements OnInit, OnDestroy {
           this.searchParams = serverSideSearchParams;
 
           this.isFilterApplied = nameFilter;
-          return this.caseManagerService.getCaseManagerList_SSP(serverSideSearchParams);
+          return this.csiService.getCsiList_SSP(serverSideSearchParams);
         }),
-        map((response: ServerSidePaginationResponse<CaseManager>) => {
+        map((response: ServerSidePaginationResponse<Csi>) => {
           return response;
         }),
         catchError((error: any) => {
@@ -180,7 +176,7 @@ export class CaseManagerListComponent implements OnInit, OnDestroy {
           return of([]);
         })
       )
-      .subscribe((response: ServerSidePaginationResponse<CaseManager>) => {
+      .subscribe((response: ServerSidePaginationResponse<Csi>) => {
           this.records = [];
           response.data.forEach(item => {
             this.records.push(item);
@@ -207,36 +203,50 @@ export class CaseManagerListComponent implements OnInit, OnDestroy {
   }
 
   public clearFilters(): void {
-    this.caseManagerListNameSearchFormControl.setValue('');
+    this.caregiverListNameSearchFormControl.setValue('');
   }
 
-  public openCreateCaseManagerPage(): void {
-    this.router.navigate(['case-managers/case-manager-create']).then();
+  public openCsiEditDialog(): void {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.minWidth = '25%';
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.data = {
+      action: 'create',
+    };
+    dialogConfig.autoFocus = false;
+    const dialogRef = this._matDialog.open(CsiDetailEditDialogComponent, dialogConfig);
+
+    dialogRef.afterClosed().subscribe(dialogData => {
+      // console.log('dialogData', dialogData);
+      if (dialogData) {
+        const csi: Csi = {};
+        csi.studentId = dialogData.studentId;
+        csi.csiDate = this.formattingService.formatStandardDateAsMySql(dialogData.csiDate);
+        console.log('csi', csi);
+        this.csiService.createCsi(csi).subscribe(
+          response => {
+            console.log('response', response);
+            this.getPage(this.searchParams);
+          },
+          error => {
+            console.error('Error: ', error);
+          }
+        );
+      }
+    });
   }
 
   public openDetailPage(row: any): void {
-    this.router.navigate(['case-managers/case-manager-detail', row.caseManagerId]).then();
+    this.router.navigate(['csi/csi-detail', row.csiId]).then();
   }
 
   @HostListener('window:keydown', ['$event'])
   public handleKeyboardEvent(event: KeyboardEvent): void {
     if (event.ctrlKey && event.key === 'f') {
       event.preventDefault();
-      this.caseManagerListNameSearchFormControl.setValue('');
+      this.caregiverListNameSearchFormControl.setValue('');
       this.nameSearchElementRef.nativeElement.focus();
-    }
-    if (event.ctrlKey && event.key === 'c') {
-      event.preventDefault();
-      this.openCreateCaseManagerPage();
-    }
-    if (event.ctrlKey && event.key === ',') {
-      event.preventDefault();
-      // console.log('next', this.paginator.pageIndex);
-      // this.paginator.pageIndex = 0;
-    }
-    if (event.ctrlKey && event.key === '.') {
-      event.preventDefault();
-      // console.log('next', this.paginator.pageIndex);
     }
   }
 }

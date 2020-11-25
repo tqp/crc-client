@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CsiDetailComponent } from './csi-detail/csi-detail.component';
 import { CsiDetailEditComponent } from './csi-detail-edit/csi-detail-edit.component';
+import { CsiListComponent } from './csi-list/csi-list.component';
 
 const routes: Routes = [
 
@@ -15,6 +16,13 @@ const routes: Routes = [
         path: '',
         redirectTo: 'csi-list',
         pathMatch: 'full'
+      },
+      {
+        path: 'csi-list',
+        component: CsiListComponent,
+        data: {
+          title: 'CSI List'
+        }
       },
       {
         path: 'csi-detail/:id',

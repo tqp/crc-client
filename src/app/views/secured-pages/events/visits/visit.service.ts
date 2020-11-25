@@ -4,7 +4,6 @@ import { HttpService } from '../../../../../@tqp/services/http.service';
 import { TokenService } from '../../../../../@tqp/services/token.service';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../../environments/environment';
-import { Payment } from '../../finance/payments/Payment';
 import { map } from 'rxjs/operators';
 import { ServerSidePaginationRequest } from '../../../../../@tqp/models/ServerSidePaginationRequest';
 import { ServerSidePaginationResponse } from '../../../../../@tqp/models/ServerSidePaginationResponse';

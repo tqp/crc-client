@@ -34,12 +34,17 @@ export const navItemsUser: INavData[] = [
 
   {
     title: true,
-    name: 'Case Manager Activities'
+    name: 'Case Manager Actions'
   },
   {
     name: 'Student Visits',
     url: '/visits/visit-list',
     icon: 'fa fa-calendar-check-o'
+  },
+  {
+    name: 'CSI Records',
+    url: '/csi/csi-list',
+    icon: 'fa fa-pencil-square-o'
   },
 
   {

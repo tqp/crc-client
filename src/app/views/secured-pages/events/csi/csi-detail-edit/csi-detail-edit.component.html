@@ -1,17 +1,18 @@
-<div class="tqp-crud-detail-edit animated fadeIn" *ngIf="csiRecord">
+<div class="tqp-crud-detail-edit animated fadeIn" *ngIf="csi">
 
-  <form [formGroup]="csiRecordEditForm">
+  <form [formGroup]="csiEditForm">
 
     <div class="row">
 
       <div class="col-sm-6">
-        <h1 *ngIf="csiRecord && newRecord && csiRecordEditForm.controls['csiId'].value == ''; else notShow">
+        <h1 *ngIf="csi && newRecord && csiEditForm.controls['csiId'].value == ''; else notShow">
           New CSI Record
         </h1>
         <ng-template #notShow>
           <h1>
-            <i class="fa fa-heartbeat"></i>
-            {{csiRecordEditForm.controls['csiId'].value}}}}
+            <i class="fa fa-pencil-square-o"></i>
+            {{csi.studentGivenName}} {{csi.studentSurname}} CSI
+            on {{csiEditForm.controls['csiDate'].value | date: 'MM/dd/yyyy'}}
           </h1>
         </ng-template>
       </div>
@@ -23,8 +24,8 @@
 
         <div class="card">
           <div class="card-header">
-            <i class="fa fa-user"></i>
-            Personal Information
+            <i class="fa fa-pencil-square-o"></i>
+            CSI Details
           </div>
           <div class="card-body">
 
@@ -32,14 +33,12 @@
               <div class="col-sm-12">
                 <div class="form-group">
                   <label for="csiId">CSI ID*</label>
-                  <input matInput id="csiId" #caregiverSurnameInputField type="text" class="form-control"
-                         placeholder="CSI Record ID"
-                         formControlName="csiId" autocomplete="chrome-off">
+                  <input id="csiId" type="text" class="form-control" formControlName="csiId">
                   <mat-error *ngFor="let validation of validationMessages.csiId">
                     <mat-error class="error-message"
-                               *ngIf="csiRecordEditForm.get('csiId').hasError(validation.type)
-                                && (csiRecordEditForm.get('csiId').dirty ||
-                                csiRecordEditForm.get('csiId').touched)">
+                               *ngIf="csiEditForm.get('csiId').hasError(validation.type)
+                                && (csiEditForm.get('csiId').dirty ||
+                                csiEditForm.get('csiId').touched)">
                       {{validation.message}}
                     </mat-error>
                   </mat-error>
@@ -50,14 +49,60 @@
             <div class="row">
               <div class="col-sm-12">
                 <div class="form-group">
-                  <label for="csiDate">Date of Collection*<small class="ml-2">(MM/DD/YYYY)</small></label>
+                  <label for="studentId">Student*</label>
+                  <select id="studentId" class="form-control" formControlName="studentId">
+                    <option value=0>Select a Student</option>
+                    <option *ngFor="let student of studentList"
+                            value="{{student.studentId}}">
+                      {{student.studentGivenName}} {{student.studentSurname}}
+                    </option>
+                  </select>
+                  <mat-error *ngFor="let validation of validationMessages.studentId">
+                    <mat-error class="error-message"
+                               *ngIf="csiEditForm.get('studentId').hasError(validation.type)
+                                && (csiEditForm.get('studentId').dirty ||
+                                csiEditForm.get('studentId').touched)">
+                      {{validation.message}}
+                    </mat-error>
+                  </mat-error>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="caseManagerId">Case Manager*</label>
+                  <select id="caseManagerId" class="form-control" formControlName="caseManagerId">
+                    <option value=0>Select a Case Manager</option>
+                    <option *ngFor="let caseManager of caseManagerList"
+                            value="{{caseManager.caseManagerId}}">
+                      {{caseManager.caseManagerGivenName}} {{caseManager.caseManagerSurname}}
+                    </option>
+                  </select>
+                  <mat-error *ngFor="let validation of validationMessages.caseManagerId">
+                    <mat-error class="error-message"
+                               *ngIf="csiEditForm.get('caseManagerId').hasError(validation.type)
+                                && (csiEditForm.get('caseManagerId').dirty ||
+                                csiEditForm.get('caseManagerId').touched)">
+                      {{validation.message}}
+                    </mat-error>
+                  </mat-error>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="csiDate">CSI Date*<small class="ml-2">(MM/DD/YYYY)</small></label>
                   <input id="csiDate" type="text" class="form-control" bsDatepicker
                          formControlName="csiDate">
                   <mat-error *ngFor="let validation of validationMessages.csiDate">
                     <mat-error class="error-message"
-                               *ngIf="csiRecordEditForm.get('csiDate').hasError(validation.type)
-                                && (csiRecordEditForm.get('csiDate').dirty ||
-                                csiRecordEditForm.get('csiDate').touched)">
+                               *ngIf="csiEditForm.get('csiDate').hasError(validation.type)
+                                && (csiEditForm.get('csiDate').dirty ||
+                                csiEditForm.get('csiDate').touched)">
                       {{validation.message}}
                     </mat-error>
                   </mat-error>
@@ -68,60 +113,18 @@
             <div class="row">
               <div class="col-sm-12">
                 <div class="form-group">
-                  <label>Services Provided by CRC</label>
-                  <div class="col-md-9 col-form-label"
-                       style="border: 1px solid rgb(228, 231, 234); border-radius: 0.25rem;">
-                    <div class="form-check">
-                      <input class="form-check-input" type="checkbox" value="counselingServices" id="counselingServices"
-                             formControlName="csiServicesProvided">
-                      <label class="form-check-label" for="counselingServices">
-                        Counseling Services
-                      </label>
-                    </div>
-                    <div class="form-check">
-                      <input class="form-check-input" type="checkbox" value="educationMaterials" id="educationMaterials"
-                             formControlName="csiServicesProvided">
-                      <label class="form-check-label" for="educationMaterials">
-                        Education Materials
-                      </label>
-                    </div>
-                    <div class="form-check checkbox">
-                      <input class="form-check-input" type="checkbox" value="foodItems" id="foodItems"
-                             formControlName="csiServicesProvided">
-                      <label class="form-check-label" for="foodItems">
-                        Food Items
-                      </label>
-                    </div>
-                    <div class="form-check checkbox">
-                      <input class="form-check-input" type="checkbox" value="medicalServices" id="medicalServices"
-                             formControlName="csiServicesProvided">
-                      <label class="form-check-label" for="medicalServices">
-                        Medical Services
-                      </label>
-                    </div>
-                    <div class="form-check checkbox">
-                      <input class="form-check-input" type="checkbox" value="stipend" id="stipend"
-                             formControlName="csiServicesProvided">
-                      <label class="form-check-label" for="stipend">
-                        Stipend
-                      </label>
-                    </div>
-                    <div class="form-check checkbox">
-                      <input class="form-check-input" type="checkbox" value="microfinance" id="microfinance"
-                             formControlName="csiServicesProvided">
-                      <label class="form-check-label" for="microfinance">
-                        Microfinance
-                      </label>
-                    </div>
+                  <label>CSI Services Provided</label>
+                  <div class="col-md-9 col-form-label checkbox-area-container">
+
+                    <label formArrayName="csiServicesProvidedCheckboxes" class="checkbox-label"
+                           *ngFor="let checkbox of checkboxFormArray.controls; let i = index">
+                      <input type="checkbox" [formControlName]="i"
+                             (change)="onCsiServicesProvidedCheckboxChange($event)"/>
+                      {{servicesProvidedTypeList[i].servicesProvidedTypeName}}
+                      ({{('000' + servicesProvidedTypeList[i].servicesProvidedTypeId).slice(-3)}})
+                    </label>
+
                   </div>
-                  <mat-error *ngFor="let validation of validationMessages.csiServicesProvided">
-                    <mat-error class="error-message"
-                               *ngIf="csiRecordEditForm.get('csiServicesProvided').hasError(validation.type)
-                                && (csiRecordEditForm.get('csiServicesProvided').dirty ||
-                                csiRecordEditForm.get('csiServicesProvided').touched)">
-                      {{validation.message}}
-                    </mat-error>
-                  </mat-error>
                 </div>
               </div>
             </div>
@@ -129,15 +132,15 @@
             <div class="row">
               <div class="col-sm-12">
                 <div class="form-group">
-                  <label for="csiSuggestionsAndRecommendations">Suggestions & Recommendations*</label>
-                  <textarea id="csiSuggestionsAndRecommendations" rows="9" class="form-control"
-                            placeholder="Suggestions & Recommendations"
-                            formControlName="csiSuggestionsAndRecommendations"></textarea>
-                  <mat-error *ngFor="let validation of validationMessages.csiSuggestionsAndRecommendations">
+                  <label for="csiComments">Suggestions & Recommendations*</label>
+                  <textarea id="csiComments" rows="9" class="form-control"
+                            placeholder="Recommendations"
+                            formControlName="csiComments"></textarea>
+                  <mat-error *ngFor="let validation of validationMessages.csiComments">
                     <mat-error class="error-message"
-                               *ngIf="csiRecordEditForm.get('csiSuggestionsAndRecommendations').hasError(validation.type)
-                                && (csiRecordEditForm.get('csiSuggestionsAndRecommendations').dirty ||
-                                csiRecordEditForm.get('csiSuggestionsAndRecommendations').touched)">
+                               *ngIf="csiEditForm.get('csiComments').hasError(validation.type)
+                                && (csiEditForm.get('csiComments').dirty ||
+                                csiEditForm.get('csiComments').touched)">
                       {{validation.message}}
                     </mat-error>
                   </mat-error>
@@ -149,14 +152,17 @@
 
           <div class="card-footer">
             <button type="button" class="btn btn-primary float-right" (click)="save()"
-                    [disabled]="!csiRecordEditForm.valid">
+                    [disabled]="!csiEditForm.valid">
               <i class="fa fa-save mr-2"></i>Save
             </button>
             <button type="button" class="btn btn-secondary" (click)="cancel()">
               <i class="fa fa-ban mr-2"></i>Cancel
             </button>
-            <button type="button" class="btn btn-danger" (click)="delete(csiRecord.csiId)">
+            <button type="button" class="btn btn-danger" (click)="delete(csi.csiId)">
               <i class="fa fa-trash-o mr-2"></i>Delete
+            </button>
+            <button type="button" class="btn btn-danger" (click)="test()">
+              Test
             </button>
           </div>
 
@@ -166,9 +172,10 @@
 
       <div class="col-lg-6 col-sm-12">
 
+
         <div class="card">
           <div class="card-header">
-            <i class="fa fa-user"></i>
+            <i class="fa fa-pencil-square-o"></i>
             CSI Scores
           </div>
           <div class="card-body">
@@ -176,19 +183,19 @@
             <div class="row">
               <div class="col-sm-12">
                 <div class="form-group">
-                  <label for="csiFoodSecurity" class="rating-label">Food Security*</label>
-                  <mat-button-toggle-group id="csiFoodSecurity" class="tqp-custom-toggle"
-                                           formControlName="csiFoodSecurity">
+                  <label for="csiScoreFoodSecurity" class="rating-label">Food Security*</label>
+                  <mat-button-toggle-group id="csiScoreFoodSecurity" class="tqp-custom-toggle"
+                                           formControlName="csiScoreFoodSecurity">
                     <mat-button-toggle value=1 disableRipple>1</mat-button-toggle>
                     <mat-button-toggle value=2 disableRipple>2</mat-button-toggle>
                     <mat-button-toggle value=3 disableRipple>3</mat-button-toggle>
                     <mat-button-toggle value=4 disableRipple>4</mat-button-toggle>
                   </mat-button-toggle-group>
-                  <mat-error *ngFor="let validation of validationMessages.csiFoodSecurity">
+                  <mat-error *ngFor="let validation of validationMessages.csiScoreFoodSecurity">
                     <mat-error class="error-message"
-                               *ngIf="csiRecordEditForm.get('csiFoodSecurity').hasError(validation.type)
-                                && (csiRecordEditForm.get('csiFoodSecurity').dirty ||
-                                csiRecordEditForm.get('csiFoodSecurity').touched)">
+                               *ngIf="csiEditForm.get('csiScoreFoodSecurity').hasError(validation.type)
+                                && (csiEditForm.get('csiScoreFoodSecurity').dirty ||
+                                csiEditForm.get('csiScoreFoodSecurity').touched)">
                       {{validation.message}}
                     </mat-error>
                   </mat-error>
@@ -196,6 +203,7 @@
               </div>
             </div>
 
+            <!--
             <div class="row">
               <div class="col-sm-12">
                 <div class="form-group">
@@ -209,9 +217,9 @@
                   </mat-button-toggle-group>
                   <mat-error *ngFor="let validation of validationMessages.csiNutritionAndGrowth">
                     <mat-error class="error-message"
-                               *ngIf="csiRecordEditForm.get('csiNutritionAndGrowth').hasError(validation.type)
-                                && (csiRecordEditForm.get('csiNutritionAndGrowth').dirty ||
-                                csiRecordEditForm.get('csiNutritionAndGrowth').touched)">
+                               *ngIf="csiEditForm.get('csiNutritionAndGrowth').hasError(validation.type)
+                                && (csiEditForm.get('csiNutritionAndGrowth').dirty ||
+                                csiEditForm.get('csiNutritionAndGrowth').touched)">
                       {{validation.message}}
                     </mat-error>
                   </mat-error>
@@ -231,9 +239,9 @@
                   </mat-button-toggle-group>
                   <mat-error *ngFor="let validation of validationMessages.csiShelter">
                     <mat-error class="error-message"
-                               *ngIf="csiRecordEditForm.get('csiShelter').hasError(validation.type)
-                                && (csiRecordEditForm.get('csiShelter').dirty ||
-                                csiRecordEditForm.get('csiShelter').touched)">
+                               *ngIf="csiEditForm.get('csiShelter').hasError(validation.type)
+                                && (csiEditForm.get('csiShelter').dirty ||
+                                csiEditForm.get('csiShelter').touched)">
                       {{validation.message}}
                     </mat-error>
                   </mat-error>
@@ -253,9 +261,9 @@
                   </mat-button-toggle-group>
                   <mat-error *ngFor="let validation of validationMessages.csiCare">
                     <mat-error class="error-message"
-                               *ngIf="csiRecordEditForm.get('csiCare').hasError(validation.type)
-                                && (csiRecordEditForm.get('csiCare').dirty ||
-                                csiRecordEditForm.get('csiCare').touched)">
+                               *ngIf="csiEditForm.get('csiCare').hasError(validation.type)
+                                && (csiEditForm.get('csiCare').dirty ||
+                                csiEditForm.get('csiCare').touched)">
                       {{validation.message}}
                     </mat-error>
                   </mat-error>
@@ -276,9 +284,9 @@
                   </mat-button-toggle-group>
                   <mat-error *ngFor="let validation of validationMessages.csiAbuseAndExploitation">
                     <mat-error class="error-message"
-                               *ngIf="csiRecordEditForm.get('csiAbuseAndExploitation').hasError(validation.type)
-                                && (csiRecordEditForm.get('csiAbuseAndExploitation').dirty ||
-                                csiRecordEditForm.get('csiAbuseAndExploitation').touched)">
+                               *ngIf="csiEditForm.get('csiAbuseAndExploitation').hasError(validation.type)
+                                && (csiEditForm.get('csiAbuseAndExploitation').dirty ||
+                                csiEditForm.get('csiAbuseAndExploitation').touched)">
                       {{validation.message}}
                     </mat-error>
                   </mat-error>
@@ -299,9 +307,9 @@
                   </mat-button-toggle-group>
                   <mat-error *ngFor="let validation of validationMessages.csiLegalProtection">
                     <mat-error class="error-message"
-                               *ngIf="csiRecordEditForm.get('csiLegalProtection').hasError(validation.type)
-                                && (csiRecordEditForm.get('csiLegalProtection').dirty ||
-                                csiRecordEditForm.get('csiLegalProtection').touched)">
+                               *ngIf="csiEditForm.get('csiLegalProtection').hasError(validation.type)
+                                && (csiEditForm.get('csiLegalProtection').dirty ||
+                                csiEditForm.get('csiLegalProtection').touched)">
                       {{validation.message}}
                     </mat-error>
                   </mat-error>
@@ -321,9 +329,9 @@
                   </mat-button-toggle-group>
                   <mat-error *ngFor="let validation of validationMessages.csiWellness">
                     <mat-error class="error-message"
-                               *ngIf="csiRecordEditForm.get('csiWellness').hasError(validation.type)
-                                && (csiRecordEditForm.get('csiWellness').dirty ||
-                                csiRecordEditForm.get('csiWellness').touched)">
+                               *ngIf="csiEditForm.get('csiWellness').hasError(validation.type)
+                                && (csiEditForm.get('csiWellness').dirty ||
+                                csiEditForm.get('csiWellness').touched)">
                       {{validation.message}}
                     </mat-error>
                   </mat-error>
@@ -344,9 +352,9 @@
                   </mat-button-toggle-group>
                   <mat-error *ngFor="let validation of validationMessages.csiHealthCareServices">
                     <mat-error class="error-message"
-                               *ngIf="csiRecordEditForm.get('csiHealthCareServices').hasError(validation.type)
-                                && (csiRecordEditForm.get('csiHealthCareServices').dirty ||
-                                csiRecordEditForm.get('csiHealthCareServices').touched)">
+                               *ngIf="csiEditForm.get('csiHealthCareServices').hasError(validation.type)
+                                && (csiEditForm.get('csiHealthCareServices').dirty ||
+                                csiEditForm.get('csiHealthCareServices').touched)">
                       {{validation.message}}
                     </mat-error>
                   </mat-error>
@@ -367,9 +375,9 @@
                   </mat-button-toggle-group>
                   <mat-error *ngFor="let validation of validationMessages.csiEmotionalHealth">
                     <mat-error class="error-message"
-                               *ngIf="csiRecordEditForm.get('csiEmotionalHealth').hasError(validation.type)
-                                && (csiRecordEditForm.get('csiEmotionalHealth').dirty ||
-                                csiRecordEditForm.get('csiEmotionalHealth').touched)">
+                               *ngIf="csiEditForm.get('csiEmotionalHealth').hasError(validation.type)
+                                && (csiEditForm.get('csiEmotionalHealth').dirty ||
+                                csiEditForm.get('csiEmotionalHealth').touched)">
                       {{validation.message}}
                     </mat-error>
                   </mat-error>
@@ -390,9 +398,9 @@
                   </mat-button-toggle-group>
                   <mat-error *ngFor="let validation of validationMessages.csiSocialBehavior">
                     <mat-error class="error-message"
-                               *ngIf="csiRecordEditForm.get('csiSocialBehavior').hasError(validation.type)
-                                && (csiRecordEditForm.get('csiSocialBehavior').dirty ||
-                                csiRecordEditForm.get('csiSocialBehavior').touched)">
+                               *ngIf="csiEditForm.get('csiSocialBehavior').hasError(validation.type)
+                                && (csiEditForm.get('csiSocialBehavior').dirty ||
+                                csiEditForm.get('csiSocialBehavior').touched)">
                       {{validation.message}}
                     </mat-error>
                   </mat-error>
@@ -413,9 +421,9 @@
                   </mat-button-toggle-group>
                   <mat-error *ngFor="let validation of validationMessages.csiPerformance">
                     <mat-error class="error-message"
-                               *ngIf="csiRecordEditForm.get('csiPerformance').hasError(validation.type)
-                                && (csiRecordEditForm.get('csiPerformance').dirty ||
-                                csiRecordEditForm.get('csiPerformance').touched)">
+                               *ngIf="csiEditForm.get('csiPerformance').hasError(validation.type)
+                                && (csiEditForm.get('csiPerformance').dirty ||
+                                csiEditForm.get('csiPerformance').touched)">
                       {{validation.message}}
                     </mat-error>
                   </mat-error>
@@ -436,15 +444,16 @@
                   </mat-button-toggle-group>
                   <mat-error *ngFor="let validation of validationMessages.csiEducationAndWork">
                     <mat-error class="error-message"
-                               *ngIf="csiRecordEditForm.get('csiEducationAndWork').hasError(validation.type)
-                                && (csiRecordEditForm.get('csiEducationAndWork').dirty ||
-                                csiRecordEditForm.get('csiEducationAndWork').touched)">
+                               *ngIf="csiEditForm.get('csiEducationAndWork').hasError(validation.type)
+                                && (csiEditForm.get('csiEducationAndWork').dirty ||
+                                csiEditForm.get('csiEducationAndWork').touched)">
                       {{validation.message}}
                     </mat-error>
                   </mat-error>
                 </div>
               </div>
             </div>
+            -->
 
           </div>
 

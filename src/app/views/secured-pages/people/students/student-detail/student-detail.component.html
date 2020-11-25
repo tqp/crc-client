@@ -71,7 +71,7 @@
       <div class="card">
         <div class="card-header">
           <i class="fa fa-calendar-check-o"></i>
-          CSI Records<span class="badge badge-secondary ml-2">{{visitListDataSource.length}}</span>
+          CSI Records<span class="badge badge-secondary ml-2">{{csiListDataSource.length}}</span>
           <i *ngIf="visitListLoading" class="fa fa-spinner fa-spin"></i>
           <div class="card-header-actions" [hidden]="authService.allowRoles('ROLE_USER, ROLE_MANAGER, ROLE_ADMIN')">
             <small class="tqp-nav-link" (click)="openCsiCreatePage();">Add CSI Record</small>
@@ -86,7 +86,29 @@
 
               <ng-container matColumnDef="csiId">
                 <th mat-header-cell *matHeaderCellDef>CSI ID</th>
-                <td mat-cell *matCellDef="let row">{{row.csiId}}</td>
+                <td mat-cell *matCellDef="let row">
+                  <a [routerLink]="['/csi/csi-detail', row.csiId]">
+                    {{row.csiId}}
+                  </a>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="csiDate">
+                <th mat-header-cell *matHeaderCellDef>Date</th>
+                <td mat-cell *matCellDef="let row">
+                  <a [routerLink]="['/csi/csi-detail', row.caseManagerId]">
+                    {{row.csiDate | date: 'MM/dd/yyyy'}}
+                  </a>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="caseManager">
+                <th mat-header-cell *matHeaderCellDef>Case Manager</th>
+                <td mat-cell *matCellDef="let row">
+                  <a [routerLink]="['/case-managers/case-manager-detail', row.caseManagerId]">
+                    {{row.caseManagerGivenName}} {{row.caseManagerSurname}}
+                  </a>
+                </td>
               </ng-container>
 
               <tr mat-header-row *matHeaderRowDef="csiListDisplayedColumns; sticky: true" [hidden]="false"></tr>
@@ -123,21 +145,22 @@
                 <td mat-cell *matCellDef="let row">{{row.postGradEventId}}</td>
               </ng-container>
 
-              <ng-container matColumnDef="postGradEventTypeName">
-                <th mat-header-cell *matHeaderCellDef>Event Type</th>
+              <ng-container matColumnDef="postGradEventDate">
+                <th mat-header-cell *matHeaderCellDef>Date</th>
                 <td mat-cell *matCellDef="let row">
                   <a [routerLink]="['/post-grad-event/post-grad-event-detail', row.postGradEventId]">
-                    {{row.postGradEventTypeName}}
+                    {{row.postGradEventDate | date: 'MM/dd/yyyy'}}
                   </a>
                 </td>
               </ng-container>
 
-              <ng-container matColumnDef="postGradEventDate">
-                <th mat-header-cell *matHeaderCellDef>Date</th>
-                <td mat-cell *matCellDef="let row">{{row.postGradEventDate | date: 'MM/dd/yyyy'}}</td>
+              <ng-container matColumnDef="postGradEventTypeName">
+                <th mat-header-cell *matHeaderCellDef>Event Type</th>
+                <td mat-cell *matCellDef="let row">{{row.postGradEventTypeName}}</td>
               </ng-container>
 
-              <tr mat-header-row *matHeaderRowDef="postGradEventListDisplayedColumns; sticky: true" [hidden]="false"></tr>
+              <tr mat-header-row *matHeaderRowDef="postGradEventListDisplayedColumns; sticky: true"
+                  [hidden]="false"></tr>
               <tr mat-row *matRowDef="let row; columns: postGradEventListDisplayedColumns;"></tr>
             </table>
 
@@ -156,7 +179,8 @@
           Student Visits<span class="badge badge-secondary ml-2">{{visitListDataSource.length}}</span>
           <i *ngIf="visitListLoading" class="fa fa-spinner fa-spin"></i>
           <div class="card-header-actions" [hidden]="authService.allowRoles('ROLE_USER, ROLE_MANAGER, ROLE_ADMIN')">
-            <small class="tqp-nav-link" (click)="openVisitCreateDialog(this.student.studentId);">Add Student Visit</small>
+            <small class="tqp-nav-link" (click)="openVisitCreateDialog(this.student.studentId);">Add Student
+              Visit</small>
           </div>
         </div>
         <div class="card-body">
@@ -171,13 +195,18 @@
                 <td mat-cell *matCellDef="let row">{{row.visitId}}</td>
               </ng-container>
 
-              <ng-container matColumnDef="visitTypeName">
-                <th mat-header-cell *matHeaderCellDef>Visit Type</th>
+              <ng-container matColumnDef="visitDate">
+                <th mat-header-cell *matHeaderCellDef>Date</th>
                 <td mat-cell *matCellDef="let row">
                   <a [routerLink]="['/visits/visit-detail', row.visitId]">
-                    {{row.visitTypeName}}
+                    {{row.visitDate | date: 'MM/dd/yyyy'}}
                   </a>
                 </td>
+              </ng-container>
+
+              <ng-container matColumnDef="visitTypeName">
+                <th mat-header-cell *matHeaderCellDef>Visit Type</th>
+                <td mat-cell *matCellDef="let row">{{row.visitTypeName}}</td>
               </ng-container>
 
               <ng-container matColumnDef="interactionTypeName">
@@ -189,13 +218,6 @@
                 <th mat-header-cell *matHeaderCellDef>Case Manager</th>
                 <td mat-cell *matCellDef="let row">
                   {{row.caseManagerGivenName}} {{row.caseManagerSurname}}
-                </td>
-              </ng-container>
-
-              <ng-container matColumnDef="visitDate">
-                <th mat-header-cell *matHeaderCellDef>Date</th>
-                <td mat-cell *matCellDef="let row">
-                  {{row.visitDate | date: 'MM/dd/yyyy'}}
                 </td>
               </ng-container>
 
@@ -233,6 +255,15 @@
                 </td>
               </ng-container>
 
+              <ng-container matColumnDef="startDate">
+                <th mat-header-cell *matHeaderCellDef>Date</th>
+                <td mat-cell *matCellDef="let row">
+                  <a class="tqp-nav-link" (click)="openEntityEditDialog(row.entityTypeId, row.entityId)">
+                    {{row.startDate | date: 'MM/dd/yyyy'}}
+                  </a>
+                </td>
+              </ng-container>
+
               <ng-container matColumnDef="historyAction">
                 <th mat-header-cell *matHeaderCellDef>Action</th>
                 <td mat-cell *matCellDef="let row">
@@ -253,13 +284,6 @@
                 <th mat-header-cell *matHeaderCellDef>Description</th>
                 <td mat-cell *matCellDef="let row">
                   {{row.entityDescription}}
-                </td>
-              </ng-container>
-
-              <ng-container matColumnDef="startDate">
-                <th mat-header-cell *matHeaderCellDef>Date</th>
-                <td mat-cell *matCellDef="let row">
-                  {{row.startDate | date: 'MM/dd/yyyy'}}
                 </td>
               </ng-container>
 

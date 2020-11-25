@@ -35,7 +35,7 @@ export class VisitListComponent implements OnInit, AfterViewInit, OnDestroy {
   private searchParams: ServerSidePaginationRequest = new ServerSidePaginationRequest();
 
   public displayedColumns: string[] = [
-    'visitId',
+    // 'visitId',
     'visitDate',
     'studentName',
     'visitType',

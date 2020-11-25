@@ -31,7 +31,7 @@ export class SponsorListComponent implements OnInit, OnDestroy {
   private searchParams: ServerSidePaginationRequest = new ServerSidePaginationRequest();
 
   public displayedColumns: string[] = [
-    'sponsorId',
+    // 'sponsorId',
     'sponsorSurname',
     'sponsorGivenName',
     'sponsorAddress',

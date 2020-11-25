@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ExportComponent } from './export/export.component';
 import { CrcMetricsComponent } from './crc-metrics/crc-metrics.component';
-import { StatusReportComponent } from './status-report/status-report.component';
 import { SummaryReportComponent } from './summary-report/summary-report.component';
 
 const routes: Routes = [

@@ -24,10 +24,11 @@ import { Visit } from '../../../events/visits/Visit';
 import { VisitService } from '../../../events/visits/visit.service';
 import { VisitDetailEditDialogComponent } from '../../../events/visits/visit-detail-edit-dialog/visit-detail-edit-dialog.component';
 import { HistoryService } from '../../../events/history/history.service';
-import { CsiRecord } from '../../../events/csi/CsiRecord';
+import { Csi } from '../../../events/csi/Csi';
 import { StudentPostGradEventEditDialogComponent } from '../../../relationships/student-post-grad-event-edit-dialog/student-post-grad-event-edit-dialog.component';
 import { PostGradEventService } from '../../../relationships/student-post-grad-event-edit-dialog/post-grad-event.service';
 import { PostGradEvent } from '../../../relationships/student-post-grad-event-edit-dialog/PostGradEvent';
+import { CsiService } from '../../../events/csi/csi.service';
 
 @Component({
   selector: 'app-student-detail',
@@ -57,11 +58,11 @@ export class StudentDetailComponent implements OnInit {
   public visitListRecords: Visit[] = [];
   public visitListDataSource: Visit[] = [];
   public visitListDisplayedColumns: string[] = [
-    'visitId',
+    // 'visitId',
+    'visitDate',
     'visitTypeName',
     'interactionTypeName',
-    'caseManagerName',
-    'visitDate'
+    'caseManagerName'
   ];
 
   // History List
@@ -69,19 +70,21 @@ export class StudentDetailComponent implements OnInit {
   public historyListRecords: History[] = [];
   public historyListDataSource: History[] = [];
   public historyListDisplayedColumns: string[] = [
-    'relationshipId',
+    // 'relationshipId',
+    'startDate',
     'historyAction',
     'entityType',
-    'entityDescription',
-    'startDate'
+    'entityDescription'
   ];
 
   // CSI List
   public csiListLoading: boolean = false;
-  public csiListRecords: CsiRecord[] = [];
-  public csiListDataSource: CsiRecord[] = [];
+  public csiListRecords: Csi[] = [];
+  public csiListDataSource: Csi[] = [];
   public csiListDisplayedColumns: string[] = [
-    'csiId'
+    // 'csiId',
+    'csiDate',
+    'caseManager'
   ];
 
   // Post Grad Event List
@@ -89,9 +92,9 @@ export class StudentDetailComponent implements OnInit {
   public postGradEventListRecords: PostGradEvent[] = [];
   public postGradEventListDataSource: PostGradEvent[] = [];
   public postGradEventListDisplayedColumns: string[] = [
-    'postGradEventId',
+    // 'postGradEventId',
+    'postGradEventDate',
     'postGradEventTypeName',
-    'postGradEventDate'
   ];
 
   constructor(private route: ActivatedRoute,
@@ -104,6 +107,7 @@ export class StudentDetailComponent implements OnInit {
               private postGradEventService: PostGradEventService,
               private historyService: HistoryService,
               private visitService: VisitService,
+              private csiService: CsiService,
               private eventService: EventService,
               private formattingService: FormattingService,
               private router: Router,
@@ -117,6 +121,7 @@ export class StudentDetailComponent implements OnInit {
         const studentId = params['id'];
         // console.log('studentId', studentId);
         this.getStudentDetail(studentId);
+        this.getCsiListByStudentId(studentId);
         this.getVisitListByStudentId(studentId);
         this.getPostGradEventListByStudentId(studentId);
         this.getHistoryListByStudentId(studentId);
@@ -144,6 +149,22 @@ export class StudentDetailComponent implements OnInit {
     );
   }
 
+  private getCsiListByStudentId(studentId: number): void {
+    this.csiService.getCsiListByStudentId(studentId).subscribe(
+      (csiList: Csi[]) => {
+        // console.log('csiList', csiList);
+        this.csiListRecords = [];
+        csiList.forEach(item => {
+          this.csiListRecords.push(item);
+        });
+        this.csiListDataSource = this.csiListRecords;
+      },
+      error => {
+        console.error('Error: ', error);
+      }
+    );
+  }
+
   private getVisitListByStudentId(studentId: number): void {
     this.visitService.getVisitListByStudentId(studentId).subscribe(
       (visitList: Visit[]) => {
@@ -163,7 +184,7 @@ export class StudentDetailComponent implements OnInit {
   private getPostGradEventListByStudentId(studentId: number): void {
     this.postGradEventService.getPostGradEventListByStudentId(studentId).subscribe(
       (postGradEventList: PostGradEvent[]) => {
-        console.log('postGradEventList', postGradEventList);
+        // console.log('postGradEventList', postGradEventList);
         this.postGradEventListRecords = [];
         postGradEventList.forEach(item => {
           this.postGradEventListRecords.push(item);
