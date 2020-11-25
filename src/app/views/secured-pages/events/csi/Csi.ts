@@ -9,6 +9,17 @@ export class Csi {
   public csiServicesCounseling?: number;
   // CSI Scores
   public csiScoreFoodSecurity?: number;
+  public csiScoreNutritionAndGrowth?: number;
+  public csiScoreShelter?: number;
+  public csiScoreCare?: number;
+  public csiScoreAbuseAndExploitation?: number;
+  public csiScoreLegalProtection?: number;
+  public csiScoreWellness?: number;
+  public csiScoreHealthCareServices?: number;
+  public csiScoreEmotionalHealth?: number;
+  public csiScoreSocialBehavior?: number;
+  public csiScorePerformance?: number;
+  public csiScoreEducationAndWork?: number;
   // JOINED TABLES
   public studentSurname?: string;
   public studentGivenName?: string;

@@ -20,6 +20,7 @@ mat-button-toggle-group {
 
 .tqp-custom-toggle .mat-button-toggle-checked {
   background-color: rgb(0, 200, 0);
+  font-weight: bold;
 }
 
 ::ng-deep .tqp-custom-toggle .mat-button-toggle-label-content {

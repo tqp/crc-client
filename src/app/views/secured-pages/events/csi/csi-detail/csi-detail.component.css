@@ -4,3 +4,7 @@
   border-top: 3px solid #f0f3f5;
   border-bottom: 3px solid #f0f3f5;
 }
+
+.csi-score-badge {
+  width: 20px;
+}

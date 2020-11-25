@@ -34,6 +34,9 @@ export class CsiDetailEditComponent implements OnInit {
   public caseManagerList: CaseManager[];
   public servicesProvidedTypeList: ServicesProvidedType[];
 
+  public dark = 'badge-dark';
+  public light = 'badge-light';
+
   get checkboxFormArray() {
     return this.csiEditForm.controls.csiServicesProvidedCheckboxes as FormArray;
   }
@@ -64,37 +67,37 @@ export class CsiDetailEditComponent implements OnInit {
     'csiScoreFoodSecurity': [
       {type: 'required', message: 'A response is required'}
     ],
-    'csiNutritionAndGrowth': [
+    'csiScoreNutritionAndGrowth': [
       {type: 'required', message: 'A response is required'}
     ],
-    'csiShelter': [
+    'csiScoreShelter': [
       {type: 'required', message: 'A response is required'}
     ],
-    'csiCare': [
+    'csiScoreCare': [
       {type: 'required', message: 'A response is required'}
     ],
-    'csiAbuseAndExploitation': [
+    'csiScoreAbuseAndExploitation': [
       {type: 'required', message: 'A response is required'}
     ],
-    'csiLegalProtection': [
+    'csiScoreLegalProtection': [
       {type: 'required', message: 'A response is required'}
     ],
-    'csiWellness': [
+    'csiScoreWellness': [
       {type: 'required', message: 'A response is required'}
     ],
-    'csiHealthCareServices': [
+    'csiScoreHealthCareServices': [
       {type: 'required', message: 'A response is required'}
     ],
-    'csiEmotionalHealth': [
+    'csiScoreEmotionalHealth': [
       {type: 'required', message: 'A response is required'}
     ],
-    'csiSocialBehavior': [
+    'csiScoreSocialBehavior': [
       {type: 'required', message: 'A response is required'}
     ],
-    'csiPerformance': [
+    'csiScorePerformance': [
       {type: 'required', message: 'A response is required'}
     ],
-    'csiEducationAndWork': [
+    'csiScoreEducationAndWork': [
       {type: 'required', message: 'A response is required'}
     ]
   };
@@ -142,8 +145,19 @@ export class CsiDetailEditComponent implements OnInit {
       csiComments: new FormControl('', Validators.required),
       csiServicesProvided: new FormControl(''),
       csiServicesProvidedCheckboxes: new FormArray([], minSelectedCheckboxes(1)),
-
+      // Scores
       csiScoreFoodSecurity: new FormControl(''),
+      csiScoreNutritionAndGrowth: new FormControl(''),
+      csiScoreShelter: new FormControl(''),
+      csiScoreCare: new FormControl(''),
+      csiScoreAbuseAndExploitation: new FormControl(''),
+      csiScoreLegalProtection: new FormControl(''),
+      csiScoreWellness: new FormControl(''),
+      csiScoreHealthCareServices: new FormControl(''),
+      csiScoreEmotionalHealth: new FormControl(''),
+      csiScoreSocialBehavior: new FormControl(''),
+      csiScorePerformance: new FormControl(''),
+      csiScoreEducationAndWork: new FormControl(''),
     });
   }
 
@@ -169,6 +183,7 @@ export class CsiDetailEditComponent implements OnInit {
 
         // User the csiDetail response
         this.csi = response[1];
+        console.log('this.csi', this.csi);
         this.csiEditForm.controls['csiId'].patchValue(this.csi.csiId);
         this.csiEditForm.controls['studentId'].patchValue(this.csi.studentId);
         this.csiEditForm.controls['caseManagerId'].patchValue(this.csi.caseManagerId);
@@ -177,6 +192,17 @@ export class CsiDetailEditComponent implements OnInit {
         this.csiEditForm.controls['csiServicesProvided'].patchValue(this.csi.csiServicesProvided);
 
         this.csiEditForm.controls['csiScoreFoodSecurity'].patchValue(this.csi.csiScoreFoodSecurity);
+        this.csiEditForm.controls['csiScoreNutritionAndGrowth'].patchValue(this.csi.csiScoreNutritionAndGrowth);
+        this.csiEditForm.controls['csiScoreShelter'].patchValue(this.csi.csiScoreShelter);
+        this.csiEditForm.controls['csiScoreCare'].patchValue(this.csi.csiScoreCare);
+        this.csiEditForm.controls['csiScoreAbuseAndExploitation'].patchValue(this.csi.csiScoreAbuseAndExploitation);
+        this.csiEditForm.controls['csiScoreLegalProtection'].patchValue(this.csi.csiScoreLegalProtection);
+        this.csiEditForm.controls['csiScoreWellness'].patchValue(this.csi.csiScoreWellness);
+        this.csiEditForm.controls['csiScoreHealthCareServices'].patchValue(this.csi.csiScoreHealthCareServices);
+        this.csiEditForm.controls['csiScoreEmotionalHealth'].patchValue(this.csi.csiScoreEmotionalHealth);
+        this.csiEditForm.controls['csiScoreSocialBehavior'].patchValue(this.csi.csiScoreSocialBehavior);
+        this.csiEditForm.controls['csiScorePerformance'].patchValue(this.csi.csiScorePerformance);
+        this.csiEditForm.controls['csiScoreEducationAndWork'].patchValue(this.csi.csiScoreEducationAndWork);
 
         // Populate Checkboxes
         const servicesProvidedCheckboxArray = this.csi.csiServicesProvided.split('|');
@@ -259,7 +285,19 @@ export class CsiDetailEditComponent implements OnInit {
     csi.csiDate = this.formattingService.formatStandardDateAsMySql(this.csiEditForm.getRawValue().csiDate);
     csi.csiComments = this.csiEditForm.getRawValue().csiComments;
     csi.csiServicesProvided = this.csiEditForm.getRawValue().csiServicesProvided;
-    csi.csiScoreFoodSecurity = this.csiEditForm.getRawValue().csiFoodSecurity;
+    // Scores
+    csi.csiScoreFoodSecurity = this.csiEditForm.getRawValue().csiScoreFoodSecurity;
+    csi.csiScoreNutritionAndGrowth = this.csiEditForm.getRawValue().csiScoreNutritionAndGrowth;
+    csi.csiScoreShelter = this.csiEditForm.getRawValue().csiScoreShelter;
+    csi.csiScoreCare = this.csiEditForm.getRawValue().csiScoreCare;
+    csi.csiScoreAbuseAndExploitation = this.csiEditForm.getRawValue().csiScoreAbuseAndExploitation;
+    csi.csiScoreLegalProtection = this.csiEditForm.getRawValue().csiScoreLegalProtection;
+    csi.csiScoreWellness = this.csiEditForm.getRawValue().csiScoreWellness;
+    csi.csiScoreHealthCareServices = this.csiEditForm.getRawValue().csiScoreHealthCareServices;
+    csi.csiScoreEmotionalHealth = this.csiEditForm.getRawValue().csiScoreEmotionalHealth;
+    csi.csiScoreSocialBehavior = this.csiEditForm.getRawValue().csiScoreSocialBehavior;
+    csi.csiScorePerformance = this.csiEditForm.getRawValue().csiScorePerformance;
+    csi.csiScoreEducationAndWork = this.csiEditForm.getRawValue().csiScoreEducationAndWork;
 
     if (this.newRecord) {
       this.csiService.createCsi(csi).subscribe(
@@ -290,21 +328,6 @@ export class CsiDetailEditComponent implements OnInit {
     } else {
       this.router.navigate(['csi/csi-list']).then();
     }
-  }
-
-  public test(): void {
-    // console.log('test', this.csiEditForm.getRawValue());
-
-
-    // this.ordersFormArray.controls.map(value => {
-    //   console.log('value', value);
-    //   value.setValue(true);
-    // });
-
-    // const selectedOrderIds = this.csiEditForm.value.orders
-    //   .map((checked, i) => checked ? this.servicesProvidedTypeList[i].servicesProvidedTypeId : null)
-    //   .filter(v => v !== null);
-    // console.log(selectedOrderIds);
   }
 
   @HostListener('window:keydown', ['$event'])
