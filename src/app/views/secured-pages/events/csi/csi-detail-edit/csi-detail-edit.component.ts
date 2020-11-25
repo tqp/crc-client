@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../../../../../../@tqp/components/confirm-dialog/confirm-dialog.component';
@@ -23,8 +23,9 @@ import { forkJoin } from 'rxjs';
   styleUrls: ['./csi-detail-edit.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class CsiDetailEditComponent implements OnInit {
+export class CsiDetailEditComponent implements OnInit, OnDestroy {
   @ViewChild('caregiverSurnameInputField', {static: false}) caregiverSurnameInputField: ElementRef;
+  public studentId;
   public pageSource: string;
   public newRecord: boolean;
   public csi: Csi;
@@ -113,6 +114,16 @@ export class CsiDetailEditComponent implements OnInit {
               public _matDialog: MatDialog) {
     this.getStudentList();
     this.getCaseManagerList();
+
+    if (this.router.getCurrentNavigation().extras.state && this.router.getCurrentNavigation().extras.state.studentId) {
+      this.studentId = this.router.getCurrentNavigation().extras.state.studentId;
+      localStorage.setItem('studentId', this.studentId);
+    } else {
+      console.error('Refreshed Screen. Returning to Main Page.');
+      this.studentId = localStorage.getItem('studentId');
+      console.log('Retrieved studentId from local storage.', this.studentId);
+      // this.router.navigate(['students/student-list']).then();
+    }
   }
 
   ngOnInit(): void {
@@ -132,15 +143,20 @@ export class CsiDetailEditComponent implements OnInit {
         // }, 0);
       }
     }).then();
-
     this.initializeForm();
   }
 
+  ngOnDestroy() {
+    localStorage.clear();
+  }
+
   private initializeForm(): void {
+    console.log('this.studentId', this.studentId);
+
     this.csiEditForm = this.formBuilder.group({
       csiId: new FormControl({value: 0, disabled: true}),
-      studentId: new FormControl({value: 0, disabled: true}),
-      caseManagerId: new FormControl({value: 0, disabled: true}),
+      studentId: new FormControl({value: this.studentId, disabled: true}),
+      caseManagerId: new FormControl({value: 0, disabled: false}),
       csiDate: new FormControl(moment().format('MM/DD/YYYY'), Validators.required),
       csiComments: new FormControl('', Validators.required),
       csiServicesProvided: new FormControl(''),
@@ -183,7 +199,7 @@ export class CsiDetailEditComponent implements OnInit {
 
         // User the csiDetail response
         this.csi = response[1];
-        console.log('this.csi', this.csi);
+        // console.log('this.csi', this.csi);
         this.csiEditForm.controls['csiId'].patchValue(this.csi.csiId);
         this.csiEditForm.controls['studentId'].patchValue(this.csi.studentId);
         this.csiEditForm.controls['caseManagerId'].patchValue(this.csi.caseManagerId);

@@ -700,7 +700,7 @@ export class StudentDetailComponent implements OnInit {
   }
 
   public openCsiCreatePage(): void {
-    this.router.navigate(['csi/csi-create']).then();
+    this.router.navigate(['csi/csi-create'], {state: {studentId: this.student.studentId}}).then();
   }
 
   public openTwitter(twitterHandle: string): void {
