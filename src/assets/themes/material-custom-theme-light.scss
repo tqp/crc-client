@@ -14,7 +14,7 @@ $custom-dark-theme-accent: mat-palette($mat-blue, 100, 50, 200);
 $custom-dark-theme-warn: mat-palette($mat-red);
 $custom-dark-theme: mat-dark-theme($custom-dark-theme-primary, $custom-dark-theme-accent, $custom-dark-theme-warn);
 
-@include angular-material-theme($custom-dark-theme);
+@include angular-material-theme($custom-light-theme);
 
 @mixin mix-app-theme($app-theme) {
   $primary: map-get($app-theme, primary);
