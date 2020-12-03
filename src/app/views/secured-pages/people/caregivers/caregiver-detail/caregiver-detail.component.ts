@@ -22,18 +22,18 @@ export class CaregiverDetailComponent implements OnInit {
   public caregiverLoading: boolean = false;
 
   // Associated Students List
-  public studentsRecords: Student[] = [];
-  public studentsDataSource: Student[] = [];
-  public studentsDisplayedColumns: string[] = [
+  public studentListRecords: Student[] = [];
+  public studentListDataSource: Student[] = [];
+  public studentListDisplayedColumns: string[] = [
     'name',
     'relationshipTierTypeName',
     'relationshipStartDate'
   ];
 
   // Associated Loans List
-  public loansRecords: Student[] = [];
-  public loansDataSource: Student[] = [];
-  public loansDisplayedColumns: string[] = [
+  public loanListRecords: Student[] = [];
+  public loanListDataSource: Student[] = [];
+  public loanListDisplayedColumns: string[] = [
     'loanId',
     'loanAmount',
     'amountPaid',
@@ -69,7 +69,7 @@ export class CaregiverDetailComponent implements OnInit {
     this.caregiverService.getCaregiverDetail(caregiverId).subscribe(
       response => {
         this.caregiver = response;
-        console.log('response', response);
+        // console.log('response', response);
         this.eventService.loadingEvent.emit(false);
         this.caregiverLoading = false;
       },
@@ -84,9 +84,9 @@ export class CaregiverDetailComponent implements OnInit {
       (studentList: Student[]) => {
         // console.log('studentList', studentList);
         studentList.forEach(item => {
-          this.studentsRecords.push(item);
+          this.studentListRecords.push(item);
         });
-        this.studentsDataSource = this.studentsRecords;
+        this.studentListDataSource = this.studentListRecords;
       },
       error => {
         console.error('Error: ', error);
@@ -97,11 +97,11 @@ export class CaregiverDetailComponent implements OnInit {
   private getLoanListByCaregiverId(caregiverId: number): void {
     this.loanService.getLoanListByCaregiverId(caregiverId).subscribe(
       (loanList: Loan[]) => {
-        console.log('loanList', loanList);
+        // console.log('loanList', loanList);
         loanList.forEach(item => {
-          this.loansRecords.push(item);
+          this.loanListRecords.push(item);
         });
-        this.loansDataSource = this.loansRecords;
+        this.loanListDataSource = this.loanListRecords;
       },
       error => {
         console.error('Error: ', error);

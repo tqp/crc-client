@@ -93,7 +93,7 @@ export class CaseManagerDetailComponent implements OnInit {
   private getCsiListByCaseManagerId(caseManagerId: number): void {
     this.csiService.getCsiListByCaseManagerId(caseManagerId).subscribe(
       (csiList: Csi[]) => {
-        console.log('csiList', csiList);
+        // console.log('csiList', csiList);
         csiList.forEach(item => {
           this.csiListRecords.push(item);
         });

@@ -59,14 +59,14 @@
       <div class="card">
         <div class="card-header">
           <i class="fa fa-graduation-cap"></i>
-          Associated Students
+          Associated Students<span class="badge badge-secondary ml-2">{{studentListDataSource.length}}</span>
         </div>
         <div class="card-body">
 
           <div class="table-container" style="height: 200px; border: 1px solid rgb(200, 206, 211);">
 
-            <table mat-table [dataSource]="studentsDataSource"
-                   *ngIf="studentsDataSource && studentsDataSource.length > 0"
+            <table mat-table [dataSource]="studentListDataSource"
+                   *ngIf="studentListDataSource && studentListDataSource.length > 0"
                    matSort matSortActive="lastName" matSortDirection="asc" matSortDisableClear="true"
                    class="table">
 
@@ -93,11 +93,11 @@
                 </td>
               </ng-container>
 
-              <tr mat-header-row *matHeaderRowDef="studentsDisplayedColumns; sticky: true" [hidden]="false"></tr>
-              <tr mat-row *matRowDef="let row; columns: studentsDisplayedColumns;"></tr>
+              <tr mat-header-row *matHeaderRowDef="studentListDisplayedColumns; sticky: true" [hidden]="false"></tr>
+              <tr mat-row *matRowDef="let row; columns: studentListDisplayedColumns;"></tr>
             </table>
 
-            <div class="no-records" *ngIf="studentsDataSource && studentsDataSource.length <= 0">
+            <div class="no-records" *ngIf="studentListDataSource && studentListDataSource.length <= 0">
               No records to display.
             </div>
 
@@ -109,13 +109,13 @@
       <div class="card">
         <div class="card-header">
           <i class="fa fa-bank"></i>
-          Loans
+          Loans<span class="badge badge-secondary ml-2">{{loanListDataSource.length}}</span>
         </div>
         <div class="card-body">
 
           <div class="table-container" style="height: 200px; border: 1px solid rgb(200, 206, 211);">
 
-            <table mat-table [dataSource]="loansDataSource" *ngIf="loansDataSource && loansDataSource.length > 0"
+            <table mat-table [dataSource]="loanListDataSource" *ngIf="loanListDataSource && loanListDataSource.length > 0"
                    matSort matSortActive="lastName" matSortDirection="asc" matSortDisableClear="true"
                    class="table">
 
@@ -149,11 +149,11 @@
                 </td>
               </ng-container>
 
-              <tr mat-header-row *matHeaderRowDef="loansDisplayedColumns; sticky: true" [hidden]="false"></tr>
-              <tr mat-row *matRowDef="let row; columns: loansDisplayedColumns;"></tr>
+              <tr mat-header-row *matHeaderRowDef="loanListDisplayedColumns; sticky: true" [hidden]="false"></tr>
+              <tr mat-row *matRowDef="let row; columns: loanListDisplayedColumns;"></tr>
             </table>
 
-            <div class="no-records" *ngIf="loansDataSource && loansDataSource.length <= 0">
+            <div class="no-records" *ngIf="loanListDataSource && loanListDataSource.length <= 0">
               No records to display.
             </div>
 

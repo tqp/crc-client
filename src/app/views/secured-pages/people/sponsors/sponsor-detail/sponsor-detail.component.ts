@@ -19,9 +19,9 @@ export class SponsorDetailComponent implements OnInit {
   public sponsorLoading: boolean = false;
 
   // Associated Students List
-  public records: Student[] = [];
-  public dataSource: Student[] = [];
-  public displayedColumns: string[] = [
+  public studentListRecords: Student[] = [];
+  public studentListDataSource: Student[] = [];
+  public studentListDisplayedColumns: string[] = [
     'name',
     'relationshipStartDate'
   ];
@@ -66,9 +66,9 @@ export class SponsorDetailComponent implements OnInit {
       (studentList: Student[]) => {
         console.log('studentList', studentList);
         studentList.forEach(item => {
-          this.records.push(item);
+          this.studentListRecords.push(item);
         });
-        this.dataSource = this.records;
+        this.studentListDataSource = this.studentListRecords;
       },
       error => {
         console.error('Error: ', error);
