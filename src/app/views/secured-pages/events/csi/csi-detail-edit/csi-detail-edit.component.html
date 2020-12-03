@@ -117,7 +117,7 @@
                   <div class="col-md-9 col-form-label checkbox-area-container">
 
                     <label formArrayName="csiServicesProvidedCheckboxes" class="checkbox-label"
-                           *ngFor="let checkbox of checkboxFormArray.controls; let i = index">
+                           *ngFor="let checkbox of csiServicesProvidedCheckboxFormArray.controls; let i = index">
                       <input type="checkbox" [formControlName]="i"
                              (change)="onCsiServicesProvidedCheckboxChange($event)"/>
                       {{servicesProvidedTypeList[i].servicesProvidedTypeName}}
@@ -148,19 +148,6 @@
               </div>
             </div>
 
-          </div>
-
-          <div class="card-footer">
-            <button type="button" class="btn btn-primary float-right" (click)="save()"
-                    [disabled]="!csiEditForm.valid">
-              <i class="fa fa-save mr-2"></i>Save
-            </button>
-            <button type="button" class="btn btn-secondary" (click)="cancel()">
-              <i class="fa fa-ban mr-2"></i>Cancel
-            </button>
-            <button type="button" class="btn btn-danger" (click)="delete(csi.csiId)">
-              <i class="fa fa-trash-o mr-2"></i>Delete
-            </button>
           </div>
 
         </div>
@@ -456,7 +443,7 @@
             <div class="row">
               <div class="col-sm-12">
                 <div class="form-group">
-                  <label for="csiSocialBehavior" class="rating-label">Social Behavior*</label>
+                  <label for="csiScoreSocialBehavior" class="rating-label">Social Behavior*</label>
                   <mat-button-toggle-group id="csiScoreSocialBehavior" class="tqp-custom-toggle"
                                            formControlName="csiScoreSocialBehavior">
                     <mat-button-toggle value=1 [checked]="csi.csiScoreSocialBehavior===1" disableRipple>
@@ -546,6 +533,19 @@
               </div>
             </div>
 
+          </div>
+
+          <div class="card-footer">
+            <button type="button" class="btn btn-primary float-right" (click)="save()"
+                    [disabled]="!csiEditForm.valid">
+              <i class="fa fa-save mr-2"></i>Save
+            </button>
+            <button type="button" class="btn btn-secondary" (click)="cancel()">
+              <i class="fa fa-ban mr-2"></i>Cancel
+            </button>
+            <button type="button" class="btn btn-danger" (click)="delete(csi.csiId)">
+              <i class="fa fa-trash-o mr-2"></i>Delete
+            </button>
           </div>
 
         </div>

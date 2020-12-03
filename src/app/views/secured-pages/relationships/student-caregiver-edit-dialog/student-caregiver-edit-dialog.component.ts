@@ -154,7 +154,7 @@ export class StudentCaregiverEditDialogComponent implements OnInit {
       disableClose: false,
       minWidth: '30%'
     });
-    this.confirmDialogRef.componentInstance.confirmMessage = 'Are you sure you want to delete?';
+    this.confirmDialogRef.componentInstance.dialogMessage = 'Are you sure you want to delete?';
     this.confirmDialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.dialogRef.close(['delete', this.studentCaregiverEditForm.getRawValue()]);

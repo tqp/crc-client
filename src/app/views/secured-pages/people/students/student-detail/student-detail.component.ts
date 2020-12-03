@@ -152,7 +152,7 @@ export class StudentDetailComponent implements OnInit {
   private getCsiListByStudentId(studentId: number): void {
     this.csiService.getCsiListByStudentId(studentId).subscribe(
       (csiList: Csi[]) => {
-        // console.log('csiList', csiList);
+        console.log('csiList', csiList);
         this.csiListRecords = [];
         csiList.forEach(item => {
           this.csiListRecords.push(item);

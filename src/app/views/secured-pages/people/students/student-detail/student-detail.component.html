@@ -96,7 +96,7 @@
               <ng-container matColumnDef="csiDate">
                 <th mat-header-cell *matHeaderCellDef>Date</th>
                 <td mat-cell *matCellDef="let row">
-                  <a [routerLink]="['/csi/csi-detail', row.caseManagerId]">
+                  <a [routerLink]="['/csi/csi-detail', row.csiId]">
                     {{row.csiDate | date: 'MM/dd/yyyy'}}
                   </a>
                 </td>

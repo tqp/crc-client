@@ -6,6 +6,8 @@ import { CaseManagerService } from '../case-manager.service';
 import { Student } from '../../students/Student';
 import { AuthService } from '../../../../../../@tqp/services/auth.service';
 import { RelationshipService } from '../../../relationships/relationship.service';
+import { CsiService } from '../../../events/csi/csi.service';
+import { Csi } from '../../../events/csi/Csi';
 
 @Component({
   selector: 'app-case-manager-detail',
@@ -19,16 +21,25 @@ export class CaseManagerDetailComponent implements OnInit {
   public caseManagerLoading: boolean = false;
 
   // Associated Students List
-  public records: Student[] = [];
-  public dataSource: Student[] = [];
-  public displayedColumns: string[] = [
+  public studentListRecords: Student[] = [];
+  public studentListDataSource: Student[] = [];
+  public studentListDisplayedColumns: string[] = [
     'name',
     'relationshipStartDate'
+  ];
+
+  // CSI Records List
+  public csiListRecords: Student[] = [];
+  public csiListDataSource: Student[] = [];
+  public csiListDisplayedColumns: string[] = [
+    'name',
+    'csiDate'
   ];
 
   constructor(private route: ActivatedRoute,
               private caseManagerService: CaseManagerService,
               private relationshipService: RelationshipService,
+              private csiService: CsiService,
               private eventService: EventService,
               private router: Router,
               public authService: AuthService) {
@@ -41,6 +52,7 @@ export class CaseManagerDetailComponent implements OnInit {
         // console.log('caseManagerId', caseManagerId);
         this.getCaseManagerDetail(caseManagerId);
         this.getStudentListByCaseManagerId(caseManagerId);
+        this.getCsiListByCaseManagerId(caseManagerId);
       } else {
         console.error('No ID was present.');
       }
@@ -68,9 +80,24 @@ export class CaseManagerDetailComponent implements OnInit {
       (studentList: Student[]) => {
         // console.log('studentList', studentList);
         studentList.forEach(item => {
-          this.records.push(item);
+          this.studentListRecords.push(item);
         });
-        this.dataSource = this.records;
+        this.studentListDataSource = this.studentListRecords;
+      },
+      error => {
+        console.error('Error: ', error);
+      }
+    );
+  }
+
+  private getCsiListByCaseManagerId(caseManagerId: number): void {
+    this.csiService.getCsiListByCaseManagerId(caseManagerId).subscribe(
+      (csiList: Csi[]) => {
+        console.log('csiList', csiList);
+        csiList.forEach(item => {
+          this.csiListRecords.push(item);
+        });
+        this.csiListDataSource = this.csiListRecords;
       },
       error => {
         console.error('Error: ', error);

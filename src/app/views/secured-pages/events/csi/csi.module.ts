@@ -9,14 +9,17 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { RouterModule } from '@angular/router';
 import { ListAddRemoveItemsBasicModule } from '../../../../../@tqp/components/list-add-remove-items-basic/list-add-remove-items-basic.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { CaregiverRoutingModule } from '../../people/caregivers/caregiver-routing.module';
 import { CsiListComponent } from './csi-list/csi-list.component';
 import { CsiDetailEditDialogComponent } from './csi-detail-edit-dialog/csi-detail-edit-dialog.component';
 
 
-
 @NgModule({
-  declarations: [CsiDetailEditComponent, CsiDetailComponent, CsiListComponent, CsiDetailEditDialogComponent],
+  declarations: [
+    CsiDetailEditComponent,
+    CsiDetailComponent,
+    CsiListComponent,
+    CsiDetailEditDialogComponent
+  ],
   imports: [
     CommonModule,
     AngularMaterialModule,
@@ -26,8 +29,8 @@ import { CsiDetailEditDialogComponent } from './csi-detail-edit-dialog/csi-detai
     RouterModule,
     ListAddRemoveItemsBasicModule,
     FlexLayoutModule,
-    CaregiverRoutingModule,
     CsiRoutingModule
   ]
 })
-export class CsiModule { }
+export class CsiModule {
+}

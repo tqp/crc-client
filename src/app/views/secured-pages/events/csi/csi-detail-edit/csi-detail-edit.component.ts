@@ -14,6 +14,7 @@ import * as moment from 'moment';
 import { ServicesProvidedTypeService } from '../../../reference-tables/services-provided-type/services-provided-type.service';
 import { ServicesProvidedType } from '../../../reference-tables/services-provided-type/ServicesProvidedType';
 import { forkJoin } from 'rxjs';
+import { validateNonZeroValue } from '../../../../../../@tqp/validators/custom.validators';
 
 // REF: https://coryrylan.com/blog/creating-a-dynamic-checkbox-list-in-angular
 
@@ -38,7 +39,7 @@ export class CsiDetailEditComponent implements OnInit, OnDestroy {
   public dark = 'badge-dark';
   public light = 'badge-light';
 
-  get checkboxFormArray() {
+  get csiServicesProvidedCheckboxFormArray() {
     return this.csiEditForm.controls.csiServicesProvidedCheckboxes as FormArray;
   }
 
@@ -47,10 +48,12 @@ export class CsiDetailEditComponent implements OnInit, OnDestroy {
       {type: 'required', message: 'An ID is required'}
     ],
     'studentId': [
-      {type: 'required', message: 'An Student is required'}
+      {type: 'required', message: 'An Student is required'},
+      {type: 'validateNonZeroValue', message: 'You must select a Student'}
     ],
     'caseManagerId': [
-      {type: 'required', message: 'A Case Manager is required'}
+      {type: 'required', message: 'A Case Manager is required'},
+      {type: 'validateNonZeroValue', message: 'You must select a Case Manager'}
     ],
     'csiDate': [
       {type: 'required', message: 'A date is required'}
@@ -112,37 +115,41 @@ export class CsiDetailEditComponent implements OnInit, OnDestroy {
               private router: Router,
               private formBuilder: FormBuilder,
               public _matDialog: MatDialog) {
-    this.getStudentList();
-    this.getCaseManagerList();
 
-    if (this.router.getCurrentNavigation().extras.state && this.router.getCurrentNavigation().extras.state.studentId) {
-      this.studentId = this.router.getCurrentNavigation().extras.state.studentId;
-      localStorage.setItem('studentId', this.studentId);
-    } else {
-      console.error('Refreshed Screen. Returning to Main Page.');
-      this.studentId = localStorage.getItem('studentId');
-      console.log('Retrieved studentId from local storage.', this.studentId);
-      // this.router.navigate(['students/student-list']).then();
-    }
-  }
-
-  ngOnInit(): void {
     this.route.params.forEach((params: Params) => {
       if (params['id'] !== undefined) {
         const csiId = params['id'];
         this.newRecord = false;
-        // console.log('csiId', csiId);
         this.getCsiDetail(csiId);
       } else {
-        // Create new Person
         this.newRecord = true;
         this.csi = new Csi();
         this.csi.csiId = null;
-        // setTimeout(() => {
-        //   this.csiRecordDateInputField.nativeElement.focus();
-        // }, 0);
+        this.prepareCreatePage();
       }
     }).then();
+
+    this.getStudentList();
+    this.getCaseManagerList();
+    this.getServicesProvidedTypeList();
+
+    if (!this.newRecord) {
+      // console.log('studentId from Params', this.newRecord);
+    } else if (this.router.getCurrentNavigation().extras.state && this.router.getCurrentNavigation().extras.state.studentId) {
+      this.studentId = this.router.getCurrentNavigation().extras.state.studentId;
+      localStorage.setItem('studentId', this.studentId);
+    } else {
+      // console.error('Screen Refresh Detected');
+      this.studentId = localStorage.getItem('studentId');
+      if (this.studentId) {
+        // console.log('Retrieved studentId from local storage.', this.studentId);
+      } else {
+        this.displayRefreshErrorDialog();
+      }
+    }
+  }
+
+  ngOnInit(): void {
     this.initializeForm();
   }
 
@@ -151,36 +158,28 @@ export class CsiDetailEditComponent implements OnInit, OnDestroy {
   }
 
   private initializeForm(): void {
-    console.log('this.studentId', this.studentId);
-
+    // console.log('this.studentId', this.studentId);
     this.csiEditForm = this.formBuilder.group({
       csiId: new FormControl({value: 0, disabled: true}),
-      studentId: new FormControl({value: this.studentId, disabled: true}),
-      caseManagerId: new FormControl({value: 0, disabled: false}),
+      studentId: new FormControl({value: this.studentId, disabled: true}, [validateNonZeroValue]),
+      caseManagerId: new FormControl({value: 0, disabled: false}, [validateNonZeroValue]),
       csiDate: new FormControl(moment().format('MM/DD/YYYY'), Validators.required),
       csiComments: new FormControl('', Validators.required),
       csiServicesProvided: new FormControl(''),
       csiServicesProvidedCheckboxes: new FormArray([], minSelectedCheckboxes(1)),
       // Scores
-      csiScoreFoodSecurity: new FormControl(''),
-      csiScoreNutritionAndGrowth: new FormControl(''),
-      csiScoreShelter: new FormControl(''),
-      csiScoreCare: new FormControl(''),
-      csiScoreAbuseAndExploitation: new FormControl(''),
-      csiScoreLegalProtection: new FormControl(''),
-      csiScoreWellness: new FormControl(''),
-      csiScoreHealthCareServices: new FormControl(''),
-      csiScoreEmotionalHealth: new FormControl(''),
-      csiScoreSocialBehavior: new FormControl(''),
-      csiScorePerformance: new FormControl(''),
-      csiScoreEducationAndWork: new FormControl(''),
-    });
-  }
-
-  private addCheckboxes() {
-    this.servicesProvidedTypeList.forEach(() => {
-      const formArray = this.csiEditForm.controls.csiServicesProvidedCheckboxes as FormArray;
-      return formArray.push(new FormControl(false));
+      csiScoreFoodSecurity: new FormControl('', Validators.required),
+      csiScoreNutritionAndGrowth: new FormControl('', Validators.required),
+      csiScoreShelter: new FormControl('', Validators.required),
+      csiScoreCare: new FormControl('', Validators.required),
+      csiScoreAbuseAndExploitation: new FormControl('', Validators.required),
+      csiScoreLegalProtection: new FormControl('', Validators.required),
+      csiScoreWellness: new FormControl('', Validators.required),
+      csiScoreHealthCareServices: new FormControl('', Validators.required),
+      csiScoreEmotionalHealth: new FormControl('', Validators.required),
+      csiScoreSocialBehavior: new FormControl('', Validators.required),
+      csiScorePerformance: new FormControl('', Validators.required),
+      csiScoreEducationAndWork: new FormControl('', Validators.required),
     });
   }
 
@@ -221,11 +220,12 @@ export class CsiDetailEditComponent implements OnInit, OnDestroy {
         this.csiEditForm.controls['csiScoreEducationAndWork'].patchValue(this.csi.csiScoreEducationAndWork);
 
         // Populate Checkboxes
+        // console.log('servicesProvidedTypeList', this.servicesProvidedTypeList);
         const servicesProvidedCheckboxArray = this.csi.csiServicesProvided.split('|');
         this.servicesProvidedTypeList.forEach((value, index) => {
           const padded = ('000' + value.servicesProvidedTypeId).slice(-3);
           if (servicesProvidedCheckboxArray.indexOf(padded) > -1) {
-            this.checkboxFormArray.controls[index].setValue(true);
+            this.csiServicesProvidedCheckboxFormArray.controls[index].setValue(true);
           }
         });
       },
@@ -235,9 +235,25 @@ export class CsiDetailEditComponent implements OnInit, OnDestroy {
     );
   }
 
-  onCsiServicesProvidedCheckboxChange(e) {
+  private prepareCreatePage(): void {
+    const servicesProvided = this.servicesProvidedTypeService.getServicesProvidedTypeList();
+    servicesProvided.subscribe(response => {
+      this.servicesProvidedTypeList = response;
+      this.addCheckboxes();
+    });
+  }
+
+  private addCheckboxes() {
+    // console.log('this.servicesProvidedTypeList', this.servicesProvidedTypeList);
+    this.servicesProvidedTypeList.forEach(() => {
+      const formArray = this.csiEditForm.controls.csiServicesProvidedCheckboxes as FormArray;
+      return formArray.push(new FormControl(false));
+    });
+  }
+
+  public onCsiServicesProvidedCheckboxChange(e) {
     const array: string[] = [];
-    this.checkboxFormArray.value.forEach((value, index) => {
+    this.csiServicesProvidedCheckboxFormArray.value.forEach((value, index) => {
       if (value) {
         array.push(('000' + this.servicesProvidedTypeList[index].servicesProvidedTypeId).slice(-3));
       }
@@ -269,19 +285,48 @@ export class CsiDetailEditComponent implements OnInit, OnDestroy {
     );
   }
 
+  private getServicesProvidedTypeList(): void {
+    this.servicesProvidedTypeService.getServicesProvidedTypeList().subscribe(
+      (response: ServicesProvidedType[]) => {
+        // console.log('response', response);
+        this.servicesProvidedTypeList = response;
+      },
+      error => {
+        console.error('Error: ', error);
+      }
+    );
+  }
+
+  public displayRefreshErrorDialog(): void {
+    this.confirmDialogRef = this._matDialog.open(ConfirmDialogComponent, {
+      disableClose: false
+    });
+    this.confirmDialogRef.componentInstance.dialogTitle = 'Could Not Find the Student ID';
+    this.confirmDialogRef.componentInstance.dialogMessage = 'An error occurred and the Student ID could not be found.' +
+      '\nYou will be returned to the Student List page to try again.';
+    this.confirmDialogRef.componentInstance.mainButtonText = 'OK';
+    this.confirmDialogRef.componentInstance.hideCancelButton = true;
+    this.confirmDialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.router.navigate(['students/student-list']).then();
+      }
+      this.confirmDialogRef = null;
+    });
+  }
+
   // BUTTONS
 
   public delete(csiId: number): void {
     this.confirmDialogRef = this._matDialog.open(ConfirmDialogComponent, {
       disableClose: false
     });
-    this.confirmDialogRef.componentInstance.confirmMessage = 'Are you sure you want to delete?';
+    this.confirmDialogRef.componentInstance.dialogMessage = 'Are you sure you want to delete?';
     this.confirmDialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.csiService.deleteCsi(csiId).subscribe(
           response => {
             // console.log('response: ', response);
-            this.router.navigate(['csi-record/csi-record-list']).then();
+            this.router.navigate(['csi/csi-list']).then();
           },
           error => {
             console.error('Error: ' + error.message);
@@ -341,6 +386,8 @@ export class CsiDetailEditComponent implements OnInit, OnDestroy {
   public cancel(): void {
     if (this.csi.csiId) {
       this.router.navigate(['csi/csi-detail', this.csi.csiId]).then();
+    } else if (this.studentId) {
+      this.router.navigate(['students/student-detail', this.studentId]).then();
     } else {
       this.router.navigate(['csi/csi-list']).then();
     }

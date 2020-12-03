@@ -3,7 +3,7 @@
   <div class="row">
     <div class="col-sm-6">
       <h1>
-        <i class="fa fa-folder"></i>
+        <i class="fa fa-folder-o"></i>
         {{caseManager.caseManagerSurname}}, {{caseManager.caseManagerGivenName}}
       </h1>
     </div>
@@ -61,12 +61,13 @@
 
           <div class="table-container" style="height: 200px; border: 1px solid rgb(200, 206, 211);">
 
-            <table mat-table [dataSource]="dataSource" *ngIf="dataSource && dataSource.length > 0"
+            <table mat-table [dataSource]="studentListDataSource"
+                   *ngIf="studentListDataSource && studentListDataSource.length > 0"
                    matSort matSortActive="lastName" matSortDirection="asc" matSortDisableClear="true"
                    class="table">
 
               <ng-container matColumnDef="name">
-                <th mat-header-cell *matHeaderCellDef>Name</th>
+                <th mat-header-cell *matHeaderCellDef>Student Name</th>
                 <td mat-cell *matCellDef="let row">
                   <a [routerLink]="['/students/student-detail', row.studentId]">
                     {{row.studentGivenName}} {{row.studentSurname}}
@@ -81,11 +82,55 @@
                 </td>
               </ng-container>
 
-              <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true" [hidden]="false"></tr>
-              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+              <tr mat-header-row *matHeaderRowDef="studentListDisplayedColumns; sticky: true" [hidden]="false"></tr>
+              <tr mat-row *matRowDef="let row; columns: studentListDisplayedColumns;"></tr>
             </table>
 
-            <div class="no-records" *ngIf="dataSource && dataSource.length <= 0">
+            <div class="no-records" *ngIf="studentListDataSource && studentListDataSource.length <= 0">
+              No records to display.
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-pencil-square-o"></i>
+          CSI Records Submitted
+        </div>
+        <div class="card-body">
+
+          <div class="table-container" style="height: 200px; border: 1px solid rgb(200, 206, 211);">
+
+            <table mat-table [dataSource]="csiListDataSource" *ngIf="csiListDataSource && csiListDataSource.length > 0"
+                   matSort matSortActive="lastName" matSortDirection="asc" matSortDisableClear="true"
+                   class="table">
+
+              <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef>Student Name</th>
+                <td mat-cell *matCellDef="let row">
+                  <a [routerLink]="['/students/student-detail', row.studentId]">
+                    {{row.studentGivenName}} {{row.studentSurname}}
+                  </a>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="csiDate">
+                <th mat-header-cell *matHeaderCellDef>CSI Date</th>
+                <td mat-cell *matCellDef="let row">
+                  <a [routerLink]="['/csi/csi-detail', row.csiId]">
+                    {{row.csiDate | date: 'MM/dd/yyyy'}}
+                  </a>
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="csiListDisplayedColumns; sticky: true" [hidden]="false"></tr>
+              <tr mat-row *matRowDef="let row; columns: csiListDisplayedColumns;"></tr>
+            </table>
+
+            <div class="no-records" *ngIf="csiListDataSource && csiListDataSource.length <= 0">
               No records to display.
             </div>
 

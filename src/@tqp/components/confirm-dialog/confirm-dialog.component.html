@@ -1,15 +1,17 @@
 <h1 mat-dialog-title>
-  Please Confirm
+  {{dialogTitle}}
 </h1>
 
 <mat-dialog-content>
-  {{confirmMessage}}
+  <span [innerHTML]="formatDialogMessage(dialogMessage)"></span>
 </mat-dialog-content>
 
 <mat-dialog-actions class="pt-4 pb-4">
-  <button mat-button mat-dialog-close class="btn btn-secondary">Cancel</button>
+  <button mat-button mat-dialog-close class="btn btn-secondary" *ngIf="!hideCancelButton">
+    Cancel
+  </button>
   <div fxFlex></div>
   <button mat-raised-button class="btn btn-danger" style="width: 100px;" (click)="dialogRef.close(true)">
-    Confirm
+    {{mainButtonText}}
   </button>
 </mat-dialog-actions>

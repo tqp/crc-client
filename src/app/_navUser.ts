@@ -19,7 +19,7 @@ export const navItemsUser: INavData[] = [
   {
     name: 'Case Managers',
     url: '/case-managers/case-manager-list',
-    icon: 'fa fa-folder'
+    icon: 'fa fa-folder-o'
   },
   {
     name: 'Caregivers',

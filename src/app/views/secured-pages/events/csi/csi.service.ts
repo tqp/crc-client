@@ -8,7 +8,6 @@ import { map } from 'rxjs/operators';
 import { ServerSidePaginationRequest } from '@tqp/models/ServerSidePaginationRequest';
 import { ServerSidePaginationResponse } from '@tqp/models/ServerSidePaginationResponse';
 import { Csi } from './Csi';
-import { Visit } from '../visits/Visit';
 
 @Injectable({
   providedIn: 'root'
@@ -153,6 +152,26 @@ export class CsiService {
 
   public getCsiListByStudentId(studentId: number): Observable<Csi[]> {
     const url = environment.apiUrl + '/api/v1/csi/student/' + studentId;
+    const token = this.tokenService.getToken();
+    if (token) {
+      return this.http.get<Csi[]>(url, {
+        headers: this.httpService.setHeadersWithToken(),
+        observe: 'response',
+        params: {}
+      })
+        .pipe(
+          map(res => {
+            return res.body;
+          })
+        );
+    } else {
+      console.error('No token was present.');
+      return null;
+    }
+  }
+
+  public getCsiListByCaseManagerId(caseManagerId: number): Observable<Csi[]> {
+    const url = environment.apiUrl + '/api/v1/csi/case-manager/' + caseManagerId;
     const token = this.tokenService.getToken();
     if (token) {
       return this.http.get<Csi[]>(url, {
