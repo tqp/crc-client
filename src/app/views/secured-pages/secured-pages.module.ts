@@ -7,7 +7,7 @@ import { PeopleModule } from './people/people.module';
 import { ReferenceTablesModule } from './reference-tables/reference-tables.module';
 import { RelationshipsModule } from './relationships/relationships.module';
 import { EventsModule } from './events/events.module';
-import { VisitModule } from './events/visits/visit.module';
+import { VisitModule } from './events/visit/visit.module';
 
 
 @NgModule({

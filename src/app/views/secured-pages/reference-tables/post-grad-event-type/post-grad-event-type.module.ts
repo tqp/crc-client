@@ -11,7 +11,7 @@ import { ListAddRemoveItemsBasicModule } from '../../../../../@tqp/components/li
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { StudentRoutingModule } from '../../people/students/student-routing.module';
 import { PersonTypeRoutingModule } from '../person-type/person-type-routing.module';
-import { PostGradTypeRoutingModule } from './post-grad-type-routing.module';
+import { PostGradEventTypeRoutingModule } from './post-grad-event-type-routing.module';
 
 
 @NgModule({
@@ -29,8 +29,8 @@ import { PostGradTypeRoutingModule } from './post-grad-type-routing.module';
     RouterModule,
     ListAddRemoveItemsBasicModule,
     FlexLayoutModule,
-    PostGradTypeRoutingModule
+    PostGradEventTypeRoutingModule
   ]
 })
-export class PostGradEventModule {
+export class PostGradEventTypeModule {
 }

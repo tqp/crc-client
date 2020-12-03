@@ -20,9 +20,9 @@ import { RelationshipService } from '../../../relationships/relationship.service
 import { StudentProgramStatusEditDialogComponent } from '../../../relationships/student-program-status-edit-dialog/student-program-status-edit-dialog.component';
 import { ProgramStatusService } from '../../../relationships/student-program-status-edit-dialog/program-status.service';
 import { ProgramStatus } from '../../../relationships/student-program-status-edit-dialog/ProgramStatus';
-import { Visit } from '../../../events/visits/Visit';
-import { VisitService } from '../../../events/visits/visit.service';
-import { VisitDetailEditDialogComponent } from '../../../events/visits/visit-detail-edit-dialog/visit-detail-edit-dialog.component';
+import { Visit } from '../../../events/visit/Visit';
+import { VisitService } from '../../../events/visit/visit.service';
+import { VisitDetailEditDialogComponent } from '../../../events/visit/visit-detail-edit-dialog/visit-detail-edit-dialog.component';
 import { HistoryService } from '../../../events/history/history.service';
 import { Csi } from '../../../events/csi/Csi';
 import { StudentPostGradEventEditDialogComponent } from '../../../relationships/student-post-grad-event-edit-dialog/student-post-grad-event-edit-dialog.component';
@@ -310,7 +310,7 @@ export class StudentDetailComponent implements OnInit {
             this.postGradEventService.createPostGradEvent(postGradEvent).subscribe(
               (response) => {
                 console.log('response', response);
-                // this.getPostGradEventDetailByStudentId(this.student.studentId);
+                this.getPostGradEventListByStudentId(this.student.studentId);
                 // this.getHistoryListByStudentId(this.student.studentId);
               },
               error => {
@@ -322,7 +322,7 @@ export class StudentDetailComponent implements OnInit {
             this.postGradEventService.updatePostGradEvent(postGradEvent).subscribe(
               response => {
                 console.log('response', response);
-                // this.getProgramStatusDetailByStudentId(this.student.studentId);
+                this.getPostGradEventListByStudentId(this.student.studentId);
                 // this.getHistoryListByStudentId(this.student.studentId);
               },
               error => {
@@ -334,7 +334,7 @@ export class StudentDetailComponent implements OnInit {
             this.postGradEventService.deletePostGradEvent(postGradEvent.postGradEventId).subscribe(
               response => {
                 console.log('response', response);
-                // this.getProgramStatusDetailByStudentId(this.student.studentId);
+                this.getPostGradEventListByStudentId(this.student.studentId);
                 // this.getHistoryListByStudentId(this.student.studentId);
               },
               error => {

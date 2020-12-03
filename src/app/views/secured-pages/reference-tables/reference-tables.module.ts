@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { TierTypeModule } from './tier-type/tier-type.module';
 import { PersonTypeModule } from './person-type/person-type.module';
 import { RelationshipTypeModule } from './relationship-type/relationship-type.module';
-import { PostGradEventModule } from './post-grad-event-type/post-grad-event.module';
+import { PostGradEventTypeModule } from './post-grad-event-type/post-grad-event-type.module';
 
 
 @NgModule({
@@ -14,7 +14,7 @@ import { PostGradEventModule } from './post-grad-event-type/post-grad-event.modu
     TierTypeModule,
     PersonTypeModule,
     RelationshipTypeModule,
-    PostGradEventModule
+    PostGradEventTypeModule
   ]
 })
 export class ReferenceTablesModule {

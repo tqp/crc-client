@@ -9,7 +9,7 @@ import { ServerSidePaginationRequest } from '../../../../../@tqp/models/ServerSi
 import { ServerSidePaginationResponse } from '../../../../../@tqp/models/ServerSidePaginationResponse';
 import { PostGradEvent } from './PostGradEvent';
 import { RelationshipType } from '../../reference-tables/relationship-type/RelationshipType';
-import { Visit } from '../../events/visits/Visit';
+import { Visit } from '../../events/visit/Visit';
 
 @Injectable({
   providedIn: 'root'

@@ -116,8 +116,15 @@ export const routes: Routes = [
         }
       },
       {
+        path: 'post-grad-event',
+        loadChildren: () => import('./views/secured-pages/events/post-grad-event/post-grad-event.module').then(m => m.PostGradEventModule),
+        resolve: {
+          securedPageResolver: SecuredPageResolverService
+        }
+      },
+      {
         path: 'visits',
-        loadChildren: () => import('./views/secured-pages/events/visits/visit.module').then(m => m.VisitModule),
+        loadChildren: () => import('./views/secured-pages/events/visit/visit.module').then(m => m.VisitModule),
         resolve: {
           securedPageResolver: SecuredPageResolverService
         }
