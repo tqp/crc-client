@@ -1,0 +1,106 @@
+<div class="tqp-crud-detail animated fadeIn" *ngIf="user">
+
+  <div class="row">
+    <div class="col">
+      <h1>
+        <i class="fa fa-user"></i>
+        {{user.givenName}} {{user.surname}}
+      </h1>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-6 col-sm-12">
+
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-user"></i>User Profile
+          <i *ngIf="userLoading" class="fa fa-spinner fa-spin"></i>
+          <div class="card-header-actions" [hidden]="authService.allowRoles('ROLE_USER, ROLE_MANAGER, ROLE_ADMIN')">
+            <small class="tqp-nav-link" (click)="openUserEditPage();">Edit User Info</small>
+          </div>
+        </div>
+        <div class="card-body">
+          <dl class="row">
+            <dt class="col-sm-3">Name:</dt>
+            <dd class="col-sm-9">{{user.givenName}} {{user.surname}}</dd>
+          </dl>
+          <dl class="row">
+            <dt class="col-sm-3">Username:</dt>
+            <dd class="col-sm-9">{{user.username}}</dd>
+          </dl>
+          <dl class="row">
+            <dt class="col-sm-3">Roles:</dt>
+            <dd class="col-sm-9">
+              <span *ngFor="let role of user.roles | slice:0:100; let $last=last">
+                {{role.name}}<span *ngIf="!$last">, </span>
+              </span>
+            </dd>
+          </dl>
+          <dl class="row">
+            <dt class="col-sm-3">Status:</dt>
+            <dd class="col-sm-9">{{statusTranslate[user.status]}}</dd>
+          </dl>
+          <dl class="row">
+            <dt class="col-sm-3">Last Login:</dt>
+            <dd class="col-sm-9">
+              <span *ngIf="user.lastLogin; else neverLoggedOn;">
+                {{user.lastLogin | date:'MM/dd/yyyy h:mm:ss a'}}
+              </span>
+              <ng-template #neverLoggedOn>
+                <span class="text-danger">Never Logged In</span>
+              </ng-template>
+            </dd>
+          </dl>
+          <dl class="row">
+            <dt class="col-sm-3">Login Count:</dt>
+            <dd class="col-sm-9">{{user.loginCount}}</dd>
+          </dl>
+          <dl class="row">
+            <dt class="col-sm-3">User ID:</dt>
+            <dd class="col-sm-9">{{user.userId}}</dd>
+          </dl>
+          <dl class="row">
+            <dt class="col-sm-3">Created:</dt>
+            <dd class="col-sm-9">{{user.createdOn}} by {{user.createdBy}}</dd>
+          </dl>
+          <dl class="row">
+            <dt class="col-sm-3">Updated:</dt>
+            <dd class="col-sm-9">{{user.updatedOn}} by {{user.updatedBy}}</dd>
+          </dl>
+        </div>
+      </div>
+
+      <div class="card" *ngIf="decodedToken">
+        <div class="card-header">
+          <i class="fa fa-info-circle"></i>Token Info
+        </div>
+        <div class="card-body">
+          <dl class="row">
+            <dt class="col-sm-3">Subject:</dt>
+            <dd class="col-sm-9">{{decodedToken.sub}}</dd>
+          </dl>
+          <dl class="row">
+            <dt class="col-sm-3">Issued At:</dt>
+            <dd class="col-sm-9">{{decodedToken.iatText}}</dd>
+          </dl>
+          <dl class="row">
+            <dt class="col-sm-3">Expiration:</dt>
+            <dd class="col-sm-9">{{decodedToken.expText}}</dd>
+          </dl>
+          <dl class="row">
+            <dt class="col-sm-3">Authorities:</dt>
+            <dd class="col-sm-9">{{decodedToken.authorities}}</dd>
+          </dl>
+          <dl class="row">
+            <dt class="col-sm-3">Raw Token:</dt>
+            <dd class="col-sm-9">
+              {{decodedToken.rawToken}}
+            </dd>
+          </dl>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

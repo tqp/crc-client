@@ -306,6 +306,26 @@
 
       <div class="card">
         <div class="card-header">
+          <i class="fa fa-line-chart"></i>
+          CSI Scores Chart
+        </div>
+        <div class="card-body">
+          <div class="chart-wrapper">
+            <canvas baseChart class="chart"
+                    [datasets]="lineChartData"
+                    [labels]="lineChartLabels"
+                    [options]="lineChartOptions"
+                    [colors]="lineChartColors"
+                    [legend]="lineChartLegend"
+                    [chartType]="lineChartType"
+                    (chartHover)="chartHovered($event)"
+                    (chartClick)="chartClicked($event)"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
           <i class="fa fa-handshake-o"></i>
           Program Status
           <i *ngIf="programStatusLoading" class="fa fa-spinner fa-spin"></i>
@@ -432,6 +452,34 @@
           <div class="card-header-actions" [hidden]="authService.allowRoles('ROLE_USER, ROLE_MANAGER, ROLE_ADMIN')">
             <small class="tqp-nav-link" (click)="openStudentSponsorCreateDialog(null);">Assign Sponsor</small>
           </div>
+        </div>
+        <div class="card-body">
+          <dl class="row">
+            <dt class="col-sm-4">Sponsor:</dt>
+            <dd class="col-sm-8">
+              <span class="tqp-nav-link" *ngIf="sponsor && sponsor.sponsorId; else noSponsorAssigned;"
+                    [routerLink]="['/sponsors/sponsor-detail', sponsor.sponsorId]">
+                {{sponsor.sponsorGivenName}} {{sponsor.sponsorSurname}}
+              </span>
+              <ng-template #noSponsorAssigned>
+                <span class="text-danger">No Sponsor Assigned</span>
+              </ng-template>
+            </dd>
+          </dl>
+          <ng-container *ngIf="sponsor && sponsor.sponsorId">
+            <dl class="row">
+              <dt class="col-sm-4">Effective Date:</dt>
+              <dd class="col-sm-8">{{sponsor.relationshipStartDate}}</dd>
+            </dl>
+          </ng-container>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-handshake-o"></i>
+          Current Sponsor
+          <i *ngIf="sponsorLoading" class="fa fa-spinner fa-spin"></i>
         </div>
         <div class="card-body">
           <dl class="row">

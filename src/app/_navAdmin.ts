@@ -104,6 +104,12 @@ export const navItemsAdmin: INavData[] = [
     icon: 'fa fa-file-text-o'
   },
   {
+    name: 'CSI Scores Report',
+    url: '/reports/csi-scores-report',
+    icon: 'fa fa-file-text-o'
+  },
+
+  {
     name: 'Reference Tables',
     url: '/crud-app',
     icon: 'fa fa-table',
@@ -134,6 +140,11 @@ export const navItemsAdmin: INavData[] = [
     name: 'My Profile',
     url: '/account/my-profile',
     icon: 'fa fa-address-card'
+  },
+  {
+    name: 'User List',
+    url: '/users/user-list',
+    icon: 'fa fa-users'
   },
   {
     name: 'Logout',

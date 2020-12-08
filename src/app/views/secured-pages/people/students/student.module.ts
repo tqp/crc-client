@@ -10,6 +10,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AngularMaterialModule } from '../../../../../@tqp/modules/angular-material.module';
 import { StudentListComponent } from './student-list/student-list.component';
 import { StudentRoutingModule } from './student-routing.module';
+import { ChartsModule } from 'ng2-charts';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { StudentRoutingModule } from './student-routing.module';
   imports: [
     CommonModule,
     AngularMaterialModule,
+    ChartsModule,
     FormsModule,
     ReactiveFormsModule,
     BsDatepickerModule.forRoot(),

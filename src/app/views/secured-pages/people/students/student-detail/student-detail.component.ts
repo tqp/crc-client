@@ -29,6 +29,8 @@ import { StudentPostGradEventEditDialogComponent } from '../../../relationships/
 import { PostGradEventService } from '../../../relationships/student-post-grad-event-edit-dialog/post-grad-event.service';
 import { PostGradEvent } from '../../../relationships/student-post-grad-event-edit-dialog/PostGradEvent';
 import { CsiService } from '../../../events/csi/csi.service';
+import { ChartType } from 'chart.js';
+import { getStyle, hexToRgba } from '@coreui/coreui-pro/dist/js/coreui-utilities';
 
 @Component({
   selector: 'app-student-detail',
@@ -97,6 +99,65 @@ export class StudentDetailComponent implements OnInit {
     'postGradEventTypeName',
   ];
 
+  // lineChart
+  public lineChartData: Array<any> = [
+    {
+      data: [1, 2, 1, 2, 1, 2, 3, 4, 3, 4, 3, 4],
+      lineTension: 0,
+      fill: false,
+      steppedLine: false
+    }
+  ];
+  public lineChartLabels: Array<any> = [
+    'Abuse & Exploitation', // Child Protection
+    'Legal Protection',
+    'Performance', // Education and Skills Training
+    'Education & Work',
+    'Food Security', // Food & Nutrition
+    'Nutrition & Growth',
+    'Healthcare Services', // Health
+    'Wellness',
+    'Emotional Health', // Psychosocial
+    'Social Behavior',
+    'Care', // Care & Shelter
+    'Shelter'
+  ];
+  public lineChartOptions: any = {
+    animation: false,
+    responsive: true,
+    scales: {
+      xAxes: [
+        {
+          id: 'dataAxis',
+          ticks: {
+            maxRotation: 90,
+            minRotation: 90
+          }
+        }
+      ],
+      yAxes: [
+        {
+          ticks: {
+            beginAtZero: true,
+            stepSize: 1
+          }
+        }
+      ]
+    },
+    legend: {
+      display: false
+    }
+  };
+  public lineChartColors: Array<any> = [
+    {
+      backgroundColor: hexToRgba(getStyle('--info'), 10),
+      borderColor: getStyle('--info'),
+      pointHoverBackgroundColor: '#fff'
+    }
+  ];
+  public lineChartLegend = true;
+  public lineChartType: ChartType = 'line';
+
   constructor(private route: ActivatedRoute,
               private studentService: StudentService,
               private caregiverService: CaregiverService,
@@ -152,7 +213,7 @@ export class StudentDetailComponent implements OnInit {
   private getCsiListByStudentId(studentId: number): void {
     this.csiService.getCsiListByStudentId(studentId).subscribe(
       (csiList: Csi[]) => {
-        console.log('csiList', csiList);
+        // console.log('csiList', csiList);
         this.csiListRecords = [];
         csiList.forEach(item => {
           this.csiListRecords.push(item);
@@ -706,6 +767,15 @@ export class StudentDetailComponent implements OnInit {
   public openTwitter(twitterHandle: string): void {
     console.log('openTwitter', twitterHandle);
     window.open('https://twitter.com/' + twitterHandle, '_blank');
+  }
+
+  // Chart Events
+  public chartClicked(e: any): void {
+    console.log(e);
+  }
+
+  public chartHovered(e: any): void {
+    console.log(e);
   }
 
   @HostListener('window:keydown', ['$event'])

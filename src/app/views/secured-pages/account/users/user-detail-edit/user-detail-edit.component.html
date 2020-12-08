@@ -1,0 +1,128 @@
+<div class="tqp-crud-detail-edit animated fadeIn" *ngIf="user">
+
+  <form [formGroup]="userEditForm">
+
+    <div class="row">
+
+      <div class="col-sm-6">
+        <h1 *ngIf="user && newRecord && userEditForm.controls['surname'].value == ''; else notShow">
+          New User
+        </h1>
+        <ng-template #notShow>
+          <h1>
+            <i class="fa fa-user"></i>
+            {{userEditForm.controls['surname'].value}}, {{userEditForm.controls['givenName'].value}}
+          </h1>
+        </ng-template>
+      </div>
+
+    </div>
+
+    <div class="row">
+      <div class="col-lg-6 col-sm-12">
+
+        <div class="card">
+          <div class="card-header">
+            <i class="fa fa-user"></i>
+            User Information
+          </div>
+          <div class="card-body">
+
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="username">Username*</label>
+                  <input matInput id="username" type="text" class="form-control" placeholder="Username"
+                         formControlName="username">
+                  <mat-error *ngFor="let validation of validationMessages.username">
+                    <mat-error class="error-message"
+                               *ngIf="userEditForm.get('username').hasError(validation.type)
+                                && (userEditForm.get('username').dirty ||
+                                userEditForm.get('username').touched)">
+                      {{validation.message}}
+                    </mat-error>
+                  </mat-error>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="surname">Surname*</label>
+                  <input matInput id="surname" #userSurnameInputField type="text" class="form-control" placeholder="Surname"
+                         formControlName="surname" autocomplete="chrome-off">
+                  <mat-error *ngFor="let validation of validationMessages.surname">
+                    <mat-error class="error-message"
+                               *ngIf="userEditForm.get('surname').hasError(validation.type)
+                                && (userEditForm.get('surname').dirty ||
+                                userEditForm.get('surname').touched)">
+                      {{validation.message}}
+                    </mat-error>
+                  </mat-error>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="givenName">Given Name*</label>
+                  <input matInput id="givenName" type="text" class="form-control" placeholder="Given Name"
+                         formControlName="givenName">
+                  <mat-error *ngFor="let validation of validationMessages.givenName">
+                    <mat-error class="error-message"
+                               *ngIf="userEditForm.get('givenName').hasError(validation.type)
+                                && (userEditForm.get('givenName').dirty ||
+                                userEditForm.get('givenName').touched)">
+                      {{validation.message}}
+                    </mat-error>
+                  </mat-error>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label>Roles</label>
+                  <div class="col-md-9 col-form-label checkbox-area-container">
+
+                    <label formArrayName="roleCheckboxes" class="checkbox-label"
+                           *ngFor="let checkbox of roleCheckboxFormArray.controls; let i = index">
+                      <input type="checkbox" [formControlName]="i" (change)="setCheckboxes()"/>
+                      {{roleList[i].name}}
+                    </label>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="card-footer">
+            <button type="button" class="btn btn-primary float-right" (click)="save()"
+                    [disabled]="!userEditForm.valid">
+              <i class="fa fa-save mr-2"></i>Save
+            </button>
+            <button type="button" class="btn btn-secondary" (click)="cancel()">
+              <i class="fa fa-ban mr-2"></i>Cancel
+            </button>
+            <button type="button" class="btn btn-danger" (click)="delete(user.userId)">
+              <i class="fa fa-trash-o mr-2"></i>Delete
+            </button>
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="col-lg-6 col-sm-12">
+
+      </div>
+    </div>
+
+  </form>
+
+</div>

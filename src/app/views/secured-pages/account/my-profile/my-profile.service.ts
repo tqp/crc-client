@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
-import { User } from '@tqp/models/User';
+import { User } from 'app/views/secured-pages/account/users/User';
 import { environment } from '../../../../../environments/environment';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { TokenService } from '@tqp/services/token.service';
-import { Role } from '@tqp/models/Role';
+import { Role } from 'app/views/secured-pages/account/roles/Role';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { HttpService } from '@tqp/services/http.service';
@@ -21,15 +21,15 @@ export class MyProfileService {
   }
 
   public getMyUserInfo(): Observable<User> {
-    const url1 = environment.apiUrl + '/api/v1/my-profile/';
+    const user_url = environment.apiUrl + '/api/v1/my-profile/';
     const token = this.tokenService.getToken();
     if (token) {
-      return this.http.get<User>(url1, {
+      return this.http.get<User>(user_url, {
         headers: this.httpService.setHeaders(token)
       }).pipe(
         switchMap(user => {
-          const url2 = environment.apiUrl + '/api/v1/my-profile/roles';
-          return this.http.get<Role[]>(environment.apiUrl + '/api/v1/my-profile/roles', {
+          const user_role_url = environment.apiUrl + '/api/v1/my-profile/roles';
+          return this.http.get<Role[]>(user_role_url, {
             headers: this.httpService.setHeaders(token),
           })
             .pipe(

@@ -1,7 +1,7 @@
-import { Role } from './Role';
+import { Role } from '../roles/Role';
 
 export class User {
-    public userGuid: string;
+    public userId: number;
     public username: string;
     public surname: string;
     public givenName: string;
@@ -11,6 +11,7 @@ export class User {
     public theme: string;
     public picture: string;
     public roles: Role[];
+    public rolesString: string;
     public status: string;
     public createdOn: string;
     public createdBy: string;

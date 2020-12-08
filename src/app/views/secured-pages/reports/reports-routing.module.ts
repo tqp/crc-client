@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { ExportComponent } from './export/export.component';
 import { CrcMetricsComponent } from './crc-metrics/crc-metrics.component';
 import { SummaryReportComponent } from './summary-report/summary-report.component';
+import { CsiScoresReportComponent } from './csi-scores-report/csi-scores-report.component';
 
 const routes: Routes = [
 
@@ -29,6 +30,13 @@ const routes: Routes = [
         component: CrcMetricsComponent,
         data: {
           title: 'CRC Metrics'
+        }
+      },
+      {
+        path: 'csi-scores-report',
+        component: CsiScoresReportComponent,
+        data: {
+          title: 'CSI Scores Report'
         }
       },
       {

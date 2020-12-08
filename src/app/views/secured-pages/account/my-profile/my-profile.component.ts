@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MyProfileService } from './my-profile.service';
-import { User } from '@tqp/models/User';
+import { User } from 'app/views/secured-pages/account/users/User';
 import { Token } from '@tqp/models/Token';
 import { AuthService } from '@tqp/services/auth.service';
 import { TokenService } from '@tqp/services/token.service';
@@ -22,6 +22,8 @@ export class MyProfileComponent implements OnInit {
   public adminTestResult = 'Blocked';
   public developerTestResult = 'Blocked';
 
+  public statusTranslate = {0: 'Active', 1: 'Deleted'};
+
   constructor(private myProfileService: MyProfileService,
               private authService: AuthService,
               private diagnosticsService: DiagnosticsService,
@@ -38,7 +40,7 @@ export class MyProfileComponent implements OnInit {
     this.myProfileService.getMyUserInfo().subscribe(
       response => {
         this.user = response;
-        // console.log('user', this.user);
+        console.log('user', this.user);
         this.user.createdOn = moment(this.user.createdOn).format('DD-MMM-YYYY h:mm:ss a').toUpperCase();
         this.user.updatedOn = moment(this.user.updatedOn).format('DD-MMM-YYYY h:mm:ss a').toUpperCase();
       },

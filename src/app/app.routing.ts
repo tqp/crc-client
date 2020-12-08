@@ -67,6 +67,13 @@ export const routes: Routes = [
         }
       },
       {
+        path: 'users',
+        loadChildren: () => import('./views/secured-pages/account/users/user.module').then(m => m.UserModule),
+        resolve: {
+          securedPageResolver: SecuredPageResolverService
+        }
+      },
+      {
         path: 'students',
         loadChildren: () => import('./views/secured-pages/people/students/student.module').then(m => m.StudentModule),
         resolve: {

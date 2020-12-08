@@ -1,33 +1,34 @@
 import { Injectable } from '@angular/core';
 import { ServerSidePaginationRequest } from '@tqp/models/ServerSidePaginationRequest';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { ServerSidePaginationResponse } from '@tqp/models/ServerSidePaginationResponse';
+import { Student } from '../../people/students/Student';
 import { environment } from '../../../../../environments/environment';
+import { catchError, map, switchMap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { HttpService } from '@tqp/services/http.service';
 import { TokenService } from '@tqp/services/token.service';
-import { map } from 'rxjs/operators';
-import { Student } from './Student';
+import { User } from './User';
+import { Role } from '../roles/Role';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
-export class StudentService {
-  private studentListNameSearchValue;
+export class UserService {
+  private userListNameSearchValue;
 
   constructor(private http: HttpClient,
               private httpService: HttpService,
-              private tokenService: TokenService) {
-  }
+              private tokenService: TokenService,
+              private router: Router) { }
 
-  // BASIC CRUD
-
-  public createStudent(student: Student): Observable<Student> {
-    const url = environment.apiUrl + '/api/v1/student/';
+  public createUser(user: User): Observable<User> {
+    const url = environment.apiUrl + '/api/v1/user/';
     const token = this.tokenService.getToken();
     if (token) {
-      return this.http.post<Student>(url,
-        student,
+      return this.http.post<User>(url,
+        user,
         {
           headers: this.httpService.setHeadersWithToken(),
           observe: 'response',
@@ -44,28 +45,8 @@ export class StudentService {
     }
   }
 
-  public getStudentList(): Observable<Student[]> {
-    const url = environment.apiUrl + '/api/v1/student/';
-    const token = this.tokenService.getToken();
-    if (token) {
-      return this.http.get<Student[]>(url, {
-        headers: this.httpService.setHeadersWithToken(),
-        observe: 'response',
-        params: {}
-      })
-        .pipe(
-          map(res => {
-            return res.body;
-          })
-        );
-    } else {
-      console.error('No token was present.');
-      return null;
-    }
-  }
-
-  public getStudentList_SSP(serverSideSearchParams: ServerSidePaginationRequest): Observable<ServerSidePaginationResponse<Student>> {
-    const url = environment.apiUrl + '/api/v1/student/ssp';
+  public getUserList_SSP(serverSideSearchParams: ServerSidePaginationRequest): Observable<ServerSidePaginationResponse<Student>> {
+    const url = environment.apiUrl + '/api/v1/user/ssp';
     const token = this.tokenService.getToken();
     if (token) {
       return this.http.post<ServerSidePaginationResponse<Student>>(url,
@@ -86,11 +67,42 @@ export class StudentService {
     }
   }
 
-  public getStudentDetail(id: number) {
-    const url = environment.apiUrl + '/api/v1/student/' + id;
+  public getUserDetail(userId: number): Observable<User> {
+    const user_url = environment.apiUrl + '/api/v1/user/' + userId;
     const token = this.tokenService.getToken();
     if (token) {
-      return this.http.get<Student>(url,
+      return this.http.get<User>(user_url, {
+        headers: this.httpService.setHeaders(token)
+      }).pipe(
+        switchMap(user => {
+          const user_role_url = environment.apiUrl + '/api/v1/role/user-id/' + userId;
+          return this.http.get<Role[]>(user_role_url, {
+            headers: this.httpService.setHeaders(token),
+          })
+            .pipe(
+              map(roles => {
+                user.roles = roles;
+                return user;
+              }),
+              catchError(e => {
+                console.error('Error getting your User and Role information: ' + e);
+                return throwError(e);
+              })
+            );
+        })
+      );
+    } else {
+      console.error('No Token was present.');
+      this.router.navigate(['/login-page']).then();
+    }
+  }
+
+  public updateUser(user: User): Observable<User> {
+    const url = environment.apiUrl + '/api/v1/user/';
+    const token = this.tokenService.getToken();
+    if (token) {
+      return this.http.put<User>(url,
+        user,
         {
           headers: this.httpService.setHeadersWithToken(),
           observe: 'response',
@@ -107,30 +119,8 @@ export class StudentService {
     }
   }
 
-  public updateStudent(student: Student): Observable<Student> {
-    const url = environment.apiUrl + '/api/v1/student/';
-    const token = this.tokenService.getToken();
-    if (token) {
-      return this.http.put<Student>(url,
-        student,
-        {
-          headers: this.httpService.setHeadersWithToken(),
-          observe: 'response',
-          params: {}
-        })
-        .pipe(
-          map(res => {
-            return res.body;
-          })
-        );
-    } else {
-      console.error('No token was present.');
-      return null;
-    }
-  }
-
-  public deleteStudent(studentId: number): Observable<string> {
-    const url = environment.apiUrl + '/api/v1/student/' + studentId;
+  public deleteUser(userId: number): Observable<string> {
+    const url = environment.apiUrl + '/api/v1/user/' + userId;
     const token = this.tokenService.getToken();
     if (token) {
       return this.http.delete<string>(url,
@@ -152,11 +142,11 @@ export class StudentService {
 
   // PERSISTENT VARIABLES
 
-  public setStudentListNameSearchValue(val) {
-    this.studentListNameSearchValue = val;
+  public setUserListNameSearchValue(val) {
+    this.userListNameSearchValue = val;
   }
 
-  public getStudentListNameSearchValue() {
-    return this.studentListNameSearchValue;
+  public getUserListNameSearchValue() {
+    return this.userListNameSearchValue;
   }
 }

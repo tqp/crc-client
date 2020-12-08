@@ -1,45 +1,43 @@
 import { Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
+import { MatPaginator } from '@angular/material/paginator';
 import { ServerSidePaginationRequest } from '../../../../../../@tqp/models/ServerSidePaginationRequest';
 import { FormControl } from '@angular/forms';
+import { Student } from '../../../people/students/Student';
 import { EventService } from '../../../../../../@tqp/services/event.service';
 import { Router } from '@angular/router';
-import { ServerSidePaginationResponse } from '../../../../../../@tqp/models/ServerSidePaginationResponse';
-import { catchError, debounceTime, distinctUntilChanged, map, switchMap } from 'rxjs/operators';
-import { fromEvent, merge, of } from 'rxjs';
-import { StudentService } from '../student.service';
-import { Student } from '../Student';
 import { AuthService } from '../../../../../../@tqp/services/auth.service';
 import { ViewportScroller } from '@angular/common';
+import { fromEvent, merge, of } from 'rxjs';
+import { catchError, debounceTime, distinctUntilChanged, map, switchMap } from 'rxjs/operators';
+import { ServerSidePaginationResponse } from '../../../../../../@tqp/models/ServerSidePaginationResponse';
+import { UserService } from '../user.service';
 
 @Component({
-  selector: 'app-student-list',
-  templateUrl: './student-list.component.html',
-  styleUrls: ['./student-list.component.css']
+  selector: 'app-user-list',
+  templateUrl: './user-list.component.html',
+  styleUrls: ['./user-list.component.css']
 })
-export class StudentListComponent implements OnInit, OnDestroy {
+export class UserListComponent implements OnInit, OnDestroy {
   @ViewChild(MatSort, {static: true}) sort: MatSort;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild('tableContainer', {read: ElementRef, static: true}) public matTableRef: ElementRef;
   @ViewChild('dialogContent', {static: true}) public dialogRef: any;
   @ViewChild('nameSearchElementRef', {static: true}) nameSearchElementRef: ElementRef;
 
-  public listTitle = 'Student List';
+  public userListNameSearchFormControl = new FormControl();
+
   private pageIndex = 0;
   public pageSize = 10;
   private totalNumberOfPages: number;
   private searchParams: ServerSidePaginationRequest = new ServerSidePaginationRequest();
   public displayedColumns: string[] = [
-    'studentId',
-    'studentSurname',
-    'studentGivenName',
-    'caregiverName',
-    'caregiverAddress',
-    'caregiverPhone',
-    'supportTier'
+    'username',
+    'name',
+    'lastLogin',
+    'loginCount'
   ];
-  public studentListNameSearchFormControl = new FormControl();
+
   public records: Student[] = [];
   public dataSource: Student[] = [];
   public totalRecords: number;
@@ -49,7 +47,7 @@ export class StudentListComponent implements OnInit, OnDestroy {
   public isLoading = false;
   public isFilterApplied = false;
 
-  constructor(private studentService: StudentService,
+  constructor(private userService: UserService,
               private eventService: EventService,
               private router: Router,
               public authService: AuthService,
@@ -64,7 +62,7 @@ export class StudentListComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.studentService.setStudentListNameSearchValue(this.studentListNameSearchFormControl.value);
+    this.userService.setUserListNameSearchValue(this.userListNameSearchFormControl.value);
   }
 
   public initWindowResizeListener(): void {
@@ -93,9 +91,9 @@ export class StudentListComponent implements OnInit, OnDestroy {
     this.searchParams.sortColumn = null;
     this.searchParams.sortDirection = 'asc';
 
-    if (this.studentService.getStudentListNameSearchValue()) {
-      const nameSearchValue = this.studentService.getStudentListNameSearchValue();
-      this.studentListNameSearchFormControl.setValue(nameSearchValue);
+    if (this.userService.getUserListNameSearchValue()) {
+      const nameSearchValue = this.userService.getUserListNameSearchValue();
+      this.userListNameSearchFormControl.setValue(nameSearchValue);
       this.searchParams.nameFilter = nameSearchValue;
     }
   }
@@ -104,8 +102,8 @@ export class StudentListComponent implements OnInit, OnDestroy {
     // console.log('getPage searchParams', searchParams);
     this.isLoading = true;
     this.eventService.loadingEvent.emit(true);
-    this.studentService.getStudentList_SSP(searchParams).subscribe((response: ServerSidePaginationResponse<Student>) => {
-        // console.log('getPage response', response);
+    this.userService.getUserList_SSP(searchParams).subscribe((response: ServerSidePaginationResponse<Student>) => {
+        console.log('getPage response', response);
         const student: Student[] = response.data;
         student.forEach(item => {
           this.records.push(item);
@@ -134,7 +132,7 @@ export class StudentListComponent implements OnInit, OnDestroy {
 
   private listenForChanges(): void {
     merge(
-      this.studentListNameSearchFormControl.valueChanges.pipe(debounceTime(100)),
+      this.userListNameSearchFormControl.valueChanges.pipe(debounceTime(100)),
       this.sort.sortChange,
       this.paginator.page
     )
@@ -149,7 +147,7 @@ export class StudentListComponent implements OnInit, OnDestroy {
           this.isLoading = true;
           this.eventService.loadingEvent.emit(true);
 
-          const nameFilter = this.studentListNameSearchFormControl.value != null ? this.studentListNameSearchFormControl.value : '';
+          const nameFilter = this.userListNameSearchFormControl.value != null ? this.userListNameSearchFormControl.value : '';
 
           // Translate table columns to database columns for sorting.
           // IMPORTANT: If this translation is incorrect, the query will break!!!
@@ -169,7 +167,7 @@ export class StudentListComponent implements OnInit, OnDestroy {
           // console.log('this.searchParams', this.searchParams);
 
           this.isFilterApplied = nameFilter;
-          return this.studentService.getStudentList_SSP(serverSideSearchParams);
+          return this.userService.getUserList_SSP(serverSideSearchParams);
         }),
         map((response: ServerSidePaginationResponse<Student>) => {
           return response;
@@ -208,27 +206,22 @@ export class StudentListComponent implements OnInit, OnDestroy {
   }
 
   public clearFilters(): void {
-    this.studentListNameSearchFormControl.setValue('');
+    this.userListNameSearchFormControl.setValue('');
   }
 
   public openCreateStudentPage(): void {
-    this.router.navigate(['students/student-create']).then();
+    this.router.navigate(['users/user-create']).then();
   }
 
   public openDetailPage(row: any): void {
-    this.router.navigate(['students/student-detail', row.studentId]).then();
+    this.router.navigate(['users/user-detail', row.userId]).then();
   }
-
-  // @HostListener('window:resize', ['$event'])
-  // onResize(event) {
-  //   console.log('Height: ' + event.target.innerHeight);
-  // }
 
   @HostListener('window:keydown', ['$event'])
   public handleKeyboardEvent(event: KeyboardEvent): void {
     if (event.ctrlKey && event.key === 'f') {
       event.preventDefault();
-      this.studentListNameSearchFormControl.setValue('');
+      this.userListNameSearchFormControl.setValue('');
       this.nameSearchElementRef.nativeElement.focus();
     }
     if (event.ctrlKey && event.key === 'c') {

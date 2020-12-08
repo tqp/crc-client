@@ -1,4 +1,4 @@
-<div class="animated fadeIn" *ngIf="user">
+<div class="tqp-crud-detail animated fadeIn" *ngIf="user">
 
   <div class="row">
     <div class="col">
@@ -28,18 +28,25 @@
           <dl class="row">
             <dt class="col-sm-3">Roles:</dt>
             <dd class="col-sm-9">
+              <span *ngFor="let role of user.roles | slice:0:100; let $last=last">
+                {{role.name}}<span *ngIf="!$last">, </span>
+              </span>
+            </dd>
+            <!--
+            <dd class="col-sm-9">
               <span *ngFor="let role of user.roles | slice:0:4; let $last=last">
                 {{role.name}}<span *ngIf="!$last">, </span>
               </span>
             </dd>
+            -->
           </dl>
           <dl class="row">
             <dt class="col-sm-3">Status:</dt>
-            <dd class="col-sm-9">{{user.status}}</dd>
+            <dd class="col-sm-9">{{statusTranslate[user.status]}}</dd>
           </dl>
           <dl class="row">
             <dt class="col-sm-3">Last Login:</dt>
-            <dd class="col-sm-9">{{user.lastLogin}}</dd>
+            <dd class="col-sm-9">{{user.lastLogin | date:'MM/dd/yyyy h:mm:ss a'}}</dd>
           </dl>
           <dl class="row">
             <dt class="col-sm-3">Login Count:</dt>
@@ -47,7 +54,7 @@
           </dl>
           <dl class="row">
             <dt class="col-sm-3">User ID:</dt>
-            <dd class="col-sm-9">{{user.userGuid}}</dd>
+            <dd class="col-sm-9">{{user.userId}}</dd>
           </dl>
           <dl class="row">
             <dt class="col-sm-3">Created:</dt>
