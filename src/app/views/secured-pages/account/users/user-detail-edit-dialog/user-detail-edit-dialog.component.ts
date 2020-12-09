@@ -4,6 +4,7 @@ import { ConfirmDialogComponent } from '../../../../../../@tqp/components/confir
 import { FormArray, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { Role } from '../../roles/Role';
 import { RoleService } from '../../roles/role.service';
+import { UserValidationService } from '../user-validation.service';
 
 @Component({
   selector: 'app-user-detail-edit-dialog',
@@ -27,14 +28,16 @@ export class UserDetailEditDialogComponent implements OnInit {
   }
 
   public validationMessages = {
-    'username': [
-      {type: 'required', message: 'A username is required'},
-    ],
     'surname': [
       {type: 'required', message: 'A surname is required'}
     ],
     'givenName': [
       {type: 'required', message: 'A given name is required'}
+    ],
+    'username': [
+      {type: 'required', message: 'A username is required'},
+      {type: 'maxlength', message: 'The Username cannot be more than 60 characters long'},
+      {type: 'existingUsernameValidator', message: 'That username already exists'}
     ],
     'initialPassword': []
   };
@@ -43,6 +46,7 @@ export class UserDetailEditDialogComponent implements OnInit {
               @Inject(MAT_DIALOG_DATA) public data: any,
               private roleService: RoleService,
               private formBuilder: FormBuilder,
+              protected userValidationService: UserValidationService,
               public _matDialog: MatDialog) {
     this.getRoleList();
   }
@@ -53,7 +57,9 @@ export class UserDetailEditDialogComponent implements OnInit {
 
   private initializeForm(): void {
     this.userEditForm = this.formBuilder.group({
-      username: new FormControl('', Validators.required),
+      username: new FormControl('', [Validators.required, Validators.maxLength(60)], [
+        this.userValidationService.existingUsernameValidator()
+      ]),
       surname: new FormControl('', Validators.required),
       givenName: new FormControl('', Validators.required),
       setInitialPassword: new FormControl(''),

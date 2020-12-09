@@ -11,6 +11,7 @@ import { TokenService } from '@tqp/services/token.service';
 import { User } from './User';
 import { Role } from '../roles/Role';
 import { Router } from '@angular/router';
+import { Caregiver } from '../../people/caregivers/Caregiver';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +22,8 @@ export class UserService {
   constructor(private http: HttpClient,
               private httpService: HttpService,
               private tokenService: TokenService,
-              private router: Router) { }
+              private router: Router) {
+  }
 
   public createUser(user: User): Observable<User> {
     const url = environment.apiUrl + '/api/v1/user/';
@@ -94,6 +96,27 @@ export class UserService {
     } else {
       console.error('No Token was present.');
       this.router.navigate(['/login-page']).then();
+    }
+  }
+
+  public getUserDetailByUsername(username: string) {
+    const url = environment.apiUrl + '/api/v1/user/username/' + username;
+    const token = this.tokenService.getToken();
+    if (token) {
+      return this.http.get<User>(url,
+        {
+          headers: this.httpService.setHeadersWithToken(),
+          observe: 'response',
+          params: {}
+        })
+        .pipe(
+          map(res => {
+            return res.body;
+          })
+        );
+    } else {
+      console.error('No token was present.');
+      return null;
     }
   }
 
