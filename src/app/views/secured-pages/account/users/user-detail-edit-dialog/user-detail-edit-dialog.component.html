@@ -1,0 +1,87 @@
+<h2 mat-dialog-title>Create New User</h2>
+
+<mat-dialog-content style="overflow: hidden">
+
+  <form [formGroup]="userEditForm">
+
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="form-group">
+          <label for="surname">Surname*</label>
+          <input id="surname" type="text" class="form-control" formControlName="surname" #userSurnameInputField>
+          <mat-error *ngFor="let validation of validationMessages.surname">
+            <mat-error class="error-message"
+                       *ngIf="userEditForm.get('surname').hasError(validation.type)
+                                && (userEditForm.get('surname').dirty ||
+                                userEditForm.get('surname').touched)">
+              {{validation.message}}
+            </mat-error>
+          </mat-error>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="form-group">
+          <label for="givenName">Given Name*</label>
+          <input id="givenName" type="text" class="form-control" formControlName="givenName">
+          <mat-error *ngFor="let validation of validationMessages.givenName">
+            <mat-error class="error-message"
+                       *ngIf="userEditForm.get('givenName').hasError(validation.type)
+                                && (userEditForm.get('givenName').dirty ||
+                                userEditForm.get('givenName').touched)">
+              {{validation.message}}
+            </mat-error>
+          </mat-error>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="form-group">
+          <label for="username">Username / Email Address</label>
+          <input id="username" type="text" class="form-control" formControlName="username">
+          <mat-error *ngFor="let validation of validationMessages.username">
+            <mat-error class="error-message"
+                       *ngIf="userEditForm.get('username').hasError(validation.type)
+                                && (userEditForm.get('username').dirty ||
+                                userEditForm.get('username').touched)">
+              {{validation.message}}
+            </mat-error>
+          </mat-error>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="form-group">
+          <label>Roles</label>
+          <div class="col-md-9 col-form-label checkbox-area-container">
+
+            <label formArrayName="roleCheckboxes" class="checkbox-label"
+                   *ngFor="let checkbox of roleCheckboxFormArray.controls; let i = index">
+              <input type="checkbox" [formControlName]="i" (change)="setCheckboxes()"/>
+              {{roleList[i].name}}
+            </label>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </form>
+
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-raised-button mat-dialog-close>Cancel</button>
+  <div fxFlex></div>
+  <button mat-raised-button class="btn btn-primary" (click)="test();">Test
+  </button>
+  <button mat-raised-button mat-dialog-close class="btn btn-primary" (click)="save();"
+          [disabled]="!userEditForm.valid">Save
+  </button>
+</mat-dialog-actions>

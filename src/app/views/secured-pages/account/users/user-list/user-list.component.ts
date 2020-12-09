@@ -12,6 +12,9 @@ import { fromEvent, merge, of } from 'rxjs';
 import { catchError, debounceTime, distinctUntilChanged, map, switchMap } from 'rxjs/operators';
 import { ServerSidePaginationResponse } from '../../../../../../@tqp/models/ServerSidePaginationResponse';
 import { UserService } from '../user.service';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { UserDetailEditDialogComponent } from '../user-detail-edit-dialog/user-detail-edit-dialog.component';
+import { User } from '../User';
 
 @Component({
   selector: 'app-user-list',
@@ -32,8 +35,8 @@ export class UserListComponent implements OnInit, OnDestroy {
   private totalNumberOfPages: number;
   private searchParams: ServerSidePaginationRequest = new ServerSidePaginationRequest();
   public displayedColumns: string[] = [
-    'username',
     'name',
+    'username',
     'lastLogin',
     'loginCount'
   ];
@@ -51,7 +54,8 @@ export class UserListComponent implements OnInit, OnDestroy {
               private eventService: EventService,
               private router: Router,
               public authService: AuthService,
-              private vc: ViewportScroller) {
+              private vc: ViewportScroller,
+              public _matDialog: MatDialog) {
     this.initWindowResizeListener();
   }
 
@@ -99,11 +103,12 @@ export class UserListComponent implements OnInit, OnDestroy {
   }
 
   private getPage(searchParams: ServerSidePaginationRequest) {
-    // console.log('getPage searchParams', searchParams);
+    console.log('getPage searchParams', searchParams);
     this.isLoading = true;
     this.eventService.loadingEvent.emit(true);
     this.userService.getUserList_SSP(searchParams).subscribe((response: ServerSidePaginationResponse<Student>) => {
-        console.log('getPage response', response);
+        // console.log('getPage response', response);
+        this.records = [];
         const student: Student[] = response.data;
         student.forEach(item => {
           this.records.push(item);
@@ -209,12 +214,41 @@ export class UserListComponent implements OnInit, OnDestroy {
     this.userListNameSearchFormControl.setValue('');
   }
 
-  public openCreateStudentPage(): void {
-    this.router.navigate(['users/user-create']).then();
-  }
-
   public openDetailPage(row: any): void {
     this.router.navigate(['users/user-detail', row.userId]).then();
+  }
+
+  public openUserCreateDialog(): void {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.minWidth = '25%';
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.data = {
+      action: 'create'
+    };
+    dialogConfig.autoFocus = false;
+    const dialogRef = this._matDialog.open(UserDetailEditDialogComponent, dialogConfig);
+
+    dialogRef.afterClosed().subscribe(dialogData => {
+      if (dialogData) {
+        // console.log('dialogData', dialogData);
+        const user = new User();
+        user.username = dialogData[1].username;
+        user.surname = dialogData[1].surname;
+        user.givenName = dialogData[1].givenName;
+        user.roles = dialogData[2];
+        // console.log('user', user);
+        this.userService.createUser(user).subscribe(
+          response => {
+            console.log('response: ', response);
+            this.getPage(this.searchParams);
+          },
+          error => {
+            console.error('Error: ' + error.message);
+          }
+        );
+      }
+    });
   }
 
   @HostListener('window:keydown', ['$event'])
@@ -223,10 +257,6 @@ export class UserListComponent implements OnInit, OnDestroy {
       event.preventDefault();
       this.userListNameSearchFormControl.setValue('');
       this.nameSearchElementRef.nativeElement.focus();
-    }
-    if (event.ctrlKey && event.key === 'c') {
-      event.preventDefault();
-      this.openCreateStudentPage();
     }
     if (event.ctrlKey && event.key === ',') {
       event.preventDefault();

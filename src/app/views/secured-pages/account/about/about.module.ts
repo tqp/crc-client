@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AboutComponent } from './about.component';
+import { CarouselModule } from 'ngx-bootstrap/carousel';
 
 
 @NgModule({
@@ -8,7 +9,8 @@ import { AboutComponent } from './about.component';
     AboutComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    CarouselModule.forRoot(),
   ]
 })
 export class AboutModule {

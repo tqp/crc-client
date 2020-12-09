@@ -8,6 +8,7 @@ export class User {
     public password: string;
     public lastLogin: string;
     public loginCount: number;
+    public passwordSet: string;
     public theme: string;
     public picture: string;
     public roles: Role[];

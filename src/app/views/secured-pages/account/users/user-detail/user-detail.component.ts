@@ -6,6 +6,10 @@ import { User } from '../User';
 import { Token } from '../../../../../../@tqp/models/Token';
 import { TokenService } from '../../../../../../@tqp/services/token.service';
 import * as moment from 'moment';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { StudentCaregiverEditDialogComponent } from '../../../relationships/student-caregiver-edit-dialog/student-caregiver-edit-dialog.component';
+import { Relationship } from '../../../relationships/Relationship';
+import { UserDetailEditDialogComponent } from '../user-detail-edit-dialog/user-detail-edit-dialog.component';
 
 @Component({
   selector: 'app-user-detail',
@@ -23,7 +27,8 @@ export class UserDetailComponent implements OnInit {
               private router: Router,
               private userService: UserService,
               public authService: AuthService,
-              private tokenService: TokenService) {
+              private tokenService: TokenService,
+              public _matDialog: MatDialog) {
   }
 
   ngOnInit(): void {
@@ -51,6 +56,12 @@ export class UserDetailComponent implements OnInit {
         // this.authService.errorHandler(error);
       }
     );
+  }
+
+  // BUTTONS
+
+  public returnToList(): void {
+    this.router.navigate(['users/user-list']).then();
   }
 
   public openUserEditPage(): void {

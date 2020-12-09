@@ -7,6 +7,13 @@
         {{user.givenName}} {{user.surname}}
       </h1>
     </div>
+    <div class="col-sm-6">
+      <div class="form-group float-right">
+        <button class="btn btn-sm btn-outline-primary ml-3" (click)="returnToList()" style="width: 200px">
+          Go to User List
+        </button>
+      </div>
+    </div>
   </div>
 
   <div class="row">
@@ -58,7 +65,7 @@
           </dl>
           <dl class="row">
             <dt class="col-sm-3">User ID:</dt>
-            <dd class="col-sm-9">{{user.userId}}</dd>
+            <dd class="col-sm-9">{{('00000' + user.userId).slice(-5)}}</dd>
           </dl>
           <dl class="row">
             <dt class="col-sm-3">Created:</dt>

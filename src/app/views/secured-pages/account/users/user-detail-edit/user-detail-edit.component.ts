@@ -21,9 +21,10 @@ export class UserDetailEditComponent implements OnInit {
   public user: User;
   public userEditForm: FormGroup;
   public confirmDialogRef: MatDialogRef<ConfirmDialogComponent>;
+
+  // CHECKBOXES
   public roleList: Role[];
   public roleListCheckboxArray: Role[];
-
   get roleCheckboxFormArray() {
     return this.userEditForm.controls.roleCheckboxes as FormArray;
   }
@@ -141,14 +142,15 @@ export class UserDetailEditComponent implements OnInit {
 
   // BUTTONS
 
-  public delete(userId: number): void {
+  public delete(user: User): void {
     this.confirmDialogRef = this._matDialog.open(ConfirmDialogComponent, {
       disableClose: false
     });
-    this.confirmDialogRef.componentInstance.dialogMessage = 'Are you sure you want to delete?';
+    this.confirmDialogRef.componentInstance.dialogTitle = 'Delete User';
+    this.confirmDialogRef.componentInstance.dialogMessage = 'Are you sure you want to delete this user?';
     this.confirmDialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.userService.deleteUser(userId).subscribe(
+        this.userService.deleteUser(user).subscribe(
           () => {
             this.router.navigate(['users/user-list']).then();
           },
@@ -222,6 +224,5 @@ function minSelectedCheckboxes(min = 1) {
 
     return totalSelected >= min ? null : {required: true};
   };
-
   return validator;
 }

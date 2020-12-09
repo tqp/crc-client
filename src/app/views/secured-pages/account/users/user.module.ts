@@ -11,6 +11,7 @@ import { RouterModule } from '@angular/router';
 import { ListAddRemoveItemsBasicModule } from '../../../../../@tqp/components/list-add-remove-items-basic/list-add-remove-items-basic.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { UserRoutingModule } from './user-routing.module';
+import { UserDetailEditDialogComponent } from './user-detail-edit-dialog/user-detail-edit-dialog.component';
 
 
 
@@ -18,7 +19,8 @@ import { UserRoutingModule } from './user-routing.module';
   declarations: [
     UserListComponent,
     UserDetailComponent,
-    UserDetailEditComponent
+    UserDetailEditComponent,
+    UserDetailEditDialogComponent
   ],
   imports: [
     CommonModule,

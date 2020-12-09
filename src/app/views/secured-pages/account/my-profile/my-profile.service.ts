@@ -49,4 +49,50 @@ export class MyProfileService {
       this.router.navigate(['/login-page']).then();
     }
   }
+
+  // OTHER
+
+  public updatePassword(user: User): Observable<string> {
+    const url = environment.apiUrl + '/api/v1/my-profile/update-password';
+    const token = this.tokenService.getToken();
+    if (token) {
+      return this.http.put<string>(url,
+        user,
+        {
+          headers: this.httpService.setHeadersWithToken(),
+          observe: 'response',
+          params: {}
+        })
+        .pipe(
+          map(res => {
+            return res.body;
+          })
+        );
+    } else {
+      console.error('No token was present.');
+      return null;
+    }
+  }
+
+  public confirmPassword(user: User): Observable<string> {
+    const url = environment.apiUrl + '/api/v1/my-profile/confirm-password';
+    const token = this.tokenService.getToken();
+    if (token) {
+      return this.http.put<string>(url,
+        user,
+        {
+          headers: this.httpService.setHeadersWithToken(),
+          observe: 'response',
+          params: {}
+        })
+        .pipe(
+          map(res => {
+            return res.body;
+          })
+        );
+    } else {
+      console.error('No token was present.');
+      return null;
+    }
+  }
 }

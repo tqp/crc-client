@@ -6,6 +6,9 @@ import { AuthService } from '@tqp/services/auth.service';
 import { TokenService } from '@tqp/services/token.service';
 import * as moment from 'moment';
 import { DiagnosticsService } from '@tqp/services/diagnostics.service';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { ChangePasswordDialogComponent } from '../passwords/change-password-dialog/change-password-dialog.component';
+import { NotificationService } from '../../../../../@tqp/services/notification.service';
 
 @Component({
   selector: 'app-my-profile',
@@ -27,7 +30,9 @@ export class MyProfileComponent implements OnInit {
   constructor(private myProfileService: MyProfileService,
               private authService: AuthService,
               private diagnosticsService: DiagnosticsService,
-              protected tokenService: TokenService) {
+              private notificationService: NotificationService,
+              protected tokenService: TokenService,
+              public _matDialog: MatDialog) {
   }
 
   ngOnInit(): void {
@@ -65,6 +70,38 @@ export class MyProfileComponent implements OnInit {
         this.authService.errorHandler(error);
       }
     );
+  }
+
+  private openChangePasswordDialog(): void {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.minWidth = '25%';
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.data = {
+      userId: this.user.userId
+    };
+    dialogConfig.autoFocus = false;
+    const dialogRef = this._matDialog.open(ChangePasswordDialogComponent, dialogConfig);
+
+    dialogRef.afterClosed().subscribe(dialogData => {
+      if (dialogData) {
+        const user: User = new User();
+        user.userId = dialogData.userId;
+        user.password = dialogData.newPassword;
+        this.myProfileService.updatePassword(user).subscribe(
+          response => {
+            console.log('response', response);
+            this.notificationService.showSuccess('Your password has been changed.', 'Password Changed');
+          },
+          error => {
+            console.error('Error: ', error);
+          },
+          () => {
+            this.getMyUserInfo();
+          }
+        );
+      }
+    });
   }
 
   private getEndpointTestsResults(): void {

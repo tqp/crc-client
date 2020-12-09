@@ -1,8 +1,18 @@
 <div class="tqp-crud-detail animated fadeIn" *ngIf="user">
 
   <div class="row">
-    <div class="col">
-      <h1>{{user.givenName}} {{user.surname}}</h1>
+    <div class="col-sm-6">
+      <h1>
+        <i class="fa fa-address-card"></i>
+        {{user.givenName}} {{user.surname}}
+      </h1>
+    </div>
+    <div class="col-sm-6">
+      <div class="form-group float-right">
+        <button class="btn btn-sm btn-outline-primary ml-3" (click)="openChangePasswordDialog()" style="width: 150px">
+          Change My Password
+        </button>
+      </div>
     </div>
   </div>
 
@@ -10,7 +20,7 @@
     <div class="col">
       <div class="card">
         <div class="card-header">
-          <i class="fa fa-info-circle"></i>User Info
+          <i class="fa fa-user"></i>User Info
         </div>
         <div class="card-body">
           <dl class="row">
@@ -53,8 +63,30 @@
             <dd class="col-sm-9">{{user.loginCount}}</dd>
           </dl>
           <dl class="row">
+            <dt class="col-sm-3">Password Set:</dt>
+            <dd class="col-sm-9">
+              <span *ngIf="user.password; else noPasswordSet;">
+                Yes
+              </span>
+              <ng-template #noPasswordSet>
+                <span class="text-danger">No Password Set</span>
+              </ng-template>
+            </dd>
+          </dl>
+          <dl class="row">
+            <dt class="col-sm-3">Password Set Date:</dt>
+            <dd class="col-sm-9">
+              <span *ngIf="user.passwordSet; else noPasswordDate;">
+                {{user.passwordSet | date:'MM/dd/yyyy h:mm:ss a'}}
+              </span>
+              <ng-template #noPasswordDate>
+                <span class="text-danger">No Password Date</span>
+              </ng-template>
+            </dd>
+          </dl>
+          <dl class="row">
             <dt class="col-sm-3">User ID:</dt>
-            <dd class="col-sm-9">{{user.userId}}</dd>
+            <dd class="col-sm-9">{{('00000' + user.userId).slice(-5)}}</dd>
           </dl>
           <dl class="row">
             <dt class="col-sm-3">Created:</dt>
@@ -69,7 +101,7 @@
 
       <div class="card" *ngIf="decodedToken">
         <div class="card-header">
-          <i class="fa fa-info-circle"></i>Token Info
+          <i class="fa fa-key"></i>Token Info
         </div>
         <div class="card-body">
           <dl class="row">
@@ -107,7 +139,7 @@
 
       <div class="card">
         <div class="card-header">
-          <i class="fa fa-info-circle"></i>Diagnostics
+          <i class="fa fa-exchange"></i>Diagnostics
         </div>
         <div class="card-body">
           <dl class="row">

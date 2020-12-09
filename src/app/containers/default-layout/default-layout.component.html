@@ -1,12 +1,14 @@
 <app-header
   [navbarBrandRouterLink]="['/account/about']"
   [fixed]="true"
-  [navbarBrandFull]="{src: 'assets/img/brand/hcw-logo-with-words.png', height:55, alt: 'CRC Logo'}"
+  [navbarBrandFull]="{src: 'assets/img/brand/hcw_logo_cropped_3.png', height:55, alt: 'CRC Logo'}"
   [navbarBrandMinimized]="{src: 'assets/img/brand/sygnet.svg', width: 30, height: 30, alt: 'CoreUI Logo'}"
   [sidebarToggler]="'lg'"
   [asideMenuToggler]="''">
   <!-- asideMenuToggler = 'lg'... empty removes it entirely. -->
-  <h2 class="ml-1 mt-2">Child Reintegration Center</h2>
+  <div class="ml-1 mt-2" class="crc-header-font">
+    Child Reintegration Center
+  </div>
   <!--
   <ul class="nav navbar-nav d-md-down-none">
     <li class="nav-item px-3">

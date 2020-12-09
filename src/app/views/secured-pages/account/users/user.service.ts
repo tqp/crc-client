@@ -119,8 +119,8 @@ export class UserService {
     }
   }
 
-  public deleteUser(userId: number): Observable<string> {
-    const url = environment.apiUrl + '/api/v1/user/' + userId;
+  public deleteUser(user: User): Observable<string> {
+    const url = environment.apiUrl + '/api/v1/user/' + user.userId;
     const token = this.tokenService.getToken();
     if (token) {
       return this.http.delete<string>(url,
@@ -139,6 +139,8 @@ export class UserService {
       return null;
     }
   }
+
+  // OTHER
 
   // PERSISTENT VARIABLES
 

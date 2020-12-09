@@ -14,6 +14,7 @@ import { RoleListComponent } from './roles/role-list/role-list.component';
 import { RoleDetailComponent } from './roles/role-detail/role-detail.component';
 import { RoleDetailEditComponent } from './roles/role-detail-edit/role-detail-edit.component';
 import { UserModule } from './users/user.module';
+import { ChangePasswordDialogComponent } from './passwords/change-password-dialog/change-password-dialog.component';
 
 
 @NgModule({
@@ -22,6 +23,7 @@ import { UserModule } from './users/user.module';
     RoleListComponent,
     RoleDetailComponent,
     RoleDetailEditComponent,
+    ChangePasswordDialogComponent,
   ],
   imports: [
     CommonModule,

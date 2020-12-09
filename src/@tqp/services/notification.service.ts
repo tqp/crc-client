@@ -6,7 +6,7 @@ import { Toast, ToastrService } from 'ngx-toastr';
 })
 export class NotificationService {
 
-  public config = {
+  public toastrConfig = {
     toastComponent: Toast,
     closeButton: false,
     timeOut: 2000,
@@ -18,18 +18,18 @@ export class NotificationService {
   }
 
   public showSuccess(message, title) {
-    this.toastr.success(message, title, this.config);
+    this.toastr.success(message, title, this.toastrConfig);
   }
 
   public showError(message, title) {
-    this.toastr.error(message, title, this.config);
+    this.toastr.error(message, title, this.toastrConfig);
   }
 
   public showInfo(message, title) {
-    this.toastr.info(message, title, this.config);
+    this.toastr.info(message, title, this.toastrConfig);
   }
 
   public showWarning(message, title) {
-    this.toastr.warning(message, title, this.config);
+    this.toastr.warning(message, title, this.toastrConfig);
   }
 }

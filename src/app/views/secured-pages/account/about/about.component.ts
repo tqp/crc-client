@@ -12,6 +12,11 @@ export class AboutComponent implements OnInit {
   public clientBuildTimestamp: string;
   public serverBuildTimestamp: string;
 
+  public slideInterval: number | false = 10000;
+  public noWrapSlides: boolean = false;
+  slides: any[] = [];
+  activeSlideIndex: number = 0;
+
   constructor(private aboutService: AboutService) {
   }
 
@@ -19,6 +24,7 @@ export class AboutComponent implements OnInit {
     this.environmentName = environment.name;
     this.clientBuildTimestamp = environment.buildTimestamp;
     this.getServerBuildTimestamp();
+    this.addSlides();
   }
 
   private getServerBuildTimestamp(): void {
@@ -31,6 +37,22 @@ export class AboutComponent implements OnInit {
         console.error('Error: ', error);
       }
     );
+  }
+
+  private addSlides(): void {
+    this.addSlide('https://www.helpingchildrenworldwide.org/uploads/9/8/8/2/98826222/background-images/1796105365.jpg');
+    this.addSlide('https://www.helpingchildrenworldwide.org/uploads/9/8/8/2/98826222/apsi0963_orig.jpg');
+    this.addSlide('https://www.helpingchildrenworldwide.org/uploads/9/8/8/2/98826222/img-4964-copy-orig_orig.jpg');
+    this.addSlide('https://www.helpingchildrenworldwide.org/uploads/9/8/8/2/98826222/img-4840-orig_orig.jpg');
+    this.addSlide('https://www.helpingchildrenworldwide.org/uploads/9/8/8/2/98826222/dfhj8454-1_orig.jpg');
+  }
+
+  private addSlide(imageUrl: string): void {
+    setTimeout(() => {
+      this.slides.push({
+        image: imageUrl
+      });
+    }, 500);
   }
 
 }

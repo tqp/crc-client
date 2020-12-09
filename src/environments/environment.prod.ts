@@ -3,5 +3,5 @@ export const environment = {
   production: true,
   hmr: false,
   apiUrl: 'https://crc-server.timsanalytics.com',
-  buildTimestamp: '12/07/2020 04:09:39'
+  buildTimestamp: '12/08/2020 12:51:34'
 };

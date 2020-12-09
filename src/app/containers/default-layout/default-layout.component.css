@@ -1,3 +1,11 @@
+.crc-header-font {
+  font-family: 'Cooper Black', sans-serif;
+  font-size: 1.8em;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: rgb(20, 114, 186);
+}
+
 /* LOADING BAR */
 .loadingIndicator {
   height: 2px;
@@ -23,7 +31,6 @@
   -webkit-animation: animate-loading-indicator 3s linear infinite;
   animation: animate-loading-indicator 3s linear infinite;
   background-image: linear-gradient(90deg,
-
   rgb(32, 168, 216) 0, rgb(32, 168, 216) 24.9%,
   rgb(172, 180, 188) 25%, rgb(172, 180, 188) 49.9%,
   rgb(32, 168, 216) 50%, rgb(32, 168, 216) 74.9%,
