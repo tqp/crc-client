@@ -2,7 +2,7 @@
 
 <mat-dialog-content style="overflow: hidden">
 
-  <form [formGroup]="userEditForm">
+  <form [formGroup]="userEditForm" [hidden]="!checkboxesLoaded">
 
     <div class="row">
       <div class="col-sm-12">
@@ -72,7 +72,48 @@
       </div>
     </div>
 
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="form-group">
+          <div class="form-group row">
+            <div class="col-md-1 col-form-label">
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="inline-checkbox1"
+                       (change)="setInitialPasswordCheckChanged($event)" formControlName="setInitialPassword">
+                <label class="form-check-label" for="inline-checkbox1"></label>
+              </div>
+            </div>
+            <label class="col-md-10 col-form-label">Set initial password for user?</label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row" *ngIf="setInitialPasswordCheckboxStatus">
+      <div class="col-sm-12">
+        <div class="form-group">
+          <label for="initialPassword">Initial Password</label>
+          <input id="initialPassword" type="text" class="form-control" formControlName="password">
+          <mat-error *ngFor="let validation of validationMessages.initialPassword">
+            <mat-error class="error-message"
+                       *ngIf="userEditForm.get('initialPassword').hasError(validation.type)
+                                && (userEditForm.get('initialPassword').dirty ||
+                                userEditForm.get('initialPassword').touched)">
+              {{validation.message}}
+            </mat-error>
+          </mat-error>
+        </div>
+      </div>
+    </div>
+
   </form>
+
+  <mat-card class="spinner-container" *ngIf="!checkboxesLoaded">
+    <mat-progress-spinner
+      color="primary"
+      mode="indeterminate">
+    </mat-progress-spinner>
+  </mat-card>
 
 </mat-dialog-content>
 

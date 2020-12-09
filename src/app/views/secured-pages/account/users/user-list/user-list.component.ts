@@ -103,7 +103,7 @@ export class UserListComponent implements OnInit, OnDestroy {
   }
 
   private getPage(searchParams: ServerSidePaginationRequest) {
-    console.log('getPage searchParams', searchParams);
+    // console.log('getPage searchParams', searchParams);
     this.isLoading = true;
     this.eventService.loadingEvent.emit(true);
     this.userService.getUserList_SSP(searchParams).subscribe((response: ServerSidePaginationResponse<Student>) => {
@@ -129,6 +129,7 @@ export class UserListComponent implements OnInit, OnDestroy {
         this.eventService.loadingEvent.emit(false);
       }, error => {
         console.error('Error: ', error);
+      }, () => {
         this.isLoading = false;
         this.eventService.loadingEvent.emit(false);
       }
@@ -237,10 +238,10 @@ export class UserListComponent implements OnInit, OnDestroy {
         user.surname = dialogData[1].surname;
         user.givenName = dialogData[1].givenName;
         user.roles = dialogData[2];
-        // console.log('user', user);
+        user.password = dialogData[1].password ? dialogData[1].password : null;
         this.userService.createUser(user).subscribe(
           response => {
-            console.log('response: ', response);
+            // console.log('response: ', response);
             this.getPage(this.searchParams);
           },
           error => {

@@ -18,6 +18,9 @@ export class UserDetailEditDialogComponent implements OnInit {
   // CHECKBOXES
   public roleList: Role[];
   public roleListCheckboxArray: Role[];
+  public checkboxesLoaded: boolean = false;
+
+  public setInitialPasswordCheckboxStatus: boolean = false;
 
   get roleCheckboxFormArray() {
     return this.userEditForm.controls.roleCheckboxes as FormArray;
@@ -32,7 +35,8 @@ export class UserDetailEditDialogComponent implements OnInit {
     ],
     'givenName': [
       {type: 'required', message: 'A given name is required'}
-    ]
+    ],
+    'initialPassword': []
   };
 
   constructor(private dialogRef: MatDialogRef<UserDetailEditDialogComponent>,
@@ -52,6 +56,8 @@ export class UserDetailEditDialogComponent implements OnInit {
       username: new FormControl('', Validators.required),
       surname: new FormControl('', Validators.required),
       givenName: new FormControl('', Validators.required),
+      setInitialPassword: new FormControl(''),
+      password: new FormControl('password123'),
       roles: new FormControl(''),
       roleCheckboxes: new FormArray([], minSelectedCheckboxes(1)),
     });
@@ -92,6 +98,12 @@ export class UserDetailEditDialogComponent implements OnInit {
       const formArray = this.userEditForm.controls.roleCheckboxes as FormArray;
       return formArray.push(new FormControl(false));
     });
+    this.checkboxesLoaded = true;
+  }
+
+  public setInitialPasswordCheckChanged(event) {
+    console.log('event', event.target.checked);
+    this.setInitialPasswordCheckboxStatus = event.target.checked;
   }
 
   // BUTTONS
@@ -101,7 +113,8 @@ export class UserDetailEditDialogComponent implements OnInit {
   }
 
   public test(): void {
-    console.log('form', this.roleListCheckboxArray);
+    console.log('form', this.userEditForm.getRawValue());
+    console.log('checkboxes', this.roleListCheckboxArray);
   }
 
 }

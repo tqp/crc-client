@@ -24,7 +24,8 @@
           <i class="fa fa-user"></i>
           Personal Information
           <i *ngIf="studentLoading" class="fa fa-spinner fa-spin"></i>
-          <div class="card-header-actions" [hidden]="authService.allowRoles('ROLE_USER, ROLE_MANAGER, ROLE_ADMIN')">
+          <div class="card-header-actions"
+               [hidden]="authService.allowRoles('ROLE_USER, ROLE_MANAGER, ROLE_ADMIN', 'Edit Student Info')">
             <small class="tqp-nav-link" (click)="openStudentEditPage();">Edit Student Info</small>
           </div>
         </div>
@@ -73,7 +74,8 @@
           <i class="fa fa-calendar-check-o"></i>
           CSI Records<span class="badge badge-secondary ml-2">{{csiListDataSource.length}}</span>
           <i *ngIf="visitListLoading" class="fa fa-spinner fa-spin"></i>
-          <div class="card-header-actions" [hidden]="authService.allowRoles('ROLE_USER, ROLE_MANAGER, ROLE_ADMIN')">
+          <div class="card-header-actions"
+               [hidden]="authService.allowRoles('ROLE_USER, ROLE_MANAGER, ROLE_ADMIN', 'Add CSI Record')">
             <small class="tqp-nav-link" (click)="openCsiCreatePage();">Add CSI Record</small>
           </div>
         </div>
@@ -129,7 +131,8 @@
           <i class="fa fa-calendar-check-o"></i>
           Post-Graduate Events<span class="badge badge-secondary ml-2">{{postGradEventListDataSource.length}}</span>
           <i *ngIf="postGradEventListLoading" class="fa fa-spinner fa-spin"></i>
-          <div class="card-header-actions" [hidden]="authService.allowRoles('ROLE_USER, ROLE_MANAGER, ROLE_ADMIN')">
+          <div class="card-header-actions"
+               [hidden]="authService.allowRoles('ROLE_USER, ROLE_MANAGER, ROLE_ADMIN', 'Add Post-Graduate Event')">
             <small class="tqp-nav-link" (click)="openPostGradEventCreateDialog(null);">Add Post-Graduate Event</small>
           </div>
         </div>
@@ -178,7 +181,8 @@
           <i class="fa fa-calendar-check-o"></i>
           Student Visits<span class="badge badge-secondary ml-2">{{visitListDataSource.length}}</span>
           <i *ngIf="visitListLoading" class="fa fa-spinner fa-spin"></i>
-          <div class="card-header-actions" [hidden]="authService.allowRoles('ROLE_USER, ROLE_MANAGER, ROLE_ADMIN')">
+          <div class="card-header-actions"
+               [hidden]="authService.allowRoles('ROLE_USER, ROLE_MANAGER, ROLE_ADMIN', 'Add Student')">
             <small class="tqp-nav-link" (click)="openVisitCreateDialog(this.student.studentId);">Add Student
               Visit</small>
           </div>
@@ -329,7 +333,8 @@
           <i class="fa fa-handshake-o"></i>
           Program Status
           <i *ngIf="programStatusLoading" class="fa fa-spinner fa-spin"></i>
-          <div class="card-header-actions" [hidden]="authService.allowRoles('ROLE_USER, ROLE_MANAGER, ROLE_ADMIN')">
+          <div class="card-header-actions"
+               [hidden]="authService.allowRoles('ROLE_USER, ROLE_MANAGER, ROLE_ADMIN', 'Set Program Status')">
             <small class="tqp-nav-link" (click)="openStudentProgramStatusCreateDialog(null);">Set Program Status</small>
           </div>
         </div>
@@ -367,7 +372,8 @@
           <i class="fa fa-heartbeat"></i>
           Current Caregiver
           <i *ngIf="caregiverLoading" class="fa fa-spinner fa-spin"></i>
-          <div class="card-header-actions" [hidden]="authService.allowRoles('ROLE_USER, ROLE_MANAGER, ROLE_ADMIN')">
+          <div class="card-header-actions"
+               [hidden]="authService.allowRoles('ROLE_USER, ROLE_MANAGER, ROLE_ADMIN', 'Assign Caregiver')">
             <small class="tqp-nav-link" (click)="openStudentCaregiverCreateDialog(null);">Assign Caregiver</small>
           </div>
         </div>
@@ -418,7 +424,8 @@
           <i class="fa fa-folder-o"></i>
           Current Case Manager
           <i *ngIf="caseManagerLoading" class="fa fa-spinner fa-spin"></i>
-          <div class="card-header-actions" [hidden]="authService.allowRoles('ROLE_USER, ROLE_MANAGER, ROLE_ADMIN')">
+          <div class="card-header-actions"
+               [hidden]="authService.allowRoles('ROLE_USER, ROLE_MANAGER, ROLE_ADMIN', 'Assign Case Manager')">
             <small class="tqp-nav-link" (click)="openStudentCaseManagerCreateDialog(null);">Assign Case Manager</small>
           </div>
         </div>
@@ -449,7 +456,8 @@
           <i class="fa fa-handshake-o"></i>
           Current Sponsor
           <i *ngIf="sponsorLoading" class="fa fa-spinner fa-spin"></i>
-          <div class="card-header-actions" [hidden]="authService.allowRoles('ROLE_USER, ROLE_MANAGER, ROLE_ADMIN')">
+          <div class="card-header-actions"
+               [hidden]="authService.allowRoles('ROLE_USER, ROLE_MANAGER, ROLE_ADMIN', 'Assign Sponsor')">
             <small class="tqp-nav-link" (click)="openStudentSponsorCreateDialog(null);">Assign Sponsor</small>
           </div>
         </div>

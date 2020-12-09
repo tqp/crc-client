@@ -24,7 +24,8 @@
           <i class="fa fa-calendar-check-o"></i>
           Student Visit Information
           <i *ngIf="visitLoading" class="fa fa-spinner fa-spin"></i>
-          <div class="card-header-actions" [hidden]="authService.allowRoles('ROLE_USER, ROLE_MANAGER, ROLE_ADMIN')">
+          <div class="card-header-actions"
+               [hidden]="authService.allowRoles('ROLE_USER, ROLE_MANAGER, ROLE_ADMIN', 'Edit Student Visit')">
             <small class="tqp-nav-link" (click)="openEditPage();">Edit Student Visit</small>
           </div>
         </div>

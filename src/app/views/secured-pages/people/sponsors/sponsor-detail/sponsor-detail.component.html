@@ -24,7 +24,8 @@
           <i class="fa fa-user"></i>
           Personal Information
           <i *ngIf="sponsorLoading" class="fa fa-spinner fa-spin"></i>
-          <div class="card-header-actions" [hidden]="authService.allowRoles('ROLE_USER, ROLE_MANAGER, ROLE_ADMIN')">
+          <div class="card-header-actions"
+               [hidden]="authService.allowRoles('ROLE_USER, ROLE_MANAGER, ROLE_ADMIN', 'Edit Sponsor Info')">
             <small class="tqp-nav-link" (click)="openEditPage();">Edit Sponsor Info</small>
           </div>
         </div>
@@ -57,7 +58,8 @@
 
           <div class="table-container" style="height: 200px; border: 1px solid rgb(200, 206, 211);">
 
-            <table mat-table [dataSource]="studentListDataSource" *ngIf="studentListDataSource && studentListDataSource.length > 0"
+            <table mat-table [dataSource]="studentListDataSource"
+                   *ngIf="studentListDataSource && studentListDataSource.length > 0"
                    matSort matSortActive="lastName" matSortDirection="asc" matSortDisableClear="true"
                    class="table">
 

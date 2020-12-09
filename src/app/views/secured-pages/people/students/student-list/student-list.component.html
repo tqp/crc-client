@@ -11,7 +11,7 @@
         <span class="badge badge-warning ml-2" style="cursor: pointer" *ngIf="isFilterApplied" (click)="clearFilters()">Clear Filters</span>
       </div>
       <button class="btn btn-sm btn-outline-primary float-right" (click)="openCreateStudentPage()"
-              [hidden]="authService.allowRoles('ROLE_MANAGER, ROLE_ADMIN')">
+              [hidden]="authService.allowRoles('ROLE_MANAGER, ROLE_ADMIN', 'Create New Student')">
         <i class="fa fa-plus mr-1"></i>
         Create New Student
       </button>
@@ -67,7 +67,8 @@
           <ng-container matColumnDef="caregiverName">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Caregiver Name</th>
             <td mat-cell *matCellDef="let row">
-              <span *ngIf="row.caregiverGivenName; else noCaregiverAssigned;">{{row.caregiverGivenName}} {{row.caregiverSurname}}</span>
+              <span
+                *ngIf="row.caregiverGivenName; else noCaregiverAssigned;">{{row.caregiverGivenName}} {{row.caregiverSurname}}</span>
               <ng-template #noCaregiverAssigned>
                 <span class="text-danger">No Caregiver Assigned</span>
               </ng-template>

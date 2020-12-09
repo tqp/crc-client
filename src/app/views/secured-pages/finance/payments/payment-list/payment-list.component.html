@@ -5,13 +5,13 @@
     <div class="card-header">
       <div class="float-left" style="line-height: 28px;">
         <i class="fa fa-money mr-2"></i>
-          Payments
+        Payments
         <span class="badge badge-info ml-2" *ngIf="loadedFirstPage">
           Displaying {{pageStart}} to {{pageEnd}} of {{totalRecords}} records</span>
         <span class="badge badge-warning ml-2" style="cursor: pointer" *ngIf="isFilterApplied" (click)="clearFilters()">Clear Filters</span>
       </div>
       <button class="btn btn-sm btn-outline-primary float-right" (click)="openPaymentEditDialog()"
-              [hidden]="authService.allowRoles('ROLE_USER, ROLE_MANAGER, ROLE_ADMIN')">
+              [hidden]="authService.allowRoles('ROLE_USER, ROLE_MANAGER, ROLE_ADMIN', 'Add Payment')">
         <i class="fa fa-plus mr-1"></i>
         Add Payment
       </button>

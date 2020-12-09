@@ -1,10 +1,10 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '@tqp/services/auth.service';
 import { TokenService } from '@tqp/services/token.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import {tqpCustomAnimations} from '@tqp/animations/tqpCustomAnimations';
-import {v4 as uuid} from 'uuid';
+import { tqpCustomAnimations } from '@tqp/animations/tqpCustomAnimations';
+import { v4 as uuid } from 'uuid';
 
 @Component({
   selector: 'app-login-page',
@@ -13,6 +13,7 @@ import {v4 as uuid} from 'uuid';
   animations: [tqpCustomAnimations]
 })
 export class LoginPageComponent implements OnInit {
+  @ViewChild('usernameInputField', {static: false}) usernameInputField: ElementRef;
   public loginForm: FormGroup;
   public errorMessage: string;
   public googleClientId: string;
@@ -44,8 +45,13 @@ export class LoginPageComponent implements OnInit {
     }
   }
 
-  public toggle1(): void {
+  public toggleCredentialsSection(): void {
     this.logonFormVisible = !this.logonFormVisible;
+    if (this.logonFormVisible) {
+      setTimeout(() => {
+        this.usernameInputField.nativeElement.focus();
+      }, 500);
+    }
   }
 
   public loginApp(): void {

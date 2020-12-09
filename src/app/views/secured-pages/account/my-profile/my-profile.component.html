@@ -76,8 +76,8 @@
           <dl class="row">
             <dt class="col-sm-3">Password Set Date:</dt>
             <dd class="col-sm-9">
-              <span *ngIf="user.passwordSet; else noPasswordDate;">
-                {{user.passwordSet | date:'MM/dd/yyyy h:mm:ss a'}}
+              <span *ngIf="user.passwordSetDate; else noPasswordDate;">
+                {{user.passwordSetDate | date:'MM/dd/yyyy h:mm:ss a'}}
               </span>
               <ng-template #noPasswordDate>
                 <span class="text-danger">No Password Date</span>

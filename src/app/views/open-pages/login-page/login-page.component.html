@@ -39,7 +39,7 @@
 
                   <div class="row" [@hideCredentialsButton]="logonFormVisible ? 'hidden' : 'visible'">
                     <div class="col-12">
-                      <button type="button" class="btn btn-brand btn-github btn-block" (click)="toggle1()">
+                      <button type="button" class="btn btn-brand btn-github btn-block" (click)="toggleCredentialsSection()">
                         <i class="fa fa-key float-left"></i>
                         <span>Log On With Credentials</span>
                       </button>
@@ -53,7 +53,7 @@
                       </div>
                       <label for="email"></label>
                       <input id="email" formControlName="email" type="text" class="form-control" placeholder="Username"
-                             autocomplete="username" required>
+                             autocomplete="username" required #usernameInputField>
                     </div>
                     <div class="input-group mb-3">
                       <div class="input-group-prepend">
@@ -67,7 +67,7 @@
                     <div class="row">
                       <div class="col-12">
                         <div class="flex-row-space-between">
-                          <button type="button" class="btn btn-secondary form-row-button" (click)="toggle1()">
+                          <button type="button" class="btn btn-secondary form-row-button" (click)="toggleCredentialsSection()">
                             Close Form
                           </button>
                           <button type="button" class="btn btn-primary form-row-button btn-ladda"
