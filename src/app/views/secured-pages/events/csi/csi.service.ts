@@ -20,12 +20,12 @@ export class CsiService {
 
   // BASIC CRUD
 
-  public createCsi(csiRecord: Csi): Observable<Csi> {
+  public createCsi(csi: Csi): Observable<Csi> {
     const url = environment.apiUrl + '/api/v1/csi/';
     const token = this.tokenService.getToken();
     if (token) {
       return this.http.post<Csi>(url,
-        csiRecord,
+        csi,
         {
           headers: this.httpService.setHeadersWithToken(),
           observe: 'response',

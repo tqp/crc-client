@@ -49,6 +49,16 @@ export const navItemsAdmin: INavData[] = [
 
   {
     title: true,
+    name: 'Events'
+  },
+  {
+    name: 'Post-Grad Events',
+    url: '/post-grad-event/post-grad-event-list',
+    icon: 'fa fa-calendar-check-o'
+  },
+
+  {
+    title: true,
     name: 'CRC Microfinance'
   },
   {

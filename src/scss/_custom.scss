@@ -46,3 +46,13 @@ th.mat-header-cell {
   animation-duration: 200ms !important;
   // animation-fill-mode: both;
 }
+
+// Spinner
+
+.spinner-container {
+  background: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: none;
+}

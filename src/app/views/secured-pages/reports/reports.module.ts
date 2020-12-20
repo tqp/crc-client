@@ -6,6 +6,8 @@ import { ReportsRoutingModule } from './reports-routing.module';
 import { SummaryReportComponent } from './summary-report/summary-report.component';
 import { CsiScoresReportComponent } from './csi-scores-report/csi-scores-report.component';
 import { AngularMaterialModule } from '../../../../@tqp/modules/angular-material.module';
+import { SummaryReportResultsDialogComponent } from './summary-report-results-dialog/summary-report-results-dialog.component';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 
 @NgModule({
@@ -13,11 +15,13 @@ import { AngularMaterialModule } from '../../../../@tqp/modules/angular-material
     CrcMetricsComponent,
     ExportComponent,
     SummaryReportComponent,
-    CsiScoresReportComponent
+    CsiScoresReportComponent,
+    SummaryReportResultsDialogComponent
   ],
   imports: [
     CommonModule,
     AngularMaterialModule,
+    FlexLayoutModule,
     // Custom Routing
     ReportsRoutingModule
   ]

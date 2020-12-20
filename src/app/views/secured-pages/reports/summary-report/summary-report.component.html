@@ -1,6 +1,6 @@
 <div class="card">
   <div class="card-header">
-    <h3 class="float-left">CRC Status Report</h3>
+    <h3 class="float-left">CRC Summary Report</h3>
     <a href="#" class="btn btn-sm btn-secondary float-right mr-1 d-print-none" onclick="javascript:window.print();"><i class="fa fa-print"></i> Print</a>
     <a href="#" class="btn btn-sm btn-info float-right mr-1 d-print-none"><i class="fa fa-save"></i> Save</a>
   </div>
@@ -16,8 +16,14 @@
         </thead>
         <tbody>
         <tr>
-          <td class="left">How many children are in the CRC program total?</td>
-          <td class="right">50</td>
+          <td class="left">How many students are active in the CRC program now?</td>
+          <td class="right tqp-nav-link" *ngIf="!studentCount_Loading; else studentCountLoading"
+          (click)="getActiveStudents_Results()">
+            {{childrenCount_Total}}
+          </td>
+          <ng-template #studentCountLoading>
+            <td class="right"><i class="fa fa-circle-o-notch fa-spin"></i></td>
+          </ng-template>
         </tr>
         <tr>
           <td class="left pl-5">How many are in Tier-1?</td>

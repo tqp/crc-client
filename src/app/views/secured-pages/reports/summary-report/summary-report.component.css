@@ -1,0 +1,8 @@
+.tqp-nav-link {
+  color: #20A8D8;
+  cursor: pointer;
+}
+
+.tqp-nav-link:focus {
+  outline: none;
+}

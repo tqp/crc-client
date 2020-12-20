@@ -21,7 +21,7 @@ import { CsiDetailEditDialogComponent } from '../csi-detail-edit-dialog/csi-deta
   templateUrl: './csi-list.component.html',
   styleUrls: ['./csi-list.component.css']
 })
-export class CsiListComponent implements  OnInit, AfterViewInit, OnDestroy {
+export class CsiListComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild(MatSort, {static: true}) sort: MatSort;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild('tableContainer', {read: ElementRef, static: true}) public matTableRef: ElementRef;

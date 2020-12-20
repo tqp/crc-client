@@ -30,8 +30,8 @@
                         <input type="hidden" name="login_hint" value="tim.powers@inductiveminds.com">
                         -->
                         <button type="submit" class="btn btn-brand btn-google-plus btn-block">
-                        <i class="fa fa-google-plus float-left"></i>
-                        Login With Google
+                          <i class="fa fa-google-plus float-left"></i>
+                          Login With Google
                         </button>
                       </form>
                     </div>
@@ -39,7 +39,8 @@
 
                   <div class="row" [@hideCredentialsButton]="logonFormVisible ? 'hidden' : 'visible'">
                     <div class="col-12">
-                      <button type="button" class="btn btn-brand btn-github btn-block" (click)="toggleCredentialsSection()">
+                      <button type="button" class="btn btn-brand btn-github btn-block"
+                              (click)="toggleCredentialsSection()">
                         <i class="fa fa-key float-left"></i>
                         <span>Log On With Credentials</span>
                       </button>
@@ -67,7 +68,8 @@
                     <div class="row">
                       <div class="col-12">
                         <div class="flex-row-space-between">
-                          <button type="button" class="btn btn-secondary form-row-button" (click)="toggleCredentialsSection()">
+                          <button type="button" class="btn btn-secondary form-row-button"
+                                  (click)="toggleCredentialsSection()">
                             Close Form
                           </button>
                           <button type="button" class="btn btn-primary form-row-button btn-ladda"
@@ -83,15 +85,15 @@
                     <mat-error *ngIf="loginForm.get('generalError').hasError('customValidator')">
                       {{errorMessage}}
                     </mat-error>
-<!--                    <mat-error *ngIf="errorMessage">-->
-<!--                      b: {{errorMessage}}-->
-<!--                    </mat-error>-->
+                    <!--                    <mat-error *ngIf="errorMessage">-->
+                    <!--                      b: {{errorMessage}}-->
+                    <!--                    </mat-error>-->
                   </div>
 
-                  <!--
-                  <p>googleClientId: {{googleClientId}}</p>
-                  <p>googleRedirectUri: {{googleRedirectUri}}</p>
-                  -->
+                  <p>
+                    <span style="font-weight: bold;">googleClientId:</span><br/>{{googleClientId}}
+                    <span style="font-weight: bold;">googleRedirectUri:</span><br/>{{googleRedirectUri}}
+                  </p>
 
                 </form>
               </div>
