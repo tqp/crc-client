@@ -1,0 +1,160 @@
+<div class="tqp-crud-detail-edit animated fadeIn" *ngIf="postGradEvent">
+
+  <form [formGroup]="postGradEventEditForm">
+
+    <div class="row">
+
+      <div class="col-sm-6">
+        <h1
+          *ngIf="postGradEvent && newRecord && postGradEventEditForm.controls['postGradEventSurname'].value == ''; else notShow">
+          New Post-Grad Event
+        </h1>
+        <ng-template #notShow>
+          <h1>
+            <i class="fa fa-handshake-o"></i>
+            <!--            {{postGradEventEditForm.controls['studentSurname'].value}}-->
+            <!--            , {{postGradEventEditForm.controls['studentGivenName'].value}}-->
+          </h1>
+        </ng-template>
+      </div>
+
+    </div>
+
+    <div class="row">
+      <div class="col-lg-6 col-sm-12">
+
+        <div class="card">
+          <div class="card-header">
+            <i class="fa fa-user"></i>
+            Post-Grad Event
+          </div>
+          <div class="card-body">
+
+            <!--
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="postGradEventId">Event ID</label>
+                  <input matInput id="postGradEventId" type="text" class="form-control" placeholder="ID"
+                         formControlName="postGradEventId">
+                  <mat-error *ngFor="let validation of validationMessages.postGradEventId">
+                    <mat-error class="error-message"
+                               *ngIf="postGradEventEditForm.get('postGradEventId').hasError(validation.type)
+                                && (postGradEventEditForm.get('postGradEventId').dirty ||
+                                postGradEventEditForm.get('postGradEventId').touched)">
+                      {{validation.message}}
+                    </mat-error>
+                  </mat-error>
+                </div>
+              </div>
+            </div>
+            -->
+
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="studentId">Student*</label>
+                  <select id="studentId" class="form-control" formControlName="studentId">
+                    <option value=0>Select a Student</option>
+                    <option *ngFor="let student of studentList"
+                            value="{{student.studentId}}">
+                      {{student.studentSurname}}, {{student.studentGivenName}}
+                    </option>
+                  </select>
+                  <mat-error *ngFor="let validation of validationMessages.studentId">
+                    <mat-error class="error-message"
+                               *ngIf="postGradEventEditForm.get('studentId').hasError(validation.type)
+                                && (postGradEventEditForm.get('studentId').dirty ||
+                                postGradEventEditForm.get('studentId').touched)">
+                      {{validation.message}}
+                    </mat-error>
+                  </mat-error>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="postGradEventDate">Event Date*</label>
+                  <input id="postGradEventDate" type="text" class="form-control" bsDatepicker
+                         formControlName="postGradEventDate">
+                  <mat-error *ngFor="let validation of validationMessages.postGradEventDate">
+                    <mat-error class="error-message"
+                               *ngIf="postGradEventEditForm.get('postGradEventDate').hasError(validation.type)
+                                && (postGradEventEditForm.get('postGradEventDate').dirty ||
+                                postGradEventEditForm.get('postGradEventDate').touched)">
+                      {{validation.message}}
+                    </mat-error>
+                  </mat-error>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="postGradEventTypeId">Post-Grad Event Type* ({{postGradEvent.postGradEventTypeId}})</label>
+                  <select id="postGradEventTypeId" class="form-control" formControlName="postGradEventTypeId">
+                    <option value=0>Select a Visit Type</option>
+                    <option *ngFor="let postGradEventType of postGradEventTypeList"
+                            value="{{postGradEventType.postGradEventTypeId}}">
+                      {{postGradEventType.postGradEventTypeName}}
+                    </option>
+                  </select>
+                  <mat-error *ngFor="let validation of validationMessages.postGradEventTypeId">
+                    <mat-error class="error-message"
+                               *ngIf="postGradEventEditForm.get('postGradEventTypeId').hasError(validation.type)
+                                && (postGradEventEditForm.get('postGradEventTypeId').dirty ||
+                                postGradEventEditForm.get('postGradEventTypeId').touched)">
+                      {{validation.message}}
+                    </mat-error>
+                  </mat-error>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="postGradEventComments">Comments</label>
+                  <input matInput id="postGradEventComments" type="text" class="form-control" placeholder="Comments"
+                         formControlName="postGradEventComments">
+                  <mat-error *ngFor="let validation of validationMessages.postGradEventComments">
+                    <mat-error class="error-message"
+                               *ngIf="postGradEventEditForm.get('postGradEventComments').hasError(validation.type)
+                                && (postGradEventEditForm.get('postGradEventComments').dirty ||
+                                postGradEventEditForm.get('postGradEventComments').touched)">
+                      {{validation.message}}
+                    </mat-error>
+                  </mat-error>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="card-footer">
+            <button type="button" class="btn btn-primary float-right" (click)="save()"
+                    [disabled]="!postGradEventEditForm.valid">
+              <i class="fa fa-save mr-2"></i>Save
+            </button>
+            <button type="button" class="btn btn-secondary" (click)="cancel()">
+              <i class="fa fa-ban mr-2"></i>Cancel
+            </button>
+            <button type="button" class="btn btn-danger" (click)="delete(postGradEvent.postGradEventId)">
+              <i class="fa fa-trash-o mr-2"></i>Delete
+            </button>
+          </div>
+
+        </div>
+
+      </div>
+      <div class="col-lg-6 col-sm-12">
+      </div>
+
+    </div>
+
+  </form>
+
+</div>

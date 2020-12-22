@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { PostGradEvent } from '../../relationships/student-post-grad-event-edit-dialog/PostGradEvent';
+import { PostGradEvent } from '../../events/post-grad-events/PostGradEvent';
 import { Router } from '@angular/router';
 
 @Component({

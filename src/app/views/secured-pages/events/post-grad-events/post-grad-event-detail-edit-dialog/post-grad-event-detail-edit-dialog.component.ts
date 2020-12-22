@@ -1,20 +1,21 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { ConfirmDialogComponent } from '../../../../../@tqp/components/confirm-dialog/confirm-dialog.component';
+import { ConfirmDialogComponent } from '../../../../../../@tqp/components/confirm-dialog/confirm-dialog.component';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { FormattingService } from '../../../../../@tqp/services/formatting.service';
+import { PostGradEvent } from '../PostGradEvent';
+import { PostGradEventType } from '../../../reference-tables/post-grad-event-type/PostGradEventType';
+import { PostGradEventTypeService } from '../../../reference-tables/post-grad-event-type/post-grad-event-type.service';
+import { FormattingService } from '../../../../../../@tqp/services/formatting.service';
+import { validateNonZeroValue } from '../../../../../../@tqp/validators/custom.validators';
 import * as moment from 'moment';
-import { PostGradEvent } from './PostGradEvent';
-import { PostGradEventType } from '../../reference-tables/post-grad-event-type/PostGradEventType';
-import { validateNonZeroValue } from '../../../../../@tqp/validators/custom.validators';
-import { PostGradEventTypeService } from '../../reference-tables/post-grad-event-type/post-grad-event-type.service';
 
 @Component({
-  selector: 'app-student-post-grad-event-edit-dialog',
-  templateUrl: './student-post-grad-event-edit-dialog.component.html',
-  styleUrls: ['./student-post-grad-event-edit-dialog.component.scss']
+  selector: 'app-post-grad-event-detail-edit-dialog',
+  templateUrl: './post-grad-event-detail-edit-dialog.component.html',
+  styleUrls: ['./post-grad-event-detail-edit-dialog.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
-export class StudentPostGradEventEditDialogComponent implements OnInit {
+export class PostGradEventDetailEditDialogComponent implements OnInit {
   public confirmDialogRef: MatDialogRef<ConfirmDialogComponent>;
   public dataLoaded: boolean = false;
   public postGradEventEditForm: FormGroup;
@@ -26,10 +27,11 @@ export class StudentPostGradEventEditDialogComponent implements OnInit {
     'postGradEventTypeId': [],
     'postGradEventDate': [
       {type: 'required', message: 'A date is required'}
-    ]
+    ],
+    'postGradEventComments': [],
   };
 
-  constructor(private dialogRef: MatDialogRef<StudentPostGradEventEditDialogComponent>,
+  constructor(private dialogRef: MatDialogRef<PostGradEventDetailEditDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
               private postGradEventTypeService: PostGradEventTypeService,
               private formBuilder: FormBuilder,
@@ -52,6 +54,7 @@ export class StudentPostGradEventEditDialogComponent implements OnInit {
       postGradEventId: new FormControl({value: 0, disabled: true}),
       postGradEventTypeId: new FormControl(0, [Validators.required, validateNonZeroValue]),
       postGradEventDate: new FormControl(moment().format('MM/DD/YYYY'), Validators.required),
+      postGradEventComments: new FormControl(),
     });
   }
 

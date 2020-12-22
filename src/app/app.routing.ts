@@ -123,8 +123,8 @@ export const routes: Routes = [
         }
       },
       {
-        path: 'post-grad-event',
-        loadChildren: () => import('./views/secured-pages/events/post-grad-event/post-grad-event.module').then(m => m.PostGradEventModule),
+        path: 'post-grad-events',
+        loadChildren: () => import('./views/secured-pages/events/post-grad-events/post-grad-event.module').then(m => m.PostGradEventModule),
         resolve: {
           securedPageResolver: SecuredPageResolverService
         }

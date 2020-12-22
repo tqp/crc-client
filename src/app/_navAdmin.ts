@@ -53,7 +53,7 @@ export const navItemsAdmin: INavData[] = [
   },
   {
     name: 'Post-Grad Events',
-    url: '/post-grad-event/post-grad-event-list',
+    url: '/post-grad-events/post-grad-event-list',
     icon: 'fa fa-calendar-check-o'
   },
 

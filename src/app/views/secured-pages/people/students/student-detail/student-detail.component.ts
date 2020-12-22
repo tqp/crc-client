@@ -25,12 +25,12 @@ import { VisitService } from '../../../events/visit/visit.service';
 import { VisitDetailEditDialogComponent } from '../../../events/visit/visit-detail-edit-dialog/visit-detail-edit-dialog.component';
 import { HistoryService } from '../../../events/history/history.service';
 import { Csi } from '../../../events/csi/Csi';
-import { StudentPostGradEventEditDialogComponent } from '../../../relationships/student-post-grad-event-edit-dialog/student-post-grad-event-edit-dialog.component';
-import { PostGradEventService } from '../../../relationships/student-post-grad-event-edit-dialog/post-grad-event.service';
-import { PostGradEvent } from '../../../relationships/student-post-grad-event-edit-dialog/PostGradEvent';
+import { PostGradEvent } from '../../../events/post-grad-events/PostGradEvent';
 import { CsiService } from '../../../events/csi/csi.service';
 import { ChartType } from 'chart.js';
 import { getStyle, hexToRgba } from '@coreui/coreui-pro/dist/js/coreui-utilities';
+import { PostGradEventService } from '../../../events/post-grad-events/post-grad-event.service';
+import { PostGradEventDetailEditDialogComponent } from '../../../events/post-grad-events/post-grad-event-detail-edit-dialog/post-grad-event-detail-edit-dialog.component';
 
 @Component({
   selector: 'app-student-detail',
@@ -354,7 +354,7 @@ export class StudentDetailComponent implements OnInit {
       studentId: studentId
     };
     dialogConfig.autoFocus = false;
-    const dialogRef = this._matDialog.open(StudentPostGradEventEditDialogComponent, dialogConfig);
+    const dialogRef = this._matDialog.open(PostGradEventDetailEditDialogComponent, dialogConfig);
 
     dialogRef.afterClosed().subscribe(dialogData => {
       console.log('dialogData', dialogData);
@@ -364,6 +364,7 @@ export class StudentDetailComponent implements OnInit {
         postGradEvent.studentId = this.student.studentId;
         postGradEvent.postGradEventTypeId = formData.postGradEventTypeId;
         postGradEvent.postGradEventDate = this.formattingService.formatStandardDateAsMySql(formData.postGradEventDate);
+        postGradEvent.postGradEventComments = formData.postGradEventComments;
         console.log('postGradEvent', postGradEvent);
 
         switch (dialogData[0]) {

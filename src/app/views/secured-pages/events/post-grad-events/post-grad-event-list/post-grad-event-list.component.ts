@@ -12,7 +12,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ServerSidePaginationResponse } from '../../../../../../@tqp/models/ServerSidePaginationResponse';
 import { merge, of } from 'rxjs';
 import { catchError, debounceTime, map, switchMap } from 'rxjs/operators';
-import { PostGradEvent } from '../../../relationships/student-post-grad-event-edit-dialog/PostGradEvent';
+import { PostGradEvent } from '../PostGradEvent';
 import { PostGradEventService } from '../post-grad-event.service';
 import { PostGradEventDetailEditDialogComponent } from '../post-grad-event-detail-edit-dialog/post-grad-event-detail-edit-dialog.component';
 
@@ -37,7 +37,7 @@ export class PostGradEventListComponent implements OnInit, AfterViewInit, OnDest
     // 'postGradEventId',
     'postGradEventDate',
     'studentName',
-    'caseManager'
+    'postGradEventTypeName'
   ];
 
   public caregiverListNameSearchFormControl = new FormControl();
@@ -97,7 +97,7 @@ export class PostGradEventListComponent implements OnInit, AfterViewInit, OnDest
     this.isLoading = true;
     this.eventService.loadingEvent.emit(true);
     this.postGradEventService.getPostGradEventList_SSP(searchParams).subscribe((response: ServerSidePaginationResponse<PostGradEvent>) => {
-        // console.log('getPage response', response);
+        console.log('getPage response', response);
         this.records = [];
         response.data.forEach(item => {
           this.records.push(item);

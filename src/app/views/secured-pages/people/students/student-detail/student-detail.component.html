@@ -151,7 +151,7 @@
               <ng-container matColumnDef="postGradEventDate">
                 <th mat-header-cell *matHeaderCellDef>Date</th>
                 <td mat-cell *matCellDef="let row">
-                  <a [routerLink]="['/post-grad-event/post-grad-event-detail', row.postGradEventId]">
+                  <a [routerLink]="['/post-grad-events/post-grad-event-detail', row.postGradEventId]">
                     {{row.postGradEventDate | date: 'MM/dd/yyyy'}}
                   </a>
                 </td>

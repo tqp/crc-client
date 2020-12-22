@@ -6,15 +6,25 @@ import { AngularMaterialModule } from '../../../../../@tqp/modules/angular-mater
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { PostGradEventDetailComponent } from './post-grad-event-detail/post-grad-event-detail.component';
+import { PostGradEventDetailEditComponent } from './post-grad-event-detail-edit/post-grad-event-detail-edit.component';
+import { PostGradEventDetailEditDialogComponent } from './post-grad-event-detail-edit-dialog/post-grad-event-detail-edit-dialog.component';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 
 @NgModule({
-  declarations: [PostGradEventListComponent],
+  declarations: [
+    PostGradEventListComponent,
+    PostGradEventDetailComponent,
+    PostGradEventDetailEditComponent,
+    PostGradEventDetailEditDialogComponent
+  ],
   imports: [
     CommonModule,
     AngularMaterialModule,
     FormsModule,
     ReactiveFormsModule,
+    BsDatepickerModule.forRoot(),
     RouterModule,
     FlexLayoutModule,
     PostGradEventRoutingModule

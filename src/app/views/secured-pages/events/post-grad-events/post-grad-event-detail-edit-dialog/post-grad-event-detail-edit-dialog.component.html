@@ -7,6 +7,7 @@
 
   <form [formGroup]="postGradEventEditForm" [hidden]="!dataLoaded">
 
+    <!--
     <div class="row">
       <div class="col-sm-12">
         <div class="form-group">
@@ -17,6 +18,25 @@
                        *ngIf="postGradEventEditForm.get('postGradEventId').hasError(validation.type)
                                 && (postGradEventEditForm.get('postGradEventId').dirty ||
                                 postGradEventEditForm.get('postGradEventId').touched)">
+              {{validation.message}}
+            </mat-error>
+          </mat-error>
+        </div>
+      </div>
+    </div>
+    -->
+
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="form-group">
+          <label for="postGradEventDate">Event Date*</label>
+          <input id="postGradEventDate" type="text" class="form-control" bsDatepicker
+                 formControlName="postGradEventDate">
+          <mat-error *ngFor="let validation of validationMessages.postGradEventDate">
+            <mat-error class="error-message"
+                       *ngIf="postGradEventEditForm.get('postGradEventDate').hasError(validation.type)
+                                && (postGradEventEditForm.get('postGradEventDate').dirty ||
+                                postGradEventEditForm.get('postGradEventDate').touched)">
               {{validation.message}}
             </mat-error>
           </mat-error>
@@ -50,14 +70,14 @@
     <div class="row">
       <div class="col-sm-12">
         <div class="form-group">
-          <label for="postGradEventDate">Date*</label>
-          <input id="postGradEventDate" type="text" class="form-control" bsDatepicker
-                 formControlName="postGradEventDate">
-          <mat-error *ngFor="let validation of validationMessages.postGradEventDate">
+          <label for="postGradEventComments">Comments</label>
+          <input matInput id="postGradEventComments" type="text" class="form-control" placeholder="Comments"
+                 formControlName="postGradEventComments">
+          <mat-error *ngFor="let validation of validationMessages.postGradEventComments">
             <mat-error class="error-message"
-                       *ngIf="postGradEventEditForm.get('postGradEventDate').hasError(validation.type)
-                                && (postGradEventEditForm.get('postGradEventDate').dirty ||
-                                postGradEventEditForm.get('postGradEventDate').touched)">
+                       *ngIf="postGradEventEditForm.get('postGradEventComments').hasError(validation.type)
+                                && (postGradEventEditForm.get('postGradEventComments').dirty ||
+                                postGradEventEditForm.get('postGradEventComments').touched)">
               {{validation.message}}
             </mat-error>
           </mat-error>

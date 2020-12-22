@@ -34,6 +34,16 @@ export const navItemsUser: INavData[] = [
 
   {
     title: true,
+    name: 'Events'
+  },
+  {
+    name: 'Post-Grad Events',
+    url: '/post-grad-events/post-grad-event-list',
+    icon: 'fa fa-calendar-check-o'
+  },
+
+  {
+    title: true,
     name: 'Case Manager Actions'
   },
   {

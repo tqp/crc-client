@@ -10,7 +10,7 @@ const routes: Routes = [
   {
     path: '',
     data: {
-      title: 'Post-Grad Event'
+      title: 'Post-Grad Events'
     },
     children: [
       {
