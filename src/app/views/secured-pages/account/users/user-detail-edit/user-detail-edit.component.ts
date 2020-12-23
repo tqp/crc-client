@@ -1,6 +1,6 @@
 import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../../../../../../@tqp/components/confirm-dialog/confirm-dialog.component';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { User } from '../User';
@@ -8,6 +8,8 @@ import { UserService } from '../user.service';
 import { RoleService } from '../../roles/role.service';
 import { Role } from '../../roles/Role';
 import { forkJoin } from 'rxjs';
+import { NotificationService } from '../../../../../../@tqp/services/notification.service';
+import { ResetPasswordDialogComponent } from '../../passwords/reset-password-dialog/reset-password-dialog.component';
 
 @Component({
   selector: 'app-user-detail-edit',
@@ -25,6 +27,7 @@ export class UserDetailEditComponent implements OnInit {
   // CHECKBOXES
   public roleList: Role[];
   public roleListCheckboxArray: Role[];
+
   get roleCheckboxFormArray() {
     return this.userEditForm.controls.roleCheckboxes as FormArray;
   }
@@ -47,6 +50,7 @@ export class UserDetailEditComponent implements OnInit {
   constructor(private route: ActivatedRoute,
               private userService: UserService,
               private roleService: RoleService,
+              private notificationService: NotificationService,
               private router: Router,
               private formBuilder: FormBuilder,
               public _matDialog: MatDialog) {
@@ -203,6 +207,37 @@ export class UserDetailEditComponent implements OnInit {
     }
   }
 
+  public openResetPasswordDialog(): void {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.minWidth = '25%';
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.data = {
+      userId: this.user.userId
+    };
+    dialogConfig.autoFocus = false;
+    const dialogRef = this._matDialog.open(ResetPasswordDialogComponent, dialogConfig);
+
+    dialogRef.afterClosed().subscribe(dialogData => {
+      if (dialogData) {
+        const user: User = new User();
+        user.userId = dialogData.userId;
+        user.password = dialogData.newPassword;
+        this.userService.resetPassword(user).subscribe(
+          response => {
+            console.log('response', response);
+            this.notificationService.showSuccess('The password has been changed.', 'Password Changed');
+          },
+          error => {
+            console.error('Error: ', error);
+          },
+          () => {
+            console.log('donme');
+          }
+        );
+      }
+    });
+  }
 
   @HostListener('window:keydown', ['$event'])
   public handleKeyboardEvent(event: KeyboardEvent): void {

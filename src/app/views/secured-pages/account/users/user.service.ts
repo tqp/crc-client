@@ -47,11 +47,11 @@ export class UserService {
     }
   }
 
-  public getUserList_SSP(serverSideSearchParams: ServerSidePaginationRequest): Observable<ServerSidePaginationResponse<Student>> {
+  public getUserList_SSP(serverSideSearchParams: ServerSidePaginationRequest): Observable<ServerSidePaginationResponse<User>> {
     const url = environment.apiUrl + '/api/v1/user/ssp';
     const token = this.tokenService.getToken();
     if (token) {
-      return this.http.post<ServerSidePaginationResponse<Student>>(url,
+      return this.http.post<ServerSidePaginationResponse<User>>(url,
         serverSideSearchParams,
         {
           headers: this.httpService.setHeadersWithToken(),
@@ -164,6 +164,50 @@ export class UserService {
   }
 
   // OTHER
+
+  public updatePassword(user: User): Observable<string> {
+    const url = environment.apiUrl + '/api/v1/user/update-password';
+    const token = this.tokenService.getToken();
+    if (token) {
+      return this.http.put<string>(url,
+        user,
+        {
+          headers: this.httpService.setHeadersWithToken(),
+          observe: 'response',
+          params: {}
+        })
+        .pipe(
+          map(res => {
+            return res.body;
+          })
+        );
+    } else {
+      console.error('No token was present.');
+      return null;
+    }
+  }
+
+  public resetPassword(user: User): Observable<string> {
+    const url = environment.apiUrl + '/api/v1/user/reset-password';
+    const token = this.tokenService.getToken();
+    if (token) {
+      return this.http.put<string>(url,
+        user,
+        {
+          headers: this.httpService.setHeadersWithToken(),
+          observe: 'response',
+          params: {}
+        })
+        .pipe(
+          map(res => {
+            return res.body;
+          })
+        );
+    } else {
+      console.error('No token was present.');
+      return null;
+    }
+  }
 
   // PERSISTENT VARIABLES
 

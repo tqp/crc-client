@@ -63,7 +63,7 @@ export class UserDetailEditDialogComponent implements OnInit {
       surname: new FormControl('', Validators.required),
       givenName: new FormControl('', Validators.required),
       setInitialPassword: new FormControl(''),
-      password: new FormControl('password123'),
+      password: new FormControl(),
       roles: new FormControl(''),
       roleCheckboxes: new FormArray([], minSelectedCheckboxes(1)),
     });
@@ -117,12 +117,6 @@ export class UserDetailEditDialogComponent implements OnInit {
   public save(): void {
     this.dialogRef.close([this.data.action, this.userEditForm.getRawValue(), this.roleListCheckboxArray]);
   }
-
-  public test(): void {
-    console.log('form', this.userEditForm.getRawValue());
-    console.log('checkboxes', this.roleListCheckboxArray);
-  }
-
 }
 
 function minSelectedCheckboxes(min = 1) {

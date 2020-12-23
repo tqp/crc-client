@@ -3,7 +3,6 @@ import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { ServerSidePaginationRequest } from '../../../../../../@tqp/models/ServerSidePaginationRequest';
 import { FormControl } from '@angular/forms';
-import { Student } from '../../../people/students/Student';
 import { EventService } from '../../../../../../@tqp/services/event.service';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../../../../@tqp/services/auth.service';
@@ -38,11 +37,15 @@ export class UserListComponent implements OnInit, OnDestroy {
     'name',
     'username',
     'lastLogin',
-    'loginCount'
+    'loginCount',
+    'staffRole',
+    'caseManagerRole',
+    'monitoringAndEvalRole',
+    'directorRole'
   ];
 
-  public records: Student[] = [];
-  public dataSource: Student[] = [];
+  public records: User[] = [];
+  public dataSource: User[] = [];
   public totalRecords: number;
   public pageStart: number;
   public pageEnd: number;
@@ -106,11 +109,11 @@ export class UserListComponent implements OnInit, OnDestroy {
     // console.log('getPage searchParams', searchParams);
     this.isLoading = true;
     this.eventService.loadingEvent.emit(true);
-    this.userService.getUserList_SSP(searchParams).subscribe((response: ServerSidePaginationResponse<Student>) => {
-        // console.log('getPage response', response);
+    this.userService.getUserList_SSP(searchParams).subscribe((response: ServerSidePaginationResponse<User>) => {
+        console.log('getPage response', response);
         this.records = [];
-        const student: Student[] = response.data;
-        student.forEach(item => {
+        const user: User[] = response.data;
+        user.forEach(item => {
           this.records.push(item);
         }, error => {
           console.error('Error: ', error);
@@ -175,7 +178,7 @@ export class UserListComponent implements OnInit, OnDestroy {
           this.isFilterApplied = nameFilter;
           return this.userService.getUserList_SSP(serverSideSearchParams);
         }),
-        map((response: ServerSidePaginationResponse<Student>) => {
+        map((response: ServerSidePaginationResponse<User>) => {
           return response;
         }),
         catchError((error: any) => {
@@ -185,7 +188,7 @@ export class UserListComponent implements OnInit, OnDestroy {
           return of([]);
         })
       )
-      .subscribe((response: ServerSidePaginationResponse<Student>) => {
+      .subscribe((response: ServerSidePaginationResponse<User>) => {
           this.records = [];
           response.data.forEach(item => {
             this.records.push(item);
@@ -250,6 +253,10 @@ export class UserListComponent implements OnInit, OnDestroy {
         );
       }
     });
+  }
+
+  public clearSearch(): void {
+    this.userListNameSearchFormControl.setValue('');
   }
 
   @HostListener('window:keydown', ['$event'])

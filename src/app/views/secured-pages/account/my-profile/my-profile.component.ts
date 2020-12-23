@@ -72,7 +72,7 @@ export class MyProfileComponent implements OnInit {
     );
   }
 
-  private openChangePasswordDialog(): void {
+  public openChangePasswordDialog(): void {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.minWidth = '25%';
     dialogConfig.disableClose = true;

@@ -5,23 +5,17 @@ import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from
 import { UserValidationService } from '../../users/user-validation.service';
 
 @Component({
-  selector: 'app-change-password-dialog',
-  templateUrl: './change-password-dialog.component.html',
-  styleUrls: ['./change-password-dialog.component.css']
+  selector: 'app-reset-password-dialog',
+  templateUrl: './reset-password-dialog.component.html',
+  styleUrls: ['./reset-password-dialog.component.css']
 })
-export class ChangePasswordDialogComponent implements OnInit {
-  @ViewChild('currentPasswordField', {static: false}) public currentPasswordField: ElementRef;
+export class ResetPasswordDialogComponent implements OnInit {
+  @ViewChild('newPasswordField', {static: false}) public newPasswordField: ElementRef;
   public confirmDialogRef: MatDialogRef<ConfirmDialogComponent>;
-  public changePasswordForm: FormGroup;
-  public dialogMessage: string = '';
-  public hideCancelButton: boolean = false;
+  public resetPasswordForm: FormGroup;
 
   public validationMessages = {
     'userId': [],
-    'currentPassword': [
-      {type: 'required', message: 'You must enter your current password'},
-      {type: 'currentPasswordValidator', message: 'Your current password is incorrect'},
-    ],
     'newPassword': [
       {type: 'required', message: 'Please enter a new password'}
     ],
@@ -39,7 +33,7 @@ export class ChangePasswordDialogComponent implements OnInit {
     }
   }
 
-  constructor(private dialogRef: MatDialogRef<ChangePasswordDialogComponent>,
+  constructor(private dialogRef: MatDialogRef<ResetPasswordDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
               private formBuilder: FormBuilder,
               public _matDialog: MatDialog,
@@ -51,29 +45,26 @@ export class ChangePasswordDialogComponent implements OnInit {
   }
 
   private initializeForm(): void {
-    this.changePasswordForm = this.formBuilder.group({
+    this.resetPasswordForm = this.formBuilder.group({
       userId: new FormControl(this.data.userId, [Validators.required]),
-      currentPassword: new FormControl('', [Validators.required], [this.userValidationService.currentPasswordValidator()]),
       newPassword: new FormControl('', [Validators.required]),
       newPasswordConfirm: new FormControl('', [Validators.required])
     }, {
-      validator: ChangePasswordDialogComponent.passwordMatchValidator
+      validator: ResetPasswordDialogComponent.passwordMatchValidator
     });
 
     setTimeout(() => {
-      this.currentPasswordField.nativeElement.focus();
+      this.newPasswordField.nativeElement.focus();
     }, 0);
   }
 
-  public formatDialogMessage(dialogMessage: string): string {
-    return dialogMessage.replace('\n', '<br />');
-  }
+  // LOAD DATA
 
 
   // BUTTONS
 
   public save(): void {
-    this.dialogRef.close(this.changePasswordForm.getRawValue());
+    this.dialogRef.close(this.resetPasswordForm.getRawValue());
   }
 
 }

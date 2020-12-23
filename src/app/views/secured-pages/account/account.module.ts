@@ -15,6 +15,7 @@ import { RoleDetailComponent } from './roles/role-detail/role-detail.component';
 import { RoleDetailEditComponent } from './roles/role-detail-edit/role-detail-edit.component';
 import { UserModule } from './users/user.module';
 import { ChangePasswordDialogComponent } from './passwords/change-password-dialog/change-password-dialog.component';
+import { ResetPasswordDialogComponent } from './passwords/reset-password-dialog/reset-password-dialog.component';
 
 
 @NgModule({
@@ -24,6 +25,7 @@ import { ChangePasswordDialogComponent } from './passwords/change-password-dialo
     RoleDetailComponent,
     RoleDetailEditComponent,
     ChangePasswordDialogComponent,
+    ResetPasswordDialogComponent,
   ],
   imports: [
     CommonModule,

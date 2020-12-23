@@ -8,6 +8,11 @@ import { TokenStorageService } from '@tqp/services/token-storage.service';
 import { navItemsAdmin } from '../../_navAdmin';
 import { navItemsUser } from '../../_navUser';
 import { EventService } from '@tqp/services/event.service';
+import { UserService } from '../../views/secured-pages/account/users/user.service';
+import { User } from '../../views/secured-pages/account/users/User';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { ChangePasswordDialogComponent } from '../../views/secured-pages/account/passwords/change-password-dialog/change-password-dialog.component';
+import { NotificationService } from '../../../@tqp/services/notification.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -23,9 +28,12 @@ export class DefaultLayoutComponent implements OnInit {
   constructor(private http: HttpClient,
               private tokenService: TokenService,
               private tokenStorageService: TokenStorageService,
+              private notificationService: NotificationService,
               private authService: AuthService,
+              private userService: UserService,
               private router: Router,
-              private eventService: EventService) {
+              private eventService: EventService,
+              public _matDialog: MatDialog) {
     const test = false;
     if (test) {
       this.navItems = navItemsAdmin;
@@ -40,9 +48,10 @@ export class DefaultLayoutComponent implements OnInit {
     // See token-storage.service.ts for the Observable.
     if (this.tokenService.getToken()) {
       this.setMenu(this.authService.getAuthoritiesFromToken());
+
       this.authService.getTokenInfo().subscribe(
         response => {
-          // console.log('response', response);
+          console.log('response', response);
           this.username = response.sub;
         },
         error => {
@@ -50,6 +59,21 @@ export class DefaultLayoutComponent implements OnInit {
           this.authService.errorHandler(error);
         }
       );
+
+      this.userService.getUserDetailByUsername(this.username).subscribe(
+        (response: User) => {
+          console.log('response', response);
+          if (response.passwordSet == null) {
+            console.log('NEED TO RESET PASSWORD');
+            this.openChangePasswordDialog(response.userId);
+          }
+        },
+        error => {
+          console.error('Error: ', error);
+          this.authService.errorHandler(error);
+        }
+      );
+
     } else {
       this.tokenStorageService.tokenObs.subscribe(token => {
         this.setMenu(this.authService.getAuthoritiesFromToken());
@@ -76,6 +100,40 @@ export class DefaultLayoutComponent implements OnInit {
       console.error('The authorities presented did not contain any roles.');
       this.router.navigate(['/login-page'], {queryParams: {error: 'UsernameNotFoundException'}}).then();
     }
+  }
+
+  public openChangePasswordDialog(userId: number): void {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.minWidth = '25%';
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.data = {
+      userId: userId,
+    };
+    dialogConfig.autoFocus = false;
+    const dialogRef = this._matDialog.open(ChangePasswordDialogComponent, dialogConfig);
+    dialogRef.componentInstance.hideCancelButton = true;
+    dialogRef.componentInstance.dialogMessage = 'Your password has been reset by a manager.\nPlease create a new password.';
+
+    dialogRef.afterClosed().subscribe(dialogData => {
+      if (dialogData) {
+        const user: User = new User();
+        user.userId = dialogData.userId;
+        user.password = dialogData.newPassword;
+        this.userService.updatePassword(user).subscribe(
+          response => {
+            console.log('response', response);
+            this.notificationService.showSuccess('Your password has been changed.', 'Password Changed');
+          },
+          error => {
+            console.error('Error: ', error);
+          },
+          () => {
+            console.log('Password Reset.');
+          }
+        );
+      }
+    });
   }
 
   toggleMinimize(e) {

@@ -37,6 +37,11 @@
             <label for="nameSearchFieldId" *ngIf="false"></label>
             <input id="nameSearchFieldId" type="text" class="form-control" placeholder="Search Users"
                    [formControl]="userListNameSearchFormControl" #nameSearchElementRef autocomplete="off"/>
+            <span class="input-group-append">
+              <button class="btn btn-secondary" type="button" (click)="clearSearch()">
+                <i class="fa fa-times"></i>
+              </button>
+            </span>
           </div>
 
         </div>
@@ -62,6 +67,34 @@
           <ng-container matColumnDef="username">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Username</th>
             <td mat-cell *matCellDef="let row">{{row.username}}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="staffRole">
+            <th mat-header-cell *matHeaderCellDef matTooltip="HCW/CRC Staff" class="role-cell-header">ST</th>
+            <td mat-cell *matCellDef="let row" class="role-cell">
+              <i class="fa fa-check-square" *ngIf="row.roleUser == 1"></i>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="caseManagerRole">
+            <th mat-header-cell *matHeaderCellDef matTooltip="Case Manager" class="role-cell-header">CM</th>
+            <td mat-cell *matCellDef="let row" class="role-cell">
+              <i class="fa fa-check-square" *ngIf="row.roleCaseManager == 1"></i>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="monitoringAndEvalRole">
+            <th mat-header-cell *matHeaderCellDef matTooltip="Monitoring & Eval" class="role-cell-header">M&E</th>
+            <td mat-cell *matCellDef="let row" class="role-cell">
+              <i class="fa fa-check-square" *ngIf="row.roleMonitoring == 1"></i>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="directorRole">
+            <th mat-header-cell *matHeaderCellDef matTooltip="Director" class="role-cell-header">DIR</th>
+            <td mat-cell *matCellDef="let row" class="role-cell">
+              <i class="fa fa-check-square" *ngIf="row.roleDirector == 1"></i>
+            </td>
           </ng-container>
 
           <ng-container matColumnDef="lastLogin">

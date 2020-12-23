@@ -6,7 +6,7 @@ export class User {
   public surname: string;
   public givenName: string;
   public password: string;
-  public passwordSetDate: string;
+  public passwordSet: string;
   public lastLogin: string;
   public loginCount: number;
   public theme: string;
@@ -18,4 +18,10 @@ export class User {
   public createdBy: string;
   public updatedOn: string;
   public updatedBy: string;
+
+  // Roles
+  public roleUser: number;
+  public roleCaseManager: number;
+  public roleMonitoring: number;
+  public roleDirector: number;
 }
