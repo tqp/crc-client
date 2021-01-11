@@ -63,7 +63,7 @@ export class DefaultLayoutComponent implements OnInit {
       this.userService.getUserDetailByUsername(this.username).subscribe(
         (response: User) => {
           console.log('response', response);
-          if (response.passwordSet == null) {
+          if (response.passwordReset === 1) {
             console.log('NEED TO RESET PASSWORD');
             this.openChangePasswordDialog(response.userId);
           }

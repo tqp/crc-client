@@ -7,6 +7,7 @@ export class User {
   public givenName: string;
   public password: string;
   public passwordSet: string;
+  public passwordReset: number;
   public lastLogin: string;
   public loginCount: number;
   public theme: string;
