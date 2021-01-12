@@ -45,6 +45,7 @@ export class StudentDetailComponent implements OnInit {
   public sponsor: Sponsor;
   public programStatus: ProgramStatus;
   public yesNoFromInteger = {0: 'Unknown', 1: 'Yes', 2: 'No'};
+  public csiScoresChartData: Array<any> = [];
 
   // Loading
   public studentLoading: boolean = false;
@@ -100,14 +101,6 @@ export class StudentDetailComponent implements OnInit {
   ];
 
   // lineChart
-  public lineChartData: Array<any> = [
-    {
-      data: [1, 2, 1, 2, 1, 2, 3, 4, 3, 4, 3, 4],
-      lineTension: 0,
-      fill: false,
-      steppedLine: false
-    }
-  ];
   public lineChartLabels: Array<any> = [
     'Abuse & Exploitation', // Child Protection
     'Legal Protection',
@@ -139,6 +132,7 @@ export class StudentDetailComponent implements OnInit {
         {
           ticks: {
             beginAtZero: true,
+            max: 4,
             stepSize: 1
           }
         }
@@ -190,10 +184,45 @@ export class StudentDetailComponent implements OnInit {
         this.getCaseManagerDetailByStudentId(studentId);
         this.getSponsorDetailByStudentId(studentId);
         this.getProgramStatusDetailByStudentId(studentId);
+        this.drawCsiScoresChart(studentId);
       } else {
         console.error('No ID was present.');
       }
     }).then();
+  }
+
+  private drawCsiScoresChart(studentId: number): void {
+    console.log('drawCsiScoresChart');
+    this.csiService.getMostRecentCsiScoresByStudentId(studentId).subscribe(
+      (csi: Csi) => {
+        if (csi) {
+          this.csiScoresChartData = [
+            {
+              data: [
+                csi.csiScoreAbuseAndExploitation,
+                csi.csiScoreLegalProtection,
+                csi.csiScorePerformance,
+                csi.csiScoreEducationAndWork,
+                csi.csiScoreFoodSecurity,
+                csi.csiScoreNutritionAndGrowth,
+                csi.csiScoreHealthCareServices,
+                csi.csiScoreWellness,
+                csi.csiScoreEmotionalHealth,
+                csi.csiScoreSocialBehavior,
+                csi.csiScoreCare,
+                csi.csiScoreShelter
+              ],
+              lineTension: 0,
+              fill: false,
+              steppedLine: false
+            }
+          ];
+        }
+      },
+      error => {
+        console.error('Error: ', error);
+      }
+    );
   }
 
   private getStudentDetail(studentId: number): void {

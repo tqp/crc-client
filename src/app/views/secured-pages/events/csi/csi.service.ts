@@ -170,6 +170,26 @@ export class CsiService {
     }
   }
 
+  public getMostRecentCsiScoresByStudentId(studentId: number): Observable<Csi> {
+    const url = environment.apiUrl + '/api/v1/csi/recent-scores/student/' + studentId;
+    const token = this.tokenService.getToken();
+    if (token) {
+      return this.http.get<Csi>(url, {
+        headers: this.httpService.setHeadersWithToken(),
+        observe: 'response',
+        params: {}
+      })
+        .pipe(
+          map(res => {
+            return res.body;
+          })
+        );
+    } else {
+      console.error('No token was present.');
+      return null;
+    }
+  }
+
   public getCsiListByCaseManagerId(caseManagerId: number): Observable<Csi[]> {
     const url = environment.apiUrl + '/api/v1/csi/case-manager/' + caseManagerId;
     const token = this.tokenService.getToken();

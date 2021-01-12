@@ -69,6 +69,26 @@
         </div>
       </div>
 
+      <div class="card" *ngIf="csiScoresChartData.length > 0">
+        <div class="card-header">
+          <i class="fa fa-line-chart"></i>
+          CSI Scores Chart
+        </div>
+        <div class="card-body">
+          <div class="chart-wrapper" style="min-height: 274px;">
+            <canvas *ngIf="csiScoresChartData.length > 0" baseChart class="chart"
+                    [datasets]="csiScoresChartData"
+                    [labels]="lineChartLabels"
+                    [options]="lineChartOptions"
+                    [colors]="lineChartColors"
+                    [legend]="lineChartLegend"
+                    [chartType]="lineChartType"
+                    (chartHover)="chartHovered($event)"
+                    (chartClick)="chartClicked($event)"></canvas>
+          </div>
+        </div>
+      </div>
+
       <div class="card">
         <div class="card-header">
           <i class="fa fa-calendar-check-o"></i>
@@ -307,26 +327,6 @@
     </div>
 
     <div class="col-lg-6 col-sm-12">
-
-      <div class="card">
-        <div class="card-header">
-          <i class="fa fa-line-chart"></i>
-          CSI Scores Chart
-        </div>
-        <div class="card-body">
-          <div class="chart-wrapper">
-            <canvas baseChart class="chart"
-                    [datasets]="lineChartData"
-                    [labels]="lineChartLabels"
-                    [options]="lineChartOptions"
-                    [colors]="lineChartColors"
-                    [legend]="lineChartLegend"
-                    [chartType]="lineChartType"
-                    (chartHover)="chartHovered($event)"
-                    (chartClick)="chartClicked($event)"></canvas>
-          </div>
-        </div>
-      </div>
 
       <div class="card">
         <div class="card-header">

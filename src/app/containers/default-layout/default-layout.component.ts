@@ -13,6 +13,8 @@ import { User } from '../../views/secured-pages/account/users/User';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ChangePasswordDialogComponent } from '../../views/secured-pages/account/passwords/change-password-dialog/change-password-dialog.component';
 import { NotificationService } from '../../../@tqp/services/notification.service';
+import { INavDataTqp } from '../../INavDataTqp';
+import { navItemsWithRoles } from '../../_navWithRoles';
 
 @Component({
   selector: 'app-dashboard',
@@ -21,7 +23,7 @@ import { NotificationService } from '../../../@tqp/services/notification.service
 })
 export class DefaultLayoutComponent implements OnInit {
   public sidebarMinimized = false;
-  public navItems = null;
+  public navItems: INavDataTqp[] = null;
   public showLoadingIndicator = false;
   public username: string;
 
@@ -36,7 +38,7 @@ export class DefaultLayoutComponent implements OnInit {
               public _matDialog: MatDialog) {
     const test = false;
     if (test) {
-      this.navItems = navItemsAdmin;
+      this.navItems = navItemsWithRoles;
     }
   }
 
@@ -47,11 +49,11 @@ export class DefaultLayoutComponent implements OnInit {
     // watch for changes to the token Observable. When we have a token, load the data.
     // See token-storage.service.ts for the Observable.
     if (this.tokenService.getToken()) {
-      this.setMenu(this.authService.getAuthoritiesFromToken());
+      this.setMenuByAuthorities(this.authService.getAuthoritiesFromToken());
 
       this.authService.getTokenInfo().subscribe(
         response => {
-          console.log('response', response);
+          // console.log('response', response);
           this.username = response.sub;
         },
         error => {
@@ -62,7 +64,7 @@ export class DefaultLayoutComponent implements OnInit {
 
       this.userService.getUserDetailByUsername(this.username).subscribe(
         (response: User) => {
-          console.log('response', response);
+          // console.log('response', response);
           if (response.passwordReset === 1) {
             console.log('NEED TO RESET PASSWORD');
             this.openChangePasswordDialog(response.userId);
@@ -76,7 +78,7 @@ export class DefaultLayoutComponent implements OnInit {
 
     } else {
       this.tokenStorageService.tokenObs.subscribe(token => {
-        this.setMenu(this.authService.getAuthoritiesFromToken());
+        this.setMenuByAuthorities(this.authService.getAuthoritiesFromToken());
       });
     }
 
@@ -100,6 +102,20 @@ export class DefaultLayoutComponent implements OnInit {
       console.error('The authorities presented did not contain any roles.');
       this.router.navigate(['/login-page'], {queryParams: {error: 'UsernameNotFoundException'}}).then();
     }
+  }
+
+  private setMenuByAuthorities(authorities: string): void {
+    const authoritiesArray = authorities.split(',');
+    this.navItems = navItemsWithRoles;
+    this.navItems = this.navItems.filter(item => {
+      if (item.allow) {
+        const allowArray = item.allow.split(',');
+        const overlap = allowArray.filter(element => authoritiesArray.includes(element));
+        return overlap.length > 0;
+      } else {
+        return false;
+      }
+    });
   }
 
   public openChangePasswordDialog(userId: number): void {
@@ -143,7 +159,7 @@ export class DefaultLayoutComponent implements OnInit {
   public logout(): void {
     this.tokenService.clearToken();
     this.authService.clearTokenInfo();
-    this.router.navigateByUrl('/open-pages/login').then();
+    this.router.navigateByUrl('/login-page').then();
   }
 
   public openSwagger(): void {

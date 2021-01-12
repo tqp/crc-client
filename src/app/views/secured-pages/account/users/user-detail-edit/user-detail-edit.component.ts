@@ -232,7 +232,7 @@ export class UserDetailEditComponent implements OnInit {
             console.error('Error: ', error);
           },
           () => {
-            console.log('donme');
+            console.log('done');
           }
         );
       }

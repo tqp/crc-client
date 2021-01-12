@@ -4,11 +4,11 @@ import { User } from 'app/views/secured-pages/account/users/User';
 import { Token } from '@tqp/models/Token';
 import { AuthService } from '@tqp/services/auth.service';
 import { TokenService } from '@tqp/services/token.service';
-import * as moment from 'moment';
 import { DiagnosticsService } from '@tqp/services/diagnostics.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ChangePasswordDialogComponent } from '../passwords/change-password-dialog/change-password-dialog.component';
-import { NotificationService } from '../../../../../@tqp/services/notification.service';
+import { NotificationService } from '@tqp/services/notification.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-my-profile',
@@ -45,9 +45,11 @@ export class MyProfileComponent implements OnInit {
     this.myProfileService.getMyUserInfo().subscribe(
       response => {
         this.user = response;
-        // console.log('user', this.user);
-        this.user.createdOn = moment(this.user.createdOn).format('DD-MMM-YYYY h:mm:ss a').toUpperCase();
-        this.user.updatedOn = moment(this.user.updatedOn).format('DD-MMM-YYYY h:mm:ss a').toUpperCase();
+        console.log('user', this.user);
+        this.user.lastLogin = this.user.lastLogin === null ? null : moment(moment.utc(this.user.lastLogin)).local().format('DD-MMM-YYYY h:mm:ss a').toUpperCase();
+        this.user.passwordSet = this.user.passwordSet === null ? null : moment(moment.utc(this.user.passwordSet)).local().format('DD-MMM-YYYY h:mm:ss a').toUpperCase();
+        this.user.createdOn = this.user.createdOn === null ? null : moment(moment.utc(this.user.createdOn)).local().format('DD-MMM-YYYY h:mm:ss a').toUpperCase();
+        this.user.updatedOn = this.user.updatedOn === null ? null : moment(moment.utc(this.user.updatedOn)).local().format('DD-MMM-YYYY h:mm:ss a').toUpperCase();
       },
       error => {
         console.error('Error: ', error);
