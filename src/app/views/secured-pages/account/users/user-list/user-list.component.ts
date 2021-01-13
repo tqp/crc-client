@@ -14,6 +14,7 @@ import { UserService } from '../user.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { UserDetailEditDialogComponent } from '../user-detail-edit-dialog/user-detail-edit-dialog.component';
 import { User } from '../User';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-user-list',
@@ -35,6 +36,8 @@ export class UserListComponent implements OnInit, OnDestroy {
   private searchParams: ServerSidePaginationRequest = new ServerSidePaginationRequest();
   public displayedColumns: string[] = [
     'name',
+    'surname',
+    'givenName',
     'username',
     'lastLogin',
     'loginCount',
@@ -110,10 +113,11 @@ export class UserListComponent implements OnInit, OnDestroy {
     this.isLoading = true;
     this.eventService.loadingEvent.emit(true);
     this.userService.getUserList_SSP(searchParams).subscribe((response: ServerSidePaginationResponse<User>) => {
-        console.log('getPage response', response);
+        // console.log('getPage response', response);
         this.records = [];
         const user: User[] = response.data;
         user.forEach(item => {
+          item.lastLogin = item.lastLogin === null ? null : moment(moment.utc(item.lastLogin)).local().format('DD-MMM-YYYY h:mm:ss a').toUpperCase();
           this.records.push(item);
         }, error => {
           console.error('Error: ', error);
@@ -161,7 +165,12 @@ export class UserListComponent implements OnInit, OnDestroy {
           // Translate table columns to database columns for sorting.
           // IMPORTANT: If this translation is incorrect, the query will break!!!
           const translateSortColumnsToDatabaseColumns = {
-            studentGivenName: 'given_name'
+            name: 'surname',
+            surname: 'surname',
+            givenName: 'given_name',
+            username: 'username',
+            lastLogin: 'last_login',
+            loginCount: 'login_count'
           };
 
           const serverSideSearchParams: ServerSidePaginationRequest = new ServerSidePaginationRequest();
@@ -173,7 +182,7 @@ export class UserListComponent implements OnInit, OnDestroy {
           serverSideSearchParams.sortDirection = this.sort.direction;
           this.searchParams = serverSideSearchParams;
 
-          // console.log('this.searchParams', this.searchParams);
+          console.log('this.searchParams', this.searchParams);
 
           this.isFilterApplied = nameFilter;
           return this.userService.getUserList_SSP(serverSideSearchParams);
@@ -191,6 +200,7 @@ export class UserListComponent implements OnInit, OnDestroy {
       .subscribe((response: ServerSidePaginationResponse<User>) => {
           this.records = [];
           response.data.forEach(item => {
+            item.lastLogin = item.lastLogin === null ? null : moment(moment.utc(item.lastLogin)).local().format('DD-MMM-YYYY h:mm:ss a').toUpperCase();
             this.records.push(item);
           }, error => {
             console.error('Error: ', error);

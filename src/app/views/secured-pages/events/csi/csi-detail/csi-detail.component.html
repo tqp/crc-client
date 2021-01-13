@@ -84,70 +84,6 @@
         </div>
         <div class="card-body">
           <dl class="row">
-            <dt class="col-sm-4">Food Security:</dt>
-            <dd class="col-sm-8">
-              <div class="badge csi-score-badge"
-                   [ngClass]="csi.csiScoreFoodSecurity === 1 ? 'badge-dark' : 'badge-light'">1
-              </div>
-              <div class="badge csi-score-badge"
-                   [ngClass]="csi.csiScoreFoodSecurity === 2 ? 'badge-dark' : 'badge-light'">2
-              </div>
-              <div class="badge csi-score-badge"
-                   [ngClass]="csi.csiScoreFoodSecurity === 3 ? 'badge-dark' : 'badge-light'">3
-              </div>
-              <div class="badge csi-score-badge"
-                   [ngClass]="csi.csiScoreFoodSecurity === 4 ? 'badge-dark' : 'badge-light'">4
-              </div>
-            </dd>
-          </dl>
-          <dl class="row">
-            <dt class="col-sm-4">Nutrition & Growth:</dt>
-            <dd class="col-sm-8">
-              <div class="badge csi-score-badge"
-                   [ngClass]="csi.csiScoreNutritionAndGrowth === 1 ? 'badge-dark' : 'badge-light'">1
-              </div>
-              <div class="badge csi-score-badge"
-                   [ngClass]="csi.csiScoreNutritionAndGrowth === 2 ? 'badge-dark' : 'badge-light'">2
-              </div>
-              <div class="badge csi-score-badge"
-                   [ngClass]="csi.csiScoreNutritionAndGrowth === 3 ? 'badge-dark' : 'badge-light'">3
-              </div>
-              <div class="badge csi-score-badge"
-                   [ngClass]="csi.csiScoreNutritionAndGrowth === 4 ? 'badge-dark' : 'badge-light'">4
-              </div>
-            </dd>
-          </dl>
-          <dl class="row">
-            <dt class="col-sm-4">Shelter:</dt>
-            <dd class="col-sm-8">
-              <div class="badge csi-score-badge" [ngClass]="csi.csiScoreShelter === 1 ? 'badge-dark' : 'badge-light'">
-                1
-              </div>
-              <div class="badge csi-score-badge" [ngClass]="csi.csiScoreShelter === 2 ? 'badge-dark' : 'badge-light'">
-                2
-              </div>
-              <div class="badge csi-score-badge" [ngClass]="csi.csiScoreShelter === 3 ? 'badge-dark' : 'badge-light'">
-                3
-              </div>
-              <div class="badge csi-score-badge" [ngClass]="csi.csiScoreShelter === 4 ? 'badge-dark' : 'badge-light'">
-                4
-              </div>
-            </dd>
-          </dl>
-          <dl class="row">
-            <dt class="col-sm-4">Care:</dt>
-            <dd class="col-sm-8">
-              <div class="badge csi-score-badge" [ngClass]="csi.csiScoreCare === 1 ? 'badge-dark' : 'badge-light'">1
-              </div>
-              <div class="badge csi-score-badge" [ngClass]="csi.csiScoreCare === 2 ? 'badge-dark' : 'badge-light'">2
-              </div>
-              <div class="badge csi-score-badge" [ngClass]="csi.csiScoreCare === 3 ? 'badge-dark' : 'badge-light'">3
-              </div>
-              <div class="badge csi-score-badge" [ngClass]="csi.csiScoreCare === 4 ? 'badge-dark' : 'badge-light'">4
-              </div>
-            </dd>
-          </dl>
-          <dl class="row">
             <dt class="col-sm-4">Abuse & Exploitation:</dt>
             <dd class="col-sm-8">
               <div class="badge csi-score-badge"
@@ -182,19 +118,70 @@
             </dd>
           </dl>
           <dl class="row">
-            <dt class="col-sm-4">Wellness:</dt>
+            <dt class="col-sm-4">Performance:</dt>
             <dd class="col-sm-8">
-              <div class="badge csi-score-badge" [ngClass]="csi.csiScoreWellness === 1 ? 'badge-dark' : 'badge-light'">
-                1
+              <div class="badge csi-score-badge"
+                   [ngClass]="csi.csiScorePerformance === 1 ? 'badge-dark' : 'badge-light'">1
               </div>
-              <div class="badge csi-score-badge" [ngClass]="csi.csiScoreWellness === 2 ? 'badge-dark' : 'badge-light'">
-                2
+              <div class="badge csi-score-badge"
+                   [ngClass]="csi.csiScorePerformance === 2 ? 'badge-dark' : 'badge-light'">2
               </div>
-              <div class="badge csi-score-badge" [ngClass]="csi.csiScoreWellness === 3 ? 'badge-dark' : 'badge-light'">
-                3
+              <div class="badge csi-score-badge"
+                   [ngClass]="csi.csiScorePerformance === 3 ? 'badge-dark' : 'badge-light'">3
               </div>
-              <div class="badge csi-score-badge" [ngClass]="csi.csiScoreWellness === 4 ? 'badge-dark' : 'badge-light'">
-                4
+              <div class="badge csi-score-badge"
+                   [ngClass]="csi.csiScorePerformance === 4 ? 'badge-dark' : 'badge-light'">4
+              </div>
+            </dd>
+          </dl>
+          <dl class="row">
+            <dt class="col-sm-4">Education and Work:</dt>
+            <dd class="col-sm-8">
+              <div class="badge csi-score-badge"
+                   [ngClass]="csi.csiScoreEducationAndWork === 1 ? 'badge-dark' : 'badge-light'">1
+              </div>
+              <div class="badge csi-score-badge"
+                   [ngClass]="csi.csiScoreEducationAndWork === 2 ? 'badge-dark' : 'badge-light'">2
+              </div>
+              <div class="badge csi-score-badge"
+                   [ngClass]="csi.csiScoreEducationAndWork === 3 ? 'badge-dark' : 'badge-light'">3
+              </div>
+              <div class="badge csi-score-badge"
+                   [ngClass]="csi.csiScoreEducationAndWork === 4 ? 'badge-dark' : 'badge-light'">4
+              </div>
+            </dd>
+          </dl>
+          <dl class="row">
+            <dt class="col-sm-4">Food Security:</dt>
+            <dd class="col-sm-8">
+              <div class="badge csi-score-badge"
+                   [ngClass]="csi.csiScoreFoodSecurity === 1 ? 'badge-dark' : 'badge-light'">1
+              </div>
+              <div class="badge csi-score-badge"
+                   [ngClass]="csi.csiScoreFoodSecurity === 2 ? 'badge-dark' : 'badge-light'">2
+              </div>
+              <div class="badge csi-score-badge"
+                   [ngClass]="csi.csiScoreFoodSecurity === 3 ? 'badge-dark' : 'badge-light'">3
+              </div>
+              <div class="badge csi-score-badge"
+                   [ngClass]="csi.csiScoreFoodSecurity === 4 ? 'badge-dark' : 'badge-light'">4
+              </div>
+            </dd>
+          </dl>
+          <dl class="row">
+            <dt class="col-sm-4">Nutrition & Growth:</dt>
+            <dd class="col-sm-8">
+              <div class="badge csi-score-badge"
+                   [ngClass]="csi.csiScoreNutritionAndGrowth === 1 ? 'badge-dark' : 'badge-light'">1
+              </div>
+              <div class="badge csi-score-badge"
+                   [ngClass]="csi.csiScoreNutritionAndGrowth === 2 ? 'badge-dark' : 'badge-light'">2
+              </div>
+              <div class="badge csi-score-badge"
+                   [ngClass]="csi.csiScoreNutritionAndGrowth === 3 ? 'badge-dark' : 'badge-light'">3
+              </div>
+              <div class="badge csi-score-badge"
+                   [ngClass]="csi.csiScoreNutritionAndGrowth === 4 ? 'badge-dark' : 'badge-light'">4
               </div>
             </dd>
           </dl>
@@ -212,6 +199,23 @@
               </div>
               <div class="badge csi-score-badge"
                    [ngClass]="csi.csiScoreHealthCareServices === 4 ? 'badge-dark' : 'badge-light'">4
+              </div>
+            </dd>
+          </dl>
+          <dl class="row">
+            <dt class="col-sm-4">Wellness:</dt>
+            <dd class="col-sm-8">
+              <div class="badge csi-score-badge" [ngClass]="csi.csiScoreWellness === 1 ? 'badge-dark' : 'badge-light'">
+                1
+              </div>
+              <div class="badge csi-score-badge" [ngClass]="csi.csiScoreWellness === 2 ? 'badge-dark' : 'badge-light'">
+                2
+              </div>
+              <div class="badge csi-score-badge" [ngClass]="csi.csiScoreWellness === 3 ? 'badge-dark' : 'badge-light'">
+                3
+              </div>
+              <div class="badge csi-score-badge" [ngClass]="csi.csiScoreWellness === 4 ? 'badge-dark' : 'badge-light'">
+                4
               </div>
             </dd>
           </dl>
@@ -250,36 +254,32 @@
             </dd>
           </dl>
           <dl class="row">
-            <dt class="col-sm-4">Performance:</dt>
+            <dt class="col-sm-4">Care:</dt>
             <dd class="col-sm-8">
-              <div class="badge csi-score-badge"
-                   [ngClass]="csi.csiScorePerformance === 1 ? 'badge-dark' : 'badge-light'">1
+              <div class="badge csi-score-badge" [ngClass]="csi.csiScoreCare === 1 ? 'badge-dark' : 'badge-light'">1
               </div>
-              <div class="badge csi-score-badge"
-                   [ngClass]="csi.csiScorePerformance === 2 ? 'badge-dark' : 'badge-light'">2
+              <div class="badge csi-score-badge" [ngClass]="csi.csiScoreCare === 2 ? 'badge-dark' : 'badge-light'">2
               </div>
-              <div class="badge csi-score-badge"
-                   [ngClass]="csi.csiScorePerformance === 3 ? 'badge-dark' : 'badge-light'">3
+              <div class="badge csi-score-badge" [ngClass]="csi.csiScoreCare === 3 ? 'badge-dark' : 'badge-light'">3
               </div>
-              <div class="badge csi-score-badge"
-                   [ngClass]="csi.csiScorePerformance === 4 ? 'badge-dark' : 'badge-light'">4
+              <div class="badge csi-score-badge" [ngClass]="csi.csiScoreCare === 4 ? 'badge-dark' : 'badge-light'">4
               </div>
             </dd>
           </dl>
           <dl class="row">
-            <dt class="col-sm-4">Education and Work:</dt>
+            <dt class="col-sm-4">Shelter:</dt>
             <dd class="col-sm-8">
-              <div class="badge csi-score-badge"
-                   [ngClass]="csi.csiScoreEducationAndWork === 1 ? 'badge-dark' : 'badge-light'">1
+              <div class="badge csi-score-badge" [ngClass]="csi.csiScoreShelter === 1 ? 'badge-dark' : 'badge-light'">
+                1
               </div>
-              <div class="badge csi-score-badge"
-                   [ngClass]="csi.csiScoreEducationAndWork === 2 ? 'badge-dark' : 'badge-light'">2
+              <div class="badge csi-score-badge" [ngClass]="csi.csiScoreShelter === 2 ? 'badge-dark' : 'badge-light'">
+                2
               </div>
-              <div class="badge csi-score-badge"
-                   [ngClass]="csi.csiScoreEducationAndWork === 3 ? 'badge-dark' : 'badge-light'">3
+              <div class="badge csi-score-badge" [ngClass]="csi.csiScoreShelter === 3 ? 'badge-dark' : 'badge-light'">
+                3
               </div>
-              <div class="badge csi-score-badge"
-                   [ngClass]="csi.csiScoreEducationAndWork === 4 ? 'badge-dark' : 'badge-light'">4
+              <div class="badge csi-score-badge" [ngClass]="csi.csiScoreShelter === 4 ? 'badge-dark' : 'badge-light'">
+                4
               </div>
             </dd>
           </dl>
