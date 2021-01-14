@@ -6,6 +6,9 @@ import { map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { HttpService } from '../../../../../@tqp/services/http.service';
 import { TokenService } from '../../../../../@tqp/services/token.service';
+import { Student } from '../../people/students/Student';
+import { Browser } from 'leaflet';
+import win = Browser.win;
 
 @Injectable({
   providedIn: 'root'
@@ -35,4 +38,28 @@ export class AboutService {
       return null;
     }
   }
+
+  public saveScreenResolution(): Observable<any> {
+    const url = environment.apiUrl + '/api/v1/user/screen-resolution';
+    const token = this.tokenService.getToken();
+    const screenResolution = window.innerWidth + 'x' + window.innerHeight;
+    if (token) {
+      return this.http.put<any>(url,
+        screenResolution,
+        {
+          headers: this.httpService.setHeadersWithToken(),
+          observe: 'response',
+          params: {}
+        })
+        .pipe(
+          map(res => {
+            return res.body;
+          })
+        );
+    } else {
+      console.error('No token was present.');
+      return null;
+    }
+  }
+
 }

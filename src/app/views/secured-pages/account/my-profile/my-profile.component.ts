@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { MyProfileService } from './my-profile.service';
 import { User } from 'app/views/secured-pages/account/users/User';
 import { Token } from '@tqp/models/Token';
@@ -25,6 +25,9 @@ export class MyProfileComponent implements OnInit {
   public adminTestResult = 'Blocked';
   public developerTestResult = 'Blocked';
 
+  public screenWidth: number;
+  public screenHeight: number;
+
   public statusTranslate = {0: 'Active', 1: 'Deleted'};
 
   constructor(private myProfileService: MyProfileService,
@@ -36,16 +39,22 @@ export class MyProfileComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getScreenDimensions();
     this.getMyUserInfo();
     this.getTokenInformation();
     this.getEndpointTestsResults();
+  }
+
+  private getScreenDimensions(): void {
+    this.screenWidth = window.innerWidth;
+    this.screenHeight = window.innerHeight;
   }
 
   private getMyUserInfo(): any {
     this.myProfileService.getMyUserInfo().subscribe(
       response => {
         this.user = response;
-        console.log('user', this.user);
+        // console.log('user', this.user);
         this.user.lastLogin = this.user.lastLogin === null ? null : moment(moment.utc(this.user.lastLogin)).local().format('DD-MMM-YYYY h:mm:ss a').toUpperCase();
         this.user.passwordSet = this.user.passwordSet === null ? null : moment(moment.utc(this.user.passwordSet)).local().format('DD-MMM-YYYY h:mm:ss a').toUpperCase();
         this.user.createdOn = this.user.createdOn === null ? null : moment(moment.utc(this.user.createdOn)).local().format('DD-MMM-YYYY h:mm:ss a').toUpperCase();
@@ -157,6 +166,12 @@ export class MyProfileComponent implements OnInit {
         // this.authService.errorHandler(error);
       }
     );
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event?) {
+    this.screenHeight = window.innerHeight;
+    this.screenWidth = window.innerWidth;
   }
 
 }

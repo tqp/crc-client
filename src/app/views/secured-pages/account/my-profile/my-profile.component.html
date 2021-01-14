@@ -143,7 +143,7 @@
         </div>
         <div class="card-body">
           <dl class="row">
-            <dt class="col-sm-3">Open Endpoint Accesss:</dt>
+            <dt class="col-sm-3">Open Access:</dt>
             <dd class="col-sm-9">
               <i class="fa fa-close text-danger" *ngIf="openTestResult === 'Blocked'"></i>
               <i class="fa fa-check text-success" *ngIf="openTestResult !== 'Blocked'"></i>
@@ -151,7 +151,7 @@
             </dd>
           </dl>
           <dl class="row">
-            <dt class="col-sm-3">User Endpoint Accesss:</dt>
+            <dt class="col-sm-3">User Access:</dt>
             <dd class="col-sm-9">
               <i class="fa fa-close text-danger" *ngIf="userTestResult === 'Blocked'"></i>
               <i class="fa fa-check text-success" *ngIf="userTestResult !== 'Blocked'"></i>
@@ -159,7 +159,7 @@
             </dd>
           </dl>
           <dl class="row">
-            <dt class="col-sm-3">Manager Endpoint Accesss:</dt>
+            <dt class="col-sm-3">Manager Access:</dt>
             <dd class="col-sm-9">
               <i class="fa fa-close text-danger" *ngIf="managerTestResult === 'Blocked'"></i>
               <i class="fa fa-check text-success" *ngIf="managerTestResult !== 'Blocked'"></i>
@@ -167,7 +167,7 @@
             </dd>
           </dl>
           <dl class="row">
-            <dt class="col-sm-3">Admin Endpoint Accesss:</dt>
+            <dt class="col-sm-3">Admin Access:</dt>
             <dd class="col-sm-9">
               <i class="fa fa-close text-danger" *ngIf="adminTestResult === 'Blocked'"></i>
               <i class="fa fa-check text-success" *ngIf="adminTestResult !== 'Blocked'"></i>
@@ -175,7 +175,7 @@
             </dd>
           </dl>
           <dl class="row">
-            <dt class="col-sm-3">Developer Endpoint Accesss:</dt>
+            <dt class="col-sm-3">Developer Access:</dt>
             <dd class="col-sm-9">
               <i class="fa fa-close text-danger" *ngIf="developerTestResult === 'Blocked'"></i>
               <i class="fa fa-check text-success" *ngIf="developerTestResult !== 'Blocked'"></i>
@@ -185,6 +185,21 @@
 
         </div>
       </div>
+
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-exchange"></i>Miscellaneous Stuff
+        </div>
+        <div class="card-body">
+          <dl class="row">
+            <dt class="col-sm-3">Screen Width:</dt>
+            <dd class="col-sm-9">
+              {{screenWidth}}x{{screenHeight}}
+            </dd>
+          </dl>
+        </div>
+      </div>
+
     </div>
   </div>
 </div>

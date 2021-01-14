@@ -24,6 +24,7 @@ export class AboutComponent implements OnInit {
     this.environmentName = environment.name;
     this.clientBuildTimestamp = environment.buildTimestamp;
     this.getServerBuildTimestamp();
+    this.saveScreenResolution();
     this.addSlides();
   }
 
@@ -32,6 +33,17 @@ export class AboutComponent implements OnInit {
       (response: any) => {
         // console.log('response', response);
         this.serverBuildTimestamp = response.value;
+      },
+      error => {
+        console.error('Error: ', error);
+      }
+    );
+  }
+
+  private saveScreenResolution(): void {
+    this.aboutService.saveScreenResolution().subscribe(
+      (response: any) => {
+        console.log('response', response);
       },
       error => {
         console.error('Error: ', error);
