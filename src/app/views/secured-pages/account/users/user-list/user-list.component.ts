@@ -151,7 +151,7 @@ export class UserListComponent implements OnInit, OnDestroy {
     )
       .pipe(
         switchMap(changesDetected => {
-          console.log('changesDetected', changesDetected);
+          // console.log('changesDetected', changesDetected);
           const paginationChange: boolean = changesDetected.pageIndex && changesDetected.pageSize;
           const sortChange: boolean = changesDetected.active && changesDetected.direction;
           if (!paginationChange && !sortChange) {
@@ -182,7 +182,7 @@ export class UserListComponent implements OnInit, OnDestroy {
           serverSideSearchParams.sortDirection = this.sort.direction;
           this.searchParams = serverSideSearchParams;
 
-          console.log('this.searchParams', this.searchParams);
+          // console.log('this.searchParams', this.searchParams);
 
           this.isFilterApplied = nameFilter;
           return this.userService.getUserList_SSP(serverSideSearchParams);
