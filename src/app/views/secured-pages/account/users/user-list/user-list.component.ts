@@ -35,9 +35,9 @@ export class UserListComponent implements OnInit, OnDestroy {
   private totalNumberOfPages: number;
   private searchParams: ServerSidePaginationRequest = new ServerSidePaginationRequest();
   public displayedColumns: string[] = [
-    'name',
-    'surname',
-    'givenName',
+    // 'name',
+    // 'surname',
+    // 'givenName',
     'username',
     'lastLogin',
     'loginCount',
