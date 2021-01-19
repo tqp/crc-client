@@ -142,11 +142,11 @@ export class AuthService {
   // }
 
   public allowRoles(allowedRoles: string, tag: string): boolean {
-    const allowedRolesArray = allowedRoles.replace(' ', '').split(',');
+    const allowedRolesArray = allowedRoles.split(' ').join('').split(',');
     const myRoles = this.getAuthoritiesFromToken();
     const intersection = allowedRolesArray.filter(element => myRoles.includes(element));
     // console.log('Tag:', tag);
-    // console.log('allowedRoles', allowedRoles);
+    // console.log('allowedRoles', allowedRoles.split(' ').join(''));
     // console.log('allowedRolesArray', allowedRolesArray);
     // console.log('myRoles', myRoles);
     // console.log('intersection', intersection);

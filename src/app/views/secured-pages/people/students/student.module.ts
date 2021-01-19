@@ -11,12 +11,14 @@ import { AngularMaterialModule } from '../../../../../@tqp/modules/angular-mater
 import { StudentListComponent } from './student-list/student-list.component';
 import { StudentRoutingModule } from './student-routing.module';
 import { ChartsModule } from 'ng2-charts';
+import { StudentListByCaseManagerComponent } from './student-list-by-case-manager/student-list-by-case-manager.component';
 
 @NgModule({
   declarations: [
     StudentListComponent,
     StudentDetailComponent,
-    StudentDetailEditComponent
+    StudentDetailEditComponent,
+    StudentListByCaseManagerComponent
   ],
   imports: [
     CommonModule,

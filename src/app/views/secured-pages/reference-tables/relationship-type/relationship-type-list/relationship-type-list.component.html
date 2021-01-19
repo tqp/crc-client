@@ -6,9 +6,12 @@
       <div class="float-left" style="line-height: 28px;">
         <i class="fa fa-user-circle-o mr-2"></i>
         Relationship Type List
-        <span class="badge badge-info ml-2" *ngIf="totalRecords">Displaying {{dataSource.length}} of {{totalRecords}}
-          records</span>
-        <span class="badge badge-warning ml-2" style="cursor: pointer;" *ngIf="isFilterApplied" (click)="clearFilters()">Clear Filters</span>
+        <span class="badge badge-info ml-2" *ngIf="totalRecords">
+          Displaying {{dataSource.length}} of {{totalRecords}} records
+        </span>
+        <span class="badge badge-warning ml-2" style="cursor: pointer;" *ngIf="isFilterApplied"
+              (click)="clearFilters()">Clear Filters
+        </span>
       </div>
 
       <button class="btn btn-sm btn-outline-primary float-right" (click)="openRelationshipTypeCreatePage()">
@@ -29,7 +32,8 @@
             </div>
             <label for="nameSearchFieldId" *ngIf="false"></label>
             <input id="nameSearchFieldId" type="text" class="form-control mr-3" placeholder="Search"
-                   [formControl]="relationshipTypeNameSearchFormControl" #relationshipTypeNameSearchElementRef autocomplete="chrome-off"/>
+                   [formControl]="relationshipTypeNameSearchFormControl" #relationshipTypeNameSearchElementRef
+                   autocomplete="chrome-off"/>
           </div>
 
         </div>
@@ -59,7 +63,8 @@
           </ng-container>
 
           <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="openRelationshipTypeDetailPage(row);"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+              (click)="openRelationshipTypeDetailPage(row);"></tr>
         </table>
 
         <mat-card class="spinner-container" *ngIf="isLoading">

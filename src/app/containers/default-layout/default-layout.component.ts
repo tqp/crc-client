@@ -109,7 +109,7 @@ export class DefaultLayoutComponent implements OnInit {
     this.navItems = navItemsWithRoles;
     this.navItems = this.navItems.filter(item => {
       if (item.allow) {
-        const allowArray = item.allow.split(',');
+        const allowArray = item.allow.split(' ').join('').split(',');
         const overlap = allowArray.filter(element => authoritiesArray.includes(element));
         return overlap.length > 0;
       } else {

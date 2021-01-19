@@ -192,7 +192,6 @@ export class StudentDetailComponent implements OnInit {
   }
 
   private drawCsiScoresChart(studentId: number): void {
-    console.log('drawCsiScoresChart');
     this.csiService.getMostRecentCsiScoresByStudentId(studentId).subscribe(
       (csi: Csi) => {
         if (csi) {

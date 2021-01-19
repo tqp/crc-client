@@ -25,7 +25,7 @@
           CSI Information
           <i *ngIf="csiLoading" class="fa fa-spinner fa-spin"></i>
           <div class="card-header-actions"
-               [hidden]="authService.allowRoles('ROLE_USER, ROLE_MANAGER, ROLE_ADMIN', 'Edit CSI')">
+               [hidden]="authService.allowRoles('ROLE_MONITORING, ROLE_ADMIN', 'Edit CSI')">
             <small class="tqp-nav-link" (click)="openEditPage();">Edit CSI</small>
           </div>
         </div>

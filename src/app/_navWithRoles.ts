@@ -5,13 +5,13 @@ export const navItemsWithRoles: INavDataTqp[] = [
     name: 'About This App',
     url: '/account/about',
     icon: 'icon-info',
-    allow: 'ROLE_USER'
+    allow: 'ROLE_USER, ROLE_CASE_MANAGER'
   },
 
   {
     title: true,
     name: 'CRC Members',
-    allow: 'ROLE_USER'
+    allow: 'ROLE_USER, ROLE_CASE_MANAGER'
   },
   {
     name: 'Students',
@@ -20,22 +20,34 @@ export const navItemsWithRoles: INavDataTqp[] = [
     allow: 'ROLE_USER'
   },
   {
+    name: 'Students by CM',
+    url: '/students/student-list-by-case-manager',
+    icon: 'fa fa-graduation-cap',
+    allow: 'ROLE_CASE_MANAGER'
+  },
+  {
     name: 'Case Managers',
     url: '/case-managers/case-manager-list',
     icon: 'fa fa-folder-o',
-    allow: 'ROLE_USER'
+    allow: 'ROLE_USER, ROLE_CASE_MANAGER'
+  },
+  {
+    name: 'Case Managers (Rev)',
+    url: '/case-managers-revised/case-manager-revised-list',
+    icon: 'fa fa-folder-o',
+    allow: 'ROLE_USER, ROLE_CASE_MANAGER'
   },
   {
     name: 'Caregivers',
     url: '/caregivers/caregiver-list',
     icon: 'fa fa-heartbeat',
-    allow: 'ROLE_USER'
+    allow: 'ROLE_USER, ROLE_CASE_MANAGER'
   },
   {
     name: 'Sponsors',
     url: '/sponsors/sponsor-list',
     icon: 'fa fa-handshake-o',
-    allow: 'ROLE_USER'
+    allow: 'ROLE_USER, ROLE_CASE_MANAGER'
   },
 
   {
@@ -65,31 +77,31 @@ export const navItemsWithRoles: INavDataTqp[] = [
     name: 'Post-Grad Events',
     url: '/post-grad-events/post-grad-event-list',
     icon: 'fa fa-calendar-check-o',
-    allow: 'ROLE_USER'
+    allow: 'ROLE_USER, ROLE_CASE_MANAGER'
   },
 
   {
     title: true,
     name: 'CRC Microfinance',
-    allow: 'ROLE_USER'
+    allow: 'ROLE_MONITORING'
   },
   {
     name: 'Loans',
     url: '/loans/loan-list',
     icon: 'fa fa-bank',
-    allow: 'ROLE_USER'
+    allow: 'ROLE_MONITORING'
   },
   {
     name: 'Payments',
     url: '/payments/payment-list',
     icon: 'fa fa-money',
-    allow: 'ROLE_USER'
+    allow: 'ROLE_MONITORING'
   },
   {
     name: 'Summary',
     url: '/crud-app',
     icon: 'fa fa-list-alt',
-    allow: 'ROLE_USER',
+    allow: 'ROLE_MONITORING',
     children: [
       {
         name: 'By Participant',
@@ -107,19 +119,19 @@ export const navItemsWithRoles: INavDataTqp[] = [
   {
     title: true,
     name: 'CRC Family Support',
-    allow: 'ROLE_USER'
+    allow: 'ROLE_MONITORING'
   },
   {
     name: 'Payments',
     url: '/test-components/placeholder',
     icon: 'fa fa-money',
-    allow: 'ROLE_USER'
+    allow: 'ROLE_MONITORING'
   },
   {
     name: 'Summary',
     url: '/test-components/placeholder',
     icon: 'fa fa-list-alt',
-    allow: 'ROLE_USER'
+    allow: 'ROLE_MONITORING'
   },
 
   {
@@ -166,13 +178,13 @@ export const navItemsWithRoles: INavDataTqp[] = [
   {
     title: true,
     name: 'Account',
-    allow: 'ROLE_USER'
+    allow: 'ROLE_USER, ROLE_CASE_MANAGER'
   },
   {
     name: 'My Profile',
     url: '/account/my-profile',
     icon: 'fa fa-address-card',
-    allow: 'ROLE_USER'
+    allow: 'ROLE_USER, ROLE_CASE_MANAGER'
   },
   {
     name: 'User List',
@@ -182,9 +194,9 @@ export const navItemsWithRoles: INavDataTqp[] = [
   },
   {
     name: 'Logout',
-    url: '/account/logout',
+    url: '/logout',
     icon: 'fa fa-sign-out',
-    allow: 'ROLE_USER'
+    allow: 'ROLE_USER, ROLE_CASE_MANAGER'
   }
 
 ];

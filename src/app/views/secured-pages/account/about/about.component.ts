@@ -43,7 +43,7 @@ export class AboutComponent implements OnInit {
   private saveScreenResolution(): void {
     this.aboutService.saveScreenResolution().subscribe(
       (response: any) => {
-        console.log('response', response);
+        // console.log('response', response);
       },
       error => {
         console.error('Error: ', error);
