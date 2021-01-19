@@ -2,25 +2,25 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../../../../environments/environment';
 import { map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
-import { HttpService } from '../../../../../@tqp/services/http.service';
-import { TokenService } from '../../../../../@tqp/services/token.service';
-import { Role } from './Role';
+import { HttpService } from '@tqp/services/http.service';
+import { TokenService } from '@tqp/services/token.service';
+import { Position } from './Position';
 
 @Injectable({
   providedIn: 'root'
 })
-export class RoleService {
+export class PositionService {
 
   constructor(private http: HttpClient,
               private httpService: HttpService,
               private tokenService: TokenService) {
   }
 
-  public getRoleList() {
-    const url = environment.apiUrl + '/api/v1/role/';
+  public getPositionList() {
+    const url = environment.apiUrl + '/api/v1/position/';
     const token = this.tokenService.getToken();
     if (token) {
-      return this.http.get<Role[]>(url,
+      return this.http.get<Position[]>(url,
         {
           headers: this.httpService.setHeadersWithToken(),
           observe: 'response',

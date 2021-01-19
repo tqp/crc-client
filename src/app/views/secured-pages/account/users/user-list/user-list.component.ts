@@ -41,10 +41,14 @@ export class UserListComponent implements OnInit, OnDestroy {
     'username',
     'lastLogin',
     'loginCount',
-    'staffRole',
-    'caseManagerRole',
-    'monitoringAndEvalRole',
-    'directorRole'
+    // Role Columns
+    'roleView',
+    'roleCreate',
+    'roleEdit',
+    'roleCaseManager',
+    'roleReports',
+    'roleFinance',
+    'roleManager'
   ];
 
   public records: User[] = [];
@@ -245,13 +249,14 @@ export class UserListComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().subscribe(dialogData => {
       if (dialogData) {
-        // console.log('dialogData', dialogData);
+        console.log('dialogData', dialogData);
         const user = new User();
         user.username = dialogData[1].username;
         user.surname = dialogData[1].surname;
         user.givenName = dialogData[1].givenName;
-        user.roles = dialogData[2];
+        user.position = dialogData[1].position;
         user.password = dialogData[1].password ? dialogData[1].password : null;
+        user.roles = dialogData[2];
         this.userService.createUser(user).subscribe(
           response => {
             // console.log('response: ', response);

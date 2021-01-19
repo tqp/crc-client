@@ -45,7 +45,6 @@ export class UserValidationService {
             first(),
             map(
               result => {
-                console.log('result', result);
                 if (result) {
                   return {existingUsernameValidator: true};
                 } else {

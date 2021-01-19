@@ -77,6 +77,7 @@ export class UserService {
         headers: this.httpService.setHeaders(token)
       }).pipe(
         switchMap(user => {
+          // console.log('user', user);
           const user_role_url = environment.apiUrl + '/api/v1/role/user-id/' + userId;
           return this.http.get<Role[]>(user_role_url, {
             headers: this.httpService.setHeaders(token),

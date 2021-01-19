@@ -58,13 +58,34 @@
     <div class="row">
       <div class="col-sm-12">
         <div class="form-group">
-          <label>Roles</label>
+          <label>Position Templates <small>(Pre-Fills Roles)</small></label>
+          <div class="col-md-9 col-form-label radio-button-area-container">
+
+            <div class="radio form-check" *ngFor="let position of positionList; let i = index">
+              <input class="form-check-input" type="radio"
+                     id="radio{{i}}" [value]="position.positionId" checked
+                     formControlName="position"
+                     (change)="radioButtonChanged($event, position)">
+              <label class="form-check-label" for="radio{{i}}">
+                {{position.positionName}}
+              </label>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="form-group">
+          <label>Roles <small>(Customize as Needed)</small></label>
           <div class="col-md-9 col-form-label checkbox-area-container">
 
             <label formArrayName="roleCheckboxes" class="checkbox-label"
                    *ngFor="let checkbox of roleCheckboxFormArray.controls; let i = index">
-              <input type="checkbox" [formControlName]="i" (change)="setCheckboxes()"/>
-              {{roleList[i].name}}
+              <input type="checkbox" [formControlName]="i" (change)="checkboxChanged()"/>
+              {{roleList[i].roleName}}
             </label>
 
           </div>

@@ -7,9 +7,11 @@ import { User } from '../User';
 import { UserService } from '../user.service';
 import { RoleService } from '../../roles/role.service';
 import { Role } from '../../roles/Role';
+import { Position } from '../../position/Position';
 import { forkJoin } from 'rxjs';
 import { NotificationService } from '../../../../../../@tqp/services/notification.service';
 import { ResetPasswordDialogComponent } from '../../passwords/reset-password-dialog/reset-password-dialog.component';
+import { PositionService } from '../../position/position.service';
 
 @Component({
   selector: 'app-user-detail-edit',
@@ -24,7 +26,10 @@ export class UserDetailEditComponent implements OnInit {
   public userEditForm: FormGroup;
   public confirmDialogRef: MatDialogRef<ConfirmDialogComponent>;
 
-  // CHECKBOXES
+  // POSITION RADIO BUTTONS
+  public positionList: Position[];
+
+  // ROLE CHECKBOXES
   public roleList: Role[];
   public roleListCheckboxArray: Role[];
 
@@ -44,16 +49,25 @@ export class UserDetailEditComponent implements OnInit {
     ],
     'givenName': [
       {type: 'required', message: 'A Given Name is required'}
+    ],
+    'roleCheckboxes': [
+      {type: 'minSelectedCheckboxes', message: 'At least one Role must be selected'},
+      {type: 'viewOrCaseManager', message: 'Users must have either the \'View Records\' or \'Case Manager\' Role'},
+      {type: 'viewAndCaseManager', message: 'Users cannot have both \'View Records\' and \'Case Manager\' Roles'}
     ]
   };
 
   constructor(private route: ActivatedRoute,
               private userService: UserService,
               private roleService: RoleService,
+              private positionService: PositionService,
               private notificationService: NotificationService,
               private router: Router,
               private formBuilder: FormBuilder,
               public _matDialog: MatDialog) {
+
+    this.getPositionList();
+
     this.route.params.forEach((params: Params) => {
       if (params['id'] !== undefined) {
         const userId = params['id'];
@@ -81,9 +95,24 @@ export class UserDetailEditComponent implements OnInit {
       username: new FormControl('', Validators.required),
       surname: new FormControl('', Validators.required),
       givenName: new FormControl('', Validators.required),
+      position: new FormControl('', Validators.required),
       roles: new FormControl(''),
-      roleCheckboxes: new FormArray([], minSelectedCheckboxes(1)),
+      roleCheckboxes: new FormArray([],
+        [minSelectedCheckboxes(1)]),
     });
+  }
+
+  private getPositionList(): void {
+    this.positionService.getPositionList().subscribe(
+      response => {
+        // console.log('response', response);
+        this.positionList = response;
+      },
+      error => {
+        console.error('Error: ', error);
+        // this.authService.errorHandler(error);
+      }
+    );
   }
 
   private getUserDetail(userId: number): void {
@@ -105,6 +134,7 @@ export class UserDetailEditComponent implements OnInit {
       this.userEditForm.controls['username'].patchValue(this.user.username);
       this.userEditForm.controls['surname'].patchValue(this.user.surname);
       this.userEditForm.controls['givenName'].patchValue(this.user.givenName);
+      this.userEditForm.controls['position'].patchValue(this.user.position);
 
       // Populate Checkboxes
       const roleCheckboxArray = this.user.roles;
@@ -113,8 +143,7 @@ export class UserDetailEditComponent implements OnInit {
           this.roleCheckboxFormArray.controls[index].setValue(true);
         }
       });
-
-      this.setCheckboxes();
+      this.setCheckboxFormValue();
     });
   }
 
@@ -134,7 +163,12 @@ export class UserDetailEditComponent implements OnInit {
     });
   }
 
-  public setCheckboxes() {
+  public checkboxChanged() {
+    this.userEditForm.controls['position'].patchValue(5); // Custom
+    this.setCheckboxFormValue();
+  }
+
+  private setCheckboxFormValue() {
     this.roleListCheckboxArray = [];
     this.roleCheckboxFormArray.value.forEach((value, index) => {
       const role: Role = new Role();
@@ -142,6 +176,26 @@ export class UserDetailEditComponent implements OnInit {
       role.status = value;
       this.roleListCheckboxArray.push(role);
     });
+  }
+
+  public radioButtonChanged(e: Event, position: Position) {
+    let roleCheckboxArray = null;
+    if (position.roleIds) {
+      roleCheckboxArray = position.roleIds.split(' ').join('').split(',').map(x => +x);
+      // console.log('roleCheckboxArray', roleCheckboxArray);
+      this.roleList.forEach((role, index) => {
+        if (roleCheckboxArray.findIndex(x => x === role.roleId) > -1) {
+          this.roleCheckboxFormArray.controls[index].setValue(true);
+        } else {
+          this.roleCheckboxFormArray.controls[index].setValue(false);
+        }
+      });
+    } else {
+      this.roleList.forEach((role, index) => {
+        this.roleCheckboxFormArray.controls[index].setValue(false);
+      });
+    }
+    this.setCheckboxFormValue();
   }
 
   // BUTTONS
@@ -167,35 +221,54 @@ export class UserDetailEditComponent implements OnInit {
     });
   }
 
-  public save(): void {
-    const user = new User();
-    user.userId = this.userEditForm.value.userId;
-    user.username = this.userEditForm.value.username;
-    user.surname = this.userEditForm.value.surname;
-    user.givenName = this.userEditForm.value.givenName;
-    user.rolesString = this.userEditForm.value.roles;
-    user.roles = this.roleListCheckboxArray;
+  public validateViewAndCaseManager(): boolean {
+    const roleUser = this.roleListCheckboxArray.find(role => role.roleId === 1).status;
+    const roleCaseManager = this.roleListCheckboxArray.find(role => role.roleId === 5).status;
+    return roleUser && roleCaseManager;
+  }
 
-    if (this.newRecord) {
-      this.userService.createUser(user).subscribe(
-        response => {
-          // console.log('response: ', response);
-          this.router.navigate(['users/user-detail', response.userId]).then();
-        },
-        error => {
-          console.error('Error: ' + error.message);
-        }
-      );
+  public validateViewOrCaseManager(): boolean {
+    const roleUser = this.roleListCheckboxArray.find(role => role.roleId === 1).status;
+    const roleCaseManager = this.roleListCheckboxArray.find(role => role.roleId === 5).status;
+    return !roleUser && !roleCaseManager;
+  }
+
+  public save(): void {
+    if (this.validateViewOrCaseManager()) {
+      this.userEditForm.controls['roleCheckboxes'].setErrors({'viewOrCaseManager': true});
+    } else if (this.validateViewAndCaseManager()) {
+      this.userEditForm.controls['roleCheckboxes'].setErrors({'viewAndCaseManager': true});
     } else {
-      this.userService.updateUser(user).subscribe(
-        response => {
-          // console.log('response: ', response);
-          this.router.navigate(['users/user-detail', response.userId]).then();
-        },
-        error => {
-          console.error('Error: ' + error.message);
-        }
-      );
+      const user = new User();
+      user.userId = this.userEditForm.value.userId;
+      user.username = this.userEditForm.value.username;
+      user.surname = this.userEditForm.value.surname;
+      user.givenName = this.userEditForm.value.givenName;
+      user.rolesString = this.userEditForm.value.roles;
+      user.position = this.userEditForm.value.position;
+      user.roles = this.roleListCheckboxArray;
+
+      if (this.newRecord) {
+        this.userService.createUser(user).subscribe(
+          response => {
+            // console.log('response: ', response);
+            this.router.navigate(['users/user-detail', response.userId]).then();
+          },
+          error => {
+            console.error('Error: ' + error.message);
+          }
+        );
+      } else {
+        this.userService.updateUser(user).subscribe(
+          response => {
+            // console.log('response: ', response);
+            this.router.navigate(['users/user-detail', response.userId]).then();
+          },
+          error => {
+            console.error('Error: ' + error.message);
+          }
+        );
+      }
     }
   }
 
@@ -257,7 +330,7 @@ function minSelectedCheckboxes(min = 1) {
       .map(control => control.value)
       .reduce((prev, next) => next ? prev + next : prev, 0);
 
-    return totalSelected >= min ? null : {required: true};
+    return totalSelected >= min ? null : {minSelectedCheckboxes: true};
   };
   return validator;
 }

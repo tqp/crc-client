@@ -6,3 +6,12 @@
 .checkbox-label {
   display: block;
 }
+
+.radio-button-area-container {
+  border: 1px solid rgb(228, 231, 234);
+  border-radius: 0.25rem;
+}
+
+.radio.form-check {
+  margin: 5px 0;
+}

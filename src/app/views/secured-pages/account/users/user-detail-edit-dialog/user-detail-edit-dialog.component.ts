@@ -5,6 +5,8 @@ import { FormArray, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators
 import { Role } from '../../roles/Role';
 import { RoleService } from '../../roles/role.service';
 import { UserValidationService } from '../user-validation.service';
+import { Position } from '../../position/Position';
+import { PositionService } from '../../position/position.service';
 
 @Component({
   selector: 'app-user-detail-edit-dialog',
@@ -15,13 +17,15 @@ export class UserDetailEditDialogComponent implements OnInit {
   @ViewChild('userSurnameInputField', {static: false}) userSurnameInputField: ElementRef;
   public confirmDialogRef: MatDialogRef<ConfirmDialogComponent>;
   public userEditForm: FormGroup;
+  public setInitialPasswordCheckboxStatus: boolean = false;
 
-  // CHECKBOXES
+  // POSITION RADIO BUTTONS
+  public positionList: Position[];
+
+  // ROLE CHECKBOXES
   public roleList: Role[];
   public roleListCheckboxArray: Role[];
   public checkboxesLoaded: boolean = false;
-
-  public setInitialPasswordCheckboxStatus: boolean = false;
 
   get roleCheckboxFormArray() {
     return this.userEditForm.controls.roleCheckboxes as FormArray;
@@ -44,10 +48,12 @@ export class UserDetailEditDialogComponent implements OnInit {
 
   constructor(private dialogRef: MatDialogRef<UserDetailEditDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
+              private positionService: PositionService,
               private roleService: RoleService,
               private formBuilder: FormBuilder,
               protected userValidationService: UserValidationService,
               public _matDialog: MatDialog) {
+    this.getPositionList();
     this.getRoleList();
   }
 
@@ -64,13 +70,14 @@ export class UserDetailEditDialogComponent implements OnInit {
       givenName: new FormControl('', Validators.required),
       setInitialPassword: new FormControl(''),
       password: new FormControl(),
+      position: new FormControl('', Validators.required),
       roles: new FormControl(''),
       roleCheckboxes: new FormArray([], minSelectedCheckboxes(1)),
     });
 
     setTimeout(() => {
       this.userSurnameInputField.nativeElement.focus();
-    }, 0);
+    }, 500);
   }
 
   private getRoleList(): void {
@@ -86,9 +93,49 @@ export class UserDetailEditDialogComponent implements OnInit {
     );
   }
 
-  // CHECKBOXES
+  // POSITION RADIO BUTTONS
 
-  public setCheckboxes() {
+  private getPositionList(): void {
+    this.positionService.getPositionList().subscribe(
+      response => {
+        // console.log('response', response);
+        this.positionList = response;
+      },
+      error => {
+        console.error('Error: ', error);
+        // this.authService.errorHandler(error);
+      }
+    );
+  }
+
+  public radioButtonChanged(e: Event, position: Position) {
+    let roleCheckboxArray = null;
+    if (position.roleIds) {
+      roleCheckboxArray = position.roleIds.split(' ').join('').split(',').map(x => +x);
+      // console.log('roleCheckboxArray', roleCheckboxArray);
+      this.roleList.forEach((role, index) => {
+        if (roleCheckboxArray.findIndex(x => x === role.roleId) > -1) {
+          this.roleCheckboxFormArray.controls[index].setValue(true);
+        } else {
+          this.roleCheckboxFormArray.controls[index].setValue(false);
+        }
+      });
+    } else {
+      this.roleList.forEach((role, index) => {
+        this.roleCheckboxFormArray.controls[index].setValue(false);
+      });
+    }
+    this.setCheckboxFormValue();
+  }
+
+  // ROLE CHECKBOXES
+
+  public checkboxChanged() {
+    this.userEditForm.controls['position'].patchValue(5); // Custom
+    this.setCheckboxFormValue();
+  }
+
+  private setCheckboxFormValue() {
     this.roleListCheckboxArray = [];
     this.roleCheckboxFormArray.value.forEach((value, index) => {
       const role: Role = new Role();

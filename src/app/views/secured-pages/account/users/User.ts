@@ -12,6 +12,7 @@ export class User {
   public loginCount: number;
   public theme: string;
   public picture: string;
+  public position: number;
   public roles: Role[];
   public rolesString: string;
   public status: string;

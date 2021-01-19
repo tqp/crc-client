@@ -18,8 +18,8 @@ export class TokenService {
   }
 
   public getToken(): string {
-    // return localStorage.getItem(this.TOKEN_ID);
-    return window.sessionStorage.getItem(this.TOKEN_ID);
+    return localStorage.getItem(this.TOKEN_ID); // Survives across tabs and browser re-opening.
+    // return window.sessionStorage.getItem(this.TOKEN_ID); // Tab-specific
   }
 
   public clearToken(): void {
