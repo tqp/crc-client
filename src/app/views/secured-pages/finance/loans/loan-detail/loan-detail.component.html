@@ -25,7 +25,7 @@
           Loan Information
           <i *ngIf="loanLoading" class="fa fa-spinner fa-spin"></i>
           <div class="card-header-actions"
-               [hidden]="authService.allowRoles('ROLE_USER, ROLE_MANAGER, ROLE_ADMIN', 'Edit Loan Info')">
+               [hidden]="authService.allowRoles('ROLE_EDIT, ROLE_ADMIN', 'Edit Loan Info')">
             <small class="tqp-nav-link" (click)="openEditPage();">Edit Loan Info</small>
           </div>
         </div>

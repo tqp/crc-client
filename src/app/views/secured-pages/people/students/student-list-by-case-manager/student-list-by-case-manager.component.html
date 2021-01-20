@@ -11,7 +11,7 @@
         <span class="badge badge-warning ml-2" style="cursor: pointer" *ngIf="isFilterApplied" (click)="clearFilters()">Clear Filters</span>
       </div>
       <button class="btn btn-sm btn-outline-primary float-right" (click)="openCreateStudentPage()"
-              [hidden]="authService.allowRoles('ROLE_MANAGER, ROLE_ADMIN', 'Create New Student')">
+              [hidden]="authService.allowRoles('ROLE_CREATE, ROLE_ADMIN', 'Create New Student')">
         <i class="fa fa-plus mr-1"></i>
         Create New Student
       </button>

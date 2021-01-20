@@ -11,7 +11,7 @@
         <span class="badge badge-warning ml-2" style="cursor: pointer" *ngIf="isFilterApplied" (click)="clearFilters()">Clear Filters</span>
       </div>
       <button class="btn btn-sm btn-outline-primary float-right" (click)="openCsiEditDialog()"
-              [hidden]="authService.allowRoles('ROLE_USER, ROLE_MANAGER, ROLE_ADMIN', 'Add Student CSI')">
+              [hidden]="authService.allowRoles('ROLE_CREATE, ROLE_ADMIN', 'Add Student CSI')">
         <i class="fa fa-plus mr-1"></i>
         Add Student CSI
       </button>

@@ -26,7 +26,7 @@
           <i *ngIf="studentLoading" class="fa fa-spinner fa-spin"></i>
           <div class="card-header-actions"
                [hidden]="authService.allowRoles(
-               'ROLE_MONITORING, ROLE_DIRECTOR, ROLE_CASE_MANAGER, ROLE_ADMIN', 'Edit Student Info')">
+               'ROLE_EDIT, ROLE_ADMIN', 'Edit Student Info')">
             <small class="tqp-nav-link" (click)="openStudentEditPage();">Edit Student Info</small>
           </div>
         </div>
@@ -96,7 +96,7 @@
           CSI Records<span class="badge badge-secondary ml-2">{{csiListDataSource.length}}</span>
           <i *ngIf="visitListLoading" class="fa fa-spinner fa-spin"></i>
           <div class="card-header-actions"
-               [hidden]="authService.allowRoles('ROLE_MONITORING, ROLE_CASE_MANAGER, ROLE_ADMIN', 'Add CSI Record')">
+               [hidden]="authService.allowRoles('ROLE_CASE_MANAGER, ROLE_ADMIN', 'Add CSI Record')">
             <small class="tqp-nav-link" (click)="openCsiCreatePage();">Add CSI Record</small>
           </div>
         </div>
@@ -150,60 +150,10 @@
       <div class="card">
         <div class="card-header">
           <i class="fa fa-calendar-check-o"></i>
-          Post-Graduate Events<span class="badge badge-secondary ml-2">{{postGradEventListDataSource.length}}</span>
-          <i *ngIf="postGradEventListLoading" class="fa fa-spinner fa-spin"></i>
-          <div class="card-header-actions"
-               [hidden]="authService.allowRoles('ROLE_MONITORING, ROLE_CASE_MANAGER, ROLE_ADMIN', 'Add Post-Graduate Event')">
-            <small class="tqp-nav-link" (click)="openPostGradEventCreateDialog(null);">Add Post-Graduate Event</small>
-          </div>
-        </div>
-        <div class="card-body">
-
-          <div class="table-container">
-
-            <table mat-table [dataSource]="postGradEventListDataSource"
-                   *ngIf="postGradEventListDataSource && postGradEventListDataSource.length > 0" class="table">
-
-              <ng-container matColumnDef="postGradEventId">
-                <th mat-header-cell *matHeaderCellDef>ID</th>
-                <td mat-cell *matCellDef="let row">{{row.postGradEventId}}</td>
-              </ng-container>
-
-              <ng-container matColumnDef="postGradEventDate">
-                <th mat-header-cell *matHeaderCellDef>Date</th>
-                <td mat-cell *matCellDef="let row">
-                  <a [routerLink]="['/post-grad-events/post-grad-event-detail', row.postGradEventId]">
-                    {{row.postGradEventDate | date: 'MM/dd/yyyy'}}
-                  </a>
-                </td>
-              </ng-container>
-
-              <ng-container matColumnDef="postGradEventTypeName">
-                <th mat-header-cell *matHeaderCellDef>Event Type</th>
-                <td mat-cell *matCellDef="let row">{{row.postGradEventTypeName}}</td>
-              </ng-container>
-
-              <tr mat-header-row *matHeaderRowDef="postGradEventListDisplayedColumns; sticky: true"
-                  [hidden]="false"></tr>
-              <tr mat-row *matRowDef="let row; columns: postGradEventListDisplayedColumns;"></tr>
-            </table>
-
-            <div class="no-records" *ngIf="postGradEventListDataSource && postGradEventListDataSource.length <= 0">
-              No Records Found
-            </div>
-
-          </div>
-
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-header">
-          <i class="fa fa-calendar-check-o"></i>
           Student Visits<span class="badge badge-secondary ml-2">{{visitListDataSource.length}}</span>
           <i *ngIf="visitListLoading" class="fa fa-spinner fa-spin"></i>
           <div class="card-header-actions"
-               [hidden]="authService.allowRoles('ROLE_MONITORING, ROLE_CASE_MANAGER, ROLE_ADMIN', 'Add Student')">
+               [hidden]="authService.allowRoles('ROLE_CASE_MANAGER, ROLE_ADMIN', 'Add Student')">
             <small class="tqp-nav-link" (click)="openVisitCreateDialog(this.student.studentId);">Add Student
               Visit</small>
           </div>
@@ -261,6 +211,56 @@
 
       <div class="card">
         <div class="card-header">
+          <i class="fa fa-calendar-check-o"></i>
+          Post-Graduate Events<span class="badge badge-secondary ml-2">{{postGradEventListDataSource.length}}</span>
+          <i *ngIf="postGradEventListLoading" class="fa fa-spinner fa-spin"></i>
+          <div class="card-header-actions"
+               [hidden]="authService.allowRoles('ROLE_EDIT, ROLE_ADMIN', 'Add Post-Graduate Event')">
+            <small class="tqp-nav-link" (click)="openPostGradEventCreateDialog(null);">Add Post-Graduate Event</small>
+          </div>
+        </div>
+        <div class="card-body">
+
+          <div class="table-container">
+
+            <table mat-table [dataSource]="postGradEventListDataSource"
+                   *ngIf="postGradEventListDataSource && postGradEventListDataSource.length > 0" class="table">
+
+              <ng-container matColumnDef="postGradEventId">
+                <th mat-header-cell *matHeaderCellDef>ID</th>
+                <td mat-cell *matCellDef="let row">{{row.postGradEventId}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="postGradEventDate">
+                <th mat-header-cell *matHeaderCellDef>Date</th>
+                <td mat-cell *matCellDef="let row">
+                  <a [routerLink]="['/post-grad-events/post-grad-event-detail', row.postGradEventId]">
+                    {{row.postGradEventDate | date: 'MM/dd/yyyy'}}
+                  </a>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="postGradEventTypeName">
+                <th mat-header-cell *matHeaderCellDef>Event Type</th>
+                <td mat-cell *matCellDef="let row">{{row.postGradEventTypeName}}</td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="postGradEventListDisplayedColumns; sticky: true"
+                  [hidden]="false"></tr>
+              <tr mat-row *matRowDef="let row; columns: postGradEventListDisplayedColumns;"></tr>
+            </table>
+
+            <div class="no-records" *ngIf="postGradEventListDataSource && postGradEventListDataSource.length <= 0">
+              No Records Found
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
           <i class="fa fa-calendar"></i>
           Assignment History<span class="badge badge-secondary ml-2">{{historyListDataSource.length}}</span>
         </div>
@@ -283,9 +283,15 @@
               <ng-container matColumnDef="startDate">
                 <th mat-header-cell *matHeaderCellDef>Date</th>
                 <td mat-cell *matCellDef="let row">
-                  <a class="tqp-nav-link" (click)="openEntityEditDialog(row.entityTypeId, row.relationshipId, null)">
+                  <ng-container
+                    *ngIf="!authService.allowRoles('ROLE_EDIT, ROLE_ADMIN', 'Add Post-Graduate Event'); else justDate;">
+                    <a class="tqp-nav-link" (click)="openEntityEditDialog(row.entityTypeId, row.relationshipId, null)">
+                      {{row.startDate | date: 'MM/dd/yyyy'}}
+                    </a>
+                  </ng-container>
+                  <ng-template #justDate>
                     {{row.startDate | date: 'MM/dd/yyyy'}}
-                  </a>
+                  </ng-template>
                 </td>
               </ng-container>
 
@@ -339,7 +345,7 @@
           <i *ngIf="programStatusLoading" class="fa fa-spinner fa-spin"></i>
           <div class="card-header-actions"
                [hidden]="authService.allowRoles(
-               'ROLE_MONITORING, ROLE_CASE_MANAGER, ROLE_ADMIN', 'Set Program Status')">
+               'ROLE_EDIT, ROLE_ADMIN', 'Set Program Status')">
             <small class="tqp-nav-link" (click)="openStudentProgramStatusCreateDialog(null);">Set Program Status</small>
           </div>
         </div>
@@ -379,8 +385,9 @@
           <i *ngIf="caregiverLoading" class="fa fa-spinner fa-spin"></i>
           <div class="card-header-actions"
                [hidden]="authService.allowRoles(
-               'ROLE_MONITORING, ROLE_CASE_MANAGER, ROLE_ADMIN', 'Assign Caregiver')">
-            <small class="tqp-nav-link" (click)="openStudentCaregiverCreateDialog(null, caregiver.caregiverId);">Assign Caregiver</small>
+               'ROLE_EDIT, ROLE_ADMIN', 'Assign Caregiver')">
+            <small class="tqp-nav-link" (click)="openStudentCaregiverCreateDialog(null, caregiver.caregiverId);">Assign
+              Caregiver</small>
           </div>
         </div>
         <div class="card-body">
@@ -431,7 +438,7 @@
           Current Case Manager
           <i *ngIf="caseManagerLoading" class="fa fa-spinner fa-spin"></i>
           <div class="card-header-actions"
-               [hidden]="authService.allowRoles('ROLE_MONITORING, ROLE_ADMIN', 'Assign Case Manager')">
+               [hidden]="authService.allowRoles('ROLE_EDIT, ROLE_ADMIN', 'Assign Case Manager')">
             <small class="tqp-nav-link" (click)="openStudentCaseManagerCreateDialog(null, caseManager.caseManagerId);">
               Assign Case Manager
             </small>
@@ -465,8 +472,9 @@
           Current Sponsor
           <i *ngIf="sponsorLoading" class="fa fa-spinner fa-spin"></i>
           <div class="card-header-actions"
-               [hidden]="authService.allowRoles('ROLE_MONITORING, ROLE_CASE_MANAGER, ROLE_ADMIN', 'Assign Sponsor')">
-            <small class="tqp-nav-link" (click)="openStudentSponsorCreateDialog(null, sponsor.sponsorId);">Assign Sponsor</small>
+               [hidden]="authService.allowRoles('ROLE_EDIT, ROLE_ADMIN', 'Assign Sponsor')">
+            <small class="tqp-nav-link" (click)="openStudentSponsorCreateDialog(null, sponsor.sponsorId);">Assign
+              Sponsor</small>
           </div>
         </div>
         <div class="card-body">
