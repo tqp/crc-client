@@ -31,7 +31,7 @@ export class StudentListByCaseManagerComponent implements OnInit, OnDestroy {
   private totalNumberOfPages: number;
   private searchParams: ServerSidePaginationRequest = new ServerSidePaginationRequest();
   public displayedColumns: string[] = [
-    'studentId',
+    // 'studentId',
     'studentSurname',
     'studentGivenName',
     'caregiverName',
@@ -104,7 +104,7 @@ export class StudentListByCaseManagerComponent implements OnInit, OnDestroy {
     // console.log('getPage searchParams', searchParams);
     this.isLoading = true;
     this.eventService.loadingEvent.emit(true);
-    this.studentService.getStudentList_SSP(searchParams).subscribe((response: ServerSidePaginationResponse<Student>) => {
+    this.studentService.getStudentListByCaseManager_SSP(searchParams).subscribe((response: ServerSidePaginationResponse<Student>) => {
         // console.log('getPage response', response);
         const student: Student[] = response.data;
         student.forEach(item => {

@@ -73,9 +73,9 @@ export class StudentDetailComponent implements OnInit {
   public historyListRecords: History[] = [];
   public historyListDataSource: History[] = [];
   public historyListDisplayedColumns: string[] = [
-    // 'relationshipId',
+    'relationshipId',
     'startDate',
-    'historyAction',
+    // 'historyAction',
     'entityType',
     'entityDescription'
   ];
@@ -476,20 +476,20 @@ export class StudentDetailComponent implements OnInit {
     });
   }
 
-  public openEntityEditDialog(entityTypeId: number, entityId: number): void {
-    // console.log(entityTypeId, entityId);
+  public openEntityEditDialog(entityTypeId: number, relationshipId: number, currentEntityId: number): void {
+    console.log(entityTypeId, relationshipId, currentEntityId);
     switch (entityTypeId) {
       case 1:
-        this.openStudentProgramStatusCreateDialog(entityId);
+        this.openStudentProgramStatusCreateDialog(relationshipId);
         break;
       case 2:
-        this.openStudentCaregiverCreateDialog(entityId);
+        this.openStudentCaregiverCreateDialog(relationshipId, currentEntityId);
         break;
       case 3:
-        this.openStudentCaseManagerCreateDialog(entityId);
+        this.openStudentCaseManagerCreateDialog(relationshipId, currentEntityId);
         break;
       case 4:
-        this.openStudentSponsorCreateDialog(entityId);
+        this.openStudentSponsorCreateDialog(relationshipId, currentEntityId);
         break;
       default:
         console.log('Unknown Entity Type', entityTypeId);
@@ -567,7 +567,7 @@ export class StudentDetailComponent implements OnInit {
     });
   }
 
-  public openStudentCaregiverCreateDialog(studentCaregiverId: number): void {
+  public openStudentCaregiverCreateDialog(studentCaregiverId: number, relationshipId: number): void {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.minWidth = '25%';
     dialogConfig.disableClose = true;
@@ -575,7 +575,8 @@ export class StudentDetailComponent implements OnInit {
     dialogConfig.data = {
       action: studentCaregiverId === null ? 'create' : 'update',
       studentId: this.student.studentId,
-      studentCaregiverId: studentCaregiverId
+      studentCaregiverId: studentCaregiverId,
+      relationshipId: relationshipId
     };
     dialogConfig.autoFocus = false;
     const dialogRef = this._matDialog.open(StudentCaregiverEditDialogComponent, dialogConfig);
@@ -639,15 +640,16 @@ export class StudentDetailComponent implements OnInit {
     });
   }
 
-  public openStudentCaseManagerCreateDialog(studentCaregiverId: number): void {
+  public openStudentCaseManagerCreateDialog(relationshipId: number, currentCaseManager: number): void {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.minWidth = '25%';
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     dialogConfig.data = {
-      action: studentCaregiverId === null ? 'create' : 'update',
+      action: relationshipId === null ? 'create' : 'update',
       studentId: this.student.studentId,
-      studentCaregiverId: studentCaregiverId
+      relationshipId: relationshipId,
+      currentCaseManager: currentCaseManager
     };
     dialogConfig.autoFocus = false;
     const dialogRef = this._matDialog.open(StudentCaseManagerEditDialogComponent, dialogConfig);
@@ -660,7 +662,7 @@ export class StudentDetailComponent implements OnInit {
         relationship.studentId = this.student.studentId;
         relationship.relationshipType = 'Student-Caregiver';
         relationship.relationshipId = formData.relationshipId;
-        relationship.relationshipEntityId = formData.caseManagerId;
+        relationship.relationshipEntityId = formData.relationshipId;
         relationship.relationshipStartDate = this.formattingService.formatStandardDateAsMySql(formData.relationshipStartDate);
         // console.log('relationship', relationship);
 
@@ -709,7 +711,7 @@ export class StudentDetailComponent implements OnInit {
     });
   }
 
-  public openStudentSponsorCreateDialog(studentSponsorId: number): void {
+  public openStudentSponsorCreateDialog(studentSponsorId: number, relationshipId: number): void {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.minWidth = '25%';
     dialogConfig.disableClose = true;
@@ -717,7 +719,8 @@ export class StudentDetailComponent implements OnInit {
     dialogConfig.data = {
       action: studentSponsorId === null ? 'create' : 'update',
       studentId: this.student.studentId,
-      studentSponsorId: studentSponsorId
+      studentSponsorId: studentSponsorId,
+      relationshipId: relationshipId
     };
     dialogConfig.autoFocus = false;
     const dialogRef = this._matDialog.open(StudentSponsorEditDialogComponent, dialogConfig);
@@ -730,7 +733,7 @@ export class StudentDetailComponent implements OnInit {
         relationship.studentId = this.student.studentId;
         relationship.relationshipType = 'Student-Sponsor';
         relationship.relationshipId = formData.relationshipId;
-        relationship.relationshipEntityId = formData.sponsorId;
+        relationship.relationshipEntityId = formData.relationshipId;
         relationship.relationshipStartDate = this.formattingService.formatStandardDateAsMySql(formData.relationshipStartDate);
         // console.log('relationship', relationship);
 

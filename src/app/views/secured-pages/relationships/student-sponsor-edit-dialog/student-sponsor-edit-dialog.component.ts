@@ -36,7 +36,7 @@ export class StudentSponsorEditDialogComponent implements OnInit {
               private formBuilder: FormBuilder,
               private formattingService: FormattingService,
               public _matDialog: MatDialog) {
-    this.getSponsorList();
+    this.getSponsorList(this.data.sponsorId);
     if (this.data.action === 'update') {
       this.getSponsorDetailByStudentId(this.data.studentId);
     } else {
@@ -81,11 +81,14 @@ export class StudentSponsorEditDialogComponent implements OnInit {
 
   // LOAD OPTION VALUE LISTS
 
-  private getSponsorList(): void {
+  private getSponsorList(excludeId: number): void {
     this.sponsorService.getSponsorList().subscribe(
       (response: Sponsor[]) => {
         console.log('response', response);
         this.sponsorList = response;
+        this.sponsorList = this.sponsorList.filter(item => {
+          return item.sponsorId !== excludeId;
+        });
       },
       error => {
         console.error('Error: ', error);

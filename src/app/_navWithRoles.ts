@@ -20,16 +20,10 @@ export const navItemsWithRoles: INavDataTqp[] = [
     allow: 'ROLE_USER'
   },
   {
-    name: 'Students by CM',
+    name: 'My Students',
     url: '/students/student-list-by-case-manager',
     icon: 'fa fa-graduation-cap',
     allow: 'ROLE_CASE_MANAGER'
-  },
-  {
-    name: 'Case Managers',
-    url: '/case-managers/case-manager-list',
-    icon: 'fa fa-folder-o',
-    allow: 'ROLE_USER, ROLE_CASE_MANAGER'
   },
   {
     name: 'Case Managers (Rev)',
@@ -71,7 +65,7 @@ export const navItemsWithRoles: INavDataTqp[] = [
   {
     title: true,
     name: 'Events',
-    allow: 'ROLE_USER'
+    allow: 'ROLE_USER, ROLE_CASE_MANAGER'
   },
   {
     name: 'Post-Grad Events',
@@ -83,25 +77,25 @@ export const navItemsWithRoles: INavDataTqp[] = [
   {
     title: true,
     name: 'CRC Microfinance',
-    allow: 'ROLE_MONITORING'
+    allow: 'ROLE_FINANCE'
   },
   {
     name: 'Loans',
     url: '/loans/loan-list',
     icon: 'fa fa-bank',
-    allow: 'ROLE_MONITORING'
+    allow: 'ROLE_FINANCE'
   },
   {
     name: 'Payments',
     url: '/payments/payment-list',
     icon: 'fa fa-money',
-    allow: 'ROLE_MONITORING'
+    allow: 'ROLE_FINANCE'
   },
   {
     name: 'Summary',
     url: '/crud-app',
     icon: 'fa fa-list-alt',
-    allow: 'ROLE_MONITORING',
+    allow: 'ROLE_FINANCE',
     children: [
       {
         name: 'By Participant',
@@ -119,37 +113,37 @@ export const navItemsWithRoles: INavDataTqp[] = [
   {
     title: true,
     name: 'CRC Family Support',
-    allow: 'ROLE_MONITORING'
+    allow: 'ROLE_FINANCE'
   },
   {
     name: 'Payments',
     url: '/test-components/placeholder',
     icon: 'fa fa-money',
-    allow: 'ROLE_MONITORING'
+    allow: 'ROLE_FINANCE'
   },
   {
     name: 'Summary',
     url: '/test-components/placeholder',
     icon: 'fa fa-list-alt',
-    allow: 'ROLE_MONITORING'
+    allow: 'ROLE_FINANCE'
   },
 
   {
     title: true,
     name: 'Manager Functions',
-    allow: 'ROLE_MANAGER,ROLE_DEVELOPER'
+    allow: 'ROLE_REPORTS'
   },
   {
     name: 'Summary Report',
     url: '/reports/summary-report',
     icon: 'fa fa-file-text-o',
-    allow: 'ROLE_MANAGER'
+    allow: 'ROLE_REPORTS'
   },
   {
     name: 'CSI Scores Report',
     url: '/reports/csi-scores-report',
     icon: 'fa fa-file-text-o',
-    allow: 'ROLE_MANAGER'
+    allow: 'ROLE_REPORTS'
   },
   {
     name: 'Reference Tables',

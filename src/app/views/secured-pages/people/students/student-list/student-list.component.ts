@@ -31,7 +31,7 @@ export class StudentListComponent implements OnInit, OnDestroy {
   private totalNumberOfPages: number;
   private searchParams: ServerSidePaginationRequest = new ServerSidePaginationRequest();
   public displayedColumns: string[] = [
-    'studentId',
+    // 'studentId',
     'studentSurname',
     'studentGivenName',
     'caregiverName',

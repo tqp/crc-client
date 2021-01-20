@@ -38,9 +38,8 @@ export class StudentCaseManagerEditDialogComponent implements OnInit {
               private caseManagerService: CaseManagerService,
               private formBuilder: FormBuilder,
               private formattingService: FormattingService,
-              private relationshipService: RelationshipService,
               public _matDialog: MatDialog) {
-    this.getCaseManagerList();
+    this.getCaseManagerList(this.data.caseManagerId);
     if (this.data.action === 'update') {
       this.getCaseManagerDetailByStudentId(this.data.studentId);
     } else {
@@ -85,11 +84,13 @@ export class StudentCaseManagerEditDialogComponent implements OnInit {
 
   // LOAD OPTION VALUE LISTS
 
-  private getCaseManagerList(): void {
+  private getCaseManagerList(excludeId: number): void {
     this.caseManagerService.getCaseManagerList().subscribe(
       (response: CaseManager[]) => {
-        // console.log('response', response);
         this.caseManagerList = response;
+        this.caseManagerList = this.caseManagerList.filter(item => {
+          return item.caseManagerId !== excludeId;
+        });
       },
       error => {
         console.error('Error: ', error);

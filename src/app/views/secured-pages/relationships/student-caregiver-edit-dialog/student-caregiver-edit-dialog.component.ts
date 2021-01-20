@@ -58,7 +58,7 @@ export class StudentCaregiverEditDialogComponent implements OnInit {
               private formattingService: FormattingService,
               public _matDialog: MatDialog
   ) {
-    this.getCaregiverList();
+    this.getCaregiverList(this.data.caregiverId);
     this.getSupportTierList();
     this.getRelationshipTypeList();
     if (this.data.action === 'update') {
@@ -111,11 +111,14 @@ export class StudentCaregiverEditDialogComponent implements OnInit {
 
   // LOAD OPTION VALUE LISTS
 
-  private getCaregiverList(): void {
+  private getCaregiverList(excludeId: number): void {
     this.caregiverService.getCaregiverList().subscribe(
       (response: Caregiver[]) => {
         // console.log('response', response);
         this.caregiverList = response;
+        this.caregiverList = this.caregiverList.filter(item => {
+          return item.caregiverId !== excludeId;
+        });
       },
       error => {
         console.error('Error: ', error);

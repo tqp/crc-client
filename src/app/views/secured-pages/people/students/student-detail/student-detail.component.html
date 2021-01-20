@@ -262,7 +262,7 @@
       <div class="card">
         <div class="card-header">
           <i class="fa fa-calendar"></i>
-          History<span class="badge badge-secondary ml-2">{{historyListDataSource.length}}</span>
+          Assignment History<span class="badge badge-secondary ml-2">{{historyListDataSource.length}}</span>
         </div>
         <div class="card-body">
 
@@ -283,7 +283,7 @@
               <ng-container matColumnDef="startDate">
                 <th mat-header-cell *matHeaderCellDef>Date</th>
                 <td mat-cell *matCellDef="let row">
-                  <a class="tqp-nav-link" (click)="openEntityEditDialog(row.entityTypeId, row.entityId)">
+                  <a class="tqp-nav-link" (click)="openEntityEditDialog(row.entityTypeId, row.relationshipId, null)">
                     {{row.startDate | date: 'MM/dd/yyyy'}}
                   </a>
                 </td>
@@ -299,16 +299,19 @@
               <ng-container matColumnDef="entityType">
                 <th mat-header-cell *matHeaderCellDef>Type</th>
                 <td mat-cell *matCellDef="let row">
+                  <!--
                   <a class="tqp-nav-link" (click)="openEntityEditDialog(row.entityTypeId, row.entityId)">
-                    {{row.entityTypeName}}
+                    {{row.entityTypeName}} ({{row.entityTypeId}})
                   </a>
+                  -->
+                  {{row.entityTypeName}} ({{row.entityTypeId}})
                 </td>
               </ng-container>
 
               <ng-container matColumnDef="entityDescription">
                 <th mat-header-cell *matHeaderCellDef>Description</th>
                 <td mat-cell *matCellDef="let row">
-                  {{row.entityDescription}}
+                  {{row.entityDescription}} ({{row.entityId}})
                 </td>
               </ng-container>
 
@@ -377,7 +380,7 @@
           <div class="card-header-actions"
                [hidden]="authService.allowRoles(
                'ROLE_MONITORING, ROLE_CASE_MANAGER, ROLE_ADMIN', 'Assign Caregiver')">
-            <small class="tqp-nav-link" (click)="openStudentCaregiverCreateDialog(null);">Assign Caregiver</small>
+            <small class="tqp-nav-link" (click)="openStudentCaregiverCreateDialog(null, caregiver.caregiverId);">Assign Caregiver</small>
           </div>
         </div>
         <div class="card-body">
@@ -429,7 +432,9 @@
           <i *ngIf="caseManagerLoading" class="fa fa-spinner fa-spin"></i>
           <div class="card-header-actions"
                [hidden]="authService.allowRoles('ROLE_MONITORING, ROLE_ADMIN', 'Assign Case Manager')">
-            <small class="tqp-nav-link" (click)="openStudentCaseManagerCreateDialog(null);">Assign Case Manager</small>
+            <small class="tqp-nav-link" (click)="openStudentCaseManagerCreateDialog(null, caseManager.caseManagerId);">
+              Assign Case Manager
+            </small>
           </div>
         </div>
         <div class="card-body">
@@ -461,7 +466,7 @@
           <i *ngIf="sponsorLoading" class="fa fa-spinner fa-spin"></i>
           <div class="card-header-actions"
                [hidden]="authService.allowRoles('ROLE_MONITORING, ROLE_CASE_MANAGER, ROLE_ADMIN', 'Assign Sponsor')">
-            <small class="tqp-nav-link" (click)="openStudentSponsorCreateDialog(null);">Assign Sponsor</small>
+            <small class="tqp-nav-link" (click)="openStudentSponsorCreateDialog(null, sponsor.sponsorId);">Assign Sponsor</small>
           </div>
         </div>
         <div class="card-body">

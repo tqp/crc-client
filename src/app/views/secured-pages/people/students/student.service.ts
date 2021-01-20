@@ -86,6 +86,28 @@ export class StudentService {
     }
   }
 
+  public getStudentListByCaseManager_SSP(serverSideSearchParams: ServerSidePaginationRequest): Observable<ServerSidePaginationResponse<Student>> {
+    const url = environment.apiUrl + '/api/v1/student-by-case-manager/ssp';
+    const token = this.tokenService.getToken();
+    if (token) {
+      return this.http.post<ServerSidePaginationResponse<Student>>(url,
+        serverSideSearchParams,
+        {
+          headers: this.httpService.setHeadersWithToken(),
+          observe: 'response',
+          params: {}
+        })
+        .pipe(
+          map(res => {
+            return res.body;
+          })
+        );
+    } else {
+      console.error('No token was present.');
+      return null;
+    }
+  }
+
   public getStudentDetail(id: number) {
     const url = environment.apiUrl + '/api/v1/student/' + id;
     const token = this.tokenService.getToken();
