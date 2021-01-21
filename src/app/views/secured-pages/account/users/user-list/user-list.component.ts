@@ -28,27 +28,27 @@ export class UserListComponent implements OnInit, OnDestroy {
   @ViewChild('dialogContent', {static: true}) public dialogRef: any;
   @ViewChild('nameSearchElementRef', {static: true}) nameSearchElementRef: ElementRef;
 
+  public windowWidth: number = window.innerWidth;
+
   public userListNameSearchFormControl = new FormControl();
 
   private pageIndex = 0;
   public pageSize = 10;
   private totalNumberOfPages: number;
   private searchParams: ServerSidePaginationRequest = new ServerSidePaginationRequest();
-  public displayedColumns: string[] = [
-    // 'name',
-    // 'surname',
-    // 'givenName',
-    'username',
-    'lastLogin',
-    'loginCount',
-    // Role Columns
-    'roleView',
-    'roleCreate',
-    'roleEdit',
-    'roleCaseManager',
-    'roleReports',
-    'roleFinance',
-    'roleManager'
+
+  public displayedColumns: any = [
+    {col: 'name', showSmall: false},
+    {col: 'username', showSmall: true},
+    {col: 'lastLogin', showSmall: false},
+    {col: 'loginCount', showSmall: false},
+    {col: 'roleView', showSmall: true},
+    {col: 'roleCreate', showSmall: true},
+    {col: 'roleEdit', showSmall: true},
+    {col: 'roleCaseManager', showSmall: true},
+    {col: 'roleReports', showSmall: true},
+    {col: 'roleFinance', showSmall: true},
+    {col: 'roleManager', showSmall: true},
   ];
 
   public records: User[] = [];
@@ -73,10 +73,19 @@ export class UserListComponent implements OnInit, OnDestroy {
     this.setInitialFieldValues();
     this.getPage(this.searchParams);
     this.listenForChanges();
+
+
   }
 
   ngOnDestroy(): void {
     this.userService.setUserListNameSearchValue(this.userListNameSearchFormControl.value);
+  }
+
+  public getDisplayedColumns(): string[] {
+    const smallScreen = this.windowWidth < 1400;
+    return this.displayedColumns
+      .filter(cd => !smallScreen || cd.showSmall)
+      .map(cd => cd.col);
   }
 
   public initWindowResizeListener(): void {
@@ -238,7 +247,7 @@ export class UserListComponent implements OnInit, OnDestroy {
 
   public openUserCreateDialog(): void {
     const dialogConfig = new MatDialogConfig();
-    dialogConfig.minWidth = '25%';
+    dialogConfig.minWidth = '40%';
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     dialogConfig.data = {
@@ -249,7 +258,7 @@ export class UserListComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().subscribe(dialogData => {
       if (dialogData) {
-        console.log('dialogData', dialogData);
+        // console.log('dialogData', dialogData);
         const user = new User();
         user.username = dialogData[1].username;
         user.surname = dialogData[1].surname;
@@ -272,6 +281,11 @@ export class UserListComponent implements OnInit, OnDestroy {
 
   public clearSearch(): void {
     this.userListNameSearchFormControl.setValue('');
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    this.windowWidth = event.target.innerWidth;
   }
 
   @HostListener('window:keydown', ['$event'])

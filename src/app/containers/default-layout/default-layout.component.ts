@@ -120,7 +120,7 @@ export class DefaultLayoutComponent implements OnInit {
 
   public openChangePasswordDialog(userId: number): void {
     const dialogConfig = new MatDialogConfig();
-    dialogConfig.minWidth = '25%';
+    dialogConfig.minWidth = '40%';
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     dialogConfig.data = {

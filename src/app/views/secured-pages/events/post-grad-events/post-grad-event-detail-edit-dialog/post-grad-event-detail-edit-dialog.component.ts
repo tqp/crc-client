@@ -53,7 +53,7 @@ export class PostGradEventDetailEditDialogComponent implements OnInit {
     this.postGradEventEditForm = this.formBuilder.group({
       postGradEventId: new FormControl({value: 0, disabled: true}),
       postGradEventTypeId: new FormControl(0, [Validators.required, validateNonZeroValue]),
-      postGradEventDate: new FormControl(moment().format('MM/DD/YYYY'), Validators.required),
+      postGradEventDate: new FormControl(moment().format('dd-MMM-yyyy'), Validators.required),
       postGradEventComments: new FormControl(),
     });
   }

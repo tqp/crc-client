@@ -374,7 +374,7 @@ export class StudentDetailComponent implements OnInit {
 
   public openPostGradEventCreateDialog(studentId: number): void {
     const dialogConfig = new MatDialogConfig();
-    dialogConfig.minWidth = '25%';
+    dialogConfig.minWidth = '40%';
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     dialogConfig.data = {
@@ -441,7 +441,7 @@ export class StudentDetailComponent implements OnInit {
 
   public openVisitCreateDialog(studentId: number): void {
     const dialogConfig = new MatDialogConfig();
-    dialogConfig.minWidth = '25%';
+    dialogConfig.minWidth = '40%';
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     dialogConfig.data = {
@@ -499,7 +499,7 @@ export class StudentDetailComponent implements OnInit {
   public openStudentProgramStatusCreateDialog(studentCaregiverId: number): void {
     // console.log('studentCaregiverId', studentCaregiverId);
     const dialogConfig = new MatDialogConfig();
-    dialogConfig.minWidth = '25%';
+    dialogConfig.minWidth = '40%';
     dialogConfig.minHeight = '400px';
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
@@ -569,7 +569,7 @@ export class StudentDetailComponent implements OnInit {
 
   public openStudentCaregiverCreateDialog(studentCaregiverId: number, relationshipId: number): void {
     const dialogConfig = new MatDialogConfig();
-    dialogConfig.minWidth = '25%';
+    dialogConfig.minWidth = '40%';
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     dialogConfig.data = {
@@ -642,7 +642,7 @@ export class StudentDetailComponent implements OnInit {
 
   public openStudentCaseManagerCreateDialog(relationshipId: number, currentCaseManager: number): void {
     const dialogConfig = new MatDialogConfig();
-    dialogConfig.minWidth = '25%';
+    dialogConfig.minWidth = '40%';
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     dialogConfig.data = {
@@ -713,7 +713,7 @@ export class StudentDetailComponent implements OnInit {
 
   public openStudentSponsorCreateDialog(studentSponsorId: number, relationshipId: number): void {
     const dialogConfig = new MatDialogConfig();
-    dialogConfig.minWidth = '25%';
+    dialogConfig.minWidth = '40%';
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     dialogConfig.data = {

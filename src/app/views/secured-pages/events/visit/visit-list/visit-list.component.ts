@@ -210,7 +210,7 @@ export class VisitListComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public openVisitEditDialog(): void {
     const dialogConfig = new MatDialogConfig();
-    dialogConfig.minWidth = '25%';
+    dialogConfig.minWidth = '40%';
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     dialogConfig.data = {

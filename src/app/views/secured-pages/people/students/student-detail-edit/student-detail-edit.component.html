@@ -10,7 +10,7 @@
         <ng-template #notShow>
           <h1>
             <i class="fa fa-graduation-cap"></i>
-            {{studentEditForm.controls['studentSurname'].value}}, {{studentEditForm.controls['studentGivenName'].value}}
+            {{studentEditForm.controls['studentGivenName'].value}} {{studentEditForm.controls['studentSurname'].value}}
           </h1>
         </ng-template>
       </div>
@@ -23,17 +23,34 @@
         <div class="card">
           <div class="card-header">
             <i class="fa fa-user"></i>
-            Personal Information
+            Personal Information {{potentialDuplicateStudentFlag}}
           </div>
           <div class="card-body">
 
             <div class="row">
               <div class="col-sm-12">
                 <div class="form-group">
+                  <label for="studentGivenName">Given Name*</label>
+                  <input matInput id="studentGivenName" type="text" class="form-control" placeholder="Given Name"
+                         formControlName="studentGivenName" #studentGivenNameInputField>
+                  <mat-error *ngFor="let validation of validationMessages.studentGivenName">
+                    <mat-error class="error-message"
+                               *ngIf="studentEditForm.get('studentGivenName').hasError(validation.type)
+                                && (studentEditForm.get('studentGivenName').dirty ||
+                                studentEditForm.get('studentGivenName').touched)">
+                      {{validation.message}}
+                    </mat-error>
+                  </mat-error>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
                   <label for="studentSurname">Surname*</label>
-                  <input matInput id="studentSurname" #studentSurnameInputField type="text" class="form-control"
-                         placeholder="Surname"
-                         formControlName="studentSurname" autocomplete="chrome-off">
+                  <input matInput id="studentSurname" type="text" class="form-control"
+                         placeholder="Surname" formControlName="studentSurname" autocomplete="chrome-off">
                   <mat-error *ngFor="let validation of validationMessages.studentSurname">
                     <mat-error class="error-message"
                                *ngIf="studentEditForm.get('studentSurname').hasError(validation.type)
@@ -49,14 +66,14 @@
             <div class="row">
               <div class="col-sm-12">
                 <div class="form-group">
-                  <label for="studentGivenName">Given Name*</label>
-                  <input matInput id="studentGivenName" type="text" class="form-control" placeholder="Given Name"
-                         formControlName="studentGivenName">
-                  <mat-error *ngFor="let validation of validationMessages.studentGivenName">
+                  <label for="studentDateOfBirth">Date of Birth*<small class="ml-2">(MM/DD/YYYY)</small></label>
+                  <input id="studentDateOfBirth" type="text" class="form-control" bsDatepicker
+                         formControlName="studentDateOfBirth">
+                  <mat-error *ngFor="let validation of validationMessages.studentDateOfBirth">
                     <mat-error class="error-message"
-                               *ngIf="studentEditForm.get('studentGivenName').hasError(validation.type)
-                                && (studentEditForm.get('studentGivenName').dirty ||
-                                studentEditForm.get('studentGivenName').touched)">
+                               *ngIf="studentEditForm.get('studentDateOfBirth').hasError(validation.type)
+                                && (studentEditForm.get('studentDateOfBirth').dirty ||
+                                studentEditForm.get('studentDateOfBirth').touched)">
                       {{validation.message}}
                     </mat-error>
                   </mat-error>
@@ -79,24 +96,6 @@
                                *ngIf="studentEditForm.get('studentGender').hasError(validation.type)
                                 && (studentEditForm.get('studentGender').dirty ||
                                 studentEditForm.get('studentGender').touched)">
-                      {{validation.message}}
-                    </mat-error>
-                  </mat-error>
-                </div>
-              </div>
-            </div>
-
-            <div class="row">
-              <div class="col-sm-12">
-                <div class="form-group">
-                  <label for="studentDateOfBirth">Date of Birth*<small class="ml-2">(MM/DD/YYYY)</small></label>
-                  <input id="studentDateOfBirth" type="text" class="form-control" bsDatepicker
-                         formControlName="studentDateOfBirth">
-                  <mat-error *ngFor="let validation of validationMessages.studentDateOfBirth">
-                    <mat-error class="error-message"
-                               *ngIf="studentEditForm.get('studentDateOfBirth').hasError(validation.type)
-                                && (studentEditForm.get('studentDateOfBirth').dirty ||
-                                studentEditForm.get('studentDateOfBirth').touched)">
                       {{validation.message}}
                     </mat-error>
                   </mat-error>

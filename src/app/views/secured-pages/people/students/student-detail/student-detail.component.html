@@ -45,7 +45,7 @@
           </dl>
           <dl class="row">
             <dt class="col-sm-4">Date of Birth:</dt>
-            <dd class="col-sm-8">{{student.studentDateOfBirth | date: 'MM/dd/yyyy'}}</dd>
+            <dd class="col-sm-8">{{student.studentDateOfBirth | date: 'dd-MMM-yyyy' | uppercase}}</dd>
           </dl>
           <dl class="row">
             <dt class="col-sm-4">School:</dt>
@@ -120,7 +120,7 @@
                 <th mat-header-cell *matHeaderCellDef>Date</th>
                 <td mat-cell *matCellDef="let row">
                   <a [routerLink]="['/csi/csi-detail', row.csiId]">
-                    {{row.csiDate | date: 'MM/dd/yyyy'}}
+                    {{row.csiDate | date: 'dd-MMM-yyyy' | uppercase}}
                   </a>
                 </td>
               </ng-container>
@@ -174,7 +174,7 @@
                 <th mat-header-cell *matHeaderCellDef>Date</th>
                 <td mat-cell *matCellDef="let row">
                   <a [routerLink]="['/visits/visit-detail', row.visitId]">
-                    {{row.visitDate | date: 'MM/dd/yyyy'}}
+                    {{row.visitDate | date: 'dd-MMM-yyyy' | uppercase}}
                   </a>
                 </td>
               </ng-container>
@@ -235,7 +235,7 @@
                 <th mat-header-cell *matHeaderCellDef>Date</th>
                 <td mat-cell *matCellDef="let row">
                   <a [routerLink]="['/post-grad-events/post-grad-event-detail', row.postGradEventId]">
-                    {{row.postGradEventDate | date: 'MM/dd/yyyy'}}
+                    {{row.postGradEventDate | date: 'dd-MMM-yyyy' | uppercase}}
                   </a>
                 </td>
               </ng-container>
@@ -286,11 +286,11 @@
                   <ng-container
                     *ngIf="!authService.allowRoles('ROLE_EDIT, ROLE_ADMIN', 'Add Post-Graduate Event'); else justDate;">
                     <a class="tqp-nav-link" (click)="openEntityEditDialog(row.entityTypeId, row.relationshipId, null)">
-                      {{row.startDate | date: 'MM/dd/yyyy'}}
+                      {{row.startDate | date: 'dd-MMM-yyyy' | uppercase}}
                     </a>
                   </ng-container>
                   <ng-template #justDate>
-                    {{row.startDate | date: 'MM/dd/yyyy'}}
+                    {{row.startDate | date: 'dd-MMM-yyyy' | uppercase}}
                   </ng-template>
                 </td>
               </ng-container>

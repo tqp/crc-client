@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { ConfirmDialogComponent } from '@tqp/components/confirm-dialog/confirm-dialog.component';
-import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Student } from '../Student';
@@ -9,14 +9,12 @@ import { FormattingService } from '@tqp/services/formatting.service';
 import { TierTypeService } from '../../../reference-tables/tier-type/tier-type.service';
 import { TierType } from '../../../reference-tables/tier-type/TierType';
 import { Relationship } from '../../../relationships/Relationship';
-import { StudentCaregiverEditDialogComponent } from '../../../relationships/student-caregiver-edit-dialog/student-caregiver-edit-dialog.component';
-import { StudentProgramStatusEditDialogComponent } from '../../../relationships/student-program-status-edit-dialog/student-program-status-edit-dialog.component';
-import { StudentCaseManagerEditDialogComponent } from '../../../relationships/student-case-manager-edit-dialog/student-case-manager-edit-dialog.component';
-import { StudentSponsorEditDialogComponent } from '../../../relationships/student-sponsor-edit-dialog/student-sponsor-edit-dialog.component';
 import { SchoolClassTypeService } from '../../../reference-tables/school-class-type/school-class-type.service';
 import { SchoolClassType } from '../../../reference-tables/school-class-type/SchoolClassType';
 import { ImpairmentType } from '../../../reference-tables/impairment-type/ImpairmentType';
 import { ImpairmentTypeService } from '../../../reference-tables/impairment-type/impairment-type.service';
+import { merge } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'app-student-detail-edit',
@@ -25,7 +23,7 @@ import { ImpairmentTypeService } from '../../../reference-tables/impairment-type
   encapsulation: ViewEncapsulation.None
 })
 export class StudentDetailEditComponent implements OnInit {
-  @ViewChild('studentSurnameInputField', {static: false}) studentSurnameInputField: ElementRef;
+  @ViewChild('studentGivenNameInputField', {static: false}) studentGivenNameInputField: ElementRef;
   public pageSource: string;
   public newRecord: boolean;
   public student: Student;
@@ -35,6 +33,7 @@ export class StudentDetailEditComponent implements OnInit {
   public impairmentTypeList: ImpairmentType[];
   public studentEditForm: FormGroup;
   public confirmDialogRef: MatDialogRef<ConfirmDialogComponent>;
+  public potentialDuplicateStudentFlag: boolean = false;
 
   // Relationships List
   public records: Relationship[] = [];
@@ -104,10 +103,12 @@ export class StudentDetailEditComponent implements OnInit {
         this.student = new Student();
         this.student.studentId = null;
         setTimeout(() => {
-          this.studentSurnameInputField.nativeElement.focus();
+          this.studentGivenNameInputField.nativeElement.focus();
         }, 0);
       }
     }).then();
+
+    this.listenForDuplicateChanges();
   }
 
   private initializeForm(): void {
@@ -155,22 +156,6 @@ export class StudentDetailEditComponent implements OnInit {
       }
     );
   }
-
-  // private getRelationshipListByStudentId(studentId: number): void {
-  //   this.relationshipService.getRelationshipListByStudentId(studentId).subscribe(
-  //     (relationshipList: Relationship[]) => {
-  //       // console.log('relationshipList', relationshipList);
-  //       this.records = [];
-  //       relationshipList.forEach(item => {
-  //         this.records.push(item);
-  //       });
-  //       this.dataSource = this.records;
-  //     },
-  //     error => {
-  //       console.error('Error: ', error);
-  //     }
-  //   );
-  // }
 
   private getTierTypeList(): void {
     this.tierTypeService.getTierTypeList().subscribe(
@@ -232,93 +217,60 @@ export class StudentDetailEditComponent implements OnInit {
     }
   }
 
-  // DIALOGS
-
-  public openStudentProgramStatusEditDialog(): void {
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.minWidth = '25%';
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true;
-    dialogConfig.data = {
-      action: 'create',
-      studentId: this.student.studentId
-    };
-    dialogConfig.autoFocus = false;
-    const dialogRef = this._matDialog.open(StudentProgramStatusEditDialogComponent, dialogConfig);
-
-    dialogRef.afterClosed().subscribe(dialogData => {
-      console.log('dialogClose', dialogData);
-    });
-  }
-
-  public openStudentCaregiverEditDialog(): void {
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.minWidth = '25%';
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true;
-    dialogConfig.data = {
-      action: 'create',
-      studentId: this.student.studentId
-    };
-    dialogConfig.autoFocus = false;
-    const dialogRef = this._matDialog.open(StudentCaregiverEditDialogComponent, dialogConfig);
-
-    dialogRef.afterClosed().subscribe(dialogData => {
-      console.log('dialogClose', dialogData);
-      console.log('studentId', this.student.studentId);
-      // const relationship: Relationship = {};
-      // relationship.relationshipTypeId = 13; // Caregiver
-      // relationship.studentId = this.student.studentId;
-      // relationship.personId = dialogData.caregiverId;
-      // relationship.relationshipComments = 'Meow';
-      // this.relationshipService.createCaregiverRelationship(relationship);
-    });
-  }
-
-  public openStudentCaseManagerEditDialog(): void {
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.minWidth = '25%';
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true;
-    dialogConfig.data = {
-      action: 'create',
-      studentId: this.student.studentId
-    };
-    dialogConfig.autoFocus = false;
-    const dialogRef = this._matDialog.open(StudentCaseManagerEditDialogComponent, dialogConfig);
-
-    dialogRef.afterClosed().subscribe(dialogData => {
-      console.log('dialogClose', dialogData);
-      console.log('studentId', this.student.studentId);
-      // const relationship: Relationship = {};
-      // relationship.relationshipTypeId = 14; // Sponsor
-      // relationship.studentId = this.student.studentId;
-      // relationship.personId = dialogData.caregiverId;
-      // relationship.relationshipComments = 'Meow';
-      // this.relationshipService.createCaregiverRelationship(relationship);
-    });
-  }
-
-  public openStudentSponsorEditDialog(): void {
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.minWidth = '25%';
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true;
-    dialogConfig.data = {
-      action: 'create',
-      studentId: this.student.studentId
-    };
-    dialogConfig.autoFocus = false;
-    const dialogRef = this._matDialog.open(StudentSponsorEditDialogComponent, dialogConfig);
-
-    dialogRef.afterClosed().subscribe(dialogData => {
-      console.log('dialogClose', dialogData);
-    });
+  private listenForDuplicateChanges(): void {
+    merge(
+      this.studentEditForm.controls['studentSurname'].valueChanges.pipe(debounceTime(500)),
+      this.studentEditForm.controls['studentGivenName'].valueChanges.pipe(debounceTime(500)),
+    ).subscribe((text) => {
+        console.log('text', text);
+        const student: Student = new Student();
+        student.studentGivenName = this.studentEditForm.controls['studentGivenName'].value;
+        student.studentSurname = this.studentEditForm.controls['studentSurname'].value;
+        this.studentService.checkDuplicateStudentRecord(student).subscribe(
+          (response: Student[]) => {
+            if (response.length > 0) {
+              this.potentialDuplicateStudentFlag = true;
+            } else {
+              this.potentialDuplicateStudentFlag = false;
+            }
+          }
+        );
+      },
+      error => {
+        console.error('Error: ', error.message);
+      },
+      () => {
+        console.log('complete');
+      }
+    );
   }
 
   // BUTTONS
 
   public save(): void {
+    if (this.potentialDuplicateStudentFlag) {
+      console.log('h');
+      this.confirmDialogRef = this._matDialog.open(ConfirmDialogComponent, {
+        disableClose: false,
+        minWidth: '30%'
+      });
+      this.confirmDialogRef.componentInstance.mainButtonText = 'Yes';
+      this.confirmDialogRef.componentInstance.dialogTitle = 'Potential Duplicate Record';
+      this.confirmDialogRef.componentInstance.dialogMessage = 'There is already a record for a ' +
+        this.studentEditForm.controls['studentGivenName'].value + ' ' +
+        this.studentEditForm.controls['studentSurname'].value + '.\n' +
+        'Do you want to create another one?';
+      this.confirmDialogRef.afterClosed().subscribe(result => {
+        if (result) {
+          this.performSave();
+        }
+      });
+    } else {
+      this.performSave();
+    }
+  }
+
+  private performSave(): void {
     const student = new Student();
     console.log('crudEditForm', this.studentEditForm.value);
     // Personal Information

@@ -47,9 +47,10 @@ export class UserDetailComponent implements OnInit {
     this.userService.getUserDetail(userId).subscribe(
       response => {
         this.user = response;
-        // console.log('user', this.user);
+        console.log('user', this.user);
         this.user.createdOn = moment(this.user.createdOn).format('DD-MMM-YYYY h:mm:ss a').toUpperCase();
         this.user.updatedOn = moment(this.user.updatedOn).format('DD-MMM-YYYY h:mm:ss a').toUpperCase();
+        this.user.passwordSet = moment(this.user.passwordSet).format('DD-MMM-YYYY h:mm:ss a').toUpperCase();
       },
       error => {
         console.error('Error: ', error);

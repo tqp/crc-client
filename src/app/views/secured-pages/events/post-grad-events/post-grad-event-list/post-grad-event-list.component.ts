@@ -202,7 +202,7 @@ export class PostGradEventListComponent implements OnInit, AfterViewInit, OnDest
 
   public openPostGradEventEditDialog(): void {
     const dialogConfig = new MatDialogConfig();
-    dialogConfig.minWidth = '25%';
+    dialogConfig.minWidth = '40%';
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     dialogConfig.data = {

@@ -14,7 +14,7 @@ import { PositionService } from '../../position/position.service';
   styleUrls: ['./user-detail-edit-dialog.component.css']
 })
 export class UserDetailEditDialogComponent implements OnInit {
-  @ViewChild('userSurnameInputField', {static: false}) userSurnameInputField: ElementRef;
+  @ViewChild('userGivenNameInputField', {static: false}) userGivenNameInputField: ElementRef;
   public confirmDialogRef: MatDialogRef<ConfirmDialogComponent>;
   public userEditForm: FormGroup;
   public setInitialPasswordCheckboxStatus: boolean = false;
@@ -63,7 +63,7 @@ export class UserDetailEditDialogComponent implements OnInit {
 
   private initializeForm(): void {
     this.userEditForm = this.formBuilder.group({
-      username: new FormControl('', [Validators.required, Validators.maxLength(60)], [
+      username: new FormControl('', [Validators.required, Validators.maxLength(100)], [
         this.userValidationService.existingUsernameValidator()
       ]),
       surname: new FormControl('', Validators.required),
@@ -76,7 +76,7 @@ export class UserDetailEditDialogComponent implements OnInit {
     });
 
     setTimeout(() => {
-      this.userSurnameInputField.nativeElement.focus();
+      this.userGivenNameInputField.nativeElement.focus();
     }, 500);
   }
 
@@ -155,7 +155,7 @@ export class UserDetailEditDialogComponent implements OnInit {
   }
 
   public setInitialPasswordCheckChanged(event) {
-    console.log('event', event.target.checked);
+    // console.log('event', event.target.checked);
     this.setInitialPasswordCheckboxStatus = event.target.checked;
   }
 

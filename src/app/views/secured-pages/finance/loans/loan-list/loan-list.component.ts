@@ -216,7 +216,7 @@ export class LoanListComponent implements OnInit, OnDestroy {
 
   public openLoanEditDialog(): void {
     const dialogConfig = new MatDialogConfig();
-    dialogConfig.minWidth = '25%';
+    dialogConfig.minWidth = '40%';
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     dialogConfig.panelClass = 'full-screen-modal';

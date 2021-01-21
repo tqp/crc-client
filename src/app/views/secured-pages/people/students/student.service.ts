@@ -172,6 +172,29 @@ export class StudentService {
     }
   }
 
+  // OTHER QUERIES
+  public checkDuplicateStudentRecord(student: Student) {
+    const url = environment.apiUrl + '/api/v1/student/check-duplicate';
+    const token = this.tokenService.getToken();
+    if (token) {
+      return this.http.post<Student[]>(url,
+        student,
+        {
+          headers: this.httpService.setHeadersWithToken(),
+          observe: 'response',
+          params: {}
+        })
+        .pipe(
+          map(res => {
+            return res.body;
+          })
+        );
+    } else {
+      console.error('No token was present.');
+      return null;
+    }
+  }
+
   // PERSISTENT VARIABLES
 
   public setStudentListNameSearchValue(val) {

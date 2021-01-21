@@ -4,7 +4,7 @@
     <div class="col-sm-6">
       <h1>
         <i class="fa fa-pencil-square-o"></i>
-        {{csi.studentGivenName}} {{csi.studentSurname}} CSI on {{csi.csiDate | date:'MM/dd/yyyy'}}
+        {{csi.studentGivenName}} {{csi.studentSurname}} CSI on {{csi.csiDate | date:'dd-MMM-yyyy' | uppercase}}
       </h1>
     </div>
     <div class="col-sm-6">
@@ -54,7 +54,7 @@
           </dl>
           <dl class="row">
             <dt class="col-sm-3">CSI Date:</dt>
-            <dd class="col-sm-9">{{csi.csiDate | date:'MM/dd/yyyy'}}</dd>
+            <dd class="col-sm-9">{{csi.csiDate | date:'dd-MMM-yyyy' | uppercase}}</dd>
           </dl>
           <dl class="row">
             <dt class="col-sm-3">Services Provided:</dt>

@@ -130,7 +130,7 @@ export const navItemsWithRoles: INavDataTqp[] = [
 
   {
     title: true,
-    name: 'Manager Functions',
+    name: 'REPORTS',
     allow: 'ROLE_REPORTS'
   },
   {

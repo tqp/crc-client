@@ -11,7 +11,7 @@ export class MillisecondsToDateStringComponent implements OnInit, OnDestroy, OnC
   public static DDMMMYY_HHMMSS_ZZ = 'DDMMYY HH:mm:s ZZ';
   public static YY_MM_DD = 'YYYY-MM-DD';
   public static DDMMMYY = 'DDMMYY';
-  public static MMDDYYYY = 'MM/DD/YYYY';
+  public static MMDDYYYY = 'dd-MMM-yyyy';
   public static FROM_NOW = 'FROM_NOW';
 
   @Input() milliseconds = 0;

@@ -58,7 +58,7 @@
             <th mat-header-cell *matHeaderCellDef mat-sort-header>CSI Date</th>
             <td mat-cell *matCellDef="let row">
               <a [routerLink]="['/csi/csi-detail', row.csiId]">
-                {{row.csiDate | date: 'MM/dd/yyyy'}}
+                {{row.csiDate | date: 'dd-MMM-yyyy' | uppercase}}
               </a>
             </td>
           </ng-container>

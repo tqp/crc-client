@@ -128,7 +128,7 @@ export class AuthService {
           break;
       }
     } else {
-      this.router.navigateByUrl('/open-pages/login').then();
+      this.router.navigateByUrl('/login').then();
     }
   }
 

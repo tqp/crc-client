@@ -6,7 +6,6 @@ import { CaseManagerService } from '../../people/case-managers/case-manager.serv
 import * as moment from 'moment';
 import { ConfirmDialogComponent } from '../../../../../@tqp/components/confirm-dialog/confirm-dialog.component';
 import { FormattingService } from '../../../../../@tqp/services/formatting.service';
-import { RelationshipService } from '../relationship.service';
 import { validateNonZeroValue } from '../../../../../@tqp/validators/custom.validators';
 
 @Component({
@@ -55,7 +54,7 @@ export class StudentCaseManagerEditDialogComponent implements OnInit {
     this.studentCaseManagerEditForm = this.formBuilder.group({
       relationshipId: new FormControl({value: 0, disabled: true}),
       caseManagerId: new FormControl(0, [Validators.required, validateNonZeroValue]),
-      relationshipStartDate: new FormControl(moment().format('MM/DD/YYYY'), Validators.required)
+      relationshipStartDate: new FormControl(moment().format('dd-MMM-yyyy'), Validators.required)
     });
 
     // setTimeout(() => {

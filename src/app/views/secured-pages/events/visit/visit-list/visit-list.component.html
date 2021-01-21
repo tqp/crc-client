@@ -58,7 +58,7 @@
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Visit Date</th>
             <td mat-cell *matCellDef="let row">
               <a [routerLink]="['/visits/visit-detail', row.visitId]">
-                {{row.visitDate | date: 'MM/dd/yyyy'}}
+                {{row.visitDate | date: 'dd-MMM-yyyy' | uppercase}}
               </a>
             </td>
           </ng-container>

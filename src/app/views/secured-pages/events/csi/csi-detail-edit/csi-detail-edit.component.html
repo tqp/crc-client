@@ -12,7 +12,7 @@
           <h1>
             <i class="fa fa-pencil-square-o"></i>
             {{csi.studentGivenName}} {{csi.studentSurname}} CSI
-            on {{csiEditForm.controls['csiDate'].value | date: 'MM/dd/yyyy'}}
+            on {{csiEditForm.controls['csiDate'].value | date: 'dd-MMM-yyyy' | uppercase}}
           </h1>
         </ng-template>
       </div>

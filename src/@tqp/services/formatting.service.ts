@@ -5,7 +5,7 @@ import * as moment from 'moment';
   providedIn: 'root'
 })
 export class FormattingService {
-  private standardDateFormat = 'MM/DD/YYYY';
+  private standardDateFormat = 'dd-MMM-yyyy';
   private mySqlDateFormat = 'YYYY-MM-DD';
 
   constructor() {

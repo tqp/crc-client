@@ -53,7 +53,7 @@
             <dt class="col-sm-3">Last Login:</dt>
             <dd class="col-sm-9">
               <span *ngIf="user.lastLogin; else neverLoggedOn;">
-                {{user.lastLogin | date:'MM/dd/yyyy h:mm:ss a'}}
+                {{user.lastLogin | date:'dd-MMM-yyyy h:mm:ss a' | uppercase}}
               </span>
               <ng-template #neverLoggedOn>
                 <span class="text-danger">Never Logged In</span>
@@ -63,6 +63,17 @@
           <dl class="row">
             <dt class="col-sm-3">Login Count:</dt>
             <dd class="col-sm-9">{{user.loginCount}}</dd>
+          </dl>
+          <dl class="row">
+            <dt class="col-sm-3">Password Set:</dt>
+            <dd class="col-sm-9">
+              <span *ngIf="user.passwordSet; else noPasswordSet;">
+                {{user.passwordSet | date:'dd-MMM-yyyy h:mm:ss a' | uppercase}}
+              </span>
+              <ng-template #noPasswordSet>
+                <span class="text-danger">No Password Set</span>
+              </ng-template>
+            </dd>
           </dl>
           <dl class="row">
             <dt class="col-sm-3">User ID:</dt>

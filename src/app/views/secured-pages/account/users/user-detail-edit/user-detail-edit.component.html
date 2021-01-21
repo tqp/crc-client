@@ -31,14 +31,14 @@
             <div class="row">
               <div class="col-sm-12">
                 <div class="form-group">
-                  <label for="username">Username*</label>
-                  <input matInput id="username" type="text" class="form-control" placeholder="Username"
-                         formControlName="username">
-                  <mat-error *ngFor="let validation of validationMessages.username">
+                  <label for="givenName">Given Name*</label>
+                  <input matInput id="givenName" type="text" class="form-control" placeholder="Given Name"
+                         formControlName="givenName">
+                  <mat-error *ngFor="let validation of validationMessages.givenName">
                     <mat-error class="error-message"
-                               *ngIf="userEditForm.get('username').hasError(validation.type)
-                                && (userEditForm.get('username').dirty ||
-                                userEditForm.get('username').touched)">
+                               *ngIf="userEditForm.get('givenName').hasError(validation.type)
+                                && (userEditForm.get('givenName').dirty ||
+                                userEditForm.get('givenName').touched)">
                       {{validation.message}}
                     </mat-error>
                   </mat-error>
@@ -68,14 +68,14 @@
             <div class="row">
               <div class="col-sm-12">
                 <div class="form-group">
-                  <label for="givenName">Given Name*</label>
-                  <input matInput id="givenName" type="text" class="form-control" placeholder="Given Name"
-                         formControlName="givenName">
-                  <mat-error *ngFor="let validation of validationMessages.givenName">
+                  <label for="username">Username* <small>(This is usually the User's email address)</small></label>
+                  <input matInput id="username" type="text" class="form-control" placeholder="Username"
+                         formControlName="username">
+                  <mat-error *ngFor="let validation of validationMessages.username">
                     <mat-error class="error-message"
-                               *ngIf="userEditForm.get('givenName').hasError(validation.type)
-                                && (userEditForm.get('givenName').dirty ||
-                                userEditForm.get('givenName').touched)">
+                               *ngIf="userEditForm.get('username').hasError(validation.type)
+                                && (userEditForm.get('username').dirty ||
+                                userEditForm.get('username').touched)">
                       {{validation.message}}
                     </mat-error>
                   </mat-error>
