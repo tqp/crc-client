@@ -31,14 +31,14 @@
             <div class="row">
               <div class="col-sm-12">
                 <div class="form-group">
-                  <label for="caregiverSurname">Surname*</label>
-                  <input matInput id="caregiverSurname" #caregiverSurnameInputField type="text" class="form-control" placeholder="Surname"
-                         formControlName="caregiverSurname" autocomplete="chrome-off">
-                  <mat-error *ngFor="let validation of validationMessages.caregiverSurname">
+                  <label for="caregiverGivenName">Given Name*</label>
+                  <input matInput id="caregiverGivenName" type="text" class="form-control" placeholder="Given Name"
+                         formControlName="caregiverGivenName">
+                  <mat-error *ngFor="let validation of validationMessages.caregiverGivenName">
                     <mat-error class="error-message"
-                               *ngIf="caregiverEditForm.get('caregiverSurname').hasError(validation.type)
-                                && (caregiverEditForm.get('caregiverSurname').dirty ||
-                                caregiverEditForm.get('caregiverSurname').touched)">
+                               *ngIf="caregiverEditForm.get('caregiverGivenName').hasError(validation.type)
+                                && (caregiverEditForm.get('caregiverGivenName').dirty ||
+                                caregiverEditForm.get('caregiverGivenName').touched)">
                       {{validation.message}}
                     </mat-error>
                   </mat-error>
@@ -49,14 +49,14 @@
             <div class="row">
               <div class="col-sm-12">
                 <div class="form-group">
-                  <label for="caregiverGivenName">Given Name*</label>
-                  <input matInput id="caregiverGivenName" type="text" class="form-control" placeholder="Given Name"
-                         formControlName="caregiverGivenName">
-                  <mat-error *ngFor="let validation of validationMessages.caregiverGivenName">
+                  <label for="caregiverSurname">Surname*</label>
+                  <input matInput id="caregiverSurname" #caregiverSurnameInputField type="text" class="form-control" placeholder="Surname"
+                         formControlName="caregiverSurname" autocomplete="chrome-off">
+                  <mat-error *ngFor="let validation of validationMessages.caregiverSurname">
                     <mat-error class="error-message"
-                               *ngIf="caregiverEditForm.get('caregiverGivenName').hasError(validation.type)
-                                && (caregiverEditForm.get('caregiverGivenName').dirty ||
-                                caregiverEditForm.get('caregiverGivenName').touched)">
+                               *ngIf="caregiverEditForm.get('caregiverSurname').hasError(validation.type)
+                                && (caregiverEditForm.get('caregiverSurname').dirty ||
+                                caregiverEditForm.get('caregiverSurname').touched)">
                       {{validation.message}}
                     </mat-error>
                   </mat-error>

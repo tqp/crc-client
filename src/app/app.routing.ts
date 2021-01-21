@@ -95,13 +95,6 @@ export const routes: Routes = [
         }
       },
       {
-        path: 'case-managers-revised',
-        loadChildren: () => import('./views/secured-pages/people/case-managers-revised/case-manager-revised.module').then(m => m.CaseManagerRevisedModule),
-        resolve: {
-          securedPageResolver: SecuredPageResolverService
-        }
-      },
-      {
         path: 'sponsors',
         loadChildren: () => import('./views/secured-pages/people/sponsors/sponsor.module').then(m => m.SponsorModule),
         resolve: {

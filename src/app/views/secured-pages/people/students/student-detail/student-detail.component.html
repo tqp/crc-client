@@ -4,7 +4,7 @@
     <div class="col-sm-6">
       <h1>
         <i class="fa fa-graduation-cap"></i>
-        {{student.studentSurname}}, {{student.studentGivenName}}
+        {{student.studentGivenName}} {{student.studentSurname}}
       </h1>
     </div>
     <div class="col-sm-6">
@@ -32,12 +32,12 @@
         </div>
         <div class="card-body">
           <dl class="row">
-            <dt class="col-sm-4">Last Name:</dt>
-            <dd class="col-sm-8">{{student.studentSurname}}</dd>
-          </dl>
-          <dl class="row">
             <dt class="col-sm-4">First Name:</dt>
             <dd class="col-sm-8">{{student.studentGivenName}}</dd>
+          </dl>
+          <dl class="row">
+            <dt class="col-sm-4">Last Name:</dt>
+            <dd class="col-sm-8">{{student.studentSurname}}</dd>
           </dl>
           <dl class="row">
             <dt class="col-sm-4">Gender:</dt>

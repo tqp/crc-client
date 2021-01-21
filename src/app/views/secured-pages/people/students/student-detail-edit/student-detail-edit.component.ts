@@ -134,7 +134,7 @@ export class StudentDetailEditComponent implements OnInit {
     this.studentService.getStudentDetail(studentId).subscribe(
       response => {
         this.student = response;
-        // console.log('getStudentDetail', response);
+        console.log('getStudentDetail', response);
         // Personal Information
         this.studentEditForm.controls['studentId'].patchValue(this.student.studentId);
         this.studentEditForm.controls['studentSurname'].patchValue(this.student.studentSurname);
@@ -221,18 +221,13 @@ export class StudentDetailEditComponent implements OnInit {
     merge(
       this.studentEditForm.controls['studentSurname'].valueChanges.pipe(debounceTime(500)),
       this.studentEditForm.controls['studentGivenName'].valueChanges.pipe(debounceTime(500)),
-    ).subscribe((text) => {
-        console.log('text', text);
+    ).subscribe(() => {
         const student: Student = new Student();
         student.studentGivenName = this.studentEditForm.controls['studentGivenName'].value;
         student.studentSurname = this.studentEditForm.controls['studentSurname'].value;
         this.studentService.checkDuplicateStudentRecord(student).subscribe(
           (response: Student[]) => {
-            if (response.length > 0) {
-              this.potentialDuplicateStudentFlag = true;
-            } else {
-              this.potentialDuplicateStudentFlag = false;
-            }
+            this.potentialDuplicateStudentFlag = response.length > 0;
           }
         );
       },
@@ -248,26 +243,27 @@ export class StudentDetailEditComponent implements OnInit {
   // BUTTONS
 
   public save(): void {
-    if (this.potentialDuplicateStudentFlag) {
-      console.log('h');
-      this.confirmDialogRef = this._matDialog.open(ConfirmDialogComponent, {
-        disableClose: false,
-        minWidth: '30%'
-      });
-      this.confirmDialogRef.componentInstance.mainButtonText = 'Yes';
-      this.confirmDialogRef.componentInstance.dialogTitle = 'Potential Duplicate Record';
-      this.confirmDialogRef.componentInstance.dialogMessage = 'There is already a record for a ' +
-        this.studentEditForm.controls['studentGivenName'].value + ' ' +
-        this.studentEditForm.controls['studentSurname'].value + '.\n' +
-        'Do you want to create another one?';
-      this.confirmDialogRef.afterClosed().subscribe(result => {
-        if (result) {
-          this.performSave();
-        }
-      });
-    } else {
-      this.performSave();
-    }
+    this.performSave();
+    // if (this.potentialDuplicateStudentFlag) {
+    //   console.log('h');
+    //   this.confirmDialogRef = this._matDialog.open(ConfirmDialogComponent, {
+    //     disableClose: false,
+    //     minWidth: '30%'
+    //   });
+    //   this.confirmDialogRef.componentInstance.mainButtonText = 'Yes';
+    //   this.confirmDialogRef.componentInstance.dialogTitle = 'Potential Duplicate Record';
+    //   this.confirmDialogRef.componentInstance.dialogMessage = 'There is already a record for a ' +
+    //     this.studentEditForm.controls['studentGivenName'].value + ' ' +
+    //     this.studentEditForm.controls['studentSurname'].value + '.\n' +
+    //     'Do you want to create another one?';
+    //   this.confirmDialogRef.afterClosed().subscribe(result => {
+    //     if (result) {
+    //       this.performSave();
+    //     }
+    //   });
+    // } else {
+    //   this.performSave();
+    // }
   }
 
   private performSave(): void {

@@ -56,7 +56,9 @@
       <div class="col-sm-12">
         <div class="form-group">
           <label for="paymentDate">Payment Date*</label>
-          <input id="paymentDate" type="text" class="form-control" bsDatepicker formControlName="paymentDate">
+          <input id="paymentDate" type="text" class="form-control" bsDatepicker
+                 [bsConfig]="{dateInputFormat: 'DD-MMM-YYYY'}"
+                 formControlName="paymentDate">
           <mat-error *ngFor="let validation of validationMessages.paymentDate">
             <mat-error class="error-message"
                        *ngIf="paymentEditForm.get('paymentDate').hasError(validation.type)

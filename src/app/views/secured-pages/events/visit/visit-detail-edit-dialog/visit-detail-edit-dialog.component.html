@@ -34,6 +34,7 @@
         <div class="form-group">
           <label for="visitDate">Visit Date*</label>
           <input id="visitDate" type="text" class="form-control" bsDatepicker
+                 [bsConfig]="{dateInputFormat: 'DD-MMM-YYYY'}"
                  formControlName="visitDate">
           <mat-error *ngFor="let validation of validationMessages.visitDate">
             <mat-error class="error-message"

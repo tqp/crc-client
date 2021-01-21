@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { ServerSidePaginationRequest } from '../../../../../../@tqp/models/ServerSidePaginationRequest';
@@ -32,8 +32,9 @@ export class SponsorListComponent implements OnInit, OnDestroy {
 
   public displayedColumns: string[] = [
     // 'sponsorId',
-    'sponsorSurname',
-    'sponsorGivenName',
+    'sponsorName',
+    // 'sponsorSurname',
+    // 'sponsorGivenName',
     'sponsorAddress',
     'sponsorNumberOfStudents'
   ];

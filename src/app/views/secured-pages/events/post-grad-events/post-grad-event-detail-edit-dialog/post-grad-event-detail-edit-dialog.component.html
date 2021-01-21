@@ -31,6 +31,7 @@
         <div class="form-group">
           <label for="postGradEventDate">Event Date*</label>
           <input id="postGradEventDate" type="text" class="form-control" bsDatepicker
+                 [bsConfig]="{dateInputFormat: 'DD-MMM-YYYY'}"
                  formControlName="postGradEventDate">
           <mat-error *ngFor="let validation of validationMessages.postGradEventDate">
             <mat-error class="error-message"

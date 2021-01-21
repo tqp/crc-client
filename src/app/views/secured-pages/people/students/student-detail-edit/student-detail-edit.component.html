@@ -66,8 +66,9 @@
             <div class="row">
               <div class="col-sm-12">
                 <div class="form-group">
-                  <label for="studentDateOfBirth">Date of Birth*<small class="ml-2">(MM/DD/YYYY)</small></label>
+                  <label for="studentDateOfBirth">Date of Birth*<small class="ml-2">(e.g. 02-Oct-1975)</small></label>
                   <input id="studentDateOfBirth" type="text" class="form-control" bsDatepicker
+                         [bsConfig]="{dateInputFormat: 'DD-MMM-YYYY'}"
                          formControlName="studentDateOfBirth">
                   <mat-error *ngFor="let validation of validationMessages.studentDateOfBirth">
                     <mat-error class="error-message"
@@ -172,8 +173,8 @@
                   <label for="classRepeatYearTypeId">Was this a repeat year?*</label>
                   <select id="classRepeatYearTypeId" class="form-control" formControlName="classRepeatYearTypeId">
                     <option value=0>Select a Response</option>
-                    <option value=1>Yes</option>
                     <option value=2>No</option>
+                    <option value=1>Yes</option>
                   </select>
                   <mat-error *ngFor="let validation of validationMessages.classRepeatYearTypeId">
                     <mat-error class="error-message"

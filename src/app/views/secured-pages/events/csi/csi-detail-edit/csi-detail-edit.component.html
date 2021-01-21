@@ -97,6 +97,7 @@
                 <div class="form-group">
                   <label for="csiDate">CSI Date*<small class="ml-2">(MM/DD/YYYY)</small></label>
                   <input id="csiDate" type="text" class="form-control" bsDatepicker
+                         [bsConfig]="{dateInputFormat: 'DD-MMM-YYYY'}"
                          formControlName="csiDate">
                   <mat-error *ngFor="let validation of validationMessages.csiDate">
                     <mat-error class="error-message"

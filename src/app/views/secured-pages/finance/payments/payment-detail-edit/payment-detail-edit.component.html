@@ -50,7 +50,9 @@
               <div class="col-sm-12">
                 <div class="form-group">
                   <label for="paymentDate">Payment Date</label>
-                  <input matInput id="paymentDate" type="text" class="form-control" bsDatepicker placeholder="Payment Date"
+                  <input matInput id="paymentDate" type="text" class="form-control" bsDatepicker
+                         [bsConfig]="{dateInputFormat: 'DD-MMM-YYYY'}"
+                         placeholder="Payment Date"
                          formControlName="paymentDate">
                   <mat-error *ngFor="let validation of validationMessages.paymentDate">
                     <mat-error class="error-message"

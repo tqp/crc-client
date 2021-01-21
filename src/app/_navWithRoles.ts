@@ -26,8 +26,8 @@ export const navItemsWithRoles: INavDataTqp[] = [
     allow: 'ROLE_CASE_MANAGER'
   },
   {
-    name: 'Case Managers (Rev)',
-    url: '/case-managers-revised/case-manager-revised-list',
+    name: 'Case Managers',
+    url: '/case-managers/case-manager-list',
     icon: 'fa fa-folder-o',
     allow: 'ROLE_USER, ROLE_CASE_MANAGER'
   },

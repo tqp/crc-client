@@ -163,7 +163,7 @@ export class CsiDetailEditComponent implements OnInit, OnDestroy {
       csiId: new FormControl({value: 0, disabled: true}),
       studentId: new FormControl({value: this.studentId, disabled: true}, [validateNonZeroValue]),
       caseManagerId: new FormControl({value: 0, disabled: false}, [validateNonZeroValue]),
-      csiDate: new FormControl(moment().format('dd-MMM-yyyy'), Validators.required),
+      csiDate: new FormControl(moment().format('DD-MMM-yyyy'), Validators.required),
       csiComments: new FormControl('', Validators.required),
       csiServicesProvided: new FormControl(''),
       csiServicesProvidedCheckboxes: new FormArray([], minSelectedCheckboxes(1)),

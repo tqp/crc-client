@@ -582,7 +582,7 @@ export class StudentDetailComponent implements OnInit {
     const dialogRef = this._matDialog.open(StudentCaregiverEditDialogComponent, dialogConfig);
 
     dialogRef.afterClosed().subscribe(dialogData => {
-      // console.log('dialogData', dialogData);
+      console.log('dialogData', dialogData);
       if (dialogData) {
         const relationship: Relationship = {};
         const formData = dialogData[1];

@@ -76,7 +76,7 @@ export class StudentCaregiverEditDialogComponent implements OnInit {
     this.studentCaregiverEditForm = this.formBuilder.group({
       relationshipId: new FormControl({value: 0, disabled: true}),
       caregiverId: new FormControl(0, [Validators.required, validateNonZeroValue]),
-      relationshipStartDate: new FormControl(moment().format('dd-MMM-yyyy'), Validators.required),
+      relationshipStartDate: new FormControl(moment().format('DD-MMM-yyyy'), Validators.required),
       tierTypeId: new FormControl(0, [Validators.required, validateNonZeroValue]),
       relationshipTypeId: new FormControl(0, [Validators.required, validateNonZeroValue]),
       relationshipFamilyOfOriginTypeId: new FormControl(0, [Validators.required, validateNonZeroValue]),
@@ -167,6 +167,7 @@ export class StudentCaregiverEditDialogComponent implements OnInit {
   }
 
   public save(): void {
+    console.log('raw', this.studentCaregiverEditForm.getRawValue());
     this.dialogRef.close([this.data.action, this.studentCaregiverEditForm.getRawValue()]);
   }
 

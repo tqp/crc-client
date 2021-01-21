@@ -32,8 +32,9 @@ export class CaregiverListComponent implements OnInit, OnDestroy {
 
   public displayedColumns: string[] = [
     // 'caregiverId',
-    'caregiverSurname',
-    'caregiverGivenName',
+    'caregiverName',
+    // 'caregiverSurname',
+    // 'caregiverGivenName',
     'caregiverPhone',
     'caregiverEmail',
     'caregiverAddress',

@@ -52,7 +52,7 @@ export class StudentSponsorEditDialogComponent implements OnInit {
     this.studentSponsorEditForm = this.formBuilder.group({
       relationshipId: new FormControl({value: 0, disabled: true}),
       sponsorId: new FormControl(0, Validators.required),
-      relationshipStartDate: new FormControl(moment().format('dd-MMM-yyyy'), Validators.required)
+      relationshipStartDate: new FormControl(moment().format('DD-MMM-yyyy'), Validators.required)
     });
 
     // setTimeout(() => {

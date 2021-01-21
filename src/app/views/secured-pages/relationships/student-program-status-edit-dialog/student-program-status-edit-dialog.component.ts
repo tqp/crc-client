@@ -59,7 +59,7 @@ export class StudentProgramStatusEditDialogComponent implements OnInit {
       programStatusId: new FormControl({value: 0, disabled: true}),
       programStatusLevelOneId: new FormControl(0, [Validators.required, validateNonZeroValue]),
       programStatusLevelTwoId: new FormControl(0, [Validators.required, validateNonZeroValue]),
-      relationshipStartDate: new FormControl(moment().format('dd-MMM-yyyy'), Validators.required),
+      relationshipStartDate: new FormControl(moment().format('DD-MMM-yyyy'), Validators.required),
     });
   }
 

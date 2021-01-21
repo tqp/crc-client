@@ -82,7 +82,7 @@ export class VisitDetailEditDialogComponent implements OnInit {
         disabled: this.data.studentId !== undefined
       }, [Validators.required, validateNonZeroValue]),
       caseManagerId: new FormControl(0, [Validators.required, validateNonZeroValue]),
-      visitDate: new FormControl(moment().format('dd-MMM-yyyy'), Validators.required),
+      visitDate: new FormControl(moment().format('DD-MMM-yyyy'), Validators.required),
       visitTypeId: new FormControl(0, [Validators.required, validateNonZeroValue]),
       interactionTypeId: new FormControl(0, [Validators.required, validateNonZeroValue]),
       caregiverComments: new FormControl(''),

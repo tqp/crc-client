@@ -54,6 +54,7 @@
         <div class="form-group">
           <label for="relationshipStartDate">Effective Date*</label>
           <input id="relationshipStartDate" type="text" class="form-control" bsDatepicker
+                 [bsConfig]="{dateInputFormat: 'DD-MMM-YYYY'}"
                  formControlName="relationshipStartDate">
           <mat-error *ngFor="let validation of validationMessages.relationshipStartDate">
             <mat-error class="error-message"
