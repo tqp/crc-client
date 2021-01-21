@@ -37,6 +37,9 @@
             <label for="nameSearchFieldId" *ngIf="false"></label>
             <input id="nameSearchFieldId" type="text" class="form-control" placeholder="Search by Case Manager Name"
                    [formControl]="caseManagerListNameSearchFormControl" #nameSearchElementRef autocomplete="off"/>
+            <span class="input-group-append">
+              <button type="button" class="btn btn-light" (click)="clearFilters()"><i class="fa fa-times"></i></button>
+            </span>
           </div>
 
         </div>
