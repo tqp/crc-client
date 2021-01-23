@@ -57,9 +57,23 @@
             <td mat-cell *matCellDef="let row">{{row.caseManagerId}}</td>
           </ng-container>
 
+          <ng-container matColumnDef="caseManagerName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+            <td mat-cell *matCellDef="let row">
+              <!-- This hidden span is to allow the 'name' column to be sorted by surname, given name. -->
+              <span [hidden]=true>{{row.caseManagerSurname | lowercase}}{{row.caseManagerGivenName | lowercase}}</span>
+              {{row.caseManagerGivenName}} {{row.caseManagerSurname}}
+            </td>
+          </ng-container>
+
           <ng-container matColumnDef="caseManagerSurname">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Surname</th>
             <td mat-cell *matCellDef="let row">{{row.caseManagerSurname}}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="caseManagerGivenName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Given Name</th>
+            <td mat-cell *matCellDef="let row">{{row.caseManagerGivenName}}</td>
           </ng-container>
 
           <ng-container matColumnDef="caseManagerPhone">
@@ -72,19 +86,9 @@
             <td mat-cell *matCellDef="let row">{{row.caseManagerEmail}}</td>
           </ng-container>
 
-          <ng-container matColumnDef="caseManagerGivenName">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Given Name</th>
-            <td mat-cell *matCellDef="let row">{{row.caseManagerGivenName}}</td>
-          </ng-container>
-
           <ng-container matColumnDef="caseManagerNumberOfStudents">
             <th mat-header-cell *matHeaderCellDef mat-sort-header># Students</th>
             <td mat-cell *matCellDef="let row">{{row.studentCount}}</td>
-          </ng-container>
-
-          <ng-container matColumnDef="caseManagerRegionOfCases">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Region</th>
-            <td mat-cell *matCellDef="let row">Region #1</td>
           </ng-container>
 
           <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>

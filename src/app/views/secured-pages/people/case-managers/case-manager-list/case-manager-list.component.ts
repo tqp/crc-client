@@ -32,12 +32,12 @@ export class CaseManagerListComponent implements OnInit, OnDestroy {
 
   public displayedColumns: string[] = [
     // 'caseManagerId',
-    'caseManagerSurname',
-    'caseManagerGivenName',
+    'caseManagerName',
+    // 'caseManagerSurname',
+    // 'caseManagerGivenName',
     'caseManagerPhone',
     'caseManagerEmail',
-    'caseManagerNumberOfStudents',
-    'caseManagerRegionOfCases'
+    'caseManagerNumberOfStudents'
   ];
 
   public caseManagerListNameSearchFormControl = new FormControl();

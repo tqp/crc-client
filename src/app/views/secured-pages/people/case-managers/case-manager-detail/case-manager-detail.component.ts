@@ -112,7 +112,7 @@ export class CaseManagerDetailComponent implements OnInit {
   }
 
   public openEditPage(): void {
-    this.router.navigate(['case-managers/case-manager-detail-edit', this.caseManager.caseManagerId]).then();
+    this.router.navigate(['case-managers/case-manager-detail-edit', this.caseManager.userId]).then();
   }
 
   public openTwitter(twitterHandle: string): void {
