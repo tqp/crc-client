@@ -24,7 +24,6 @@ export class CaseManagerListComponent implements OnInit, OnDestroy {
   @ViewChild('dialogContent', {static: true}) public dialogRef: any;
   @ViewChild('nameSearchElementRef', {static: true}) nameSearchElementRef: ElementRef;
   public windowWidth: number = window.innerWidth;
-  public listTitle = 'Case Manager List';
   private pageIndex = 0;
   public pageSize = 10;
   private totalNumberOfPages: number;
@@ -105,6 +104,7 @@ export class CaseManagerListComponent implements OnInit, OnDestroy {
       const nameSearchValue = this.caseManagerService.getCaseManagerListNameSearchValue();
       this.caseManagerListNameSearchFormControl.setValue(nameSearchValue);
       this.searchParams.nameFilter = nameSearchValue;
+      this.isFilterApplied = nameSearchValue.length > 0;
     }
   }
 

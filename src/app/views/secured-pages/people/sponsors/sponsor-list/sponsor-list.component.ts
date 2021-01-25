@@ -23,8 +23,6 @@ export class SponsorListComponent implements OnInit, OnDestroy {
   @ViewChild('tableContainer', {read: ElementRef, static: true}) public matTableRef: ElementRef;
   @ViewChild('dialogContent', {static: true}) public dialogRef: any;
   @ViewChild('nameSearchElementRef', {static: true}) nameSearchElementRef: ElementRef;
-
-  public listTitle = 'Sponsor List';
   private pageIndex = 0;
   public pageSize = 10;
   private totalNumberOfPages: number;
@@ -100,6 +98,7 @@ export class SponsorListComponent implements OnInit, OnDestroy {
       const nameSearchValue = this.sponsorService.getSponsorListNameSearchValue();
       this.sponsorListNameSearchFormControl.setValue(nameSearchValue);
       this.searchParams.nameFilter = nameSearchValue;
+      this.isFilterApplied = nameSearchValue.length > 0;
     }
   }
 

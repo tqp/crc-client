@@ -24,8 +24,6 @@ export class StudentListByCaseManagerComponent implements OnInit, OnDestroy {
   @ViewChild('tableContainer', {read: ElementRef, static: true}) public matTableRef: ElementRef;
   @ViewChild('dialogContent', {static: true}) public dialogRef: any;
   @ViewChild('nameSearchElementRef', {static: true}) nameSearchElementRef: ElementRef;
-
-  public listTitle = 'Student List';
   private pageIndex = 0;
   public pageSize = 10;
   private totalNumberOfPages: number;
