@@ -662,9 +662,9 @@ export class StudentDetailComponent implements OnInit {
         relationship.studentId = this.student.studentId;
         relationship.relationshipType = 'Student-Caregiver';
         relationship.relationshipId = formData.relationshipId;
-        relationship.relationshipEntityId = formData.relationshipId;
+        relationship.relationshipEntityId = formData.userId;
         relationship.relationshipStartDate = this.formattingService.formatStandardDateAsMySql(formData.relationshipStartDate);
-        // console.log('relationship', relationship);
+        console.log('relationship', relationship);
 
         switch (dialogData[0]) {
           case 'create':

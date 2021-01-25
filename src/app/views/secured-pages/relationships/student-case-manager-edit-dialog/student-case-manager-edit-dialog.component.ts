@@ -23,7 +23,7 @@ export class StudentCaseManagerEditDialogComponent implements OnInit {
 
   public validationMessages = {
     'relationshipId': [],
-    'caseManagerId': [
+    'userId': [
       {type: 'required', message: 'A Case Manager is required'},
       {type: 'validateNonZeroValue', message: 'A Case Manager is required'}
     ],
@@ -53,7 +53,7 @@ export class StudentCaseManagerEditDialogComponent implements OnInit {
   private initializeForm(): void {
     this.studentCaseManagerEditForm = this.formBuilder.group({
       relationshipId: new FormControl({value: 0, disabled: true}),
-      caseManagerId: new FormControl(0, [Validators.required, validateNonZeroValue]),
+      userId: new FormControl(0, [Validators.required, validateNonZeroValue]),
       relationshipStartDate: new FormControl(moment().format('DD-MMM-yyyy'), Validators.required)
     });
 
@@ -71,7 +71,7 @@ export class StudentCaseManagerEditDialogComponent implements OnInit {
         this.caseManagerRelationship = response;
         this.caseManagerRelationship.relationshipStartDate = this.formattingService.formatMySqlDateAsStandard(this.caseManagerRelationship.relationshipStartDate);
         this.studentCaseManagerEditForm.controls['relationshipId'].patchValue(this.caseManagerRelationship.relationshipId);
-        this.studentCaseManagerEditForm.controls['caseManagerId'].patchValue(this.caseManagerRelationship.caseManagerId);
+        this.studentCaseManagerEditForm.controls['userId'].patchValue(this.caseManagerRelationship.userId);
         this.studentCaseManagerEditForm.controls['relationshipStartDate'].patchValue(this.caseManagerRelationship.relationshipStartDate);
         this.dataLoaded = true;
       },
@@ -86,9 +86,10 @@ export class StudentCaseManagerEditDialogComponent implements OnInit {
   private getCaseManagerList(excludeId: number): void {
     this.caseManagerService.getCaseManagerList().subscribe(
       (response: CaseManager[]) => {
+        // console.log('caseManagerList', response);
         this.caseManagerList = response;
         this.caseManagerList = this.caseManagerList.filter(item => {
-          return item.caseManagerId !== excludeId;
+          return item.userId !== excludeId;
         });
       },
       error => {

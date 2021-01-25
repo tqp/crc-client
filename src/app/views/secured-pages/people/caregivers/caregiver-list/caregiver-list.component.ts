@@ -23,24 +23,21 @@ export class CaregiverListComponent implements OnInit, OnDestroy {
   @ViewChild('tableContainer', {read: ElementRef, static: true}) public matTableRef: ElementRef;
   @ViewChild('dialogContent', {static: true}) public dialogRef: any;
   @ViewChild('nameSearchElementRef', {static: true}) nameSearchElementRef: ElementRef;
-
+  public windowWidth: number = window.innerWidth;
   public listTitle = 'Caregiver List';
   private pageIndex = 0;
   public pageSize = 10;
   private totalNumberOfPages: number;
   private searchParams: ServerSidePaginationRequest = new ServerSidePaginationRequest();
 
-  public displayedColumns: string[] = [
-    // 'caregiverId',
-    'caregiverName',
-    // 'caregiverSurname',
-    // 'caregiverGivenName',
-    'caregiverPhone',
-    'caregiverEmail',
-    'caregiverAddress',
-    'caregiverNumberOfStudents',
-    'caregiverMicrofinance',
-    'caregiverFamilySupport'
+  public displayedColumns: any = [
+    {col: 'caregiverName', showSmall: true},
+    {col: 'caregiverPhone', showSmall: false},
+    {col: 'caregiverEmail', showSmall: false},
+    {col: 'caregiverAddress', showSmall: false},
+    {col: 'caregiverNumberOfStudents', showSmall: true},
+    {col: 'caregiverMicrofinance', showSmall: false},
+    {col: 'caregiverFamilySupport', showSmall: false},
   ];
 
   public caregiverListNameSearchFormControl = new FormControl();
@@ -72,6 +69,13 @@ export class CaregiverListComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.caregiverService.setCaregiverListNameSearchValue(this.caregiverListNameSearchFormControl.value);
+  }
+
+  public getDisplayedColumns(): string[] {
+    const smallScreen = this.windowWidth < 1400;
+    return this.displayedColumns
+      .filter(cd => !smallScreen || cd.showSmall)
+      .map(cd => cd.col);
   }
 
   public initWindowResizeListener(): void {
@@ -144,7 +148,7 @@ export class CaregiverListComponent implements OnInit, OnDestroy {
     )
       .pipe(
         switchMap(changesDetected => {
-          // console.log('changesDetected', changesDetected);
+          console.log('changesDetected', changesDetected);
           const paginationChange: boolean = changesDetected.pageIndex && changesDetected.pageSize;
           const sortChange: boolean = changesDetected.active && changesDetected.direction;
           if (!paginationChange && !sortChange) {
@@ -158,7 +162,9 @@ export class CaregiverListComponent implements OnInit, OnDestroy {
           // Translate table columns to database columns for sorting.
           // IMPORTANT: If this translation is incorrect, the query will break!!!
           const translateSortColumnsToDatabaseColumns = {
-            seriesName: null
+            caregiverNumberOfStudents: 'student_count',
+            caregiverMicrofinance: 'surname',
+            caregiverFamilySupport: 'surname'
           };
 
           const serverSideSearchParams: ServerSidePaginationRequest = new ServerSidePaginationRequest();
@@ -219,6 +225,11 @@ export class CaregiverListComponent implements OnInit, OnDestroy {
 
   public openDetailPage(row: any): void {
     this.router.navigate(['caregivers/caregiver-detail', row.caregiverId]).then();
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    this.windowWidth = event.target.innerWidth;
   }
 
   @HostListener('window:keydown', ['$event'])

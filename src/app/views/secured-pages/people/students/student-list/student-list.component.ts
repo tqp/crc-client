@@ -24,22 +24,21 @@ export class StudentListComponent implements OnInit, OnDestroy {
   @ViewChild('tableContainer', {read: ElementRef, static: true}) public matTableRef: ElementRef;
   @ViewChild('dialogContent', {static: true}) public dialogRef: any;
   @ViewChild('nameSearchElementRef', {static: true}) nameSearchElementRef: ElementRef;
-
+  public windowWidth: number = window.innerWidth;
   public listTitle = 'Student List';
   private pageIndex = 0;
   public pageSize = 10;
   private totalNumberOfPages: number;
   private searchParams: ServerSidePaginationRequest = new ServerSidePaginationRequest();
-  public displayedColumns: string[] = [
-    // 'studentId',
-    'studentName',
-    // 'studentSurname',
-    // 'studentGivenName',
-    'caregiverName',
-    'caregiverAddress',
-    'caregiverPhone',
-    'supportTier'
+
+  public displayedColumns: any = [
+    {col: 'studentName', showSmall: true},
+    {col: 'caregiverName', showSmall: true},
+    {col: 'caregiverAddress', showSmall: false},
+    {col: 'caregiverPhone', showSmall: false},
+    {col: 'supportTier', showSmall: true},
   ];
+
   public studentListNameSearchFormControl = new FormControl();
   public records: Student[] = [];
   public dataSource: Student[] = [];
@@ -66,6 +65,13 @@ export class StudentListComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.studentService.setStudentListNameSearchValue(this.studentListNameSearchFormControl.value);
+  }
+
+  public getDisplayedColumns(): string[] {
+    const smallScreen = this.windowWidth < 1400;
+    return this.displayedColumns
+      .filter(cd => !smallScreen || cd.showSmall)
+      .map(cd => cd.col);
   }
 
   public initWindowResizeListener(): void {
@@ -220,10 +226,10 @@ export class StudentListComponent implements OnInit, OnDestroy {
     this.router.navigate(['students/student-detail', row.studentId]).then();
   }
 
-  // @HostListener('window:resize', ['$event'])
-  // onResize(event) {
-  //   console.log('Height: ' + event.target.innerHeight);
-  // }
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    this.windowWidth = event.target.innerWidth;
+  }
 
   @HostListener('window:keydown', ['$event'])
   public handleKeyboardEvent(event: KeyboardEvent): void {

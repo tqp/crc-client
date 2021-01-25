@@ -73,8 +73,6 @@ export class UserListComponent implements OnInit, OnDestroy {
     this.setInitialFieldValues();
     this.getPage(this.searchParams);
     this.listenForChanges();
-
-
   }
 
   ngOnDestroy(): void {
