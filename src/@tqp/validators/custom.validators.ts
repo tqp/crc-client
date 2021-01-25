@@ -10,6 +10,14 @@ export function validateNonZeroValue(fc: FormControl) {
   }
 }
 
+export function validateZeroValue(fc: FormControl) {
+  if (Number(fc.value) !== 0) {
+    return ({validateZeroValue: true});
+  } else {
+    return null;
+  }
+}
+
 export function customDateValidator(control: AbstractControl) {
   if (!control) {
     return null;

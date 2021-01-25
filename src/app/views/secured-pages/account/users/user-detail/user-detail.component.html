@@ -67,7 +67,8 @@
           <dl class="row">
             <dt class="col-sm-3">Password Set:</dt>
             <dd class="col-sm-9">
-              <span *ngIf="user.passwordSet; else noPasswordSet;">
+              <!-- I'm confused as to why a null string becomes an invalid date here. Look into it later. -->
+              <span *ngIf="user.passwordSet !== 'INVALID DATE'; else noPasswordSet;">
                 {{user.passwordSet | date:'dd-MMM-yyyy h:mm:ss a' | uppercase}}
               </span>
               <ng-template #noPasswordSet>

@@ -112,7 +112,7 @@
 
                     <label formArrayName="roleCheckboxes" class="checkbox-label"
                            *ngFor="let checkbox of roleCheckboxFormArray.controls; let i = index">
-                      <input type="checkbox" [formControlName]="i" (change)="checkboxChanged()"/>
+                      <input type="checkbox" [formControlName]="i" (change)="updateCheckboxFormValue()"/>
                       {{roleList[i].roleName}}
                     </label>
 
@@ -122,6 +122,25 @@
                                *ngIf="userEditForm.get('roleCheckboxes').hasError(validation.type)
                                 && (userEditForm.get('roleCheckboxes').dirty ||
                                 userEditForm.get('roleCheckboxes').touched)">
+                      {{validation.message}}
+                    </mat-error>
+                  </mat-error>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="caseManagerNumberOfStudents">Number of Associated Students</label>
+                  <input matInput id="caseManagerNumberOfStudents" type="text" class="form-control"
+                         placeholder="Number of Associated Students"
+                         formControlName="caseManagerNumberOfStudents" autocomplete="chrome-off" readonly>
+                  <mat-error *ngFor="let validation of validationMessages.caseManagerNumberOfStudents">
+                    <mat-error class="error-message"
+                               *ngIf="userEditForm.get('caseManagerNumberOfStudents').hasError(validation.type)
+                                && (userEditForm.get('caseManagerNumberOfStudents').dirty ||
+                                userEditForm.get('caseManagerNumberOfStudents').touched)">
                       {{validation.message}}
                     </mat-error>
                   </mat-error>

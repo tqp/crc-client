@@ -12,6 +12,7 @@ import { forkJoin } from 'rxjs';
 import { NotificationService } from '../../../../../../@tqp/services/notification.service';
 import { ResetPasswordDialogComponent } from '../../passwords/reset-password-dialog/reset-password-dialog.component';
 import { PositionService } from '../../position/position.service';
+import { RelationshipService } from '../../../relationships/relationship.service';
 
 @Component({
   selector: 'app-user-detail-edit',
@@ -25,6 +26,8 @@ export class UserDetailEditComponent implements OnInit {
   public user: User;
   public userEditForm: FormGroup;
   public confirmDialogRef: MatDialogRef<ConfirmDialogComponent>;
+  public caseManagerNumberOfStudents: number;
+  public startedWithCaseManagerRole: boolean;
 
   // POSITION RADIO BUTTONS
   public positionList: Position[];
@@ -54,13 +57,15 @@ export class UserDetailEditComponent implements OnInit {
       {type: 'minSelectedCheckboxes', message: 'At least one Role must be selected'},
       {type: 'viewOrCaseManager', message: 'Users must have either the \'View Records\' or \'Case Manager\' Role'},
       {type: 'viewAndCaseManager', message: 'Users cannot have both \'View Records\' and \'Case Manager\' Roles'}
-    ]
+    ],
+    'caseManagerNumberOfStudents': []
   };
 
   constructor(private route: ActivatedRoute,
               private userService: UserService,
               private roleService: RoleService,
               private positionService: PositionService,
+              private relationshipService: RelationshipService,
               private notificationService: NotificationService,
               private router: Router,
               private formBuilder: FormBuilder,
@@ -96,6 +101,7 @@ export class UserDetailEditComponent implements OnInit {
       surname: new FormControl('', Validators.required),
       givenName: new FormControl('', Validators.required),
       position: new FormControl('', Validators.required),
+      caseManagerNumberOfStudents: new FormControl({value: '', disabled: false}),
       roles: new FormControl(''),
       roleCheckboxes: new FormArray([],
         [minSelectedCheckboxes(1)]),
@@ -118,10 +124,11 @@ export class UserDetailEditComponent implements OnInit {
   private getUserDetail(userId: number): void {
     const roles = this.roleService.getRoleList();
     const userDetail = this.userService.getUserDetail(userId);
+    const caseManagerNumberOfStudents = this.relationshipService.getStudentListByCaseManagerId(userId);
 
     // We need to ensure that both the roles list and the userDetail come back before
     // trying to populate the checkboxes... so, we use forkJoin.
-    forkJoin([roles, userDetail]).subscribe(response => {
+    forkJoin([roles, userDetail, caseManagerNumberOfStudents]).subscribe(response => {
       // console.log('response', response);
 
       // Use the roleList response
@@ -130,11 +137,13 @@ export class UserDetailEditComponent implements OnInit {
 
       this.user = response[1];
       // console.log('response', response);
+      this.caseManagerNumberOfStudents = response[2].length;
       this.userEditForm.controls['userId'].patchValue(this.user.userId);
       this.userEditForm.controls['username'].patchValue(this.user.username);
       this.userEditForm.controls['surname'].patchValue(this.user.surname);
       this.userEditForm.controls['givenName'].patchValue(this.user.givenName);
       this.userEditForm.controls['position'].patchValue(this.user.position);
+      this.userEditForm.controls['caseManagerNumberOfStudents'].patchValue(this.caseManagerNumberOfStudents);
 
       // Populate Checkboxes
       const roleCheckboxArray = this.user.roles;
@@ -143,7 +152,7 @@ export class UserDetailEditComponent implements OnInit {
           this.roleCheckboxFormArray.controls[index].setValue(true);
         }
       });
-      this.setCheckboxFormValue();
+      this.setInitialCheckboxFormValue();
     });
   }
 
@@ -163,7 +172,14 @@ export class UserDetailEditComponent implements OnInit {
     });
   }
 
-  public checkboxChanged() {
+  public setInitialCheckboxFormValue(): void {
+    this.setCheckboxFormValue();
+    console.log('this.roleListCheckboxArray', this.roleListCheckboxArray);
+    this.startedWithCaseManagerRole = this.roleListCheckboxArray.find(role => role.roleId === 5).status;
+    console.log('this.startedWithCaseManagerRole', this.startedWithCaseManagerRole);
+  }
+
+  public updateCheckboxFormValue(): void {
     this.userEditForm.controls['position'].patchValue(5); // Custom
     this.setCheckboxFormValue();
   }
@@ -201,24 +217,42 @@ export class UserDetailEditComponent implements OnInit {
   // BUTTONS
 
   public delete(user: User): void {
-    this.confirmDialogRef = this._matDialog.open(ConfirmDialogComponent, {
-      disableClose: false
-    });
-    this.confirmDialogRef.componentInstance.dialogTitle = 'Delete User';
-    this.confirmDialogRef.componentInstance.dialogMessage = 'Are you sure you want to delete this user?';
-    this.confirmDialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.userService.deleteUser(user).subscribe(
-          () => {
-            this.router.navigate(['users/user-list']).then();
-          },
-          error => {
-            console.error('Error: ' + error.message);
-          }
-        );
-      }
-      this.confirmDialogRef = null;
-    });
+    // Prevent Case Manager Role change if Students are currently assigned.
+    const hasCaseManagerRoleNow = this.roleListCheckboxArray.find(role => role.roleId === 5).status;
+    if ((this.startedWithCaseManagerRole === true && hasCaseManagerRoleNow === false) && this.caseManagerNumberOfStudents > 0) {
+      this.confirmDialogRef = this._matDialog.open(ConfirmDialogComponent, {
+        disableClose: false,
+        minWidth: '30%'
+      });
+      this.confirmDialogRef.componentInstance.mainButtonText = 'Okay';
+      this.confirmDialogRef.componentInstance.hideCancelButton = true;
+      this.confirmDialogRef.componentInstance.dialogTitle = 'Case Manager Has Active Students';
+      this.confirmDialogRef.componentInstance.dialogMessage = 'You must re-assign students before changing Roles for this User.';
+      this.confirmDialogRef.afterClosed().subscribe(result => {
+        if (result) {
+          this.confirmDialogRef.close();
+        }
+      });
+    } else {
+      this.confirmDialogRef = this._matDialog.open(ConfirmDialogComponent, {
+        disableClose: false
+      });
+      this.confirmDialogRef.componentInstance.dialogTitle = 'Delete User';
+      this.confirmDialogRef.componentInstance.dialogMessage = 'Are you sure you want to delete this user?';
+      this.confirmDialogRef.afterClosed().subscribe(result => {
+        if (result) {
+          this.userService.deleteUser(user).subscribe(
+            () => {
+              this.router.navigate(['users/user-list']).then();
+            },
+            error => {
+              console.error('Error: ' + error.message);
+            }
+          );
+        }
+        this.confirmDialogRef = null;
+      });
+    }
   }
 
   public validateViewAndCaseManager(): boolean {
@@ -234,6 +268,28 @@ export class UserDetailEditComponent implements OnInit {
   }
 
   public save(): void {
+    // Prevent Case Manager Role change if Students are currently assigned.
+    const hasCaseManagerRoleNow = this.roleListCheckboxArray.find(role => role.roleId === 5).status;
+    if ((this.startedWithCaseManagerRole === true && hasCaseManagerRoleNow === false) && this.caseManagerNumberOfStudents > 0) {
+      this.confirmDialogRef = this._matDialog.open(ConfirmDialogComponent, {
+        disableClose: false,
+        minWidth: '30%'
+      });
+      this.confirmDialogRef.componentInstance.mainButtonText = 'Okay';
+      this.confirmDialogRef.componentInstance.hideCancelButton = true;
+      this.confirmDialogRef.componentInstance.dialogTitle = 'Case Manager Has Active Students';
+      this.confirmDialogRef.componentInstance.dialogMessage = 'You must re-assign students before changing Roles for this User.';
+      this.confirmDialogRef.afterClosed().subscribe(result => {
+        if (result) {
+          this.confirmDialogRef.close();
+        }
+      });
+    } else {
+      this.performSave();
+    }
+  }
+
+  private performSave(): void {
     if (this.validateViewOrCaseManager()) {
       this.userEditForm.controls['roleCheckboxes'].setErrors({'viewOrCaseManager': true});
     } else if (this.validateViewAndCaseManager()) {

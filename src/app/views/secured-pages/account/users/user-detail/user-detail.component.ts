@@ -46,11 +46,12 @@ export class UserDetailComponent implements OnInit {
   private getUserDetail(userId: number): any {
     this.userService.getUserDetail(userId).subscribe(
       response => {
+        // console.log('response', response);
         this.user = response;
-        console.log('user', this.user);
         this.user.createdOn = moment(this.user.createdOn).format('DD-MMM-YYYY h:mm:ss a').toUpperCase();
         this.user.updatedOn = moment(this.user.updatedOn).format('DD-MMM-YYYY h:mm:ss a').toUpperCase();
-        this.user.passwordSet = moment(this.user.passwordSet).format('DD-MMM-YYYY h:mm:ss a').toUpperCase();
+        this.user.passwordSet = this.user.passwordSet = null ? null : moment(this.user.passwordSet).format('DD-MMM-YYYY h:mm:ss a').toUpperCase();
+        // console.log('user', this.user);
       },
       error => {
         console.error('Error: ', error);
