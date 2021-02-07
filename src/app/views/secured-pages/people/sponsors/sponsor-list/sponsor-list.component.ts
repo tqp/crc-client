@@ -33,7 +33,7 @@ export class SponsorListComponent implements OnInit, OnDestroy {
     'sponsorName',
     // 'sponsorSurname',
     // 'sponsorGivenName',
-    'sponsorAddress',
+    'sponsorAffiliatedChurch',
     'sponsorNumberOfStudents'
   ];
 

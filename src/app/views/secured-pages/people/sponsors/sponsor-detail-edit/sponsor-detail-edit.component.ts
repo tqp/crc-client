@@ -27,7 +27,7 @@ export class SponsorDetailEditComponent implements OnInit {
       {type: 'required', message: 'A Surname is required'}
     ],
     'sponsorGivenName': [],
-    'sponsorAddress': []
+    'sponsorAffiliatedChurch': []
   };
 
   constructor(private route: ActivatedRoute,
@@ -61,7 +61,7 @@ export class SponsorDetailEditComponent implements OnInit {
       sponsorId: new FormControl(''),
       sponsorSurname: new FormControl('', Validators.required),
       sponsorGivenName: new FormControl('', Validators.required),
-      sponsorAddress: new FormControl('')
+      sponsorAffiliatedChurch: new FormControl('')
     });
   }
 
@@ -73,7 +73,7 @@ export class SponsorDetailEditComponent implements OnInit {
         this.sponsorEditForm.controls['sponsorId'].patchValue(this.sponsor.sponsorId);
         this.sponsorEditForm.controls['sponsorSurname'].patchValue(this.sponsor.sponsorSurname);
         this.sponsorEditForm.controls['sponsorGivenName'].patchValue(this.sponsor.sponsorGivenName);
-        this.sponsorEditForm.controls['sponsorAddress'].patchValue(this.sponsor.sponsorAddress);
+        this.sponsorEditForm.controls['sponsorAffiliatedChurch'].patchValue(this.sponsor.sponsorAffiliatedChurch);
       },
       error => {
         console.error('Error: ', error);
@@ -110,7 +110,7 @@ export class SponsorDetailEditComponent implements OnInit {
     sponsor.sponsorId = this.sponsorEditForm.value.sponsorId;
     sponsor.sponsorSurname = this.sponsorEditForm.value.sponsorSurname;
     sponsor.sponsorGivenName = this.sponsorEditForm.value.sponsorGivenName;
-    sponsor.sponsorAddress = this.sponsorEditForm.value.sponsorAddress;
+    sponsor.sponsorAffiliatedChurch = this.sponsorEditForm.value.sponsorAffiliatedChurch;
 
     if (this.newRecord) {
       this.sponsorService.createSponsor(sponsor).subscribe(

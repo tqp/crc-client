@@ -67,14 +67,14 @@
             <div class="row">
               <div class="col-sm-12">
                 <div class="form-group">
-                  <label for="sponsorAddress">Address</label>
-                  <input matInput id="sponsorAddress" type="text" class="form-control" placeholder="Address"
-                         formControlName="sponsorAddress">
-                  <mat-error *ngFor="let validation of validationMessages.sponsorAddress">
+                  <label for="sponsorAffiliatedChurch">Affiliated Church</label>
+                  <input matInput id="sponsorAffiliatedChurch" type="text" class="form-control" placeholder="Affiliated Church"
+                         formControlName="sponsorAffiliatedChurch">
+                  <mat-error *ngFor="let validation of validationMessages.sponsorAffiliatedChurch">
                     <mat-error class="error-message"
-                               *ngIf="sponsorEditForm.get('sponsorAddress').hasError(validation.type)
-                                && (sponsorEditForm.get('sponsorAddress').dirty ||
-                                sponsorEditForm.get('sponsorAddress').touched)">
+                               *ngIf="sponsorEditForm.get('sponsorAffiliatedChurch').hasError(validation.type)
+                                && (sponsorEditForm.get('sponsorAffiliatedChurch').dirty ||
+                                sponsorEditForm.get('sponsorAffiliatedChurch').touched)">
                       {{validation.message}}
                     </mat-error>
                   </mat-error>
