@@ -3,5 +3,5 @@ export const environment = {
   production: false,
   hmr: false,
   apiUrl: 'http://localhost:8080',
-  buildTimestamp: '02/08/2021 09:05:01'
+  buildTimestamp: '02/08/2021 10:10:15'
 };

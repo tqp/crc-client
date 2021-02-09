@@ -10,13 +10,15 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { CaseManagerDetailComponent } from './case-manager-detail/case-manager-detail.component';
 import { CaseManagerDetailEditComponent } from './case-manager-detail-edit/case-manager-detail-edit.component';
 import { CaseManagerRoutingModule } from './case-manager-routing.module';
+import { CaseManagerCreateComponent } from './case-manager-create/case-manager-create.component';
 
 
 @NgModule({
   declarations: [
     CaseManagerListComponent,
     CaseManagerDetailComponent,
-    CaseManagerDetailEditComponent
+    CaseManagerDetailEditComponent,
+    CaseManagerCreateComponent
   ],
   imports: [
     CommonModule,
