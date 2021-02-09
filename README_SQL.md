@@ -41,3 +41,4 @@ surname, given_name, count(*) no_of_records
 FROM CRC.Person_Caregiver
 GROUP BY surname, given_name
 HAVING count(*) > 1;
+
