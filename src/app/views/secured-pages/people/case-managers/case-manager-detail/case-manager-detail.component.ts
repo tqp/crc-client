@@ -65,7 +65,7 @@ export class CaseManagerDetailComponent implements OnInit {
     this.caseManagerService.getCaseManagerDetail(caseManagerId).subscribe(
       response => {
         this.caseManager = response;
-        // console.log('response', response);
+        console.log('response', response);
         this.eventService.loadingEvent.emit(false);
         this.caseManagerLoading = false;
       },

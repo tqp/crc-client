@@ -99,6 +99,24 @@
             <div class="row">
               <div class="col-sm-12">
                 <div class="form-group">
+                  <label for="caseManagerAddress">Home Address</label>
+                  <input matInput id="caseManagerAddress" type="text" class="form-control" placeholder="Home Address"
+                         formControlName="caseManagerAddress">
+                  <mat-error *ngFor="let validation of validationMessages.caseManagerAddress">
+                    <mat-error class="error-message"
+                               *ngIf="caseManagerEditForm.get('caseManagerAddress').hasError(validation.type)
+                                && (caseManagerEditForm.get('caseManagerAddress').dirty ||
+                                caseManagerEditForm.get('caseManagerAddress').touched)">
+                      {{validation.message}}
+                    </mat-error>
+                  </mat-error>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
                   <label for="caseManagerPhone">Primary Phone</label>
                   <input matInput id="caseManagerPhone" type="text" class="form-control" placeholder="Primary Phone"
                          formControlName="caseManagerPhone">
