@@ -7,11 +7,11 @@ import { RelationshipType } from '../../reference-tables/relationship-type/Relat
 import { RelationshipTypeService } from '../../reference-tables/relationship-type/relationship-type.service';
 import { TierType } from '../../reference-tables/tier-type/TierType';
 import { TierTypeService } from '../../reference-tables/tier-type/tier-type.service';
-import { FormattingService } from '../../../../../@tqp/services/formatting.service';
+import { FormattingService } from '@tqp/services/formatting.service';
 
 import * as moment from 'moment';
-import { validateNonZeroValue } from '../../../../../@tqp/validators/custom.validators';
-import { ConfirmDialogComponent } from '../../../../../@tqp/components/confirm-dialog/confirm-dialog.component';
+import { validateNonZeroValue } from '@tqp/validators/custom.validators';
+import { ConfirmDialogComponent } from '@tqp/components/confirm-dialog/confirm-dialog.component';
 import { RelationshipService } from '../relationship.service';
 
 @Component({

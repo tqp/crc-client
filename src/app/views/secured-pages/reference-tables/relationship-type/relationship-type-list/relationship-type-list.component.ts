@@ -23,7 +23,6 @@ export class RelationshipTypeListComponent implements OnInit, OnDestroy {
 
   public records: RelationshipType[] = [];
   public dataSource: RelationshipType[] = [];
-  public stateList: string[] = [];
   public totalRecords: number;
   public isLoading;
   public isFilterApplied = false;

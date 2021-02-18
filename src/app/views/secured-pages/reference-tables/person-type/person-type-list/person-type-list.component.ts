@@ -23,7 +23,6 @@ export class PersonTypeListComponent implements OnInit, OnDestroy {
 
   public records: PersonType[] = [];
   public dataSource: PersonType[] = [];
-  public stateList: string[] = [];
   public totalRecords: number;
   public isLoading;
   public isFilterApplied = false;

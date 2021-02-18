@@ -44,7 +44,6 @@ export class LoanListComponent implements OnInit, OnDestroy {
 
   public records: Loan[] = [];
   public dataSource: Loan[] = [];
-  public stateList: string[] = [];
 
   public totalRecords: number;
   public pageStart: number;

@@ -46,7 +46,6 @@ export class VisitListComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public records: Visit[] = [];
   public dataSource: Visit[] = [];
-  public stateList: string[] = [];
 
   public totalRecords: number;
   public pageStart: number;

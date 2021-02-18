@@ -47,7 +47,6 @@ export class FinanceReportByParticipantComponent implements OnInit, AfterViewIni
 
   public records: Loan[] = [];
   public dataSource: Loan[] = [];
-  public stateList: string[] = [];
 
   public totalRecords: number;
   public pageStart: number;

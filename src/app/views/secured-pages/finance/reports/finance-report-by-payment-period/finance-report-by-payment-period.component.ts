@@ -42,7 +42,6 @@ export class FinanceReportByPaymentPeriodComponent implements OnInit, AfterViewI
 
   public records: Sponsor[] = [];
   public dataSource: any[] = [];
-  public stateList: string[] = [];
 
   public totalRecords: number;
   public pageStart: number;

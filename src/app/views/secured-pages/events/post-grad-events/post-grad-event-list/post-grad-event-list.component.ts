@@ -44,7 +44,6 @@ export class PostGradEventListComponent implements OnInit, AfterViewInit, OnDest
 
   public records: PostGradEvent[] = [];
   public dataSource: PostGradEvent[] = [];
-  public stateList: string[] = [];
 
   public totalRecords: number;
   public pageStart: number;

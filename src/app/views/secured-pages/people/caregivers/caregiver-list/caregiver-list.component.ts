@@ -43,7 +43,6 @@ export class CaregiverListComponent implements OnInit, OnDestroy {
 
   public records: Caregiver[] = [];
   public dataSource: any[] = [];
-  public stateList: string[] = [];
 
   public totalRecords: number;
   public pageStart: number;

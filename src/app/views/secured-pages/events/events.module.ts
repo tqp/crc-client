@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { VisitModule } from './visit/visit.module';
 import { CsiModule } from './csi/csi.module';
 import { PostGradEventModule } from './post-grad-events/post-grad-event.module';
+import { WorkshopModule } from './workshop/workshop.module';
 
 
 @NgModule({
@@ -11,6 +12,7 @@ import { PostGradEventModule } from './post-grad-events/post-grad-event.module';
     CommonModule,
     VisitModule,
     PostGradEventModule,
+    WorkshopModule,
     CsiModule
   ]
 })

@@ -146,9 +146,27 @@ export const navItemsWithRoles: INavDataTqp[] = [
     allow: 'ROLE_REPORTS'
   },
   {
+    name: 'Coverage Reports',
+    url: '/crud-app',
+    icon: 'fa fa-file-text-o',
+    allow: 'ROLE_DEVELOPER',
+    children: [
+      {
+        name: 'No Case Manager',
+        url: '/reports/case-manager-coverage',
+        icon: 'fa fa-folder-o'
+      },
+      {
+        name: 'No Caregiver',
+        url: '/reports/caregiver-coverage',
+        icon: 'fa fa-heartbeat'
+      }
+    ]
+  },
+  {
     name: 'Reference Tables',
     url: '/crud-app',
-    icon: 'fa fa-table',
+    icon: 'fa fa-file-text-o',
     allow: 'ROLE_DEVELOPER',
     children: [
       {

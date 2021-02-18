@@ -55,7 +55,6 @@ export class PaymentListComponent implements OnInit, OnDestroy {
 
   public records: Loan[] = [];
   public dataSource: Loan[] = [];
-  public stateList: string[] = [];
 
   public totalRecords: number;
   public pageStart: number;

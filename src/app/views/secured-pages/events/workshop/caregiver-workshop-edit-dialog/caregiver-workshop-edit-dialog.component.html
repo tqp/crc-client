@@ -1,0 +1,59 @@
+<h2 mat-dialog-title *ngIf="data.action == 'update'; else create;">Edit Workshop</h2>
+<ng-template #create>
+  <h2 mat-dialog-title>Add a Workshop</h2>
+</ng-template>
+
+<mat-dialog-content style="overflow: hidden">
+
+  <form [formGroup]="caregiverWorkshopEditForm">
+
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="form-group">
+          <label for="workshopName">Workshop Name*</label>
+          <input type="text" id="workshopName" class="form-control" formControlName="workshopName">
+          <mat-error *ngFor="let validation of validationMessages.workshopName">
+            <mat-error class="error-message"
+                       *ngIf="caregiverWorkshopEditForm.get('workshopName').hasError(validation.type)
+                                && (caregiverWorkshopEditForm.get('workshopName').dirty ||
+                                caregiverWorkshopEditForm.get('workshopName').touched)">
+              {{validation.message}}
+            </mat-error>
+          </mat-error>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="form-group">
+          <label for="workshopDate">Workshop Date*</label>
+          <input id="workshopDate" type="text" class="form-control" bsDatepicker
+                 [bsConfig]="{dateInputFormat: 'DD-MMM-YYYY'}"
+                 formControlName="workshopDate">
+          <mat-error *ngFor="let validation of validationMessages.workshopDate">
+            <mat-error class="error-message"
+                       *ngIf="caregiverWorkshopEditForm.get('workshopDate').hasError(validation.type)
+                                && (caregiverWorkshopEditForm.get('workshopDate').dirty ||
+                                caregiverWorkshopEditForm.get('workshopDate').touched)">
+              {{validation.message}}
+            </mat-error>
+          </mat-error>
+        </div>
+      </div>
+    </div>
+
+  </form>
+
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-raised-button class="btn btn-danger" (click)="delete();" *ngIf="data.action == 'update'">
+    Delete
+  </button>
+  <button mat-raised-button mat-dialog-close>Cancel</button>
+  <div fxFlex></div>
+  <button mat-raised-button mat-dialog-close class="btn btn-primary" (click)="save();"
+          [disabled]="!caregiverWorkshopEditForm.valid">Save
+  </button>
+</mat-dialog-actions>

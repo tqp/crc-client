@@ -41,7 +41,6 @@ export class SponsorListComponent implements OnInit, OnDestroy {
 
   public records: Sponsor[] = [];
   public dataSource: any[] = [];
-  public stateList: string[] = [];
 
   public totalRecords: number;
   public pageStart: number;

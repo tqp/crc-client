@@ -8,6 +8,10 @@ import { CsiScoresReportComponent } from './csi-scores-report/csi-scores-report.
 import { AngularMaterialModule } from '../../../../@tqp/modules/angular-material.module';
 import { SummaryReportResultsDialogComponent } from './summary-report-results-dialog/summary-report-results-dialog.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { CaseManagerCoverageComponent } from './case-manager-coverage/case-manager-coverage.component';
+import { CaregiverCoverageComponent } from './caregiver-coverage/caregiver-coverage.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 
 
 @NgModule({
@@ -16,11 +20,16 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     ExportComponent,
     SummaryReportComponent,
     CsiScoresReportComponent,
-    SummaryReportResultsDialogComponent
+    SummaryReportResultsDialogComponent,
+    CaseManagerCoverageComponent,
+    CaregiverCoverageComponent
   ],
   imports: [
     CommonModule,
     AngularMaterialModule,
+    FormsModule,
+    ReactiveFormsModule,
+    RouterModule,
     FlexLayoutModule,
     // Custom Routing
     ReportsRoutingModule

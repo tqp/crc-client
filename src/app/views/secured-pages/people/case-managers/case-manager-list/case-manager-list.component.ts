@@ -40,7 +40,6 @@ export class CaseManagerListComponent implements OnInit, OnDestroy {
 
   public records: CaseManager[] = [];
   public dataSource: any[] = [];
-  public stateList: string[] = [];
 
   public totalRecords: number;
   public pageStart: number;

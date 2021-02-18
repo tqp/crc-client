@@ -23,7 +23,6 @@ export class TierTypeListComponent implements OnInit, OnDestroy {
 
   public records: TierType[] = [];
   public dataSource: TierType[] = [];
-  public stateList: string[] = [];
   public totalRecords: number;
   public isLoading;
   public isFilterApplied = false;

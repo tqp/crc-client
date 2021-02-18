@@ -44,7 +44,6 @@ export class CsiListComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public records: Csi[] = [];
   public dataSource: Csi[] = [];
-  public stateList: string[] = [];
 
   public totalRecords: number;
   public pageStart: number;

@@ -4,6 +4,8 @@ import { ExportComponent } from './export/export.component';
 import { CrcMetricsComponent } from './crc-metrics/crc-metrics.component';
 import { SummaryReportComponent } from './summary-report/summary-report.component';
 import { CsiScoresReportComponent } from './csi-scores-report/csi-scores-report.component';
+import { CaseManagerCoverageComponent } from './case-manager-coverage/case-manager-coverage.component';
+import { CaregiverCoverageComponent } from './caregiver-coverage/caregiver-coverage.component';
 
 const routes: Routes = [
 
@@ -44,6 +46,20 @@ const routes: Routes = [
         component: ExportComponent,
         data: {
           title: 'Export'
+        }
+      },
+      {
+        path: 'case-manager-coverage',
+        component: CaseManagerCoverageComponent,
+        data: {
+          title: 'Case Manager Coverage'
+        }
+      },
+      {
+        path: 'caregiver-coverage',
+        component: CaregiverCoverageComponent,
+        data: {
+          title: 'Caregiver Coverage'
         }
       }
     ]

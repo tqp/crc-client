@@ -1,13 +1,18 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { EventService } from '../../../../../../@tqp/services/event.service';
+import { EventService } from '@tqp/services/event.service';
 import { Caregiver } from '../Caregiver';
 import { CaregiverService } from '../caregiver.service';
 import { Student } from '../../students/Student';
-import { AuthService } from '../../../../../../@tqp/services/auth.service';
+import { AuthService } from '@tqp/services/auth.service';
 import { RelationshipService } from '../../../relationships/relationship.service';
 import { Loan } from '../../../finance/loans/Loan';
 import { LoanService } from '../../../finance/loans/loan.service';
+import { WorkshopService } from '../../../events/workshop/workshop.service';
+import { Workshop } from '../../../events/workshop/Workshop';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { CaregiverWorkshopEditDialogComponent } from '../../../events/workshop/caregiver-workshop-edit-dialog/caregiver-workshop-edit-dialog.component';
+import { FormattingService } from '../../../../../../@tqp/services/formatting.service';
 
 @Component({
   selector: 'app-caregiver-detail',
@@ -40,13 +45,24 @@ export class CaregiverDetailComponent implements OnInit {
     'percentPaid'
   ];
 
+  // Workshops Attended List
+  public workshopListRecords: Workshop[] = [];
+  public workshopListDataSource: Workshop[] = [];
+  public workshopListDisplayedColumns: string[] = [
+    'workshopName',
+    'workshopDate'
+  ];
+
   constructor(private route: ActivatedRoute,
               private caregiverService: CaregiverService,
               private relationshipService: RelationshipService,
               private loanService: LoanService,
               private eventService: EventService,
+              private workshopService: WorkshopService,
+              private formattingService: FormattingService,
               private router: Router,
-              public authService: AuthService) {
+              public authService: AuthService,
+              public _matDialog: MatDialog) {
   }
 
   ngOnInit(): void {
@@ -57,6 +73,7 @@ export class CaregiverDetailComponent implements OnInit {
         this.getCaregiverDetail(caregiverId);
         this.getStudentListByCaregiverId(caregiverId);
         this.getLoanListByCaregiverId(caregiverId);
+        this.getWorkshopListByCaregiverId(caregiverId);
       } else {
         console.error('No ID was present.');
       }
@@ -109,7 +126,56 @@ export class CaregiverDetailComponent implements OnInit {
     );
   }
 
-  // Buttons
+  private getWorkshopListByCaregiverId(caregiverId: number): void {
+    this.workshopService.getWorkshopListByCaregiverId(caregiverId).subscribe(
+      (workshopList: Workshop[]) => {
+        // console.log('workshopList', workshopList);
+        workshopList.forEach(item => {
+          this.workshopListRecords.push(item);
+        });
+        this.workshopListDataSource = this.workshopListRecords;
+      },
+      error => {
+        console.error('Error: ', error);
+      }
+    );
+  }
+
+  // DIALOGS
+
+  public openCaregiverWorkshopCreateDialog(caregiverId: number): void {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.minWidth = '40%';
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.data = {
+      action: 'create',
+      caregiverId: caregiverId
+    };
+    dialogConfig.autoFocus = false;
+    const dialogRef = this._matDialog.open(CaregiverWorkshopEditDialogComponent, dialogConfig);
+
+    dialogRef.afterClosed().subscribe(dialogData => {
+      console.log('dialogData', dialogData);
+      if (dialogData) {
+        const workshop: Workshop = {};
+        workshop.workshopName = dialogData.studentId;
+        workshop.workshopDate = this.formattingService.formatStandardDateAsMySql(dialogData.visitDate);
+        console.log('workshop', workshop);
+        // this.workshopService.createWorkshop(workshop).subscribe(
+        //   response => {
+        //     console.log('response', response);
+        //     // this.getVisitListByStudentId(this.student.studentId);
+        //   },
+        //   error => {
+        //     console.error('Error: ', error);
+        //   }
+        // );
+      }
+    });
+  }
+
+  // BUTTONS
 
   public returnToList(): void {
     this.router.navigate(['caregivers/caregiver-list']).then();
