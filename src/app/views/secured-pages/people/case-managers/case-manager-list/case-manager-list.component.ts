@@ -1,16 +1,16 @@
-import { AfterViewInit, Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { ServerSidePaginationRequest } from '../../../../../../@tqp/models/ServerSidePaginationRequest';
 import { FormControl } from '@angular/forms';
-import { EventService } from '../../../../../../@tqp/services/event.service';
+import { EventService } from '@tqp/services/event.service';
 import { Router } from '@angular/router';
-import { ServerSidePaginationResponse } from '../../../../../../@tqp/models/ServerSidePaginationResponse';
+import { ServerSidePaginationResponse } from '@tqp/models/ServerSidePaginationResponse';
 import { fromEvent, merge, of } from 'rxjs';
 import { catchError, debounceTime, distinctUntilChanged, map, switchMap } from 'rxjs/operators';
 import { CaseManager } from '../CaseManager';
 import { CaseManagerService } from '../case-manager.service';
-import { AuthService } from '../../../../../../@tqp/services/auth.service';
+import { AuthService } from '@tqp/services/auth.service';
 
 @Component({
   selector: 'app-case-manager-list',

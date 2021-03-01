@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, Inject, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../../../../../../@tqp/components/confirm-dialog/confirm-dialog.component';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
@@ -11,12 +11,16 @@ import * as moment from 'moment';
   encapsulation: ViewEncapsulation.None
 })
 export class CaregiverWorkshopEditDialogComponent implements OnInit {
+  @ViewChild('workshopNameField', {static: false}) public workshopNameField: ElementRef;
   public confirmDialogRef: MatDialogRef<ConfirmDialogComponent>;
   public caregiverWorkshopEditForm: FormGroup;
 
   public validationMessages = {
     'caregiverWorkshopId': [
-      {type: 'required', message: 'A Caregiver is required'}
+      {type: 'required', message: 'A Caregiver-Workshop ID is required'}
+    ],
+    'caregiverId': [
+      {type: 'required', message: 'A Caregiver ID is required'}
     ],
     'workshopName': [
       {type: 'required', message: 'A Workshop Name is required'}
@@ -40,13 +44,14 @@ export class CaregiverWorkshopEditDialogComponent implements OnInit {
   private initializeForm(): void {
     this.caregiverWorkshopEditForm = this.formBuilder.group({
       caregiverWorkshopId: new FormControl({value: 0, disabled: true}),
+      caregiverId: new FormControl(this.data.caregiverId, [Validators.required]),
       workshopName: new FormControl('', [Validators.required]),
       workshopDate: new FormControl(moment().format('DD-MMM-yyyy'), Validators.required)
     });
 
-    // setTimeout(() => {
-    //   this.relationSurnameField.nativeElement.focus();
-    // }, 0);
+    setTimeout(() => {
+      this.workshopNameField.nativeElement.focus();
+    }, 0);
   }
 
   // BUTTONS
@@ -66,7 +71,7 @@ export class CaregiverWorkshopEditDialogComponent implements OnInit {
   }
 
   public save(): void {
-    console.log('raw', this.caregiverWorkshopEditForm.getRawValue());
+    // console.log('raw', this.caregiverWorkshopEditForm.getRawValue());
     this.dialogRef.close([this.data.action, this.caregiverWorkshopEditForm.getRawValue()]);
   }
 

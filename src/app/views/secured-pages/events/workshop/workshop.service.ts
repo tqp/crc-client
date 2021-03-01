@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Loan } from '../../finance/loans/Loan';
 import { environment } from '../../../../../environments/environment';
 import { map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
@@ -16,29 +15,30 @@ export class WorkshopService {
 
   constructor(private http: HttpClient,
               private httpService: HttpService,
-              private tokenService: TokenService) { }
+              private tokenService: TokenService) {
+  }
 
-  // public createCaregiverWorkshopRelationship(relationship: Relationship): Observable<Relationship> {
-  //   const url = environment.apiUrl + '/api/v1/relationship/caregiver';
-  //   const token = this.tokenService.getToken();
-  //   if (token) {
-  //     return this.http.post<Relationship>(url,
-  //       relationship,
-  //       {
-  //         headers: this.httpService.setHeadersWithToken(),
-  //         observe: 'response',
-  //         params: {}
-  //       })
-  //       .pipe(
-  //         map(res => {
-  //           return res.body;
-  //         })
-  //       );
-  //   } else {
-  //     console.error('No token was present.');
-  //     return null;
-  //   }
-  // }
+  public createCaregiverWorkshopEvent(workshop: Workshop): Observable<Relationship> {
+    const url = environment.apiUrl + '/api/v1/workshop/';
+    const token = this.tokenService.getToken();
+    if (token) {
+      return this.http.post<Relationship>(url,
+        workshop,
+        {
+          headers: this.httpService.setHeadersWithToken(),
+          observe: 'response',
+          params: {}
+        })
+        .pipe(
+          map(res => {
+            return res.body;
+          })
+        );
+    } else {
+      console.error('No token was present.');
+      return null;
+    }
+  }
 
   // JOINED TABLES
 

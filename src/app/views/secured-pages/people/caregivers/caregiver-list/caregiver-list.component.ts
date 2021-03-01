@@ -147,7 +147,7 @@ export class CaregiverListComponent implements OnInit, OnDestroy {
     )
       .pipe(
         switchMap(changesDetected => {
-          console.log('changesDetected', changesDetected);
+          // console.log('changesDetected', changesDetected);
           const paginationChange: boolean = changesDetected.pageIndex && changesDetected.pageSize;
           const sortChange: boolean = changesDetected.active && changesDetected.direction;
           if (!paginationChange && !sortChange) {

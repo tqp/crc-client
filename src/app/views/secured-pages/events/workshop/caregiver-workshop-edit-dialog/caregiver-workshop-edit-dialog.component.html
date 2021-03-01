@@ -10,8 +10,25 @@
     <div class="row">
       <div class="col-sm-12">
         <div class="form-group">
+          <label for="caregiverId">Caregiver ID*</label>
+          <input type="text" id="caregiverId" class="form-control" formControlName="caregiverId">
+          <mat-error *ngFor="let validation of validationMessages.caregiverId">
+            <mat-error class="error-message"
+                       *ngIf="caregiverWorkshopEditForm.get('caregiverId').hasError(validation.type)
+                                && (caregiverWorkshopEditForm.get('caregiverId').dirty ||
+                                caregiverWorkshopEditForm.get('caregiverId').touched)">
+              {{validation.message}}
+            </mat-error>
+          </mat-error>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="form-group">
           <label for="workshopName">Workshop Name*</label>
-          <input type="text" id="workshopName" class="form-control" formControlName="workshopName">
+          <input type="text" id="workshopName" class="form-control" formControlName="workshopName" #workshopNameField>
           <mat-error *ngFor="let validation of validationMessages.workshopName">
             <mat-error class="error-message"
                        *ngIf="caregiverWorkshopEditForm.get('workshopName').hasError(validation.type)

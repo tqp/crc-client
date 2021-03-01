@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { EventService } from '@tqp/services/event.service';
 import { Caregiver } from '../Caregiver';
@@ -17,7 +17,7 @@ import { FormattingService } from '../../../../../../@tqp/services/formatting.se
 @Component({
   selector: 'app-caregiver-detail',
   templateUrl: './caregiver-detail.component.html',
-  styleUrls: ['./caregiver-detail.component.css']
+  styleUrls: ['./caregiver-detail.component.css'],
 })
 export class CaregiverDetailComponent implements OnInit {
   public pageSource: string;
@@ -99,7 +99,7 @@ export class CaregiverDetailComponent implements OnInit {
   private getStudentListByCaregiverId(caregiverId: number): void {
     this.relationshipService.getStudentListByCaregiverId(caregiverId).subscribe(
       (studentList: Student[]) => {
-        // console.log('studentList', studentList);
+        this.studentListRecords = [];
         studentList.forEach(item => {
           this.studentListRecords.push(item);
         });
@@ -114,7 +114,7 @@ export class CaregiverDetailComponent implements OnInit {
   private getLoanListByCaregiverId(caregiverId: number): void {
     this.loanService.getLoanListByCaregiverId(caregiverId).subscribe(
       (loanList: Loan[]) => {
-        // console.log('loanList', loanList);
+        this.loanListRecords = [];
         loanList.forEach(item => {
           this.loanListRecords.push(item);
         });
@@ -129,7 +129,7 @@ export class CaregiverDetailComponent implements OnInit {
   private getWorkshopListByCaregiverId(caregiverId: number): void {
     this.workshopService.getWorkshopListByCaregiverId(caregiverId).subscribe(
       (workshopList: Workshop[]) => {
-        // console.log('workshopList', workshopList);
+        this.workshopListRecords = [];
         workshopList.forEach(item => {
           this.workshopListRecords.push(item);
         });
@@ -156,21 +156,19 @@ export class CaregiverDetailComponent implements OnInit {
     const dialogRef = this._matDialog.open(CaregiverWorkshopEditDialogComponent, dialogConfig);
 
     dialogRef.afterClosed().subscribe(dialogData => {
-      console.log('dialogData', dialogData);
       if (dialogData) {
-        const workshop: Workshop = {};
-        workshop.workshopName = dialogData.studentId;
-        workshop.workshopDate = this.formattingService.formatStandardDateAsMySql(dialogData.visitDate);
-        console.log('workshop', workshop);
-        // this.workshopService.createWorkshop(workshop).subscribe(
-        //   response => {
-        //     console.log('response', response);
-        //     // this.getVisitListByStudentId(this.student.studentId);
-        //   },
-        //   error => {
-        //     console.error('Error: ', error);
-        //   }
-        // );
+        const workshop: Workshop = dialogData[1];
+        workshop.workshopDate = this.formattingService.formatStandardDateAsMySql(dialogData[1].workshopDate);
+        this.workshopService.createCaregiverWorkshopEvent(workshop).subscribe(
+          response => {
+            console.log('response', response);
+            console.log('caregiverId', caregiverId);
+            this.getWorkshopListByCaregiverId(caregiverId);
+          },
+          error => {
+            console.error('Error: ', error);
+          }
+        );
       }
     });
   }

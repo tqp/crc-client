@@ -196,6 +196,13 @@
                 </td>
               </ng-container>
 
+              <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef></th>
+                <td mat-cell *matCellDef="let row">
+                  <i class="fa fa-edit" (click)="openCaregiverWorkshopCreateDialog(this.caregiver.caregiverId)" style="cursor: pointer;"></i>
+                </td>
+              </ng-container>
+
               <tr mat-header-row *matHeaderRowDef="workshopListDisplayedColumns; sticky: true" [hidden]="false"></tr>
               <tr mat-row *matRowDef="let row; columns: workshopListDisplayedColumns;"></tr>
             </table>
