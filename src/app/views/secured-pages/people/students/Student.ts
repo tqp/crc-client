@@ -3,6 +3,7 @@ export class Student {
   public studentId?: number;
   public studentSurname?: string;
   public studentGivenName?: string;
+  public studentName?: string;
   public studentGender?: string;
   public studentDateOfBirth?: string;
   public studentSchool?: string;

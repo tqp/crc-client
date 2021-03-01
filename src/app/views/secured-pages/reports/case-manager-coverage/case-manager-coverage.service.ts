@@ -18,7 +18,7 @@ export class CaseManagerCoverageService {
               private httpService: HttpService,
               private tokenService: TokenService) { }
 
-  public getCaseManagerCoverageReport(): Observable<Student[]> {
+  public getCaseManagerCoverageList(): Observable<Student[]> {
     const url = environment.apiUrl + '/api/v1/reports/case-manager-coverage';
     const token = this.tokenService.getToken();
     if (token) {

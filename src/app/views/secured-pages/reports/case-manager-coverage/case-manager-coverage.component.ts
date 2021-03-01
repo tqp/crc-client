@@ -1,6 +1,5 @@
 import { Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { RelationshipType } from '../../reference-tables/relationship-type/RelationshipType';
 import { MatSort } from '@angular/material/sort';
 import { EventService } from '../../../../../@tqp/services/event.service';
 import { merge } from 'rxjs';
@@ -16,7 +15,8 @@ import { Student } from '../../people/students/Student';
 export class CaseManagerCoverageComponent implements OnInit, OnDestroy {
   @ViewChild('tableContainer', {read: ElementRef, static: true}) public matTableRef: ElementRef;
   public displayedColumns: string[] = [
-    'studentName'
+    'studentName',
+    'studentDateOfBirth'
   ];
 
   public studentNameSearchFormControl = new FormControl();
@@ -37,7 +37,7 @@ export class CaseManagerCoverageComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.setInitialFieldValues();
-    this.getCaseManagerCoverageReport();
+    this.getCaseManagerCoverageList();
     this.listenForFilterChanges();
   }
 
@@ -46,18 +46,19 @@ export class CaseManagerCoverageComponent implements OnInit, OnDestroy {
   }
 
   private setInitialFieldValues() {
-    if (this.caseManagerCoverageService.getCaseManagerCoverageReport()) {
+    if (this.caseManagerCoverageService.getCaseManagerCoverageList()) {
       this.studentNameSearchFormControl.setValue(this.caseManagerCoverageService.getStudentNameSearchValue());
     }
   }
 
-  private getCaseManagerCoverageReport(): void {
+  private getCaseManagerCoverageList(): void {
     this.isLoading = true;
     this.eventService.loadingEvent.emit(true);
-    this.caseManagerCoverageService.getCaseManagerCoverageReport().subscribe(
+    this.caseManagerCoverageService.getCaseManagerCoverageList().subscribe(
       (studentList: Student[]) => {
         // console.log('studentList', studentList);
         studentList.forEach(item => {
+          item.studentName = item.studentSurname + item.studentGivenName;
           this.records.push(item);
           this.totalRecords = studentList.length;
           this.isLoading = false;
@@ -92,11 +93,10 @@ export class CaseManagerCoverageComponent implements OnInit, OnDestroy {
 
   private applyFilters(): void {
     const nameFilter = this.studentNameSearchFormControl.value != null ? this.studentNameSearchFormControl.value : '';
-
     this.dataSource = this.records
-      .filter(relationshipTypeList => {
-          const nameFilterAssessment = relationshipTypeList.relationshipTypeName.toLowerCase().includes(nameFilter.trim().toLowerCase());
-          return nameFilterAssessment;
+      .filter(studentList => {
+          const key = studentList.studentGivenName + '|' + studentList.studentSurname;
+          return key.toLowerCase().includes(nameFilter.trim().toLowerCase());
         }
       )
       .sort((a, b) => {
