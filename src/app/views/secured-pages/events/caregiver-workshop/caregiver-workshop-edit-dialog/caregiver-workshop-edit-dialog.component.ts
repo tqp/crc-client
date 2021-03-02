@@ -3,6 +3,10 @@ import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dial
 import { ConfirmDialogComponent } from '../../../../../../@tqp/components/confirm-dialog/confirm-dialog.component';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import * as moment from 'moment';
+import { CaregiverWorkshopService } from '../caregiver-workshop.service';
+import { ProgramStatus } from '../../../relationships/student-program-status-edit-dialog/ProgramStatus';
+import { CaregiverWorkshop } from '../CaregiverWorkshop';
+import { FormattingService } from '../../../../../../@tqp/services/formatting.service';
 
 @Component({
   selector: 'app-caregiver-workshop-edit-dialog',
@@ -13,28 +17,37 @@ import * as moment from 'moment';
 export class CaregiverWorkshopEditDialogComponent implements OnInit {
   @ViewChild('workshopNameField', {static: false}) public workshopNameField: ElementRef;
   public confirmDialogRef: MatDialogRef<ConfirmDialogComponent>;
+  public dataLoaded: boolean = false;
   public caregiverWorkshopEditForm: FormGroup;
+  public caregiverWorkshop: CaregiverWorkshop;
 
   public validationMessages = {
     'caregiverWorkshopId': [
-      {type: 'required', message: 'A Caregiver-Workshop ID is required'}
+      {type: 'required', message: 'A Caregiver-CaregiverWorkshop ID is required'}
     ],
     'caregiverId': [
       {type: 'required', message: 'A Caregiver ID is required'}
     ],
     'workshopName': [
-      {type: 'required', message: 'A Workshop Name is required'}
+      {type: 'required', message: 'A CaregiverWorkshop Name is required'}
     ],
     'workshopDate': [
-      {type: 'required', message: 'A Workshop Date is required'}
+      {type: 'required', message: 'A CaregiverWorkshop Date is required'}
     ]
   };
 
   constructor(private dialogRef: MatDialogRef<CaregiverWorkshopEditDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
+              private workshopService: CaregiverWorkshopService,
+              private formattingService: FormattingService,
               private formBuilder: FormBuilder,
               public _matDialog: MatDialog
   ) {
+    if (this.data.action === 'update') {
+      this.getCaregiverWorkshopDetail(this.data.caregiverWorkshopId);
+    } else {
+      this.dataLoaded = true;
+    }
   }
 
   ngOnInit(): void {
@@ -43,15 +56,32 @@ export class CaregiverWorkshopEditDialogComponent implements OnInit {
 
   private initializeForm(): void {
     this.caregiverWorkshopEditForm = this.formBuilder.group({
-      caregiverWorkshopId: new FormControl({value: 0, disabled: true}),
-      caregiverId: new FormControl(this.data.caregiverId, [Validators.required]),
+      caregiverWorkshopId: new FormControl({value: this.data.caregiverWorkshopId, disabled: true}),
+      caregiverId: new FormControl({value: this.data.caregiverId, disabled: true}, [Validators.required]),
       workshopName: new FormControl('', [Validators.required]),
       workshopDate: new FormControl(moment().format('DD-MMM-yyyy'), Validators.required)
     });
-
     setTimeout(() => {
       this.workshopNameField.nativeElement.focus();
     }, 0);
+  }
+
+  private getCaregiverWorkshopDetail(caregiverWorkshopId: number): void {
+    this.workshopService.getCaregiverWorkshopDetail(caregiverWorkshopId).subscribe(
+      response => {
+        // console.log('response', response);
+        this.caregiverWorkshop = response;
+        this.caregiverWorkshop.workshopDate = this.formattingService.formatMySqlDateAsStandard(this.caregiverWorkshop.workshopDate);
+        this.caregiverWorkshopEditForm.controls['caregiverWorkshopId'].patchValue(this.caregiverWorkshop.caregiverWorkshopId);
+        this.caregiverWorkshopEditForm.controls['caregiverId'].patchValue(this.caregiverWorkshop.caregiverId);
+        this.caregiverWorkshopEditForm.controls['workshopName'].patchValue(this.caregiverWorkshop.workshopName);
+        this.caregiverWorkshopEditForm.controls['workshopDate'].patchValue(this.caregiverWorkshop.workshopDate);
+        this.dataLoaded = true;
+      },
+      error => {
+        console.error('Error: ', error);
+      }
+    );
   }
 
   // BUTTONS

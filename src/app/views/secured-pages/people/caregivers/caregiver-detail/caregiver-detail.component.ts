@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { EventService } from '@tqp/services/event.service';
 import { Caregiver } from '../Caregiver';
@@ -8,10 +8,10 @@ import { AuthService } from '@tqp/services/auth.service';
 import { RelationshipService } from '../../../relationships/relationship.service';
 import { Loan } from '../../../finance/loans/Loan';
 import { LoanService } from '../../../finance/loans/loan.service';
-import { WorkshopService } from '../../../events/workshop/workshop.service';
-import { Workshop } from '../../../events/workshop/Workshop';
+import { CaregiverWorkshopService } from '../../../events/caregiver-workshop/caregiver-workshop.service';
+import { CaregiverWorkshop } from '../../../events/caregiver-workshop/CaregiverWorkshop';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { CaregiverWorkshopEditDialogComponent } from '../../../events/workshop/caregiver-workshop-edit-dialog/caregiver-workshop-edit-dialog.component';
+import { CaregiverWorkshopEditDialogComponent } from '../../../events/caregiver-workshop/caregiver-workshop-edit-dialog/caregiver-workshop-edit-dialog.component';
 import { FormattingService } from '../../../../../../@tqp/services/formatting.service';
 
 @Component({
@@ -46,11 +46,12 @@ export class CaregiverDetailComponent implements OnInit {
   ];
 
   // Workshops Attended List
-  public workshopListRecords: Workshop[] = [];
-  public workshopListDataSource: Workshop[] = [];
+  public workshopListRecords: CaregiverWorkshop[] = [];
+  public workshopListDataSource: CaregiverWorkshop[] = [];
   public workshopListDisplayedColumns: string[] = [
     'workshopName',
-    'workshopDate'
+    'workshopDate',
+    'actions'
   ];
 
   constructor(private route: ActivatedRoute,
@@ -58,7 +59,7 @@ export class CaregiverDetailComponent implements OnInit {
               private relationshipService: RelationshipService,
               private loanService: LoanService,
               private eventService: EventService,
-              private workshopService: WorkshopService,
+              private caregiverWorkshopService: CaregiverWorkshopService,
               private formattingService: FormattingService,
               private router: Router,
               public authService: AuthService,
@@ -73,7 +74,7 @@ export class CaregiverDetailComponent implements OnInit {
         this.getCaregiverDetail(caregiverId);
         this.getStudentListByCaregiverId(caregiverId);
         this.getLoanListByCaregiverId(caregiverId);
-        this.getWorkshopListByCaregiverId(caregiverId);
+        this.getCaregiverWorkshopListByCaregiverId(caregiverId);
       } else {
         console.error('No ID was present.');
       }
@@ -126,9 +127,9 @@ export class CaregiverDetailComponent implements OnInit {
     );
   }
 
-  private getWorkshopListByCaregiverId(caregiverId: number): void {
-    this.workshopService.getWorkshopListByCaregiverId(caregiverId).subscribe(
-      (workshopList: Workshop[]) => {
+  private getCaregiverWorkshopListByCaregiverId(caregiverId: number): void {
+    this.caregiverWorkshopService.getCaregiverWorkshopListByCaregiverId(caregiverId).subscribe(
+      (workshopList: CaregiverWorkshop[]) => {
         this.workshopListRecords = [];
         workshopList.forEach(item => {
           this.workshopListRecords.push(item);
@@ -143,32 +144,67 @@ export class CaregiverDetailComponent implements OnInit {
 
   // DIALOGS
 
-  public openCaregiverWorkshopCreateDialog(caregiverId: number): void {
+  public openCaregiverWorkshopCreateDialog(caregiverId: number, caregiverWorkshopId: number): void {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.minWidth = '40%';
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     dialogConfig.data = {
-      action: 'create',
-      caregiverId: caregiverId
+      action: caregiverWorkshopId == null ? 'create' : 'update',
+      caregiverId: caregiverId,
+      caregiverWorkshopId: caregiverWorkshopId
     };
     dialogConfig.autoFocus = false;
     const dialogRef = this._matDialog.open(CaregiverWorkshopEditDialogComponent, dialogConfig);
 
     dialogRef.afterClosed().subscribe(dialogData => {
+      // console.log('dialogData', dialogData);
       if (dialogData) {
-        const workshop: Workshop = dialogData[1];
-        workshop.workshopDate = this.formattingService.formatStandardDateAsMySql(dialogData[1].workshopDate);
-        this.workshopService.createCaregiverWorkshopEvent(workshop).subscribe(
-          response => {
-            console.log('response', response);
-            console.log('caregiverId', caregiverId);
-            this.getWorkshopListByCaregiverId(caregiverId);
-          },
-          error => {
-            console.error('Error: ', error);
-          }
-        );
+        const caregiverWorkshop: CaregiverWorkshop = {};
+        const formData = dialogData[1];
+        caregiverWorkshop.caregiverWorkshopId = formData.caregiverWorkshopId;
+        caregiverWorkshop.caregiverId = formData.caregiverId;
+        caregiverWorkshop.workshopName = formData.workshopName;
+        caregiverWorkshop.workshopDate = this.formattingService.formatStandardDateAsMySql(formData.workshopDate);
+        // console.log('caregiverWorkshop', caregiverWorkshop);
+
+        switch (dialogData[0]) {
+          case 'create':
+            this.caregiverWorkshopService.createCaregiverWorkshop(caregiverWorkshop).subscribe(
+              () => {
+                // console.log('response', response);
+                this.getCaregiverWorkshopListByCaregiverId(this.caregiver.caregiverId);
+              },
+              error => {
+                console.error('Error: ', error);
+              }
+            );
+            break;
+          case 'update':
+            this.caregiverWorkshopService.updateCaregiverWorkshop(caregiverWorkshop).subscribe(
+              response => {
+                // console.log('response', response);
+                this.getCaregiverWorkshopListByCaregiverId(this.caregiver.caregiverId);
+              },
+              error => {
+                console.error('Error: ', error);
+              }
+            );
+            break;
+          case 'delete':
+            this.caregiverWorkshopService.deleteCaregiverWorkshop(caregiverWorkshop).subscribe(
+              response => {
+                // console.log('response', response);
+                this.getCaregiverWorkshopListByCaregiverId(this.caregiver.caregiverId);
+              },
+              error => {
+                console.error('Error: ', error);
+              }
+            );
+            break;
+          default:
+            console.error('Unknown Action Type', dialogData[0]);
+        }
       }
     });
   }

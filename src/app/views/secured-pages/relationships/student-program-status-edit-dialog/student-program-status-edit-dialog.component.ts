@@ -63,8 +63,6 @@ export class StudentProgramStatusEditDialogComponent implements OnInit {
     });
   }
 
-  // LOAD DATA
-
   private getProgramStatusDetailByStudentId(studentId: number): void {
     this.programStatusService.getProgramStatusDetailByStudentId(studentId).subscribe(
       response => {

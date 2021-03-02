@@ -169,8 +169,8 @@
           <i class="fa fa-ticket"></i>
           Workshops Attended<span class="badge badge-secondary ml-2">{{workshopListDataSource.length}}</span>
           <div class="card-header-actions"
-               [hidden]="authService.allowRoles('ROLE_EDIT, ROLE_ADMIN', 'Add Workshop')">
-            <small class="tqp-nav-link" (click)="openCaregiverWorkshopCreateDialog(this.caregiver.caregiverId);">Add Workshop</small>
+               [hidden]="authService.allowRoles('ROLE_EDIT, ROLE_ADMIN', 'Add Caregiver-Workshop')">
+            <small class="tqp-nav-link" (click)="openCaregiverWorkshopCreateDialog(this.caregiver.caregiverId, null);">Add Workshop</small>
           </div>
         </div>
         <div class="card-body">
@@ -181,6 +181,13 @@
                    *ngIf="workshopListDataSource && workshopListDataSource.length > 0"
                    matSort matSortActive="lastName" matSortDirection="asc" matSortDisableClear="true"
                    class="table">
+
+              <ng-container matColumnDef="caregiverWorkshopId">
+                <th mat-header-cell *matHeaderCellDef>ID</th>
+                <td mat-cell *matCellDef="let row">
+                  {{row.caregiverWorkshopId}}
+                </td>
+              </ng-container>
 
               <ng-container matColumnDef="workshopName">
                 <th mat-header-cell *matHeaderCellDef>Workshop Name</th>
@@ -198,8 +205,8 @@
 
               <ng-container matColumnDef="actions">
                 <th mat-header-cell *matHeaderCellDef></th>
-                <td mat-cell *matCellDef="let row">
-                  <i class="fa fa-edit" (click)="openCaregiverWorkshopCreateDialog(this.caregiver.caregiverId)" style="cursor: pointer;"></i>
+                <td mat-cell *matCellDef="let row" [hidden]="authService.allowRoles('ROLE_EDIT, ROLE_ADMIN', 'Edit Caregiver-Workshop')">
+                  <i class="fa fa-edit" (click)="openCaregiverWorkshopCreateDialog(this.caregiver.caregiverId, row.caregiverWorkshopId)" style="cursor: pointer;"></i>
                 </td>
               </ng-container>
 

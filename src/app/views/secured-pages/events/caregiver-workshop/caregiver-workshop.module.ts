@@ -26,5 +26,5 @@ import { CaregiverWorkshopEditDialogComponent } from './caregiver-workshop-edit-
     CaregiverRoutingModule
   ]
 })
-export class WorkshopModule {
+export class CaregiverWorkshopModule {
 }

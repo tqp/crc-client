@@ -1,12 +1,32 @@
-<h2 mat-dialog-title *ngIf="data.action == 'update'; else create;">Edit Workshop</h2>
+<h2 mat-dialog-title *ngIf="data.action == 'update'; else create;">Edit CaregiverWorkshop</h2>
 <ng-template #create>
-  <h2 mat-dialog-title>Add a Workshop</h2>
+  <h2 mat-dialog-title>Add a CaregiverWorkshop</h2>
 </ng-template>
 
 <mat-dialog-content style="overflow: hidden">
 
   <form [formGroup]="caregiverWorkshopEditForm">
 
+    <!--
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="form-group">
+          <label for="caregiverWorkshopId">Caregiver-Workshop ID*</label>
+          <input type="text" id="caregiverWorkshopId" class="form-control" formControlName="caregiverWorkshopId">
+          <mat-error *ngFor="let validation of validationMessages.caregiverWorkshopId">
+            <mat-error class="error-message"
+                       *ngIf="caregiverWorkshopEditForm.get('caregiverWorkshopId').hasError(validation.type)
+                                && (caregiverWorkshopEditForm.get('caregiverWorkshopId').dirty ||
+                                caregiverWorkshopEditForm.get('caregiverWorkshopId').touched)">
+              {{validation.message}}
+            </mat-error>
+          </mat-error>
+        </div>
+      </div>
+    </div>
+    -->
+
+    <!--
     <div class="row">
       <div class="col-sm-12">
         <div class="form-group">
@@ -23,6 +43,7 @@
         </div>
       </div>
     </div>
+    -->
 
     <div class="row">
       <div class="col-sm-12">

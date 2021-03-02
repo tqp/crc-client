@@ -1,4 +1,4 @@
-export class Workshop {
+export class CaregiverWorkshop {
   public caregiverWorkshopId?: number;
   public caregiverId?: number;
   public workshopName?: number;
