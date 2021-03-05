@@ -4,6 +4,7 @@ import { VisitModule } from './visit/visit.module';
 import { CsiModule } from './csi/csi.module';
 import { PostGradEventModule } from './post-grad-events/post-grad-event.module';
 import { CaregiverWorkshopModule } from './caregiver-workshop/caregiver-workshop.module';
+import { CaseManagerQualificationModule } from './case-manager-qualifications/case-manager-qualification.module';
 
 
 @NgModule({
@@ -13,6 +14,7 @@ import { CaregiverWorkshopModule } from './caregiver-workshop/caregiver-workshop
     VisitModule,
     PostGradEventModule,
     CaregiverWorkshopModule,
+    CaseManagerQualificationModule,
     CsiModule
   ]
 })

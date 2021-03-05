@@ -1,0 +1,95 @@
+<h2 mat-dialog-title *ngIf="data.action == 'update'; else create;">Edit Training/Qualification</h2>
+<ng-template #create>
+  <h2 mat-dialog-title>Add a Training/Qualification</h2>
+</ng-template>
+
+<mat-dialog-content style="overflow: hidden">
+
+  <form [formGroup]="caseManagerQualificationEditForm">
+
+    <!--
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="form-group">
+          <label for="caseManagerQualificationId">Case Manager Qualification ID*</label>
+          <input type="text" id="caseManagerQualificationId" class="form-control" formControlName="caseManagerQualificationId">
+          <mat-error *ngFor="let validation of validationMessages.caseManagerQualificationId">
+            <mat-error class="error-message"
+                       *ngIf="caseManagerQualificationEditForm.get('caseManagerQualificationId').hasError(validation.type)
+                                && (caseManagerQualificationEditForm.get('caseManagerQualificationId').dirty ||
+                                caseManagerQualificationEditForm.get('caseManagerQualificationId').touched)">
+              {{validation.message}}
+            </mat-error>
+          </mat-error>
+        </div>
+      </div>
+    </div>
+    -->
+
+    <!--
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="form-group">
+          <label for="caseManagerId">Case Manager ID*</label>
+          <input type="text" id="caseManagerId" class="form-control" formControlName="caseManagerId">
+          <mat-error *ngFor="let validation of validationMessages.caseManagerId">
+            <mat-error class="error-message"
+                       *ngIf="caseManagerQualificationEditForm.get('caseManagerId').hasError(validation.type)
+                                && (caseManagerQualificationEditForm.get('caseManagerId').dirty ||
+                                caseManagerQualificationEditForm.get('caseManagerId').touched)">
+              {{validation.message}}
+            </mat-error>
+          </mat-error>
+        </div>
+      </div>
+    </div>
+    -->
+
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="form-group">
+          <label for="qualificationInstitution">Institution</label>
+          <input type="text" id="qualificationInstitution" class="form-control" formControlName="qualificationInstitution" #qualificationInstitutionField>
+          <mat-error *ngFor="let validation of validationMessages.qualificationInstitution">
+            <mat-error class="error-message"
+                       *ngIf="caseManagerQualificationEditForm.get('qualificationInstitution').hasError(validation.type)
+                                && (caseManagerQualificationEditForm.get('qualificationInstitution').dirty ||
+                                caseManagerQualificationEditForm.get('qualificationInstitution').touched)">
+              {{validation.message}}
+            </mat-error>
+          </mat-error>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="form-group">
+          <label for="qualificationName">Qualification*</label>
+          <input type="text" id="qualificationName" class="form-control" formControlName="qualificationName">
+          <mat-error *ngFor="let validation of validationMessages.qualificationName">
+            <mat-error class="error-message"
+                       *ngIf="caseManagerQualificationEditForm.get('qualificationName').hasError(validation.type)
+                                && (caseManagerQualificationEditForm.get('qualificationName').dirty ||
+                                caseManagerQualificationEditForm.get('qualificationName').touched)">
+              {{validation.message}}
+            </mat-error>
+          </mat-error>
+        </div>
+      </div>
+    </div>
+
+  </form>
+
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-raised-button class="btn btn-danger" (click)="delete();" *ngIf="data.action == 'update'">
+    Delete
+  </button>
+  <button mat-raised-button mat-dialog-close>Cancel</button>
+  <div fxFlex></div>
+  <button mat-raised-button mat-dialog-close class="btn btn-primary" (click)="save();"
+          [disabled]="!caseManagerQualificationEditForm.valid">Save
+  </button>
+</mat-dialog-actions>

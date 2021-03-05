@@ -1,12 +1,11 @@
 import { Component, ElementRef, Inject, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { ConfirmDialogComponent } from '../../../../../../@tqp/components/confirm-dialog/confirm-dialog.component';
+import { ConfirmDialogComponent } from '@tqp/components/confirm-dialog/confirm-dialog.component';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import * as moment from 'moment';
 import { CaregiverWorkshopService } from '../caregiver-workshop.service';
-import { ProgramStatus } from '../../../relationships/student-program-status-edit-dialog/ProgramStatus';
 import { CaregiverWorkshop } from '../CaregiverWorkshop';
-import { FormattingService } from '../../../../../../@tqp/services/formatting.service';
+import { FormattingService } from '@tqp/services/formatting.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-caregiver-workshop-edit-dialog',
@@ -23,16 +22,16 @@ export class CaregiverWorkshopEditDialogComponent implements OnInit {
 
   public validationMessages = {
     'caregiverWorkshopId': [
-      {type: 'required', message: 'A Caregiver-CaregiverWorkshop ID is required'}
+      {type: 'required', message: 'A Caregiver Workshop ID is required'}
     ],
     'caregiverId': [
       {type: 'required', message: 'A Caregiver ID is required'}
     ],
     'workshopName': [
-      {type: 'required', message: 'A CaregiverWorkshop Name is required'}
+      {type: 'required', message: 'A Workshop Name is required'}
     ],
     'workshopDate': [
-      {type: 'required', message: 'A CaregiverWorkshop Date is required'}
+      {type: 'required', message: 'A Workshop Date is required'}
     ]
   };
 

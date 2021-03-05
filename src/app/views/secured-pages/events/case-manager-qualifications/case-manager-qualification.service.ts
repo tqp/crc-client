@@ -1,28 +1,29 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { CaregiverWorkshop } from '../caregiver-workshop/CaregiverWorkshop';
 import { environment } from '../../../../../environments/environment';
 import { map } from 'rxjs/operators';
+import { CaseManagerQualification } from './CaseManagerQualification';
 import { HttpClient } from '@angular/common/http';
 import { HttpService } from '@tqp/services/http.service';
 import { TokenService } from '@tqp/services/token.service';
-import { CaregiverWorkshop } from './CaregiverWorkshop';
+import { Relationship } from '../../relationships/Relationship';
 
 @Injectable({
   providedIn: 'root'
 })
-export class CaregiverWorkshopService {
+export class CaseManagerQualificationService {
 
   constructor(private http: HttpClient,
               private httpService: HttpService,
-              private tokenService: TokenService) {
-  }
+              private tokenService: TokenService) { }
 
-  public createCaregiverWorkshop(workshop: CaregiverWorkshop): Observable<CaregiverWorkshop> {
-    const url = environment.apiUrl + '/api/v1/caregiver-workshop/';
+  public createCaseManagerQualification(qualification: CaseManagerQualification): Observable<CaseManagerQualification> {
+    const url = environment.apiUrl + '/api/v1/case-manager-qualification/';
     const token = this.tokenService.getToken();
     if (token) {
-      return this.http.post<CaregiverWorkshop>(url,
-        workshop,
+      return this.http.post<CaseManagerQualification>(url,
+        qualification,
         {
           headers: this.httpService.setHeadersWithToken(),
           observe: 'response',
@@ -39,11 +40,11 @@ export class CaregiverWorkshopService {
     }
   }
 
-  public getCaregiverWorkshopDetail(caregiverWorkshopId: number): Observable<CaregiverWorkshop> {
-    const url = environment.apiUrl + '/api/v1/caregiver-workshop/' + caregiverWorkshopId;
+  public getCaseManagerQualificationDetail(caseManagerQualificationId: number): Observable<CaseManagerQualification> {
+    const url = environment.apiUrl + '/api/v1/case-manager-qualification/' + caseManagerQualificationId;
     const token = this.tokenService.getToken();
     if (token) {
-      return this.http.get<CaregiverWorkshop>(url,
+      return this.http.get<CaseManagerQualification>(url,
         {
           headers: this.httpService.setHeadersWithToken(),
           observe: 'response',
@@ -60,12 +61,12 @@ export class CaregiverWorkshopService {
     }
   }
 
-  public updateCaregiverWorkshop(caregiverWorkshop: CaregiverWorkshop): Observable<CaregiverWorkshop> {
-    const url = environment.apiUrl + '/api/v1/caregiver-workshop/';
+  public updateCaseManagerQualification(qualification: CaseManagerQualification): Observable<CaseManagerQualification> {
+    const url = environment.apiUrl + '/api/v1/case-manager-qualification/';
     const token = this.tokenService.getToken();
     if (token) {
-      return this.http.put<CaregiverWorkshop>(url,
-        caregiverWorkshop,
+      return this.http.put<CaseManagerQualification>(url,
+        qualification,
         {
           headers: this.httpService.setHeadersWithToken(),
           observe: 'response',
@@ -82,8 +83,8 @@ export class CaregiverWorkshopService {
     }
   }
 
-  public deleteCaregiverWorkshop(caregiverWorkshop: CaregiverWorkshop): Observable<string> {
-    const url = environment.apiUrl + '/api/v1/caregiver-workshop/' + caregiverWorkshop.caregiverWorkshopId;
+  public deleteCaseManagerQualification(qualification: CaseManagerQualification): Observable<string> {
+    const url = environment.apiUrl + '/api/v1/case-manager-qualification/' + qualification.caseManagerQualificationId;
     const token = this.tokenService.getToken();
     if (token) {
       return this.http.delete<string>(url,
@@ -105,11 +106,11 @@ export class CaregiverWorkshopService {
 
   // JOINED TABLES
 
-  public getWorkshopListByCaregiverId(caregiverId: number): Observable<CaregiverWorkshop[]> {
-    const url = environment.apiUrl + '/api/v1/caregiver-workshop/caregiver/' + caregiverId;
+  public getQualificationListByCaseManagerId(caseManagerId: number): Observable<CaseManagerQualification[]> {
+    const url = environment.apiUrl + '/api/v1/case-manager-qualification/case-manager/' + caseManagerId;
     const token = this.tokenService.getToken();
     if (token) {
-      return this.http.get<CaregiverWorkshop[]>(url, {
+      return this.http.get<CaseManagerQualification[]>(url, {
         headers: this.httpService.setHeadersWithToken(),
         observe: 'response',
         params: {}

@@ -23,7 +23,6 @@ export class CaregiverDetailComponent implements OnInit {
   public pageSource: string;
   public caregiver: Caregiver;
   public genderNames = {'M': 'Male', 'F': 'Female', 'O': 'Other'};
-
   public caregiverLoading: boolean = false;
 
   // Associated Students List
@@ -74,7 +73,7 @@ export class CaregiverDetailComponent implements OnInit {
         this.getCaregiverDetail(caregiverId);
         this.getStudentListByCaregiverId(caregiverId);
         this.getLoanListByCaregiverId(caregiverId);
-        this.getCaregiverWorkshopListByCaregiverId(caregiverId);
+        this.getWorkshopListByCaregiverId(caregiverId);
       } else {
         console.error('No ID was present.');
       }
@@ -127,8 +126,8 @@ export class CaregiverDetailComponent implements OnInit {
     );
   }
 
-  private getCaregiverWorkshopListByCaregiverId(caregiverId: number): void {
-    this.caregiverWorkshopService.getCaregiverWorkshopListByCaregiverId(caregiverId).subscribe(
+  private getWorkshopListByCaregiverId(caregiverId: number): void {
+    this.caregiverWorkshopService.getWorkshopListByCaregiverId(caregiverId).subscribe(
       (workshopList: CaregiverWorkshop[]) => {
         this.workshopListRecords = [];
         workshopList.forEach(item => {
@@ -151,8 +150,8 @@ export class CaregiverDetailComponent implements OnInit {
     dialogConfig.autoFocus = true;
     dialogConfig.data = {
       action: caregiverWorkshopId == null ? 'create' : 'update',
-      caregiverId: caregiverId,
-      caregiverWorkshopId: caregiverWorkshopId
+      caregiverWorkshopId: caregiverWorkshopId,
+      caregiverId: caregiverId
     };
     dialogConfig.autoFocus = false;
     const dialogRef = this._matDialog.open(CaregiverWorkshopEditDialogComponent, dialogConfig);
@@ -173,7 +172,7 @@ export class CaregiverDetailComponent implements OnInit {
             this.caregiverWorkshopService.createCaregiverWorkshop(caregiverWorkshop).subscribe(
               () => {
                 // console.log('response', response);
-                this.getCaregiverWorkshopListByCaregiverId(this.caregiver.caregiverId);
+                this.getWorkshopListByCaregiverId(this.caregiver.caregiverId);
               },
               error => {
                 console.error('Error: ', error);
@@ -184,7 +183,7 @@ export class CaregiverDetailComponent implements OnInit {
             this.caregiverWorkshopService.updateCaregiverWorkshop(caregiverWorkshop).subscribe(
               response => {
                 // console.log('response', response);
-                this.getCaregiverWorkshopListByCaregiverId(this.caregiver.caregiverId);
+                this.getWorkshopListByCaregiverId(this.caregiver.caregiverId);
               },
               error => {
                 console.error('Error: ', error);
@@ -195,7 +194,7 @@ export class CaregiverDetailComponent implements OnInit {
             this.caregiverWorkshopService.deleteCaregiverWorkshop(caregiverWorkshop).subscribe(
               response => {
                 // console.log('response', response);
-                this.getCaregiverWorkshopListByCaregiverId(this.caregiver.caregiverId);
+                this.getWorkshopListByCaregiverId(this.caregiver.caregiverId);
               },
               error => {
                 console.error('Error: ', error);
