@@ -34,7 +34,7 @@
             <option value=0>Select a Sponsor</option>
             <option *ngFor="let sponsor of sponsorList"
                     value="{{sponsor.sponsorId}}">
-              {{sponsor.sponsorSurname}}, {{sponsor.sponsorGivenName}}
+              {{sponsor.sponsorGivenName}} {{sponsor.sponsorSurname}}
             </option>
           </select>
           <mat-error *ngFor="let validation of validationMessages.sponsorId">

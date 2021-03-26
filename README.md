@@ -1,5 +1,9 @@
 # TQP App Using CoreUI
 
+## Running the client.
+- npm install
+- npm run start-dev
+
 ## Issues Encountered and Solutions
 
 #### Two or more projects are using identical roots

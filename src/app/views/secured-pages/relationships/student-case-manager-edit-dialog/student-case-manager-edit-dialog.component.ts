@@ -4,9 +4,9 @@ import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dial
 import { CaseManager } from '../../people/case-managers/CaseManager';
 import { CaseManagerService } from '../../people/case-managers/case-manager.service';
 import * as moment from 'moment';
-import { ConfirmDialogComponent } from '../../../../../@tqp/components/confirm-dialog/confirm-dialog.component';
-import { FormattingService } from '../../../../../@tqp/services/formatting.service';
-import { validateNonZeroValue } from '../../../../../@tqp/validators/custom.validators';
+import { ConfirmDialogComponent } from '@tqp/components/confirm-dialog/confirm-dialog.component';
+import { FormattingService } from '@tqp/services/formatting.service';
+import { validateNonZeroValue } from '@tqp/validators/custom.validators';
 
 @Component({
   selector: 'app-student-case-manager-edit-dialog',

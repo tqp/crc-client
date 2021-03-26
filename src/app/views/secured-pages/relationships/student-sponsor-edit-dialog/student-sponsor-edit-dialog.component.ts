@@ -4,8 +4,9 @@ import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dial
 import { Sponsor } from '../../people/sponsors/Sponsor';
 import { SponsorService } from '../../people/sponsors/sponsor.service';
 import * as moment from 'moment';
-import { ConfirmDialogComponent } from '../../../../../@tqp/components/confirm-dialog/confirm-dialog.component';
-import { FormattingService } from '../../../../../@tqp/services/formatting.service';
+import { ConfirmDialogComponent } from '@tqp/components/confirm-dialog/confirm-dialog.component';
+import { FormattingService } from '@tqp/services/formatting.service';
+import { validateNonZeroValue } from '@tqp/validators/custom.validators';
 
 @Component({
   selector: 'app-student-sponsor-edit-dialog',
@@ -23,7 +24,8 @@ export class StudentSponsorEditDialogComponent implements OnInit {
   public validationMessages = {
     'relationshipId': [],
     'sponsorId': [
-      {type: 'required', message: 'A Case Manager is required'}
+      {type: 'required', message: 'A Sponsor is required'},
+      {type: 'validateNonZeroValue', message: 'A Sponsor is required'}
     ],
     'relationshipStartDate': [
       {type: 'required', message: 'An Effective Date is required'}
@@ -51,7 +53,7 @@ export class StudentSponsorEditDialogComponent implements OnInit {
   private initializeForm(): void {
     this.studentSponsorEditForm = this.formBuilder.group({
       relationshipId: new FormControl({value: 0, disabled: true}),
-      sponsorId: new FormControl(0, Validators.required),
+      sponsorId: new FormControl(0, [Validators.required, validateNonZeroValue]),
       relationshipStartDate: new FormControl(moment().format('DD-MMM-yyyy'), Validators.required)
     });
 
