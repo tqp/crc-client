@@ -65,7 +65,7 @@ export class StudentSponsorEditDialogComponent implements OnInit {
   // LOAD DATA
 
   private getSponsorDetailByStudentId(studentId: number): void {
-    this.sponsorService.getSponsorDetailByStudentId(studentId).subscribe(
+    this.sponsorService.getCurrentSponsorDetailByStudentId(studentId).subscribe(
       response => {
         console.log('response', response);
         this.sponsorRelationship = response;

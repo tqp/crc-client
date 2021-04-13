@@ -1,11 +1,17 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { EventService } from '../../../../../../@tqp/services/event.service';
+import { EventService } from '@tqp/services/event.service';
 import { Sponsor } from '../Sponsor';
 import { SponsorService } from '../sponsor.service';
-import { AuthService } from '../../../../../../@tqp/services/auth.service';
+import { AuthService } from '@tqp/services/auth.service';
 import { RelationshipService } from '../../../relationships/relationship.service';
 import { Student } from '../../students/Student';
+import { Visit } from '../../../events/visit/Visit';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { StudentSponsorLetterService } from '../../../events/student-sponsor-letter/student-sponsor-letter.service';
+import { StudentSponsorLetter } from '../../../events/student-sponsor-letter/StudentSponsorLetter';
+import { StudentSponsorLetterDetailEditDialogComponent } from '../../../events/student-sponsor-letter/student-sponsor-letter-detail-edit-dialog/student-sponsor-letter-detail-edit-dialog.component';
+import { StudentService } from '../../students/student.service';
 
 @Component({
   selector: 'app-sponsor-detail',
@@ -26,12 +32,25 @@ export class SponsorDetailComponent implements OnInit {
     'relationshipStartDate'
   ];
 
+  // Student-Sponsor Letters
+  public sponsorLetterListLoading: boolean = false;
+  public sponsorLetterListRecords: Visit[] = [];
+  public sponsorLetterListDataSource: Visit[] = [];
+  public sponsorLetterListDisplayedColumns: string[] = [
+    // 'studentSponsorLetterId',
+    'studentSponsorLetterDate',
+    'sponsorName'
+  ];
+
   constructor(private route: ActivatedRoute,
               private sponsorService: SponsorService,
               private relationshipService: RelationshipService,
+              private studentService: StudentService,
+              private sponsorLetterService: StudentSponsorLetterService,
               private eventService: EventService,
               private router: Router,
-              public authService: AuthService) {
+              public authService: AuthService,
+              public _matDialog: MatDialog) {
   }
 
   ngOnInit(): void {
@@ -41,6 +60,7 @@ export class SponsorDetailComponent implements OnInit {
         // console.log('sponsorId', sponsorId);
         this.getSponsorDetail(sponsorId);
         this.getStudentListBySponsorId(sponsorId);
+        this.getSponsorLetterListBySponsorId(sponsorId);
       } else {
         console.error('No ID was present.');
       }
@@ -61,10 +81,10 @@ export class SponsorDetailComponent implements OnInit {
     );
   }
 
-  private getStudentListBySponsorId(caseManagerId: number): void {
-    this.relationshipService.getStudentListBySponsorId(caseManagerId).subscribe(
+  private getStudentListBySponsorId(sponsorId: number): void {
+    this.studentService.getStudentListBySponsorId(sponsorId).subscribe(
       (studentList: Student[]) => {
-        console.log('studentList', studentList);
+        // console.log('studentList', studentList);
         studentList.forEach(item => {
           this.studentListRecords.push(item);
         });
@@ -74,6 +94,92 @@ export class SponsorDetailComponent implements OnInit {
         console.error('Error: ', error);
       }
     );
+  }
+
+  private getSponsorLetterListBySponsorId(sponsorId: number): void {
+    this.sponsorLetterService.getStudentSponsorLetterListBySponsorId(sponsorId).subscribe(
+      (sponsorLetterList: StudentSponsorLetter[]) => {
+        // console.log('sponsorLetterList', sponsorLetterList);
+        this.sponsorLetterListRecords = [];
+        sponsorLetterList.forEach(item => {
+          this.sponsorLetterListRecords.push(item);
+        });
+        this.sponsorLetterListDataSource = this.sponsorLetterListRecords;
+      },
+      error => {
+        console.error('Error: ', error);
+      }
+    );
+  }
+
+  public openStudentSponsorLetterEditDialog(studentSponsorLetterId, sponsorId, studentId): void {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.minWidth = '40%';
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.data = {
+      action: studentSponsorLetterId === null ? 'create' : 'update',
+      studentId: studentId,
+      sponsorId: sponsorId
+    };
+    dialogConfig.autoFocus = false;
+    const dialogRef = this._matDialog.open(StudentSponsorLetterDetailEditDialogComponent, dialogConfig);
+
+    dialogRef.afterClosed().subscribe(dialogData => {
+      console.log('dialogData', dialogData);
+      if (dialogData) {
+        // const relationship: Relationship = {};
+        // const formData = dialogData[1];
+        // relationship.studentId = this.student.studentId;
+        // relationship.relationshipType = 'Student-Sponsor';
+        // relationship.relationshipId = formData.relationshipId;
+        // relationship.relationshipEntityId = formData.sponsorId;
+        // relationship.relationshipStartDate = this.formattingService.formatStandardDateAsMySql(formData.relationshipStartDate);
+        // console.log('relationship', relationship);
+
+        // switch (dialogData[0]) {
+        //   case 'create':
+        //     this.relationshipService.createSponsorRelationship(relationship).subscribe(
+        //       () => {
+        //         // console.log('response', response);
+        //         this.getSponsorDetailByStudentId(this.student.studentId);
+        //         this.getHistoryListByStudentId(this.student.studentId);
+        //       },
+        //       error => {
+        //         console.error('Error: ', error);
+        //       }
+        //     );
+        //     break;
+        //   case 'update':
+        //     this.relationshipService.updateSponsorRelationship(relationship).subscribe(
+        //       response => {
+        //         console.log('response', response);
+        //         this.getSponsorDetailByStudentId(this.student.studentId);
+        //         this.getHistoryListByStudentId(this.student.studentId);
+        //       },
+        //       error => {
+        //         console.error('Error: ', error);
+        //       }
+        //     );
+        //     break;
+        //   case 'delete':
+        //     console.log('relationship', relationship);
+        //     this.relationshipService.deleteSponsorRelationship(relationship).subscribe(
+        //       response => {
+        //         console.log('response', response);
+        //         this.getSponsorDetailByStudentId(this.student.studentId);
+        //         this.getHistoryListByStudentId(this.student.studentId);
+        //       },
+        //       error => {
+        //         console.error('Error: ', error);
+        //       }
+        //     );
+        //     break;
+        //   default:
+        //     console.error('Unknown Action Type', dialogData[0]);
+        // }
+      }
+    });
   }
 
   // Buttons

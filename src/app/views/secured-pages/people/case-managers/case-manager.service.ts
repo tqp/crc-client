@@ -154,8 +154,8 @@ export class CaseManagerService {
 
   // JOINED QUERIES
 
-  public getCaseManagerDetailByStudentId(studentId: number): Observable<CaseManager> {
-    const url = environment.apiUrl + '/api/v1/case-manager/student/' + studentId;
+  public getCurrentCaseManagerDetailByStudentId(studentId: number): Observable<CaseManager> {
+    const url = environment.apiUrl + '/api/v1/case-manager/student/' + studentId + '/current';
     const token = this.tokenService.getToken();
     if (token) {
       return this.http.get<CaseManager>(url,

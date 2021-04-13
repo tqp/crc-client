@@ -152,8 +152,8 @@ export class CaregiverService {
 
   // JOINED QUERIES
 
-  public getCaregiverDetailByStudentId(studentId: number): Observable<Caregiver> {
-    const url = environment.apiUrl + '/api/v1/caregiver/student/' + studentId;
+  public getCurrentCaregiverDetailByStudentId(studentId: number): Observable<Caregiver> {
+    const url = environment.apiUrl + '/api/v1/caregiver/student/' + studentId + '/current';
     const token = this.tokenService.getToken();
     if (token) {
       return this.http.get<Caregiver>(url,

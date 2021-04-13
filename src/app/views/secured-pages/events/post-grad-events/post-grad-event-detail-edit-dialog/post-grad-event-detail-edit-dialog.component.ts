@@ -1,12 +1,12 @@
 import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { ConfirmDialogComponent } from '../../../../../../@tqp/components/confirm-dialog/confirm-dialog.component';
+import { ConfirmDialogComponent } from '@tqp/components/confirm-dialog/confirm-dialog.component';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { PostGradEvent } from '../PostGradEvent';
 import { PostGradEventType } from '../../../reference-tables/post-grad-event-type/PostGradEventType';
 import { PostGradEventTypeService } from '../../../reference-tables/post-grad-event-type/post-grad-event-type.service';
-import { FormattingService } from '../../../../../../@tqp/services/formatting.service';
-import { validateNonZeroValue } from '../../../../../../@tqp/validators/custom.validators';
+import { FormattingService } from '@tqp/services/formatting.service';
+import { validateNonZeroValue } from '@tqp/validators/custom.validators';
 import * as moment from 'moment';
 
 @Component({

@@ -93,8 +93,73 @@
       <div class="card">
         <div class="card-header">
           <i class="fa fa-calendar-check-o"></i>
+          Letters to Sponsor<span
+          class="badge badge-secondary ml-2">{{studentSponsorLetterListDataSource.length}}</span>
+          <i *ngIf="studentSponsorLetterListLoading" class="fa fa-spinner fa-spin"></i>
+          <div class="card-header-actions"
+               [hidden]="authService.allowRoles('ROLE_CASE_MANAGER, ROLE_ADMIN', 'Add Sponsor Letter')">
+            <small class="tqp-nav-link"
+                   (click)="openStudentSponsorLetterEditDialog(null, null, this.student.studentId);">
+              Add Sponsor Letter
+            </small>
+          </div>
+        </div>
+        <div class="card-body">
+
+          <div class="table-container">
+
+            <table mat-table [dataSource]="studentSponsorLetterListDataSource"
+                   *ngIf="studentSponsorLetterListDataSource && studentSponsorLetterListDataSource.length > 0"
+                   class="table">
+
+              <ng-container matColumnDef="sponsorLetterId">
+                <th mat-header-cell *matHeaderCellDef>Letter ID</th>
+                <td mat-cell *matCellDef="let row">
+                  <a [routerLink]="['/sponsor-letter/sponsor-letter-detail', row.sponsorLetterId]">
+                    {{row.sponsorLetterId}}
+                  </a>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="studentSponsorLetterDate">
+                <th mat-header-cell *matHeaderCellDef>Date of Letter</th>
+                <td mat-cell *matCellDef="let row">
+                  <a
+                    [routerLink]="['/student-sponsor-letter/student-sponsor-letter-detail', row.studentSponsorLetterId]">
+                    {{row.studentSponsorLetterDate | date: 'dd-MMM-yyyy' | uppercase}}
+                  </a>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="sponsorName">
+                <th mat-header-cell *matHeaderCellDef>Sponsor</th>
+                <td mat-cell *matCellDef="let row">
+                  <a [routerLink]="['/sponsors/sponsor-detail', row.sponsorId]">
+                    {{row.sponsorGivenName}} {{row.sponsorSurname}}
+                  </a>
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="studentSponsorLetterListDisplayedColumns; sticky: true"
+                  [hidden]="false"></tr>
+              <tr mat-row *matRowDef="let row; columns: studentSponsorLetterListDisplayedColumns;"></tr>
+            </table>
+
+            <div class="no-records"
+                 *ngIf="studentSponsorLetterListDataSource && studentSponsorLetterListDataSource.length <= 0">
+              No Records Found
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-calendar-check-o"></i>
           CSI Records<span class="badge badge-secondary ml-2">{{csiListDataSource.length}}</span>
-          <i *ngIf="visitListLoading" class="fa fa-spinner fa-spin"></i>
+          <i *ngIf="csiListLoading" class="fa fa-spinner fa-spin"></i>
           <div class="card-header-actions"
                [hidden]="authService.allowRoles('ROLE_CASE_MANAGER, ROLE_ADMIN', 'Add CSI Record')">
             <small class="tqp-nav-link" (click)="openCsiCreatePage();">Add CSI Record</small>

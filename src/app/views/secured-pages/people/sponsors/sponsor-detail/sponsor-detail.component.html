@@ -45,6 +45,69 @@
         </div>
       </div>
 
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-calendar-check-o"></i>
+          Letters from Students<span class="badge badge-secondary ml-2">{{sponsorLetterListDataSource.length}}</span>
+          <i *ngIf="sponsorLetterListLoading" class="fa fa-spinner fa-spin"></i>
+          <div class="card-header-actions"
+               [hidden]="authService.allowRoles('ROLE_CASE_MANAGER, ROLE_ADMIN', 'Add Sponsor Letter')">
+            <small class="tqp-nav-link"
+                   (click)="openStudentSponsorLetterEditDialog(null, this.sponsor.sponsorId, null);">
+              Add Sponsor Letter
+            </small>
+          </div>
+        </div>
+        <div class="card-body">
+
+          <div class="table-container">
+
+            <table mat-table [dataSource]="sponsorLetterListDataSource"
+                   *ngIf="sponsorLetterListDataSource && sponsorLetterListDataSource.length > 0" class="table">
+
+              <ng-container matColumnDef="studentSponsorLetterId">
+                <th mat-header-cell *matHeaderCellDef>Letter ID</th>
+                <td mat-cell *matCellDef="let row">
+                  <a
+                    [routerLink]="['/student-sponsor-letter/student-sponsor-letter-detail', row.studentSponsorLetterId]">
+                    {{row.studentSponsorLetterId}}
+                  </a>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="studentSponsorLetterDate">
+                <th mat-header-cell *matHeaderCellDef>Date of Letter</th>
+                <td mat-cell *matCellDef="let row">
+                  <a
+                    [routerLink]="['/student-sponsor-letter/student-sponsor-letter-detail', row.studentSponsorLetterId]">
+                    {{row.studentSponsorLetterDate | date: 'dd-MMM-yyyy' | uppercase}}
+                  </a>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="sponsorName">
+                <th mat-header-cell *matHeaderCellDef>Student</th>
+                <td mat-cell *matCellDef="let row">
+                  <a [routerLink]="['/students/student-detail', row.studentId]">
+                    {{row.studentGivenName}} {{row.studentSurname}}
+                  </a>
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="sponsorLetterListDisplayedColumns; sticky: true"
+                  [hidden]="false"></tr>
+              <tr mat-row *matRowDef="let row; columns: sponsorLetterListDisplayedColumns;"></tr>
+            </table>
+
+            <div class="no-records" *ngIf="sponsorLetterListDataSource && sponsorLetterListDataSource.length <= 0">
+              No Records Found
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
     </div>
 
     <div class="col-lg-6 col-sm-12">

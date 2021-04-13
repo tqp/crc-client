@@ -149,11 +149,32 @@ export class SponsorService {
 
   // Relationship
 
-  public getSponsorDetailByStudentId(studentId: number): Observable<Sponsor> {
-    const url = environment.apiUrl + '/api/v1/sponsor/student/' + studentId;
+  public getCurrentSponsorDetailByStudentId(studentId: number): Observable<Sponsor> {
+    const url = environment.apiUrl + '/api/v1/sponsor/student/' + studentId + '/current';
     const token = this.tokenService.getToken();
     if (token) {
       return this.http.get<Sponsor>(url,
+        {
+          headers: this.httpService.setHeadersWithToken(),
+          observe: 'response',
+          params: {}
+        })
+        .pipe(
+          map(res => {
+            return res.body;
+          })
+        );
+    } else {
+      console.error('No token was present.');
+      return null;
+    }
+  }
+
+  public getSponsorListByStudentId(studentId: number): Observable<Sponsor[]> {
+    const url = environment.apiUrl + '/api/v1/sponsor/student/' + studentId;
+    const token = this.tokenService.getToken();
+    if (token) {
+      return this.http.get<Sponsor[]>(url,
         {
           headers: this.httpService.setHeadersWithToken(),
           observe: 'response',

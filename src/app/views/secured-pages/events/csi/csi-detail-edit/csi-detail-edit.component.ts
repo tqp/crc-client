@@ -1,20 +1,20 @@
 import { Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { ConfirmDialogComponent } from '../../../../../../@tqp/components/confirm-dialog/confirm-dialog.component';
+import { ConfirmDialogComponent } from '@tqp/components/confirm-dialog/confirm-dialog.component';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Csi } from '../Csi';
 import { CsiService } from '../csi.service';
 import { Student } from '../../../people/students/Student';
 import { StudentService } from '../../../people/students/student.service';
-import { FormattingService } from '../../../../../../@tqp/services/formatting.service';
+import { FormattingService } from '@tqp/services/formatting.service';
 import { CaseManager } from '../../../people/case-managers/CaseManager';
 import { CaseManagerService } from '../../../people/case-managers/case-manager.service';
 import * as moment from 'moment';
 import { ServicesProvidedTypeService } from '../../../reference-tables/services-provided-type/services-provided-type.service';
 import { ServicesProvidedType } from '../../../reference-tables/services-provided-type/ServicesProvidedType';
 import { forkJoin } from 'rxjs';
-import { validateNonZeroValue } from '../../../../../../@tqp/validators/custom.validators';
+import { validateNonZeroValue } from '@tqp/validators/custom.validators';
 
 // REF: https://coryrylan.com/blog/creating-a-dynamic-checkbox-list-in-angular
 
@@ -51,7 +51,7 @@ export class CsiDetailEditComponent implements OnInit, OnDestroy {
       {type: 'required', message: 'An Student is required'},
       {type: 'validateNonZeroValue', message: 'You must select a Student'}
     ],
-    'caseManagerId': [
+    'userId': [
       {type: 'required', message: 'A Case Manager is required'},
       {type: 'validateNonZeroValue', message: 'You must select a Case Manager'}
     ],
@@ -162,7 +162,7 @@ export class CsiDetailEditComponent implements OnInit, OnDestroy {
     this.csiEditForm = this.formBuilder.group({
       csiId: new FormControl({value: 0, disabled: true}),
       studentId: new FormControl({value: this.studentId, disabled: true}, [validateNonZeroValue]),
-      caseManagerId: new FormControl({value: 0, disabled: false}, [validateNonZeroValue]),
+      userId: new FormControl({value: 0, disabled: false}, [validateNonZeroValue]),
       csiDate: new FormControl(moment().format('DD-MMM-yyyy'), Validators.required),
       csiComments: new FormControl('', Validators.required),
       csiServicesProvided: new FormControl(''),
@@ -201,7 +201,7 @@ export class CsiDetailEditComponent implements OnInit, OnDestroy {
         // console.log('this.csi', this.csi);
         this.csiEditForm.controls['csiId'].patchValue(this.csi.csiId);
         this.csiEditForm.controls['studentId'].patchValue(this.csi.studentId);
-        this.csiEditForm.controls['caseManagerId'].patchValue(this.csi.caseManagerId);
+        this.csiEditForm.controls['userId'].patchValue(this.csi.userId);
         this.csiEditForm.controls['csiDate'].patchValue(this.formattingService.formatMySqlDateAsStandard(this.csi.csiDate));
         this.csiEditForm.controls['csiComments'].patchValue(this.csi.csiComments);
         this.csiEditForm.controls['csiServicesProvided'].patchValue(this.csi.csiServicesProvided);
@@ -276,7 +276,7 @@ export class CsiDetailEditComponent implements OnInit, OnDestroy {
   private getCaseManagerList(): void {
     this.caseManagerService.getCaseManagerList().subscribe(
       (response: CaseManager[]) => {
-        // console.log('response', response);
+        console.log('response', response);
         this.caseManagerList = response;
       },
       error => {
@@ -342,7 +342,7 @@ export class CsiDetailEditComponent implements OnInit, OnDestroy {
     // console.log('csiEditForm', this.csiEditForm.getRawValue());
     csi.csiId = this.csiEditForm.getRawValue().csiId;
     csi.studentId = this.csiEditForm.getRawValue().studentId;
-    csi.caseManagerId = this.csiEditForm.getRawValue().caseManagerId;
+    csi.userId = this.csiEditForm.getRawValue().userId;
     csi.csiDate = this.formattingService.formatStandardDateAsMySql(this.csiEditForm.getRawValue().csiDate);
     csi.csiComments = this.csiEditForm.getRawValue().csiComments;
     csi.csiServicesProvided = this.csiEditForm.getRawValue().csiServicesProvided;

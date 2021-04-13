@@ -65,7 +65,7 @@ export class StudentCaseManagerEditDialogComponent implements OnInit {
   // LOAD DATA
 
   private getCaseManagerDetailByStudentId(studentId: number): void {
-    this.caseManagerService.getCaseManagerDetailByStudentId(studentId).subscribe(
+    this.caseManagerService.getCurrentCaseManagerDetailByStudentId(studentId).subscribe(
       response => {
         console.log('response', response);
         this.caseManagerRelationship = response;

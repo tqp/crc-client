@@ -1,7 +1,7 @@
 export class Csi {
   public csiId?: number;
   public studentId?: number;
-  public caseManagerId?: number;
+  public userId?: number;
   public csiDate?: string;
   public csiServicesProvided?: string;
   public csiComments?: string;

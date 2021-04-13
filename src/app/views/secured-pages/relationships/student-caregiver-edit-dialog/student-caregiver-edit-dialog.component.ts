@@ -90,7 +90,7 @@ export class StudentCaregiverEditDialogComponent implements OnInit {
   // LOAD DATA
 
   private getCaregiverDetailByStudentId(studentId: number): void {
-    this.caregiverService.getCaregiverDetailByStudentId(studentId).subscribe(
+    this.caregiverService.getCurrentCaregiverDetailByStudentId(studentId).subscribe(
       response => {
         // console.log('response', response);
         this.caregiverRelationship = response;

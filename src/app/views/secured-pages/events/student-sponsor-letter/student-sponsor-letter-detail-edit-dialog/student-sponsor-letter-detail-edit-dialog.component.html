@@ -1,0 +1,146 @@
+<h2 mat-dialog-title *ngIf="data.action == 'update'; else create;">Edit Student-Sponsor Letter</h2>
+<ng-template #create>
+  <h2 mat-dialog-title>Add Student-Sponsor Letter</h2>
+</ng-template>
+
+<mat-dialog-content style="overflow: auto">
+
+  <form [formGroup]="studentSponsorLetterEditForm" [hidden]="!dataLoaded">
+
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="form-group">
+          <label for="studentSponsorLetterId">Sponsor Letter ID</label>
+          <input id="studentSponsorLetterId" type="text" class="form-control" formControlName="studentSponsorLetterId">
+          <mat-error *ngFor="let validation of validationMessages.studentSponsorLetterId">
+            <mat-error class="error-message"
+                       *ngIf="studentSponsorLetterEditForm.get('studentSponsorLetterId').hasError(validation.type)
+                                && (studentSponsorLetterEditForm.get('studentSponsorLetterId').dirty ||
+                                studentSponsorLetterEditForm.get('studentSponsorLetterId').touched)">
+              {{validation.message}}
+            </mat-error>
+          </mat-error>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="form-group">
+          <label for="studentId">Student ID</label>
+          <input id="studentId" type="text" class="form-control" formControlName="studentId">
+          <mat-error *ngFor="let validation of validationMessages.studentId">
+            <mat-error class="error-message"
+                       *ngIf="studentSponsorLetterEditForm.get('studentId').hasError(validation.type)
+                                && (studentSponsorLetterEditForm.get('studentId').dirty ||
+                                studentSponsorLetterEditForm.get('studentId').touched)">
+              {{validation.message}}
+            </mat-error>
+          </mat-error>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="form-group">
+          <label for="sponsorId">Sponsor ID</label>
+          <input id="sponsorId" type="text" class="form-control" formControlName="sponsorId">
+          <mat-error *ngFor="let validation of validationMessages.sponsorId">
+            <mat-error class="error-message"
+                       *ngIf="studentSponsorLetterEditForm.get('sponsorId').hasError(validation.type)
+                                && (studentSponsorLetterEditForm.get('sponsorId').dirty ||
+                                studentSponsorLetterEditForm.get('sponsorId').touched)">
+              {{validation.message}}
+            </mat-error>
+          </mat-error>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="form-group">
+          <label for="sponsorIdDropdown">Sponsor ID Drop-Down</label>
+          <select id="sponsorIdDropdown" class="form-control" formControlName="sponsorIdDropdown">
+            <option value=0>Select a Sponsor</option>
+            <option *ngFor="let sponsor of sponsorList"
+                    value="{{sponsor.sponsorId}}">
+              {{sponsor.sponsorGivenName}} {{sponsor.sponsorSurname}}
+            </option>
+          </select>
+          <mat-error *ngFor="let validation of validationMessages.sponsorId">
+            <mat-error class="error-message"
+                       *ngIf="studentSponsorLetterEditForm.get('sponsorIdDropdown').hasError(validation.type)
+                                && (studentSponsorLetterEditForm.get('sponsorIdDropdown').dirty ||
+                                studentSponsorLetterEditForm.get('sponsorIdDropdown').touched)">
+              {{validation.message}}
+            </mat-error>
+          </mat-error>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="form-group">
+          <label for="studentIdDropdown">Student ID Drop-Down</label>
+          <select id="studentIdDropdown" class="form-control" formControlName="studentIdDropdown">
+            <option value=0>Select a Student</option>
+            <option *ngFor="let student of studentList"
+                    value="{{student.studentId}}">
+              {{student.studentGivenName}} {{student.studentSurname}}
+            </option>
+          </select>
+          <mat-error *ngFor="let validation of validationMessages.sponsorId">
+            <mat-error class="error-message"
+                       *ngIf="studentSponsorLetterEditForm.get('studentIdDropdown').hasError(validation.type)
+                                && (studentSponsorLetterEditForm.get('studentIdDropdown').dirty ||
+                                studentSponsorLetterEditForm.get('studentIdDropdown').touched)">
+              {{validation.message}}
+            </mat-error>
+          </mat-error>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="form-group">
+          <label for="studentSponsorLetterDate">Letter Date*</label>
+          <input id="studentSponsorLetterDate" type="text" class="form-control" bsDatepicker
+                 [bsConfig]="{dateInputFormat: 'DD-MMM-YYYY'}"
+                 formControlName="studentSponsorLetterDate">
+          <mat-error *ngFor="let validation of validationMessages.studentSponsorLetterDate">
+            <mat-error class="error-message"
+                       *ngIf="studentSponsorLetterEditForm.get('studentSponsorLetterDate').hasError(validation.type)
+                                && (studentSponsorLetterEditForm.get('studentSponsorLetterDate').dirty ||
+                                studentSponsorLetterEditForm.get('studentSponsorLetterDate').touched)">
+              {{validation.message}}
+            </mat-error>
+          </mat-error>
+        </div>
+      </div>
+    </div>
+
+  </form>
+
+  <mat-card class="spinner-container" *ngIf="!dataLoaded">
+    <mat-progress-spinner
+      color="primary"
+      mode="indeterminate">
+    </mat-progress-spinner>
+  </mat-card>
+
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-raised-button class="btn btn-danger" (click)="delete();" *ngIf="data.action == 'update'">
+    Delete
+  </button>
+  <button mat-raised-button mat-dialog-close>Cancel</button>
+  <div fxFlex></div>
+  <button mat-raised-button mat-dialog-close class="btn btn-primary" (click)="save();"
+          [disabled]="!studentSponsorLetterEditForm.valid">Save
+  </button>
+</mat-dialog-actions>

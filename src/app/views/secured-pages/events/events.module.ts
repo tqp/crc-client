@@ -5,18 +5,19 @@ import { CsiModule } from './csi/csi.module';
 import { PostGradEventModule } from './post-grad-events/post-grad-event.module';
 import { CaregiverWorkshopModule } from './caregiver-workshop/caregiver-workshop.module';
 import { CaseManagerQualificationModule } from './case-manager-qualifications/case-manager-qualification.module';
-import { StudentSponsorLetterComponent } from './student-sponsor-letter/student-sponsor-letter.component';
+import { StudentSponsorLetterModule } from './student-sponsor-letter/student-sponsor-letter.module';
 
 
 @NgModule({
-  declarations: [StudentSponsorLetterComponent],
+  declarations: [],
   imports: [
     CommonModule,
     VisitModule,
     PostGradEventModule,
     CaregiverWorkshopModule,
     CaseManagerQualificationModule,
-    CsiModule
+    CsiModule,
+    StudentSponsorLetterModule
   ]
 })
 export class EventsModule {
