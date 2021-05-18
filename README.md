@@ -1,4 +1,4 @@
-# TQP App Using CoreUI
+# TQP App Using CoreUI.
 
 ## Running the client.
 - npm install
