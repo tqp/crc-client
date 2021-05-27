@@ -1,19 +1,19 @@
 import { Component, ElementRef, HostListener, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { ConfirmDialogComponent } from '../../../../../../@tqp/components/confirm-dialog/confirm-dialog.component';
+import { ConfirmDialogComponent } from '@tqp/components/confirm-dialog/confirm-dialog.component';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { Visit } from '../Visit';
-import { VisitService } from '../visit.service';
-import { FormattingService } from '../../../../../../@tqp/services/formatting.service';
-import { VisitTypeService } from '../../../reference-tables/visit-type/visit-type.service';
-import { InteractionTypeService } from '../../../reference-tables/interaction-type/interaction-type.service';
-import { InteractionType } from '../../../reference-tables/interaction-type/InteractionType';
-import { VisitType } from '../../../reference-tables/visit-type/VisitType';
-import { CaseManager } from '../../../people/case-managers/CaseManager';
-import { CaseManagerService } from '../../../people/case-managers/case-manager.service';
-import { Student } from '../../../people/students/Student';
-import { StudentService } from '../../../people/students/student.service';
+import { Visit } from '../../../../../models/visit.model';
+import { VisitService } from '../../../../../services/visit.service';
+import { FormattingService } from '@tqp/services/formatting.service';
+import { VisitTypeService } from '../../../../../services/visit-type.service';
+import { InteractionTypeService } from '../../../../../services/interaction-type.service';
+import { InteractionType } from '../../../../../models/types/type-interaction.model';
+import { VisitTypeModel } from '../../../../../models/types/type-visit.model';
+import { CaseManager } from '../../../../../models/people/case-manager.model';
+import { CaseManagerService } from '../../../../../services/case-manager.service';
+import { Student } from '../../../../../models/people/student.model';
+import { StudentService } from '../../../../../services/student.service';
 
 @Component({
   selector: 'app-visit-detail-edit',
@@ -29,7 +29,7 @@ export class VisitDetailEditComponent implements OnInit {
   public visitEditForm: FormGroup;
   public confirmDialogRef: MatDialogRef<ConfirmDialogComponent>;
 
-  public visitTypeList: VisitType[];
+  public visitTypeList: VisitTypeModel[];
   public interactionTypeList: InteractionType[];
   public caseManagerList: CaseManager[];
   public studentList: Student[];
@@ -127,7 +127,7 @@ export class VisitDetailEditComponent implements OnInit {
   }
 
   private getStudentList(): void {
-    this.studentService.getStudentList().subscribe(
+    this.studentService.getCaseManagerList().subscribe(
       (response: Student[]) => {
         // console.log('response', response);
         this.studentList = response;
@@ -152,7 +152,7 @@ export class VisitDetailEditComponent implements OnInit {
 
   private getVisitTypeList(): void {
     this.visitTypeService.getVisitTypeList().subscribe(
-      (response: VisitType[]) => {
+      (response: VisitTypeModel[]) => {
         // console.log('response', response);
         this.visitTypeList = response;
       },

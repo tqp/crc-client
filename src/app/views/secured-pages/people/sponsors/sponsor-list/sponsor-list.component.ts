@@ -1,239 +1,150 @@
-import { Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
-import { MatPaginator } from '@angular/material/paginator';
-import { ServerSidePaginationRequest } from '../../../../../../@tqp/models/ServerSidePaginationRequest';
 import { FormControl } from '@angular/forms';
-import { EventService } from '../../../../../../@tqp/services/event.service';
-import { Router } from '@angular/router';
-import { ServerSidePaginationResponse } from '../../../../../../@tqp/models/ServerSidePaginationResponse';
-import { fromEvent, merge, of } from 'rxjs';
-import { catchError, debounceTime, distinctUntilChanged, map, switchMap } from 'rxjs/operators';
-import { Sponsor } from '../Sponsor';
-import { SponsorService } from '../sponsor.service';
-import { AuthService } from '../../../../../../@tqp/services/auth.service';
+import { EventService } from '@tqp/services/event.service';
+import { merge } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
+import { SponsorService } from '../../../../../services/sponsor.service';
+import { Sponsor } from '../../../../../models/people/sponsor.model';
 
 @Component({
   selector: 'app-sponsor-list',
   templateUrl: './sponsor-list.component.html',
   styleUrls: ['./sponsor-list.component.css']
 })
-export class SponsorListComponent implements OnInit, OnDestroy {
+export class SponsorListComponent implements OnInit {
   @ViewChild(MatSort, {static: true}) sort: MatSort;
-  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
-  @ViewChild('tableContainer', {read: ElementRef, static: true}) public matTableRef: ElementRef;
-  @ViewChild('dialogContent', {static: true}) public dialogRef: any;
-  @ViewChild('nameSearchElementRef', {static: true}) nameSearchElementRef: ElementRef;
-  private pageIndex = 0;
-  public pageSize = 10;
-  private totalNumberOfPages: number;
-  private searchParams: ServerSidePaginationRequest = new ServerSidePaginationRequest();
+  @ViewChild('searchElementRef', {static: true}) searchElementRef: ElementRef;
+  public windowWidth: number = window.innerWidth;
+  public searchFormControl = new FormControl();
 
-  public displayedColumns: string[] = [
-    // 'sponsorId',
-    'sponsorName',
-    // 'sponsorSurname',
-    // 'sponsorGivenName',
-    'sponsorAffiliatedChurch',
-    'sponsorNumberOfStudents'
+  public error = false;
+
+  // Data Table
+  public isLoading: boolean | undefined;
+  public displayedColumns: any = [
+    {col: 'sponsorName', showSmall: true},
+    {col: 'sponsorAffiliatedChurch', showSmall: true},
+    {col: 'sponsorNumberOfStudents', showSmall: true}
   ];
 
-  public sponsorListNameSearchFormControl = new FormControl();
-
-  public records: Sponsor[] = [];
-  public dataSource: any[] = [];
-
-  public totalRecords: number;
-  public pageStart: number;
-  public pageEnd: number;
-  public loadedFirstPage = false;
-  public isLoading = false;
-
-  public isFilterApplied = false;
+  public dataSource: any;
+  public recordCount = 0;
+  public recordList: Sponsor[] = [];
 
   constructor(private sponsorService: SponsorService,
-              private eventService: EventService,
-              private router: Router,
-              public authService: AuthService) {
-    this.initWindowResizeListener();
+              private eventService: EventService) {
   }
 
   ngOnInit(): void {
-    this.setInitialFieldValues();
-    this.getPage(this.searchParams);
-    this.listenForChanges();
+    this.getSponsorList();
   }
 
-  ngOnDestroy(): void {
-    this.sponsorService.setSponsorListNameSearchValue(this.sponsorListNameSearchFormControl.value);
+  public getDisplayedColumns(): string[] {
+    const smallScreen = this.windowWidth < 1400;
+    return this.displayedColumns
+      .filter(cd => !smallScreen || cd.showSmall)
+      .map(cd => cd.col);
   }
 
-  public initWindowResizeListener(): void {
-    fromEvent(window, 'resize').pipe(
-      debounceTime(300),
-      distinctUntilChanged()).subscribe(
-      () => {
-        this.ngOnInit();
-      }
-    );
-  }
-
-  private calculateTableSize(): number {
-    const pixelsAboveTable = 295;
-    const pixelsBelowTable = 80; // 62
-    const rowHeight = 48;
-    this.pageSize = Math.round((window.innerHeight.valueOf() - pixelsAboveTable - pixelsBelowTable) / rowHeight);
-    return this.pageSize;
-  }
-
-  private setInitialFieldValues(): void {
-    this.searchParams.nameFilter = null;
-    this.searchParams.stateFilter = '';
-    this.searchParams.pageIndex = this.pageIndex;
-    this.searchParams.pageSize = this.calculateTableSize();
-    this.searchParams.sortColumn = null;
-    this.searchParams.sortDirection = 'asc';
-
-    if (this.sponsorService.getSponsorListNameSearchValue()) {
-      const nameSearchValue = this.sponsorService.getSponsorListNameSearchValue();
-      this.sponsorListNameSearchFormControl.setValue(nameSearchValue);
-      this.searchParams.nameFilter = nameSearchValue;
-      this.isFilterApplied = nameSearchValue.length > 0;
-    }
-  }
-
-  private getPage(searchParams: ServerSidePaginationRequest) {
+  public getSponsorList(): void {
     this.isLoading = true;
     this.eventService.loadingEvent.emit(true);
-    this.sponsorService.getSponsorList_SSP(searchParams).subscribe((response: ServerSidePaginationResponse<Sponsor>) => {
-        console.log('getPage response', response);
-        response.data.forEach(item => {
-          this.records.push(item);
-        }, error => {
-          console.error('Error: ', error);
-          this.isLoading = false;
-          this.eventService.loadingEvent.emit(false);
-        });
-        this.loadedFirstPage = true;
-        this.pageStart = ((this.paginator.pageIndex + 1) - 1) * this.paginator.pageSize + 1;
-        this.totalRecords = response.totalRecords;
-        const pageEnd = this.pageStart + this.paginator.pageSize - 1;
-        this.pageEnd = pageEnd >= this.totalRecords ? this.totalRecords : pageEnd;
-        this.totalNumberOfPages = Math.ceil(this.totalRecords / this.pageSize);
-        this.dataSource = this.records;
+    this.sponsorService.getSponsorList().subscribe(
+      (response: any | null) => {
+        // console.log('response', response);
+        if (response) {
+          const sponsorList: Sponsor[] = response;
+          // console.log('sponsorList', sponsorList);
+          if (sponsorList) {
+            sponsorList.forEach((item: Sponsor) => {
+              item.sponsorName = item.sponsorGivenName + ' ' + item.sponsorSurname;
+              this.recordList.push(item);
+              this.recordCount = sponsorList.length;
+            });
+
+            // Default Sort
+            this.recordList = this.recordList.sort((a, b) => {
+              return a.sponsorGivenName.toLowerCase() + a.sponsorSurname.toLowerCase()
+              < b.sponsorGivenName.toLowerCase() + b.sponsorSurname.toLowerCase() ? -1 : 1;
+            });
+
+            setTimeout(() => {
+              this.dataSource = this.recordList;
+              this.isLoading = false;
+              this.eventService.loadingEvent.emit(false);
+              this.listenForFilterChanges();
+            }, 0);
+          }
+        }
+      }, (error: any) => {
+        this.error = error.message;
+        console.error('Error: ', error.message);
         this.isLoading = false;
         this.eventService.loadingEvent.emit(false);
-      }, error => {
-        console.error('Error: ', error);
+      }, () => {
         this.isLoading = false;
         this.eventService.loadingEvent.emit(false);
       }
     );
   }
 
-  private listenForChanges(): void {
+  private listenForFilterChanges(): void {
     merge(
-      this.sponsorListNameSearchFormControl.valueChanges.pipe(debounceTime(100)),
-      this.sort.sortChange,
-      this.paginator.page
-    )
-      .pipe(
-        switchMap(changesDetected => {
-          // console.log('changesDetected', changesDetected);
-          const paginationChange: boolean = changesDetected.pageIndex && changesDetected.pageSize;
-          const sortChange: boolean = changesDetected.active && changesDetected.direction;
-          if (!paginationChange && !sortChange) {
-            this.paginator.pageIndex = 0; // Reset pagination when a filter change is made.
-          }
-          this.isLoading = true;
-          this.eventService.loadingEvent.emit(true);
+      this.searchFormControl.valueChanges.pipe(debounceTime(100)),
+      this.sort.sortChange
+    ).subscribe(() => {
+        this.applyFilters();
+      },
+      error => {
+        this.isLoading = false;
+        this.eventService.loadingEvent.emit(false);
+        console.error('Error: ', error.message);
+      },
+      () => {
+      }
+    );
+  }
 
-          const nameFilter = this.sponsorListNameSearchFormControl.value != null ? this.sponsorListNameSearchFormControl.value : '';
+  private applyFilters(): void {
+    const searchFilter = this.searchFormControl.value != null ? this.searchFormControl.value : '';
 
-          // Translate table columns to database columns for sorting.
-          // IMPORTANT: If this translation is incorrect, the query will break!!!
-          const translateSortColumnsToDatabaseColumns = {
-            seriesName: null
-          };
-
-          const serverSideSearchParams: ServerSidePaginationRequest = new ServerSidePaginationRequest();
-          serverSideSearchParams.nameFilter = nameFilter;
-          serverSideSearchParams.pageIndex = this.paginator.pageIndex;
-          serverSideSearchParams.pageSize = this.pageSize;
-          serverSideSearchParams.sortColumn = (translateSortColumnsToDatabaseColumns[this.sort.active] != null) ?
-            translateSortColumnsToDatabaseColumns[this.sort.active] : null;
-          serverSideSearchParams.sortDirection = this.sort.direction;
-          this.searchParams = serverSideSearchParams;
-
-          this.isFilterApplied = nameFilter;
-          return this.sponsorService.getSponsorList_SSP(serverSideSearchParams);
-        }),
-        map((response: ServerSidePaginationResponse<Sponsor>) => {
-          return response;
-        }),
-        catchError((error: any) => {
-          this.isLoading = false;
-          this.eventService.loadingEvent.emit(false);
-          console.error('Error Encountered: ', error);
-          return of([]);
-        })
+    this.dataSource = this.recordList
+      .filter(list => {
+          const searchFilterAssessment_sponsorSurname = list.sponsorSurname.toLowerCase().includes(searchFilter.trim().toLowerCase());
+          const searchFilterAssessment_sponsorGivenName = list.sponsorGivenName.toLowerCase().includes(searchFilter.trim().toLowerCase());
+          return searchFilterAssessment_sponsorSurname || searchFilterAssessment_sponsorGivenName;
+        }
       )
-      .subscribe((response: ServerSidePaginationResponse<Sponsor>) => {
-          this.records = [];
-          response.data.forEach(item => {
-            this.records.push(item);
-          }, error => {
-            console.error('Error: ', error);
-            this.isLoading = false;
-            this.eventService.loadingEvent.emit(false);
-          });
-          this.pageStart = ((this.paginator.pageIndex + 1) - 1) * this.paginator.pageSize + 1;
-          this.totalRecords = response.totalRecords;
-          const pageEnd = this.pageStart + this.paginator.pageSize - 1;
-          this.pageEnd = pageEnd >= this.totalRecords ? this.totalRecords : pageEnd;
-          this.totalNumberOfPages = Math.ceil(this.totalRecords / this.pageSize);
-          this.dataSource = this.records;
-          this.isLoading = false;
-          this.eventService.loadingEvent.emit(false);
-        },
-        error => {
-          this.isLoading = false;
-          this.eventService.loadingEvent.emit(false);
-          console.error('Error: ', error.message);
+      .sort((a, b) => {
+          // console.log('sort', this.sort.active, this.sort.direction);
+          if (this.sort.direction === 'asc') {
+            return (a[this.sort.active].toLowerCase() > b[this.sort.active].toLowerCase()) ? 1 : -1;
+          } else {
+            return (a[this.sort.active].toLowerCase() < b[this.sort.active].toLowerCase()) ? 1 : -1;
+          }
         }
       );
+
+    // this.isFilterApplied = nameFilter;
+    this.isLoading = false;
+    this.eventService.loadingEvent.emit(false);
   }
 
-  public clearFilters(): void {
-    this.sponsorListNameSearchFormControl.setValue('');
-  }
-
-  public openCreateSponsorPage(): void {
-    this.router.navigate(['sponsors/sponsor-create']).then();
-  }
-
-  public openDetailPage(row: any): void {
-    this.router.navigate(['sponsors/sponsor-detail', row.sponsorId]).then();
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    this.windowWidth = event.target.innerWidth;
   }
 
   @HostListener('window:keydown', ['$event'])
   public handleKeyboardEvent(event: KeyboardEvent): void {
+    // console.log(event + ' (' + event.key + ')');
+
+    // CTRL + F
     if (event.ctrlKey && event.key === 'f') {
       event.preventDefault();
-      this.sponsorListNameSearchFormControl.setValue('');
-      this.nameSearchElementRef.nativeElement.focus();
-    }
-    if (event.ctrlKey && event.key === 'c') {
-      event.preventDefault();
-      this.openCreateSponsorPage();
-    }
-    if (event.ctrlKey && event.key === ',') {
-      event.preventDefault();
-      // console.log('next', this.paginator.pageIndex);
-      // this.paginator.pageIndex = 0;
-    }
-    if (event.ctrlKey && event.key === '.') {
-      event.preventDefault();
-      // console.log('next', this.paginator.pageIndex);
+      this.searchElementRef.nativeElement.focus();
     }
   }
+
 }

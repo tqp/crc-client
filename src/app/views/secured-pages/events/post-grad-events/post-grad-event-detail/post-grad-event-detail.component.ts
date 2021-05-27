@@ -3,8 +3,8 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { RelationshipService } from '../../../relationships/relationship.service';
 import { EventService } from '@tqp/services/event.service';
 import { AuthService } from '@tqp/services/auth.service';
-import { PostGradEventService } from '../post-grad-event.service';
-import { PostGradEvent } from '../PostGradEvent';
+import { PostGradEventService } from '../../../../../services/post-grad-event.service';
+import { PostGradEvent } from '../../../../../models/post-grad-event.model';
 
 @Component({
   selector: 'app-post-grad-event-detail',

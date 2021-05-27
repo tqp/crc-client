@@ -1,8 +1,8 @@
 import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { Sponsor } from '../../people/sponsors/Sponsor';
-import { SponsorService } from '../../people/sponsors/sponsor.service';
+import { Sponsor } from '../../../../models/people/sponsor.model';
+import { SponsorService } from '../../../../services/sponsor.service';
 import * as moment from 'moment';
 import { ConfirmDialogComponent } from '@tqp/components/confirm-dialog/confirm-dialog.component';
 import { FormattingService } from '@tqp/services/formatting.service';

@@ -1,19 +1,19 @@
 import { AfterViewInit, Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
-import { ServerSidePaginationRequest } from '../../../../../../@tqp/models/ServerSidePaginationRequest';
+import { ServerSidePaginationRequest } from '@tqp/models/ServerSidePaginationRequest';
 import { FormControl } from '@angular/forms';
-import { FinanceService } from '../../../finance/finance.service';
-import { EventService } from '../../../../../../@tqp/services/event.service';
-import { FormattingService } from '../../../../../../@tqp/services/formatting.service';
+import { FinanceService } from '../../../../../services/finance.service';
+import { EventService } from '@tqp/services/event.service';
+import { FormattingService } from '@tqp/services/formatting.service';
 import { Router } from '@angular/router';
-import { AuthService } from '../../../../../../@tqp/services/auth.service';
+import { AuthService } from '@tqp/services/auth.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { ServerSidePaginationResponse } from '../../../../../../@tqp/models/ServerSidePaginationResponse';
+import { ServerSidePaginationResponse } from '@tqp/models/ServerSidePaginationResponse';
 import { merge, of } from 'rxjs';
 import { catchError, debounceTime, map, switchMap } from 'rxjs/operators';
-import { Csi } from '../Csi';
-import { CsiService } from '../csi.service';
+import { Csi } from '../../../../../models/csi.model';
+import { CsiService } from '../../../../../services/csi.service';
 import { CsiDetailEditDialogComponent } from '../csi-detail-edit-dialog/csi-detail-edit-dialog.component';
 
 @Component({

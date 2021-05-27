@@ -1,13 +1,13 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { Student } from '../../../people/students/Student';
+import { Student } from '../../../../../models/people/student.model';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { RelationshipService } from '../../../relationships/relationship.service';
-import { EventService } from '../../../../../../@tqp/services/event.service';
-import { AuthService } from '../../../../../../@tqp/services/auth.service';
-import { Csi } from '../Csi';
-import { CsiService } from '../csi.service';
-import { ServicesProvidedType } from '../../../reference-tables/services-provided-type/ServicesProvidedType';
-import { ServicesProvidedTypeService } from '../../../reference-tables/services-provided-type/services-provided-type.service';
+import { EventService } from '@tqp/services/event.service';
+import { AuthService } from '@tqp/services/auth.service';
+import { Csi } from '../../../../../models/csi.model';
+import { CsiService } from '../../../../../services/csi.service';
+import { ServicesProvidedType } from '../../../../../models/types/type-services-provided.model';
+import { ServicesProvidedTypeService } from '../../../../../services/services-provided-type.service';
 import { forkJoin } from 'rxjs';
 
 @Component({

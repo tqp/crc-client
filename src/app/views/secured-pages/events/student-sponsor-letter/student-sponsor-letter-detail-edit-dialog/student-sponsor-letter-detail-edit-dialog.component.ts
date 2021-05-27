@@ -4,12 +4,12 @@ import { ConfirmDialogComponent } from '@tqp/components/confirm-dialog/confirm-d
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { FormattingService } from '@tqp/services/formatting.service';
 import * as moment from 'moment';
-import { StudentSponsorLetterService } from '../student-sponsor-letter.service';
-import { StudentSponsorLetter } from '../StudentSponsorLetter';
-import { Sponsor } from '../../../people/sponsors/Sponsor';
-import { Student } from '../../../people/students/Student';
-import { SponsorService } from '../../../people/sponsors/sponsor.service';
-import { StudentService } from '../../../people/students/student.service';
+import { StudentSponsorLetterService } from '../../../../../services/student-sponsor-letter.service';
+import { StudentSponsorLetterModel } from '../../../../../models/student-sponsor-letter.model';
+import { Sponsor } from '../../../../../models/people/sponsor.model';
+import { Student } from '../../../../../models/people/student.model';
+import { SponsorService } from '../../../../../services/sponsor.service';
+import { StudentService } from '../../../../../services/student.service';
 
 @Component({
   selector: 'app-student-sponsor-letter-detail-edit-dialog',
@@ -21,7 +21,7 @@ export class StudentSponsorLetterDetailEditDialogComponent implements OnInit {
   public confirmDialogRef: MatDialogRef<ConfirmDialogComponent>;
   public dataLoaded: boolean = true;
   public studentSponsorLetterEditForm: FormGroup;
-  public studentSponsorLetter: StudentSponsorLetter;
+  public studentSponsorLetter: StudentSponsorLetterModel;
   public sponsorList: Sponsor[];
   public studentList: Student[];
 

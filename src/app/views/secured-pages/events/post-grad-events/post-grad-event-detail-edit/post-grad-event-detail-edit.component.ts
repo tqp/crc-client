@@ -1,18 +1,18 @@
 import { Component, ElementRef, HostListener, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { ConfirmDialogComponent } from '../../../../../../@tqp/components/confirm-dialog/confirm-dialog.component';
+import { ConfirmDialogComponent } from '@tqp/components/confirm-dialog/confirm-dialog.component';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { PostGradEventService } from '../post-grad-event.service';
-import { PostGradEvent } from '../PostGradEvent';
-import { Caregiver } from '../../../people/caregivers/Caregiver';
-import { StudentService } from '../../../people/students/student.service';
-import { Student } from '../../../people/students/Student';
-import { PostGradEventType } from '../../../reference-tables/post-grad-event-type/PostGradEventType';
-import { PostGradEventTypeService } from '../../../reference-tables/post-grad-event-type/post-grad-event-type.service';
+import { PostGradEventService } from '../../../../../services/post-grad-event.service';
+import { PostGradEvent } from '../../../../../models/post-grad-event.model';
+import { Caregiver } from '../../../../../models/people/caregiver.model';
+import { StudentService } from '../../../../../services/student.service';
+import { Student } from '../../../../../models/people/student.model';
+import { PostGradEventType } from '../../../../../models/types/type-post-grad-event.model';
+import { PostGradEventTypeService } from '../../../../../services/post-grad-event-type.service';
 import * as moment from 'moment';
-import { validateNonZeroValue } from '../../../../../../@tqp/validators/custom.validators';
-import { FormattingService } from '../../../../../../@tqp/services/formatting.service';
+import { validateNonZeroValue } from '@tqp/validators/custom.validators';
+import { FormattingService } from '@tqp/services/formatting.service';
 
 @Component({
   selector: 'app-post-grad-event-detail-edit',
@@ -91,7 +91,7 @@ export class PostGradEventDetailEditComponent implements OnInit {
   // Load Option Value Lists
 
   private getStudentList(): void {
-    this.studentService.getStudentList().subscribe(
+    this.studentService.getCaseManagerList().subscribe(
       (response: Caregiver[]) => {
         // console.log('response', response);
         this.studentList = response;

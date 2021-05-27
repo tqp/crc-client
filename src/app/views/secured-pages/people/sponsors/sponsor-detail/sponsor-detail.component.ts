@@ -1,17 +1,17 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { EventService } from '@tqp/services/event.service';
-import { Sponsor } from '../Sponsor';
-import { SponsorService } from '../sponsor.service';
+import { Sponsor } from '../../../../../models/people/sponsor.model';
+import { SponsorService } from '../../../../../services/sponsor.service';
 import { AuthService } from '@tqp/services/auth.service';
 import { RelationshipService } from '../../../relationships/relationship.service';
-import { Student } from '../../students/Student';
-import { Visit } from '../../../events/visit/Visit';
+import { Student } from '../../../../../models/people/student.model';
+import { Visit } from '../../../../../models/visit.model';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { StudentSponsorLetterService } from '../../../events/student-sponsor-letter/student-sponsor-letter.service';
-import { StudentSponsorLetter } from '../../../events/student-sponsor-letter/StudentSponsorLetter';
+import { StudentSponsorLetterService } from '../../../../../services/student-sponsor-letter.service';
+import { StudentSponsorLetterModel } from '../../../../../models/student-sponsor-letter.model';
 import { StudentSponsorLetterDetailEditDialogComponent } from '../../../events/student-sponsor-letter/student-sponsor-letter-detail-edit-dialog/student-sponsor-letter-detail-edit-dialog.component';
-import { StudentService } from '../../students/student.service';
+import { StudentService } from '../../../../../services/student.service';
 
 @Component({
   selector: 'app-sponsor-detail',
@@ -98,7 +98,7 @@ export class SponsorDetailComponent implements OnInit {
 
   private getSponsorLetterListBySponsorId(sponsorId: number): void {
     this.sponsorLetterService.getStudentSponsorLetterListBySponsorId(sponsorId).subscribe(
-      (sponsorLetterList: StudentSponsorLetter[]) => {
+      (sponsorLetterList: StudentSponsorLetterModel[]) => {
         // console.log('sponsorLetterList', sponsorLetterList);
         this.sponsorLetterListRecords = [];
         sponsorLetterList.forEach(item => {

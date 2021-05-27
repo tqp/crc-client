@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { CaregiverDetailEditComponent } from './caregiver-detail-edit/caregiver-detail-edit.component';
 import { CaregiverDetailComponent } from './caregiver-detail/caregiver-detail.component';
 import { CaregiverListComponent } from './caregiver-list/caregiver-list.component';
+import { CaregiverListSspComponent } from './caregiver-list-ssp/caregiver-list-ssp.component';
 
 const routes: Routes = [
 
@@ -20,6 +21,13 @@ const routes: Routes = [
       {
         path: 'caregiver-list',
         component: CaregiverListComponent,
+        data: {
+          title: 'Caregiver List'
+        }
+      },
+      {
+        path: 'caregiver-list-ssp',
+        component: CaregiverListSspComponent,
         data: {
           title: 'Caregiver List'
         }

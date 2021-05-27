@@ -4,10 +4,10 @@ import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dial
 import { ProgramStatusService } from './program-status.service';
 import { ProgramStatusPackage } from './ProgramStatusPackage';
 import * as moment from 'moment';
-import { ConfirmDialogComponent } from '../../../../../@tqp/components/confirm-dialog/confirm-dialog.component';
-import { FormattingService } from '../../../../../@tqp/services/formatting.service';
+import { ConfirmDialogComponent } from '@tqp/components/confirm-dialog/confirm-dialog.component';
+import { FormattingService } from '@tqp/services/formatting.service';
 import { ProgramStatus } from './ProgramStatus';
-import { validateNonZeroValue } from '../../../../../@tqp/validators/custom.validators';
+import { validateNonZeroValue } from '@tqp/validators/custom.validators';
 
 @Component({
   selector: 'app-student-program-status-edit-dialog',

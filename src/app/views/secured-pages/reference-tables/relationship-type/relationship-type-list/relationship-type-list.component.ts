@@ -1,8 +1,8 @@
 import {Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {FormControl} from '@angular/forms';
-import {RelationshipType} from '../RelationshipType';
+import {RelationshipType} from '../../../../../models/types/type-relationship.model';
 import {MatSort} from '@angular/material/sort';
-import {RelationshipTypeService} from '../relationship-type.service';
+import {RelationshipTypeService} from '../../../../../services/relationship-type.service';
 import {EventService} from '@tqp/services/event.service';
 import {Router} from '@angular/router';
 import {merge} from 'rxjs';

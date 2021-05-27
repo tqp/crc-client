@@ -3,16 +3,16 @@ import { ConfirmDialogComponent } from '@tqp/components/confirm-dialog/confirm-d
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { Student } from '../Student';
-import { StudentService } from '../student.service';
+import { Student } from '../../../../../models/people/student.model';
+import { StudentService } from '../../../../../services/student.service';
 import { FormattingService } from '@tqp/services/formatting.service';
-import { TierTypeService } from '../../../reference-tables/tier-type/tier-type.service';
-import { TierType } from '../../../reference-tables/tier-type/TierType';
-import { Relationship } from '../../../relationships/Relationship';
-import { SchoolClassTypeService } from '../../../reference-tables/school-class-type/school-class-type.service';
-import { SchoolClassType } from '../../../reference-tables/school-class-type/SchoolClassType';
-import { ImpairmentType } from '../../../reference-tables/impairment-type/ImpairmentType';
-import { ImpairmentTypeService } from '../../../reference-tables/impairment-type/impairment-type.service';
+import { TierTypeService } from '../../../../../services/tier-type.service';
+import { TierTypeModel } from '../../../../../models/types/type-tier.model';
+import { Relationship } from '../../../../../models/relationship.model';
+import { SchoolClassTypeService } from '../../../../../services/school-class-type.service';
+import { SchoolClassType } from '../../../../../models/types/type-school-class.model';
+import { ImpairmentType } from '../../../../../models/types/type-impairment.model';
+import { ImpairmentTypeService } from '../../../../../services/impairment-type.service';
 import { merge } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 
@@ -27,7 +27,7 @@ export class StudentDetailEditComponent implements OnInit {
   public pageSource: string;
   public newRecord: boolean;
   public student: Student;
-  public tierTypeList: TierType[];
+  public tierTypeList: TierTypeModel[];
   public schoolLevelList: SchoolClassType[];
   public classLevelList: SchoolClassType[];
   public impairmentTypeList: ImpairmentType[];
@@ -159,7 +159,7 @@ export class StudentDetailEditComponent implements OnInit {
 
   private getTierTypeList(): void {
     this.tierTypeService.getTierTypeList().subscribe(
-      (response: TierType[]) => {
+      (response: TierTypeModel[]) => {
         this.tierTypeList = response;
         // console.log('response', response);
       },

@@ -1,5 +1,5 @@
 import { ServerSidePaginationRequest } from './ServerSidePaginationRequest';
-import { Student } from '../../app/views/secured-pages/people/students/Student';
+import { Student } from '../../app/models/people/student.model';
 
 export class ServerSidePaginationResponse<T> {
   public data: T[];

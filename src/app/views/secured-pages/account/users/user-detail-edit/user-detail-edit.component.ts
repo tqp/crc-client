@@ -1,7 +1,7 @@
 import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
-import { ConfirmDialogComponent } from '../../../../../../@tqp/components/confirm-dialog/confirm-dialog.component';
+import { ConfirmDialogComponent } from '@tqp/components/confirm-dialog/confirm-dialog.component';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { User } from '../User';
 import { UserService } from '../user.service';
@@ -9,7 +9,7 @@ import { RoleService } from '../../roles/role.service';
 import { Role } from '../../roles/Role';
 import { Position } from '../../position/Position';
 import { forkJoin } from 'rxjs';
-import { NotificationService } from '../../../../../../@tqp/services/notification.service';
+import { NotificationService } from '@tqp/services/notification.service';
 import { ResetPasswordDialogComponent } from '../../passwords/reset-password-dialog/reset-password-dialog.component';
 import { PositionService } from '../../position/position.service';
 import { RelationshipService } from '../../../relationships/relationship.service';

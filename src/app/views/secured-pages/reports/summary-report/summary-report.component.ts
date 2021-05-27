@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { SummaryReportService } from './summary-report.service';
+import { SummaryReportService } from '../../../../services/summary-report.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { SummaryReportResultsDialogComponent } from '../summary-report-results-dialog/summary-report-results-dialog.component';
-import { SummaryReportResult } from './SummaryReportResult';
-import { Student } from '../../people/students/Student';
+import { SummaryReportResultModel } from '../../../../models/summary-report-result.model';
+import { Student } from '../../../../models/people/student.model';
 
 @Component({
   selector: 'app-summary-report',
@@ -41,7 +41,7 @@ export class SummaryReportComponent implements OnInit {
   public getActiveStudents_Results(): void {
     this.studentCount_Loading = true;
     this.summaryReportService.getActiveStudents_Results().subscribe(
-      (response: SummaryReportResult[]) => {
+      (response: SummaryReportResultModel[]) => {
         // console.log('response', response);
         this.openSummaryReportResultsDialog(response);
       },
@@ -54,7 +54,7 @@ export class SummaryReportComponent implements OnInit {
     );
   }
 
-  public openSummaryReportResultsDialog(reportData: SummaryReportResult[]): void {
+  public openSummaryReportResultsDialog(reportData: SummaryReportResultModel[]): void {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.minWidth = '40%';
     dialogConfig.disableClose = true;

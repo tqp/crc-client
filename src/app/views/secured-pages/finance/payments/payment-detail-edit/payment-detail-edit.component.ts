@@ -1,11 +1,11 @@
 import { Component, ElementRef, HostListener, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { ConfirmDialogComponent } from '../../../../../../@tqp/components/confirm-dialog/confirm-dialog.component';
+import { ConfirmDialogComponent } from '@tqp/components/confirm-dialog/confirm-dialog.component';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { Payment } from '../Payment';
-import { PaymentService } from '../payment.service';
-import { FormattingService } from '../../../../../../@tqp/services/formatting.service';
+import { Payment } from '../../../../../models/payment.model';
+import { PaymentService } from '../../../../../services/payment.service';
+import { FormattingService } from '@tqp/services/formatting.service';
 
 @Component({
   selector: 'app-payment-detail-edit',

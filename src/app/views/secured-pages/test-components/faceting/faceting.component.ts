@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { KeyValue } from '@angular/common';
-import { EventService } from '../../../../../@tqp/services/event.service';
+import { EventService } from '@tqp/services/event.service';
 import { FacetingService } from './faceting.service';
 import { FacetPackage } from './models/FacetPackage';
 

@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { HttpService } from '../../../../@tqp/services/http.service';
-import { TokenService } from '../../../../@tqp/services/token.service';
-import { Relationship } from './Relationship';
+import { HttpService } from '@tqp/services/http.service';
+import { TokenService } from '@tqp/services/token.service';
+import { Relationship } from '../../../models/relationship.model';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { map } from 'rxjs/operators';
-import { Caregiver } from '../people/caregivers/Caregiver';
-import { CaseManager } from '../people/case-managers/CaseManager';
-import { Sponsor } from '../people/sponsors/Sponsor';
-import { Student } from '../people/students/Student';
+import { Caregiver } from '../../../models/people/caregiver.model';
+import { CaseManager } from '../../../models/people/case-manager.model';
+import { Sponsor } from '../../../models/people/sponsor.model';
+import { Student } from '../../../models/people/student.model';
 import { ProgramStatus } from './student-program-status-edit-dialog/ProgramStatus';
 
 @Injectable({

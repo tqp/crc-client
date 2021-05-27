@@ -1,17 +1,17 @@
 import { Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
-import { ServerSidePaginationRequest } from '../../../../../../@tqp/models/ServerSidePaginationRequest';
+import { ServerSidePaginationRequest } from '@tqp/models/ServerSidePaginationRequest';
 import { FormControl } from '@angular/forms';
-import { Student } from '../Student';
-import { StudentService } from '../student.service';
-import { EventService } from '../../../../../../@tqp/services/event.service';
+import { Student } from '../../../../../models/people/student.model';
+import { StudentService } from '../../../../../services/student.service';
+import { EventService } from '@tqp/services/event.service';
 import { Router } from '@angular/router';
-import { AuthService } from '../../../../../../@tqp/services/auth.service';
+import { AuthService } from '@tqp/services/auth.service';
 import { ViewportScroller } from '@angular/common';
 import { fromEvent, merge, of } from 'rxjs';
 import { catchError, debounceTime, distinctUntilChanged, map, switchMap } from 'rxjs/operators';
-import { ServerSidePaginationResponse } from '../../../../../../@tqp/models/ServerSidePaginationResponse';
+import { ServerSidePaginationResponse } from '@tqp/models/ServerSidePaginationResponse';
 
 @Component({
   selector: 'app-student-list-by-case-manager',

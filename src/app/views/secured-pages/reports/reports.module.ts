@@ -5,7 +5,7 @@ import { ExportComponent } from './export/export.component';
 import { ReportsRoutingModule } from './reports-routing.module';
 import { SummaryReportComponent } from './summary-report/summary-report.component';
 import { CsiScoresReportComponent } from './csi-scores-report/csi-scores-report.component';
-import { AngularMaterialModule } from '../../../../@tqp/modules/angular-material.module';
+import { AngularMaterialModule } from '@tqp/modules/angular-material.module';
 import { SummaryReportResultsDialogComponent } from './summary-report-results-dialog/summary-report-results-dialog.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { CaseManagerCoverageComponent } from './case-manager-coverage/case-manager-coverage.component';

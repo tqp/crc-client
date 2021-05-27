@@ -1,10 +1,10 @@
 import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { ConfirmDialogComponent } from '../../../../../../@tqp/components/confirm-dialog/confirm-dialog.component';
+import { ConfirmDialogComponent } from '@tqp/components/confirm-dialog/confirm-dialog.component';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { CaseManagerService } from '../case-manager.service';
-import { CaseManager } from '../CaseManager';
+import { CaseManagerService } from '../../../../../services/case-manager.service';
+import { CaseManager } from '../../../../../models/people/case-manager.model';
 
 @Component({
   selector: 'app-case-manager-detail-edit',

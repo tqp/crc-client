@@ -12,7 +12,7 @@ import { UserService } from '../../views/secured-pages/account/users/user.servic
 import { User } from '../../views/secured-pages/account/users/User';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ChangePasswordDialogComponent } from '../../views/secured-pages/account/passwords/change-password-dialog/change-password-dialog.component';
-import { NotificationService } from '../../../@tqp/services/notification.service';
+import { NotificationService } from '@tqp/services/notification.service';
 import { INavDataTqp } from '../../INavDataTqp';
 import { navItemsWithRoles } from '../../_navWithRoles';
 

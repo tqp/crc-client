@@ -19,6 +19,12 @@ export const navItemsWithRoles: INavDataTqp[] = [
     icon: 'fa fa-graduation-cap',
     allow: 'ROLE_USER'
   },
+  // {
+  //   name: 'Students SSP',
+  //   url: '/students/student-list-ssp',
+  //   icon: 'fa fa-graduation-cap',
+  //   allow: 'ROLE_USER'
+  // },
   {
     name: 'My Students',
     url: '/students/student-list-by-case-manager',
@@ -31,18 +37,36 @@ export const navItemsWithRoles: INavDataTqp[] = [
     icon: 'fa fa-folder-o',
     allow: 'ROLE_USER, ROLE_CASE_MANAGER'
   },
+  // {
+  //   name: 'Case Managers SSP',
+  //   url: '/case-managers/case-manager-list-ssp',
+  //   icon: 'fa fa-folder-o',
+  //   allow: 'ROLE_USER, ROLE_CASE_MANAGER'
+  // },
   {
     name: 'Caregivers',
     url: '/caregivers/caregiver-list',
     icon: 'fa fa-heartbeat',
     allow: 'ROLE_USER, ROLE_CASE_MANAGER'
   },
+  // {
+  //   name: 'Caregivers SSP',
+  //   url: '/caregivers/caregiver-list-ssp',
+  //   icon: 'fa fa-heartbeat',
+  //   allow: 'ROLE_USER, ROLE_CASE_MANAGER'
+  // },
   {
     name: 'Sponsors',
     url: '/sponsors/sponsor-list',
     icon: 'fa fa-handshake-o',
     allow: 'ROLE_USER, ROLE_CASE_MANAGER'
   },
+  // {
+  //   name: 'Sponsors SSP',
+  //   url: '/sponsors/sponsor-list-ssp',
+  //   icon: 'fa fa-handshake-o',
+  //   allow: 'ROLE_USER, ROLE_CASE_MANAGER'
+  // },
 
   {
     title: true,

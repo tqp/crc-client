@@ -1,18 +1,18 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { EventService } from '@tqp/services/event.service';
-import { Caregiver } from '../Caregiver';
-import { CaregiverService } from '../caregiver.service';
-import { Student } from '../../students/Student';
+import { Caregiver } from '../../../../../models/people/caregiver.model';
+import { CaregiverService } from '../../../../../services/caregiver.service';
+import { Student } from '../../../../../models/people/student.model';
 import { AuthService } from '@tqp/services/auth.service';
 import { RelationshipService } from '../../../relationships/relationship.service';
-import { Loan } from '../../../finance/loans/Loan';
-import { LoanService } from '../../../finance/loans/loan.service';
+import { Loan } from '../../../../../models/loan.model';
+import { LoanService } from '../../../../../services/loan.service';
 import { CaregiverWorkshopService } from '../../../events/caregiver-workshop/caregiver-workshop.service';
-import { CaregiverWorkshop } from '../../../events/caregiver-workshop/CaregiverWorkshop';
+import { CaregiverWorkshop } from '../../../../../models/caregiver-workshop.model';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { CaregiverWorkshopEditDialogComponent } from '../../../events/caregiver-workshop/caregiver-workshop-edit-dialog/caregiver-workshop-edit-dialog.component';
-import { FormattingService } from '../../../../../../@tqp/services/formatting.service';
+import { FormattingService } from '@tqp/services/formatting.service';
 
 @Component({
   selector: 'app-caregiver-detail',

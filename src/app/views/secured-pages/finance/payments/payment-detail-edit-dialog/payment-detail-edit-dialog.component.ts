@@ -1,10 +1,10 @@
 import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Caregiver } from '../../../people/caregivers/Caregiver';
+import { Caregiver } from '../../../../../models/people/caregiver.model';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { CaregiverService } from '../../../people/caregivers/caregiver.service';
-import { Loan } from '../../loans/Loan';
-import { LoanService } from '../../loans/loan.service';
+import { CaregiverService } from '../../../../../services/caregiver.service';
+import { Loan } from '../../../../../models/loan.model';
+import { LoanService } from '../../../../../services/loan.service';
 
 @Component({
   selector: 'app-payment-detail-edit-dialog',

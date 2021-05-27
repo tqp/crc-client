@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../user.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { AuthService } from '../../../../../../@tqp/services/auth.service';
+import { AuthService } from '@tqp/services/auth.service';
 import { User } from '../User';
-import { Token } from '../../../../../../@tqp/models/Token';
-import { TokenService } from '../../../../../../@tqp/services/token.service';
+import { Token } from '@tqp/models/Token';
+import { TokenService } from '@tqp/services/token.service';
 import * as moment from 'moment';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { StudentCaregiverEditDialogComponent } from '../../../relationships/student-caregiver-edit-dialog/student-caregiver-edit-dialog.component';
-import { Relationship } from '../../../relationships/Relationship';
+import { Relationship } from '../../../../../models/relationship.model';
 import { UserDetailEditDialogComponent } from '../user-detail-edit-dialog/user-detail-edit-dialog.component';
 
 @Component({

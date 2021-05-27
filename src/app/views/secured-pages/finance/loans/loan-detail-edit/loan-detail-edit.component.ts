@@ -1,10 +1,10 @@
 import { Component, ElementRef, HostListener, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { ConfirmDialogComponent } from '../../../../../../@tqp/components/confirm-dialog/confirm-dialog.component';
+import { ConfirmDialogComponent } from '@tqp/components/confirm-dialog/confirm-dialog.component';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { Loan } from '../Loan';
-import { LoanService } from '../loan.service';
+import { Loan } from '../../../../../models/loan.model';
+import { LoanService } from '../../../../../services/loan.service';
 
 @Component({
   selector: 'app-loan-detail-edit',

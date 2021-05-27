@@ -1,0 +1,38 @@
+@import 'node_modules/@angular/material/theming';
+
+@include mat-core();
+
+// Define Light Theme
+$custom-light-theme-primary: mat-palette($mat-blue, 800, 500, 400);
+$custom-light-theme-accent: mat-palette($mat-blue, 100, 50, 200);
+$custom-light-theme-warn: mat-palette($mat-red);
+$custom-light-theme: mat-light-theme($custom-light-theme-primary, $custom-light-theme-accent, $custom-light-theme-warn);
+
+// Define Dark Theme
+$custom-dark-theme-primary: mat-palette($mat-blue, 800, 500, 400);
+$custom-dark-theme-accent: mat-palette($mat-blue, 100, 50, 200);
+$custom-dark-theme-warn: mat-palette($mat-red);
+$custom-dark-theme: mat-dark-theme($custom-dark-theme-primary, $custom-dark-theme-accent, $custom-dark-theme-warn);
+
+@include angular-material-theme($custom-dark-theme);
+
+@mixin mix-app-theme($app-theme) {
+  $primary: map-get($app-theme, primary);
+  $accent: map-get($app-theme, accent);
+
+  .mat-table {
+    background-color: rgb(58, 65, 73);
+  }
+
+  th.mat-header-cell {
+    background: rgb(52, 59, 65);
+  }
+
+  td.mat-cell {
+    padding: 0.75rem !important;
+    border-bottom: none !important;
+    color: rgb(228, 231, 234);
+  }
+}
+
+@include mix-app-theme($custom-light-theme);

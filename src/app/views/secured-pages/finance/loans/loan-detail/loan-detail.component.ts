@@ -1,11 +1,11 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { Student } from '../../../people/students/Student';
+import { Student } from '../../../../../models/people/student.model';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { RelationshipService } from '../../../relationships/relationship.service';
-import { EventService } from '../../../../../../@tqp/services/event.service';
-import { AuthService } from '../../../../../../@tqp/services/auth.service';
-import { Loan } from '../Loan';
-import { LoanService } from '../loan.service';
+import { EventService } from '@tqp/services/event.service';
+import { AuthService } from '@tqp/services/auth.service';
+import { Loan } from '../../../../../models/loan.model';
+import { LoanService } from '../../../../../services/loan.service';
 
 @Component({
   selector: 'app-loan-detail',

@@ -3,10 +3,10 @@ import { Observable, throwError } from 'rxjs';
 import { environment } from '../../../../../environments/environment';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
-import { HttpService } from '../../../../../@tqp/services/http.service';
-import { TokenService } from '../../../../../@tqp/services/token.service';
+import { HttpService } from '@tqp/services/http.service';
+import { TokenService } from '@tqp/services/token.service';
 import { ProgramStatusPackage } from './ProgramStatusPackage';
-import { Sponsor } from '../../people/sponsors/Sponsor';
+import { Sponsor } from '../../../../models/people/sponsor.model';
 import { ProgramStatus } from './ProgramStatus';
 
 @Injectable({

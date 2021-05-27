@@ -1,12 +1,12 @@
 import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { CaregiverService } from '../../people/caregivers/caregiver.service';
-import { Caregiver } from '../../people/caregivers/Caregiver';
-import { RelationshipType } from '../../reference-tables/relationship-type/RelationshipType';
-import { RelationshipTypeService } from '../../reference-tables/relationship-type/relationship-type.service';
-import { TierType } from '../../reference-tables/tier-type/TierType';
-import { TierTypeService } from '../../reference-tables/tier-type/tier-type.service';
+import { CaregiverService } from '../../../../services/caregiver.service';
+import { Caregiver } from '../../../../models/people/caregiver.model';
+import { RelationshipType } from '../../../../models/types/type-relationship.model';
+import { RelationshipTypeService } from '../../../../services/relationship-type.service';
+import { TierTypeModel } from '../../../../models/types/type-tier.model';
+import { TierTypeService } from '../../../../services/tier-type.service';
 import { FormattingService } from '@tqp/services/formatting.service';
 
 import * as moment from 'moment';
@@ -26,7 +26,7 @@ export class StudentCaregiverEditDialogComponent implements OnInit {
   public studentCaregiverEditForm: FormGroup;
   public caregiverList: Caregiver[];
   public relationshipTypeList: RelationshipType[];
-  public tierTypeList: TierType[];
+  public tierTypeList: TierTypeModel[];
   public caregiverRelationship: Caregiver;
 
   public validationMessages = {
@@ -128,7 +128,7 @@ export class StudentCaregiverEditDialogComponent implements OnInit {
 
   private getSupportTierList(): void {
     this.tierTypeService.getTierTypeList().subscribe(
-      (response: TierType[]) => {
+      (response: TierTypeModel[]) => {
         // console.log('response', response);
         this.tierTypeList = response;
       },

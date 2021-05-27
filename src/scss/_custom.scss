@@ -11,6 +11,22 @@ app-login-page {
   min-height: 100vh;
 }
 
+table {
+  width: 100%;
+}
+
+.detail-list {
+
+  .table {
+    margin-bottom: 0 !important;
+  }
+
+  .table td {
+    border-top: none !important;
+  }
+
+}
+
 // Angular Material Components Add-On Styles for Dark Theme
 
 tr.mat-header-row {

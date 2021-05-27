@@ -1,14 +1,14 @@
 import { AfterViewInit, Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
-import { ServerSidePaginationRequest } from '../../../../../../@tqp/models/ServerSidePaginationRequest';
+import { ServerSidePaginationRequest } from '@tqp/models/ServerSidePaginationRequest';
 import { FormControl } from '@angular/forms';
-import { Sponsor } from '../../../people/sponsors/Sponsor';
-import { SponsorService } from '../../../people/sponsors/sponsor.service';
-import { EventService } from '../../../../../../@tqp/services/event.service';
+import { Sponsor } from '../../../../../models/people/sponsor.model';
+import { SponsorService } from '../../../../../services/sponsor.service';
+import { EventService } from '@tqp/services/event.service';
 import { Router } from '@angular/router';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { ServerSidePaginationResponse } from '../../../../../../@tqp/models/ServerSidePaginationResponse';
+import { ServerSidePaginationResponse } from '@tqp/models/ServerSidePaginationResponse';
 import { merge, of } from 'rxjs';
 import { catchError, debounceTime, map, switchMap } from 'rxjs/operators';
 

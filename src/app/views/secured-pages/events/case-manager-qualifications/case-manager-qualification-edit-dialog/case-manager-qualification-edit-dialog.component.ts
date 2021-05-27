@@ -1,11 +1,11 @@
 import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { ConfirmDialogComponent } from '../../../../../../@tqp/components/confirm-dialog/confirm-dialog.component';
+import { ConfirmDialogComponent } from '@tqp/components/confirm-dialog/confirm-dialog.component';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { FormattingService } from '../../../../../../@tqp/services/formatting.service';
+import { FormattingService } from '@tqp/services/formatting.service';
 import * as moment from 'moment';
 import { CaseManagerQualificationService } from '../case-manager-qualification.service';
-import { CaseManagerQualification } from '../CaseManagerQualification';
+import { CaseManagerQualification } from '../../../../../models/case-manager-qualification.model';
 
 @Component({
   selector: 'app-case-manager-qualification-edit-dialog',

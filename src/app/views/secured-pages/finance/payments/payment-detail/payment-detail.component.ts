@@ -1,11 +1,11 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { Payment } from '../Payment';
-import { Student } from '../../../people/students/Student';
+import { Payment } from '../../../../../models/payment.model';
+import { Student } from '../../../../../models/people/student.model';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { PaymentService } from '../payment.service';
+import { PaymentService } from '../../../../../services/payment.service';
 import { RelationshipService } from '../../../relationships/relationship.service';
-import { EventService } from '../../../../../../@tqp/services/event.service';
-import { AuthService } from '../../../../../../@tqp/services/auth.service';
+import { EventService } from '@tqp/services/event.service';
+import { AuthService } from '@tqp/services/auth.service';
 
 @Component({
   selector: 'app-payment-detail',

@@ -5,7 +5,7 @@ import { map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { HttpService } from '@tqp/services/http.service';
 import { TokenService } from '@tqp/services/token.service';
-import { CaregiverWorkshop } from './CaregiverWorkshop';
+import { CaregiverWorkshop } from '../../../../models/caregiver-workshop.model';
 
 @Injectable({
   providedIn: 'root'

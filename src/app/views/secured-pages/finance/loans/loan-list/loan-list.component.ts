@@ -1,20 +1,20 @@
 import { AfterViewInit, Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
-import { ServerSidePaginationRequest } from '../../../../../../@tqp/models/ServerSidePaginationRequest';
+import { ServerSidePaginationRequest } from '@tqp/models/ServerSidePaginationRequest';
 import { FormControl } from '@angular/forms';
-import { Loan } from '../Loan';
-import { FinanceService } from '../../finance.service';
-import { EventService } from '../../../../../../@tqp/services/event.service';
-import { FormattingService } from '../../../../../../@tqp/services/formatting.service';
+import { Loan } from '../../../../../models/loan.model';
+import { FinanceService } from '../../../../../services/finance.service';
+import { EventService } from '@tqp/services/event.service';
+import { FormattingService } from '@tqp/services/formatting.service';
 import { Router } from '@angular/router';
-import { AuthService } from '../../../../../../@tqp/services/auth.service';
+import { AuthService } from '@tqp/services/auth.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { ServerSidePaginationResponse } from '../../../../../../@tqp/models/ServerSidePaginationResponse';
+import { ServerSidePaginationResponse } from '@tqp/models/ServerSidePaginationResponse';
 import { fromEvent, merge, of } from 'rxjs';
 import { catchError, debounceTime, distinctUntilChanged, map, switchMap } from 'rxjs/operators';
 import { LoanDetailEditDialogComponent } from '../loan-detail-edit-dialog/loan-detail-edit-dialog.component';
-import { LoanService } from '../loan.service';
+import { LoanService } from '../../../../../services/loan.service';
 
 @Component({
   selector: 'app-loan-list',

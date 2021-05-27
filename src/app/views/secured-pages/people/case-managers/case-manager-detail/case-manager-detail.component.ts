@@ -1,14 +1,14 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { EventService } from '@tqp/services/event.service';
-import { CaseManager } from '../CaseManager';
-import { CaseManagerService } from '../case-manager.service';
-import { Student } from '../../students/Student';
+import { CaseManager } from '../../../../../models/people/case-manager.model';
+import { CaseManagerService } from '../../../../../services/case-manager.service';
+import { Student } from '../../../../../models/people/student.model';
 import { AuthService } from '@tqp/services/auth.service';
 import { RelationshipService } from '../../../relationships/relationship.service';
-import { CsiService } from '../../../events/csi/csi.service';
-import { Csi } from '../../../events/csi/Csi';
-import { CaseManagerQualification } from '../../../events/case-manager-qualifications/CaseManagerQualification';
+import { CsiService } from '../../../../../services/csi.service';
+import { Csi } from '../../../../../models/csi.model';
+import { CaseManagerQualification } from '../../../../../models/case-manager-qualification.model';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { CaseManagerQualificationService } from '../../../events/case-manager-qualifications/case-manager-qualification.service';
 import { FormattingService } from '@tqp/services/formatting.service';
@@ -111,10 +111,12 @@ export class CaseManagerDetailComponent implements OnInit {
     this.csiService.getCsiListByCaseManagerId(caseManagerId).subscribe(
       (csiList: Csi[]) => {
         // console.log('csiList', csiList);
-        csiList.forEach(item => {
-          this.csiListRecords.push(item);
-        });
-        this.csiListDataSource = this.csiListRecords;
+        if (csiList) {
+          csiList.forEach(item => {
+            this.csiListRecords.push(item);
+          });
+          this.csiListDataSource = this.csiListRecords;
+        }
       },
       error => {
         console.error('Error: ', error);

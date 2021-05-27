@@ -1,17 +1,17 @@
 import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Caregiver } from '../../../people/caregivers/Caregiver';
+import { Caregiver } from '../../../../../models/people/caregiver.model';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { Student } from '../../../people/students/Student';
-import { StudentService } from '../../../people/students/student.service';
-import { InteractionType } from '../../../reference-tables/interaction-type/InteractionType';
-import { VisitType } from '../../../reference-tables/visit-type/VisitType';
-import { VisitTypeService } from '../../../reference-tables/visit-type/visit-type.service';
-import { InteractionTypeService } from '../../../reference-tables/interaction-type/interaction-type.service';
+import { Student } from '../../../../../models/people/student.model';
+import { StudentService } from '../../../../../services/student.service';
+import { InteractionType } from '../../../../../models/types/type-interaction.model';
+import { VisitTypeModel } from '../../../../../models/types/type-visit.model';
+import { VisitTypeService } from '../../../../../services/visit-type.service';
+import { InteractionTypeService } from '../../../../../services/interaction-type.service';
 import { validateNonZeroValue } from '@tqp/validators/custom.validators';
 import * as moment from 'moment';
-import { CaseManager } from '../../../people/case-managers/CaseManager';
-import { CaseManagerService } from '../../../people/case-managers/case-manager.service';
+import { CaseManager } from '../../../../../models/people/case-manager.model';
+import { CaseManagerService } from '../../../../../services/case-manager.service';
 
 @Component({
   selector: 'app-visit-detail-edit-dialog',
@@ -24,7 +24,7 @@ export class VisitDetailEditDialogComponent implements OnInit {
   public studentId: number;
   public studentList: Student[];
   public caseManagerList: CaseManager[];
-  public visitTypeList: VisitType[];
+  public visitTypeList: VisitTypeModel[];
   public interactionTypeList: InteractionType[];
 
   public validationMessages = {
@@ -97,7 +97,7 @@ export class VisitDetailEditDialogComponent implements OnInit {
   // Load Option Value Lists
 
   private getStudentList(): void {
-    this.studentService.getStudentList().subscribe(
+    this.studentService.getCaseManagerList().subscribe(
       (response: Caregiver[]) => {
         // console.log('response', response);
         this.studentList = response;
@@ -122,7 +122,7 @@ export class VisitDetailEditDialogComponent implements OnInit {
 
   private getVisitTypeList(): void {
     this.visitTypeService.getVisitTypeList().subscribe(
-      (response: VisitType[]) => {
+      (response: VisitTypeModel[]) => {
         // console.log('response', response);
         this.visitTypeList = response;
       },

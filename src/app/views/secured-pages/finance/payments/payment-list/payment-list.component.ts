@@ -10,21 +10,21 @@ import {
 } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
-import { ServerSidePaginationRequest } from '../../../../../../@tqp/models/ServerSidePaginationRequest';
+import { ServerSidePaginationRequest } from '@tqp/models/ServerSidePaginationRequest';
 import { FormControl } from '@angular/forms';
-import { EventService } from '../../../../../../@tqp/services/event.service';
+import { EventService } from '@tqp/services/event.service';
 import { Router } from '@angular/router';
-import { AuthService } from '../../../../../../@tqp/services/auth.service';
-import { ServerSidePaginationResponse } from '../../../../../../@tqp/models/ServerSidePaginationResponse';
+import { AuthService } from '@tqp/services/auth.service';
+import { ServerSidePaginationResponse } from '@tqp/models/ServerSidePaginationResponse';
 import { fromEvent, merge, of } from 'rxjs';
 import { catchError, debounceTime, distinctUntilChanged, map, switchMap } from 'rxjs/operators';
-import { FinanceService } from '../../finance.service';
-import { Loan } from '../../loans/Loan';
+import { FinanceService } from '../../../../../services/finance.service';
+import { Loan } from '../../../../../models/loan.model';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { PaymentDetailEditDialogComponent } from '../payment-detail-edit-dialog/payment-detail-edit-dialog.component';
-import { Payment } from '../Payment';
-import { FormattingService } from '../../../../../../@tqp/services/formatting.service';
-import { PaymentService } from '../payment.service';
+import { Payment } from '../../../../../models/payment.model';
+import { FormattingService } from '@tqp/services/formatting.service';
+import { PaymentService } from '../../../../../services/payment.service';
 
 @Component({
   selector: 'app-payment-list',

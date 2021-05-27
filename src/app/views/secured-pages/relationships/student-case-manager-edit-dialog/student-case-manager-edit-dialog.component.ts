@@ -1,8 +1,8 @@
 import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { CaseManager } from '../../people/case-managers/CaseManager';
-import { CaseManagerService } from '../../people/case-managers/case-manager.service';
+import { CaseManager } from '../../../../models/people/case-manager.model';
+import { CaseManagerService } from '../../../../services/case-manager.service';
 import * as moment from 'moment';
 import { ConfirmDialogComponent } from '@tqp/components/confirm-dialog/confirm-dialog.component';
 import { FormattingService } from '@tqp/services/formatting.service';

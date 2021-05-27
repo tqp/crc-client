@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { SponsorListComponent } from './sponsor-list/sponsor-list.component';
 import { SponsorDetailComponent } from './sponsor-detail/sponsor-detail.component';
 import { SponsorDetailEditComponent } from './sponsor-detail-edit/sponsor-detail-edit.component';
+import { SponsorListSspComponent } from './sponsor-list-ssp/sponsor-list-ssp.component';
 
 const routes: Routes = [
 
@@ -20,6 +21,13 @@ const routes: Routes = [
       {
         path: 'sponsor-list',
         component: SponsorListComponent,
+        data: {
+          title: 'Sponsor List'
+        }
+      },
+      {
+        path: 'sponsor-list-ssp',
+        component: SponsorListSspComponent,
         data: {
           title: 'Sponsor List'
         }

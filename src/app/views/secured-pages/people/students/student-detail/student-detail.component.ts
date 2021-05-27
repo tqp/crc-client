@@ -1,38 +1,38 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { Student } from '../Student';
+import { Student } from '../../../../../models/people/student.model';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { EventService } from '@tqp/services/event.service';
-import { StudentService } from '../student.service';
-import { Relationship } from '../../../relationships/Relationship';
+import { StudentService } from '../../../../../services/student.service';
+import { Relationship } from '../../../../../models/relationship.model';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { StudentCaregiverEditDialogComponent } from '../../../relationships/student-caregiver-edit-dialog/student-caregiver-edit-dialog.component';
-import { AuthService } from '../../../../../../@tqp/services/auth.service';
-import { CaregiverService } from '../../caregivers/caregiver.service';
-import { Caregiver } from '../../caregivers/Caregiver';
+import { AuthService } from '@tqp/services/auth.service';
+import { CaregiverService } from '../../../../../services/caregiver.service';
+import { Caregiver } from '../../../../../models/people/caregiver.model';
 import { StudentCaseManagerEditDialogComponent } from '../../../relationships/student-case-manager-edit-dialog/student-case-manager-edit-dialog.component';
-import { FormattingService } from '../../../../../../@tqp/services/formatting.service';
-import { CaseManager } from '../../case-managers/CaseManager';
-import { CaseManagerService } from '../../case-managers/case-manager.service';
-import { Sponsor } from '../../sponsors/Sponsor';
+import { FormattingService } from '@tqp/services/formatting.service';
+import { CaseManager } from '../../../../../models/people/case-manager.model';
+import { CaseManagerService } from '../../../../../services/case-manager.service';
+import { Sponsor } from '../../../../../models/people/sponsor.model';
 import { StudentSponsorEditDialogComponent } from '../../../relationships/student-sponsor-edit-dialog/student-sponsor-edit-dialog.component';
-import { SponsorService } from '../../sponsors/sponsor.service';
+import { SponsorService } from '../../../../../services/sponsor.service';
 import { RelationshipService } from '../../../relationships/relationship.service';
 import { StudentProgramStatusEditDialogComponent } from '../../../relationships/student-program-status-edit-dialog/student-program-status-edit-dialog.component';
 import { ProgramStatusService } from '../../../relationships/student-program-status-edit-dialog/program-status.service';
 import { ProgramStatus } from '../../../relationships/student-program-status-edit-dialog/ProgramStatus';
-import { Visit } from '../../../events/visit/Visit';
-import { VisitService } from '../../../events/visit/visit.service';
+import { Visit } from '../../../../../models/visit.model';
+import { VisitService } from '../../../../../services/visit.service';
 import { VisitDetailEditDialogComponent } from '../../../events/visit/visit-detail-edit-dialog/visit-detail-edit-dialog.component';
-import { HistoryService } from '../../../events/history/history.service';
-import { Csi } from '../../../events/csi/Csi';
-import { PostGradEvent } from '../../../events/post-grad-events/PostGradEvent';
-import { CsiService } from '../../../events/csi/csi.service';
+import { HistoryService } from '../../../../../services/history.service';
+import { Csi } from '../../../../../models/csi.model';
+import { PostGradEvent } from '../../../../../models/post-grad-event.model';
+import { CsiService } from '../../../../../services/csi.service';
 import { ChartType } from 'chart.js';
 import { getStyle, hexToRgba } from '@coreui/coreui-pro/dist/js/coreui-utilities';
-import { PostGradEventService } from '../../../events/post-grad-events/post-grad-event.service';
+import { PostGradEventService } from '../../../../../services/post-grad-event.service';
 import { PostGradEventDetailEditDialogComponent } from '../../../events/post-grad-events/post-grad-event-detail-edit-dialog/post-grad-event-detail-edit-dialog.component';
-import { StudentSponsorLetterService } from '../../../events/student-sponsor-letter/student-sponsor-letter.service';
-import { StudentSponsorLetter } from '../../../events/student-sponsor-letter/StudentSponsorLetter';
+import { StudentSponsorLetterService } from '../../../../../services/student-sponsor-letter.service';
+import { StudentSponsorLetterModel } from '../../../../../models/student-sponsor-letter.model';
 import { StudentSponsorLetterDetailEditDialogComponent } from '../../../events/student-sponsor-letter/student-sponsor-letter-detail-edit-dialog/student-sponsor-letter-detail-edit-dialog.component';
 
 @Component({
@@ -303,7 +303,7 @@ export class StudentDetailComponent implements OnInit {
 
   private getStudentSponsorLetterListByStudentId(studentId: number): void {
     this.studentSponsorLetterService.getStudentSponsorLetterListByStudentId(studentId).subscribe(
-      (studentSponsorLetterList: StudentSponsorLetter[]) => {
+      (studentSponsorLetterList: StudentSponsorLetterModel[]) => {
         // console.log('studentSponsorLetterList', studentSponsorLetterList);
         this.studentSponsorLetterListRecords = [];
         studentSponsorLetterList.forEach(item => {

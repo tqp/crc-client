@@ -1,12 +1,12 @@
 import { Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Student } from '../../people/students/Student';
+import { Student } from '../../../../models/people/student.model';
 import { MatSort } from '@angular/material/sort';
-import { CaseManagerCoverageService } from '../case-manager-coverage/case-manager-coverage.service';
-import { EventService } from '../../../../../@tqp/services/event.service';
+import { CaseManagerCoverageService } from '../../../../services/case-manager-coverage.service';
+import { EventService } from '@tqp/services/event.service';
 import { merge } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
-import { CaregiverCoverageService } from './caregiver-coverage.service';
+import { CaregiverCoverageService } from '../../../../services/caregiver-coverage.service';
 
 @Component({
   selector: 'app-caregiver-coverage',

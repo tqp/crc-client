@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { CsiScoresReportData } from './CsiScoresReportData';
-import { CsiScoresReportService } from './csi-scores-report.service';
+import { CsiScoresReportData } from '../../../../models/csi-scores-report-data.model';
+import { CsiScoresReportService } from '../../../../services/csi-scores-report.service';
 
 @Component({
   selector: 'app-csi-scores-report',

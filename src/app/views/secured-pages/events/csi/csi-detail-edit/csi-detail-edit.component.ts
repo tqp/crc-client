@@ -3,16 +3,16 @@ import { FormArray, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '@tqp/components/confirm-dialog/confirm-dialog.component';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { Csi } from '../Csi';
-import { CsiService } from '../csi.service';
-import { Student } from '../../../people/students/Student';
-import { StudentService } from '../../../people/students/student.service';
+import { Csi } from '../../../../../models/csi.model';
+import { CsiService } from '../../../../../services/csi.service';
+import { Student } from '../../../../../models/people/student.model';
+import { StudentService } from '../../../../../services/student.service';
 import { FormattingService } from '@tqp/services/formatting.service';
-import { CaseManager } from '../../../people/case-managers/CaseManager';
-import { CaseManagerService } from '../../../people/case-managers/case-manager.service';
+import { CaseManager } from '../../../../../models/people/case-manager.model';
+import { CaseManagerService } from '../../../../../services/case-manager.service';
 import * as moment from 'moment';
-import { ServicesProvidedTypeService } from '../../../reference-tables/services-provided-type/services-provided-type.service';
-import { ServicesProvidedType } from '../../../reference-tables/services-provided-type/ServicesProvidedType';
+import { ServicesProvidedTypeService } from '../../../../../services/services-provided-type.service';
+import { ServicesProvidedType } from '../../../../../models/types/type-services-provided.model';
 import { forkJoin } from 'rxjs';
 import { validateNonZeroValue } from '@tqp/validators/custom.validators';
 
@@ -262,7 +262,7 @@ export class CsiDetailEditComponent implements OnInit, OnDestroy {
   }
 
   private getStudentList(): void {
-    this.studentService.getStudentList().subscribe(
+    this.studentService.getCaseManagerList().subscribe(
       (response: Student[]) => {
         // console.log('response', response);
         this.studentList = response;

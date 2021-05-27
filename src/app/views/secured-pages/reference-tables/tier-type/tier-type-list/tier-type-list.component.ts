@@ -1,9 +1,9 @@
 import {Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {FormControl} from '@angular/forms';
-import {TierType} from '../TierType';
+import {TierTypeModel} from '../../../../../models/types/type-tier.model';
 import {MatSort} from '@angular/material/sort';
-import {TierTypeService} from '../tier-type.service';
-import {EventService} from '../../../../../../@tqp/services/event.service';
+import {TierTypeService} from '../../../../../services/tier-type.service';
+import {EventService} from '@tqp/services/event.service';
 import {Router} from '@angular/router';
 import {merge} from 'rxjs';
 import {debounceTime} from 'rxjs/operators';
@@ -21,8 +21,8 @@ export class TierTypeListComponent implements OnInit, OnDestroy {
 
   public tierTypeNameSearchFormControl = new FormControl();
 
-  public records: TierType[] = [];
-  public dataSource: TierType[] = [];
+  public records: TierTypeModel[] = [];
+  public dataSource: TierTypeModel[] = [];
   public totalRecords: number;
   public isLoading;
   public isFilterApplied = false;
@@ -57,7 +57,7 @@ export class TierTypeListComponent implements OnInit, OnDestroy {
     this.isLoading = true;
     this.eventService.loadingEvent.emit(true);
     this.tierTypeService.getTierTypeList().subscribe(
-      (tierTypeList: TierType[]) => {
+      (tierTypeList: TierTypeModel[]) => {
         // console.log('tierTypeList', tierTypeList);
         tierTypeList.forEach(item => {
           this.records.push(item);

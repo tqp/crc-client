@@ -4,6 +4,7 @@ import { CaseManagerDetailEditComponent } from './case-manager-detail-edit/case-
 import { CaseManagerDetailComponent } from './case-manager-detail/case-manager-detail.component';
 import { CaseManagerListComponent } from './case-manager-list/case-manager-list.component';
 import { CaseManagerCreateComponent } from './case-manager-create/case-manager-create.component';
+import { CaseManagerListSspComponent } from './case-manager-list-ssp/case-manager-list-ssp.component';
 
 const routes: Routes = [
 
@@ -21,6 +22,13 @@ const routes: Routes = [
       {
         path: 'case-manager-list',
         component: CaseManagerListComponent,
+        data: {
+          title: 'Case Manager List'
+        }
+      },
+      {
+        path: 'case-manager-list-ssp',
+        component: CaseManagerListSspComponent,
         data: {
           title: 'Case Manager List'
         }

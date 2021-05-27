@@ -3,7 +3,7 @@ import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dial
 import { ConfirmDialogComponent } from '@tqp/components/confirm-dialog/confirm-dialog.component';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { CaregiverWorkshopService } from '../caregiver-workshop.service';
-import { CaregiverWorkshop } from '../CaregiverWorkshop';
+import { CaregiverWorkshop } from '../../../../../models/caregiver-workshop.model';
 import { FormattingService } from '@tqp/services/formatting.service';
 import * as moment from 'moment';
 

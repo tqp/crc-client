@@ -1,19 +1,19 @@
 import { AfterViewInit, Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
-import { ServerSidePaginationRequest } from '../../../../../../@tqp/models/ServerSidePaginationRequest';
+import { ServerSidePaginationRequest } from '@tqp/models/ServerSidePaginationRequest';
 import { FormControl } from '@angular/forms';
-import { FinanceService } from '../../../finance/finance.service';
-import { EventService } from '../../../../../../@tqp/services/event.service';
-import { FormattingService } from '../../../../../../@tqp/services/formatting.service';
+import { FinanceService } from '../../../../../services/finance.service';
+import { EventService } from '@tqp/services/event.service';
+import { FormattingService } from '@tqp/services/formatting.service';
 import { Router } from '@angular/router';
-import { AuthService } from '../../../../../../@tqp/services/auth.service';
+import { AuthService } from '@tqp/services/auth.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { ServerSidePaginationResponse } from '../../../../../../@tqp/models/ServerSidePaginationResponse';
+import { ServerSidePaginationResponse } from '@tqp/models/ServerSidePaginationResponse';
 import { merge, of } from 'rxjs';
 import { catchError, debounceTime, map, switchMap } from 'rxjs/operators';
-import { PostGradEvent } from '../PostGradEvent';
-import { PostGradEventService } from '../post-grad-event.service';
+import { PostGradEvent } from '../../../../../models/post-grad-event.model';
+import { PostGradEventService } from '../../../../../services/post-grad-event.service';
 import { PostGradEventDetailEditDialogComponent } from '../post-grad-event-detail-edit-dialog/post-grad-event-detail-edit-dialog.component';
 
 @Component({

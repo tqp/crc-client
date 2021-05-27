@@ -4,6 +4,7 @@ import { StudentListComponent } from './student-list/student-list.component';
 import { StudentDetailComponent } from './student-detail/student-detail.component';
 import { StudentDetailEditComponent } from './student-detail-edit/student-detail-edit.component';
 import { StudentListByCaseManagerComponent } from './student-list-by-case-manager/student-list-by-case-manager.component';
+import { StudentListSspComponent } from './student-list-ssp/student-list-ssp.component';
 
 const routes: Routes = [
 
@@ -21,6 +22,13 @@ const routes: Routes = [
       {
         path: 'student-list',
         component: StudentListComponent,
+        data: {
+          title: 'Student List'
+        }
+      },
+      {
+        path: 'student-list-ssp',
+        component: StudentListSspComponent,
         data: {
           title: 'Student List'
         }
