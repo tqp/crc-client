@@ -26,6 +26,7 @@ export class CaseManagerDetailComponent implements OnInit {
   public caseManagerLoading: boolean = false;
 
   // Associated Students List
+  public studentListLoading: boolean = false;
   public studentListRecords: Student[] = [];
   public studentListDataSource: Student[] = [];
   public studentListDisplayedColumns: string[] = [
@@ -93,6 +94,7 @@ export class CaseManagerDetailComponent implements OnInit {
   }
 
   private getStudentListByCaseManagerId(caseManagerId: number): void {
+    this.studentListLoading = true;
     this.relationshipService.getStudentListByCaseManagerId(caseManagerId).subscribe(
       (studentList: Student[]) => {
         // console.log('studentList', studentList);
@@ -103,6 +105,9 @@ export class CaseManagerDetailComponent implements OnInit {
       },
       error => {
         console.error('Error: ', error);
+      },
+      () => {
+        this.studentListLoading = false;
       }
     );
   }
