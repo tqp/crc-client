@@ -1,4 +1,4 @@
-<div class="table-container animated fadeIn" [hidden]="isLoading || error">
+<div class="tqp-crud-list table-container animated fadeIn" [hidden]="isLoading || error">
 
   <div class="row mb-3">
     <div class="col-md-4 offset-md-8">
@@ -7,7 +7,7 @@
           <div class="input-group-text"><i class="fa fa-search"></i></div>
         </div>
         <label for="nameSearchFieldId" *ngIf="false"></label>
-        <input id="nameSearchFieldId" type="text" class="form-control" placeholder="Search by Student Name"
+        <input id="nameSearchFieldId" type="text" class="form-control" placeholder="Search by Case Manager Name"
                [formControl]="searchFormControl" #searchElementRef
                autocomplete="chrome-off"/>
       </div>

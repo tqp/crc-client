@@ -20,6 +20,8 @@ $custom-dark-theme: mat-dark-theme($custom-dark-theme-primary, $custom-dark-them
   $primary: map-get($app-theme, primary);
   $accent: map-get($app-theme, accent);
 
+  // THESE SHOULD ALL ONLY BE COLOR-RELATED
+
   .mat-table {
     //background-color: rgb(240, 243, 245);
     //background-color: transparent;
@@ -40,8 +42,6 @@ $custom-dark-theme: mat-dark-theme($custom-dark-theme-primary, $custom-dark-them
   }
 
   td.mat-cell {
-    padding: 0.75rem !important;
-    border-bottom: none !important;
     color: rgb(30, 45, 44) !important;
   }
 }

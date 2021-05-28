@@ -20,19 +20,28 @@ $custom-dark-theme: mat-dark-theme($custom-dark-theme-primary, $custom-dark-them
   $primary: map-get($app-theme, primary);
   $accent: map-get($app-theme, accent);
 
+  // THESE SHOULD ALL ONLY BE COLOR-RELATED
+
   .mat-table {
     background-color: rgb(58, 65, 73);
+  }
+
+  tr.mat-header-row {
+    height: unset !important;
   }
 
   th.mat-header-cell {
     background: rgb(52, 59, 65);
   }
 
-  td.mat-cell {
-    padding: 0.75rem !important;
-    border-bottom: none !important;
+  th.mat-header-cell {
     color: rgb(228, 231, 234);
   }
+
+  td.mat-cell {
+    color: rgb(228, 231, 234);
+  }
+
 }
 
 @include mix-app-theme($custom-light-theme);

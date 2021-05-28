@@ -1,4 +1,6 @@
-.tqp-crud-server-pagination-list {
+// THESE SHOULD NOT HAVE ANY COLOR-RELATED SETTINGS
+
+.tqp-crud-list {
 
   .table-container {
     height: calc(100vh - 312px);
@@ -9,8 +11,20 @@
     width: 100%;
   }
 
+  // Remove Angular Material Styling in favor of CoreUi Styling
+  table {
+    &.table-sm {
+      tr.mat-row, tr.mat-footer-row {
+        height: unset !important;
+      }
+    }
+    th.mat-header-cell, td.mat-cell, td.mat-footer-cell {
+      padding: 0.75rem !important;
+    }
+  }
+
   th.mat-header-cell {
-    background: rgb(52, 59, 65);
+    //padding: 0.75rem !important;
   }
 
   th {
@@ -31,13 +45,12 @@
   /* PAGINATION */
 
   .paginator {
-    //background: rgb(240, 243, 245);
     position: absolute;
     min-width: 50px;
   }
 
   .mat-paginator-container {
-    padding: 0 !important;
+    //padding: 0 !important;
     min-height: unset !important;
   }
 

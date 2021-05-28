@@ -76,11 +76,11 @@
           Associated Students<span class="badge badge-secondary ml-2">{{studentListDataSource.length}}</span>
           <i *ngIf="studentListLoading" class="fa fa-spinner fa-spin ml-1"></i>
         </div>
-        <div class="card-body" style="padding: 0 10px !important;">
+        <div class="card-body" style="padding: 0 !important;">
 
           <div class="table-container">
 
-            <table mat-table class="table" [dataSource]="studentListDataSource"
+            <table mat-table class="table table-sm" [dataSource]="studentListDataSource"
                    *ngIf="studentListDataSource && studentListDataSource.length > 0">
 
               <ng-container matColumnDef="name">

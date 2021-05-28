@@ -1,3 +1,5 @@
+// THESE SHOULD NOT HAVE ANY COLOR-RELATED SETTINGS
+
 .tqp-crud-detail {
 
   .tqp-nav-link {
@@ -22,9 +24,7 @@
     font-weight: 500;
   }
 
-  tr.mat-row {
-    height: 20px !important;
-  }
+  // TABLE STYLES
 
   .table-container {
     //height: 500px;
@@ -33,10 +33,47 @@
 
   table {
     width: 100%;
+    margin-bottom: 0 !important;
+  }
+
+  // Remove Angular Material Styling in favor of CoreUi Styling
+  table {
+    &.table-sm {
+      tr.mat-row, tr.mat-footer-row {
+        height: unset !important;
+      }
+    }
+    th.mat-header-cell, td.mat-cell, td.mat-footer-cell {
+      padding: 0.30rem 0.75rem!important;
+    }
+  }
+
+  .table td {
+    border-top: none !important;
   }
 
   th {
     border-top: 0 !important; /* Fixes issue where row text pixels appear above header when using 'table' class . */
+  }
+
+  th.mat-header-cell {
+    padding: 0.75rem !important;
+  }
+
+  tr.mat-row {
+    height: 20px !important;
+  }
+
+  td.mat-cell {
+    //padding: 0.75rem !important;
+    //padding: 0.50rem 0.75rem !important;
+    //border-bottom: none !important;
+  }
+
+  .no-records {
+    width: 100%;
+    padding: 0.75rem;
+    height: 48px;
   }
 
   //::-webkit-scrollbar {
