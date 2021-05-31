@@ -9,8 +9,11 @@
     </div>
     <div class="col-sm-6">
       <div class="form-group float-right">
-        <button class="btn btn-sm btn-outline-primary ml-3" (click)="returnToList()" style="width: 200px">
-          Go To Case Manager <u>L</u>ist
+        <button class="btn btn-sm btn-outline-primary ml-3" (click)="collapseAllLists()">
+          Collapse All Lists
+        </button>
+        <button class="btn btn-sm btn-outline-primary ml-3" (click)="returnToList()">
+          Case Manager List
         </button>
       </div>
     </div>
@@ -30,18 +33,6 @@
           </div>
         </div>
         <div class="card-body">
-          <!--
-          <dl class="row">
-            <dt class="col-sm-3">User ID:</dt>
-            <dd class="col-sm-9">{{caseManager.userId}}</dd>
-          </dl>
-          -->
-          <!--
-          <dl class="row">
-            <dt class="col-sm-3">Case Manager ID:</dt>
-            <dd class="col-sm-9">{{caseManager.caseManagerId}}</dd>
-          </dl>
-          -->
           <dl class="row">
             <dt class="col-sm-3">Last Name:</dt>
             <dd class="col-sm-9">{{caseManager.caseManagerSurname}}</dd>
@@ -70,14 +61,17 @@
 
     <div class="col-lg-6 col-sm-12">
 
-      <div class="card detail-list">
-        <div class="card-header">
-          <i class="fa fa-user"></i>
+      <div class="card tqp-crud-detail-list">
+        <div class="card-header" (click)="studentListIsCollapsed = !studentListIsCollapsed">
           Associated Students<span class="badge badge-secondary ml-2">{{studentListDataSource.length}}</span>
-          <i *ngIf="studentListLoading" class="fa fa-spinner fa-spin ml-1"></i>
+          <div class="card-header-actions">
+            <i class="fa fa-bars" [@rotateIcon]="studentListIsCollapsed ? 'default' : 'rotated'"></i>
+          </div>
         </div>
-        <div class="card-body" style="padding: 0 !important;">
-
+        <div class="card-body"
+             (collapsed)="collapsed($event)"
+             (expanded)="expanded($event)"
+             [collapse]="studentListIsCollapsed">
           <div class="table-container">
 
             <table mat-table class="table table-sm" [dataSource]="studentListDataSource"
@@ -112,59 +106,19 @@
         </div>
       </div>
 
-      <!--
-      <div class="card">
-        <div class="card-header">
-          <i class="fa fa-graduation-cap"></i>
-          Associated Students<span class="badge badge-secondary ml-2">{{studentListDataSource.length}}</span>
-        </div>
-        <div class="card-body">
-
-          <div class="table-container" style="height: 200px; border: 1px solid rgb(200, 206, 211);">
-
-            <table mat-table [dataSource]="studentListDataSource"
-                   *ngIf="studentListDataSource && studentListDataSource.length > 0"
-                   matSort matSortActive="lastName" matSortDirection="asc" matSortDisableClear="true"
-                   class="table">
-
-              <ng-container matColumnDef="name">
-                <th mat-header-cell *matHeaderCellDef>Student Name</th>
-                <td mat-cell *matCellDef="let row">
-                  <a [routerLink]="['/students/student-detail', row.studentId]">
-                    {{row.studentGivenName}} {{row.studentSurname}}
-                  </a>
-                </td>
-              </ng-container>
-
-              <ng-container matColumnDef="relationshipStartDate">
-                <th mat-header-cell *matHeaderCellDef>Assignment Date</th>
-                <td mat-cell *matCellDef="let row">
-                  {{row.relationshipStartDate | date: 'dd-MMM-yyyy' | uppercase}}
-                </td>
-              </ng-container>
-
-              <tr mat-header-row *matHeaderRowDef="studentListDisplayedColumns; sticky: true" [hidden]="false"></tr>
-              <tr mat-row *matRowDef="let row; columns: studentListDisplayedColumns;"></tr>
-            </table>
-
-            <div class="no-records" *ngIf="studentListDataSource && studentListDataSource.length <= 0">
-              No records to display.
-            </div>
-
-          </div>
-
-        </div>
-      </div>
-      -->
-
-      <div class="card">
-        <div class="card-header">
-          <i class="fa fa-pencil-square-o"></i>
+      <div class="card tqp-crud-detail-list">
+        <div class="card-header" (click)="csiListIsCollapsed = !csiListIsCollapsed">
           CSI Records Submitted<span class="badge badge-secondary ml-2">{{csiListDataSource.length}}</span>
+          <div class="card-header-actions">
+            <i class="fa fa-bars" [@rotateIcon]="csiListIsCollapsed ? 'default' : 'rotated'"></i>
+          </div>
         </div>
-        <div class="card-body">
+        <div class="card-body"
+             (collapsed)="collapsed($event)"
+             (expanded)="expanded($event)"
+             [collapse]="csiListIsCollapsed">
 
-          <div class="table-container" style="height: 200px; border: 1px solid rgb(200, 206, 211);">
+          <div class="table-container">
 
             <table mat-table [dataSource]="csiListDataSource" *ngIf="csiListDataSource && csiListDataSource.length > 0"
                    matSort matSortActive="lastName" matSortDirection="asc" matSortDisableClear="true"
@@ -201,18 +155,20 @@
         </div>
       </div>
 
-      <div class="card">
-        <div class="card-header">
-          <i class="fa fa-ticket"></i>
-          Trainings & Qualifications<span class="badge badge-secondary ml-2">{{qualificationListDataSource.length}}</span>
-          <div class="card-header-actions"
-               [hidden]="authService.allowRoles('ROLE_EDIT, ROLE_ADMIN', 'Add Caregiver-Workshop')">
-            <small class="tqp-nav-link" (click)="openCaseManagerQualificationCreateDialog(this.caseManager.caseManagerId, null);">Add Qualification</small>
+      <div class="card tqp-crud-detail-list">
+        <div class="card-header" (click)="qualificationListIsCollapsed = !qualificationListIsCollapsed">
+          Trainings & Qualifications<span
+          class="badge badge-secondary ml-2">{{qualificationListDataSource.length}}</span>
+          <div class="card-header-actions">
+            <i class="fa fa-bars" [@rotateIcon]="qualificationListIsCollapsed ? 'default' : 'rotated'"></i>
           </div>
         </div>
-        <div class="card-body">
+        <div class="card-body"
+             (collapsed)="collapsed($event)"
+             (expanded)="expanded($event)"
+             [collapse]="qualificationListIsCollapsed">
 
-          <div class="table-container" style="height: 200px; border: 1px solid rgb(200, 206, 211);">
+          <div class="table-container">
 
             <table mat-table [dataSource]="qualificationListDataSource"
                    *ngIf="qualificationListDataSource && qualificationListDataSource.length > 0"
@@ -242,12 +198,16 @@
 
               <ng-container matColumnDef="actions">
                 <th mat-header-cell *matHeaderCellDef></th>
-                <td mat-cell *matCellDef="let row" [hidden]="authService.allowRoles('ROLE_EDIT, ROLE_ADMIN', 'Edit Caregiver-Workshop')">
-                  <i class="fa fa-edit" (click)="openCaseManagerQualificationCreateDialog(this.caseManager.caseManagerId, row.caseManagerQualificationId)" style="cursor: pointer;"></i>
+                <td mat-cell *matCellDef="let row"
+                    [hidden]="authService.allowRoles('ROLE_EDIT, ROLE_ADMIN', 'Edit Caregiver-Workshop')">
+                  <i class="fa fa-edit"
+                     (click)="openCaseManagerQualificationCreateDialog(this.caseManager.caseManagerId, row.caseManagerQualificationId)"
+                     style="cursor: pointer;"></i>
                 </td>
               </ng-container>
 
-              <tr mat-header-row *matHeaderRowDef="qualificationListDisplayedColumns; sticky: true" [hidden]="false"></tr>
+              <tr mat-header-row *matHeaderRowDef="qualificationListDisplayedColumns; sticky: true"
+                  [hidden]="false"></tr>
               <tr mat-row *matRowDef="let row; columns: qualificationListDisplayedColumns;"></tr>
             </table>
 
@@ -261,6 +221,7 @@
       </div>
 
     </div>
+
   </div>
 
 </div>

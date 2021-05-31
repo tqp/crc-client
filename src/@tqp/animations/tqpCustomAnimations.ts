@@ -26,7 +26,14 @@ export const tqpCustomAnimations = [
       animate('200ms 100ms', style({height: AUTO_STYLE})),
       animate('100ms 0ms', style({visibility: 'visible', opacity: 1}))
     ])
-  ])
+  ]),
+
+  trigger('rotateIcon', [
+    state('default', style({transform: 'rotate(0)'})),
+    state('rotated', style({transform: 'rotate(-90deg'})),
+    transition('rotated => default', animate('100ms ease-out')),
+    transition('default => rotated', animate('100ms ease-in'))
+  ]),
 ];
 
 

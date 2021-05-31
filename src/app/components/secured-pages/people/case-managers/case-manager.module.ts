@@ -12,6 +12,7 @@ import { CaseManagerDetailEditComponent } from './case-manager-detail-edit/case-
 import { CaseManagerRoutingModule } from './case-manager-routing.module';
 import { CaseManagerCreateComponent } from './case-manager-create/case-manager-create.component';
 import { CaseManagerListSspComponent } from './case-manager-list-ssp/case-manager-list-ssp.component';
+import { CollapseModule } from 'ngx-bootstrap/collapse';
 
 
 @NgModule({
@@ -25,6 +26,7 @@ import { CaseManagerListSspComponent } from './case-manager-list-ssp/case-manage
   imports: [
     CommonModule,
     AngularMaterialModule,
+    CollapseModule.forRoot(),
     FormsModule,
     ReactiveFormsModule,
     BsDatepickerModule.forRoot(),

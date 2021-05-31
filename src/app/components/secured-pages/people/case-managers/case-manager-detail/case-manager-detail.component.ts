@@ -13,17 +13,24 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { CaseManagerQualificationService } from '../../../../../services/events/case-manager-qualification.service';
 import { FormattingService } from '@tqp/services/formatting.service';
 import { CaseManagerQualificationEditDialogComponent } from '../../../events/case-manager-qualifications/case-manager-qualification-edit-dialog/case-manager-qualification-edit-dialog.component';
+import { tqpCustomAnimations } from '@tqp/animations/tqpCustomAnimations';
 
 @Component({
   selector: 'app-case-manager-detail',
   templateUrl: './case-manager-detail.component.html',
-  styleUrls: ['./case-manager-detail.component.css']
+  styleUrls: ['./case-manager-detail.component.scss'],
+  animations: [tqpCustomAnimations]
 })
 export class CaseManagerDetailComponent implements OnInit {
   public pageSource: string;
   public caseManager: CaseManager;
   public genderNames = {'M': 'Male', 'F': 'Female', 'O': 'Other'};
   public caseManagerLoading: boolean = false;
+
+  // Collapse
+  studentListIsCollapsed: boolean = true;
+  csiListIsCollapsed: boolean = false;
+  qualificationListIsCollapsed: boolean = true;
 
   // Associated Students List
   public studentListLoading: boolean = false;
@@ -184,8 +191,7 @@ export class CaseManagerDetailComponent implements OnInit {
             break;
           case 'update':
             this.caseManagerQualificationService.updateCaseManagerQualification(caseManagerQualification).subscribe(
-              response => {
-                // console.log('response', response);
+              () => {
                 this.getQualificationListByCaseManagerId(this.caseManager.userId);
               },
               error => {
@@ -195,8 +201,7 @@ export class CaseManagerDetailComponent implements OnInit {
             break;
           case 'delete':
             this.caseManagerQualificationService.deleteCaseManagerQualification(caseManagerQualification).subscribe(
-              response => {
-                // console.log('response', response);
+              () => {
                 this.getQualificationListByCaseManagerId(this.caseManager.userId);
               },
               error => {
@@ -219,6 +224,12 @@ export class CaseManagerDetailComponent implements OnInit {
 
   public openEditPage(): void {
     this.router.navigate(['case-managers/case-manager-detail-edit', this.caseManager.userId]).then();
+  }
+
+  public collapseAllLists(): void {
+    this.studentListIsCollapsed = true;
+    this.csiListIsCollapsed = true;
+    this.qualificationListIsCollapsed = true;
   }
 
   public openTwitter(twitterHandle: string): void {
