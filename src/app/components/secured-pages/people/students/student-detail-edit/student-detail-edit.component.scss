@@ -1,0 +1,11 @@
+@import "src/scss/vendors/bs-datepicker/datepicker";
+@import "node_modules/ngx-bootstrap/datepicker/bs-datepicker.scss";
+
+.tqp-nav-link {
+  color: #20A8D8;
+  cursor: pointer;
+}
+
+.tqp-nav-link:focus {
+  outline: none;
+}

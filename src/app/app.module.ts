@@ -25,11 +25,11 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
 import { ChartsModule } from 'ng2-charts';
 import { HttpClientModule } from '@angular/common/http';
 import { AngularMaterialModule } from '@tqp/modules/angular-material.module';
-import { OpenPagesModule } from './views/open-pages/open-pages.module';
-import { LoginPageModule } from './views/open-pages/login-page/login-page.module';
+import { OpenPagesModule } from './components/open-pages/open-pages.module';
+import { LoginPageModule } from './components/open-pages/login-page/login-page.module';
 import { ToastrModule } from 'ngx-toastr';
 import { SharedModule } from '@tqp/shared.module';
-import { SecuredPagesModule } from './views/secured-pages/secured-pages.module';
+import { SecuredPagesModule } from './components/secured-pages/secured-pages.module';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true

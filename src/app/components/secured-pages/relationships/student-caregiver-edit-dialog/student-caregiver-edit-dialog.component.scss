@@ -1,0 +1,10 @@
+@import "src/scss/vendors/bs-datepicker/datepicker";
+@import "node_modules/ngx-bootstrap/datepicker/bs-datepicker.scss";
+
+.spinner-container {
+  background: transparent;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  box-shadow: none !important;
+}

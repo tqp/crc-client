@@ -23,6 +23,7 @@ export class Csi {
   // JOINED TABLES
   public studentSurname?: string;
   public studentGivenName?: string;
+  public caseManagerId?: string;
   public caseManagerSurname?: string;
   public caseManagerGivenName?: string;
 
