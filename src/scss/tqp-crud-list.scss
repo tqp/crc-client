@@ -11,6 +11,11 @@
     width: 100%;
   }
 
+  .no-records {
+    padding: 0.75rem !important;
+    margin-top: -10px !important;
+  }
+
   // Remove Angular Material Styling in favor of CoreUi Styling
   table {
     &.table-sm {
@@ -20,6 +25,7 @@
     }
     th.mat-header-cell, td.mat-cell, td.mat-footer-cell {
       padding: 0.75rem !important;
+      vertical-align: middle;
     }
   }
 

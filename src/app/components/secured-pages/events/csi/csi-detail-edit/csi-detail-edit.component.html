@@ -12,7 +12,7 @@
           <h1>
             <i class="fa fa-pencil-square-o"></i>
             {{csi.studentGivenName}} {{csi.studentSurname}} CSI
-            on {{csiEditForm.controls['csiDate'].value | date: 'dd-MMM-yyyy' | uppercase}}
+            on {{csiEditForm.controls['csiDate'].value | date: 'dd-MMM-yyyy'}}
           </h1>
         </ng-template>
       </div>
@@ -72,19 +72,19 @@
             <div class="row">
               <div class="col-sm-12">
                 <div class="form-group">
-                  <label for="userId">Case Manager*</label>
-                  <select id="userId" class="form-control" formControlName="userId">
+                  <label for="caseManagerUserId">Case Manager*</label>
+                  <select id="caseManagerUserId" class="form-control" formControlName="caseManagerUserId">
                     <option value=0>Select a Case Manager</option>
                     <option *ngFor="let caseManager of caseManagerList"
-                            value="{{caseManager.userId}}">
-                      {{caseManager.caseManagerGivenName}} {{caseManager.caseManagerSurname}}
+                            value="{{caseManager.caseManagerUserId}}">
+                      {{caseManager.caseManagerGivenName}} {{caseManager.caseManagerSurname}} ({{caseManager.caseManagerUserId}})
                     </option>
                   </select>
-                  <mat-error *ngFor="let validation of validationMessages.userId">
+                  <mat-error *ngFor="let validation of validationMessages.caseManagerUserId">
                     <mat-error class="error-message"
-                               *ngIf="csiEditForm.get('userId').hasError(validation.type)
-                                && (csiEditForm.get('userId').dirty ||
-                                csiEditForm.get('userId').touched)">
+                               *ngIf="csiEditForm.get('caseManagerUserId').hasError(validation.type)
+                                && (csiEditForm.get('caseManagerUserId').dirty ||
+                                csiEditForm.get('caseManagerUserId').touched)">
                       {{validation.message}}
                     </mat-error>
                   </mat-error>

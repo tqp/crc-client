@@ -3,7 +3,6 @@ import { HttpClient } from '@angular/common/http';
 import { HttpService } from '@tqp/services/http.service';
 import { TokenService } from '@tqp/services/token.service';
 import { Observable } from 'rxjs';
-import { VisitTypeModel } from '../../models/types/type-visit.model';
 import { environment } from '../../../environments/environment';
 import { map } from 'rxjs/operators';
 import { InteractionType } from '../../models/types/type-interaction.model';

@@ -41,22 +41,22 @@ export class UserDetailEditComponent implements OnInit {
   }
 
   public validationMessages = {
-    'userId': [
-      {type: 'required', message: 'An ID is required'}
+    'caseManagerUserId': [
+      {type: 'required', message: 'An ID is required.'}
     ],
     'username': [
-      {type: 'required', message: 'A Username is required'}
+      {type: 'required', message: 'A Username is required.'}
     ],
     'surname': [
-      {type: 'required', message: 'A Surname is required'}
+      {type: 'required', message: 'A Surname is required.'}
     ],
     'givenName': [
-      {type: 'required', message: 'A Given Name is required'}
+      {type: 'required', message: 'A Given Name is required.'}
     ],
     'roleCheckboxes': [
-      {type: 'minSelectedCheckboxes', message: 'At least one Role must be selected'},
-      {type: 'viewOrCaseManager', message: 'Users must have either the \'View Records\' or \'Case Manager\' Role'},
-      {type: 'viewAndCaseManager', message: 'Users cannot have both \'View Records\' and \'Case Manager\' Roles'}
+      {type: 'minSelectedCheckboxes', message: 'At least one Role must be selected.'},
+      {type: 'viewOrCaseManager', message: 'Users must have either the \'View Records\' or \'Case Manager\' Role.'},
+      {type: 'viewAndCaseManager', message: 'Users cannot have both \'View Records\' and \'Case Manager\' Roles.'}
     ],
     'caseManagerNumberOfStudents': []
   };
@@ -96,7 +96,7 @@ export class UserDetailEditComponent implements OnInit {
 
   private initializeForm(): void {
     this.userEditForm = this.formBuilder.group({
-      userId: new FormControl(''),
+      caseManagerUserId: new FormControl(''),
       username: new FormControl('', Validators.required),
       surname: new FormControl('', Validators.required),
       givenName: new FormControl('', Validators.required),
@@ -342,7 +342,7 @@ export class UserDetailEditComponent implements OnInit {
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     dialogConfig.data = {
-      userId: this.user.userId
+      caseManagerUserId: this.user.userId
     };
     dialogConfig.autoFocus = false;
     const dialogRef = this._matDialog.open(ResetPasswordDialogComponent, dialogConfig);

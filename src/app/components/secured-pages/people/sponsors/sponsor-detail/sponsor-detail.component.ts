@@ -182,7 +182,7 @@ export class SponsorDetailComponent implements OnInit {
     });
   }
 
-  // Buttons
+  // BUTTONS
 
   public returnToList(): void {
     this.router.navigate(['sponsors/sponsor-list']).then();

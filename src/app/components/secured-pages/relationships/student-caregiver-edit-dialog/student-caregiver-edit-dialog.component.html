@@ -7,25 +7,6 @@
 
   <form [formGroup]="studentCaregiverEditForm" [hidden]="!dataLoaded">
 
-    <!--
-    <div class="row">
-      <div class="col-sm-12">
-        <div class="form-group">
-          <label for="relationshipId">Student-Caregiver ID</label>
-          <input id="relationshipId" type="text" class="form-control" formControlName="relationshipId">
-          <mat-error *ngFor="let validation of validationMessages.relationshipId">
-            <mat-error class="error-message"
-                       *ngIf="studentCaregiverEditForm.get('relationshipId').hasError(validation.type)
-                                && (studentCaregiverEditForm.get('relationshipId').dirty ||
-                                studentCaregiverEditForm.get('relationshipId').touched)">
-              {{validation.message}}
-            </mat-error>
-          </mat-error>
-        </div>
-      </div>
-    </div>
-    -->
-
     <div class="row">
       <div class="col-sm-12">
         <div class="form-group">
@@ -34,7 +15,7 @@
             <option value=0>Select a Caregiver</option>
             <option *ngFor="let caregiver of caregiverList"
                     value="{{caregiver.caregiverId}}">
-              {{caregiver.caregiverSurname}}, {{caregiver.caregiverGivenName}}
+              {{caregiver.caregiverGivenName}} {{caregiver.caregiverSurname}}
             </option>
           </select>
           <mat-error *ngFor="let validation of validationMessages.caregiverId">

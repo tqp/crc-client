@@ -14,7 +14,6 @@ import { UserRoutingModule } from './user-routing.module';
 import { UserDetailEditDialogComponent } from './user-detail-edit-dialog/user-detail-edit-dialog.component';
 
 
-
 @NgModule({
   declarations: [
     UserListComponent,

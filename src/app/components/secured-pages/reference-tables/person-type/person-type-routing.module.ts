@@ -1,8 +1,8 @@
-import {NgModule} from '@angular/core';
-import {RouterModule, Routes} from '@angular/router';
-import {PersonTypeListComponent} from './person-type-list/person-type-list.component';
-import {PersonTypeDetailComponent} from './person-type-detail/person-type-detail.component';
-import {PersonTypeDetailEditComponent} from './person-type-detail-edit/person-type-detail-edit.component';
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { PersonTypeListComponent } from './person-type-list/person-type-list.component';
+import { PersonTypeDetailComponent } from './person-type-detail/person-type-detail.component';
+import { PersonTypeDetailEditComponent } from './person-type-detail-edit/person-type-detail-edit.component';
 
 const routes: Routes = [
 

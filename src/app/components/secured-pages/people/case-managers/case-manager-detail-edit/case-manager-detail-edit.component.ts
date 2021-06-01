@@ -20,16 +20,16 @@ export class CaseManagerDetailEditComponent implements OnInit {
 
   public validationMessages = {
     'caseManagerId': [
-      {type: 'required', message: 'A Case Manager ID is required'}
+      {type: 'required', message: 'A Case Manager ID is required.'}
     ],
-    'userId': [
-      {type: 'required', message: 'A User ID is required'}
+    'caseManagerUserId': [
+      {type: 'required', message: 'A User ID is required.'}
     ],
     'caseManagerSurname': [
-      {type: 'required', message: 'A Surname is required'}
+      {type: 'required', message: 'A Surname is required.'}
     ],
     'caseManagerGivenName': [
-      {type: 'required', message: 'A Given Name is required'}
+      {type: 'required', message: 'A Given Name is required.'}
     ],
     'caseManagerAddress': [],
     'caseManagerPhone': [],
@@ -56,7 +56,7 @@ export class CaseManagerDetailEditComponent implements OnInit {
 
   private initializeForm(): void {
     this.caseManagerEditForm = this.formBuilder.group({
-      userId: new FormControl(''),
+      caseManagerUserId: new FormControl(''),
       caseManagerId: new FormControl(''),
       caseManagerSurname: new FormControl('', Validators.required),
       caseManagerGivenName: new FormControl('', Validators.required),
@@ -71,7 +71,7 @@ export class CaseManagerDetailEditComponent implements OnInit {
       response => {
         this.caseManager = response;
         console.log('response', response);
-        this.caseManagerEditForm.controls['userId'].patchValue(this.caseManager.userId);
+        this.caseManagerEditForm.controls['userId'].patchValue(this.caseManager.caseManagerUserId);
         this.caseManagerEditForm.controls['caseManagerId'].patchValue(this.caseManager.caseManagerId);
         this.caseManagerEditForm.controls['caseManagerSurname'].patchValue(this.caseManager.caseManagerSurname);
         this.caseManagerEditForm.controls['caseManagerGivenName'].patchValue(this.caseManager.caseManagerGivenName);
@@ -111,7 +111,7 @@ export class CaseManagerDetailEditComponent implements OnInit {
   public save(): void {
     const caseManager = new CaseManager();
     console.log('crudEditForm', this.caseManagerEditForm.value);
-    caseManager.userId = this.caseManagerEditForm.value.userId;
+    caseManager.caseManagerUserId = this.caseManagerEditForm.value.userId;
     caseManager.caseManagerId = this.caseManagerEditForm.value.caseManagerId;
     caseManager.caseManagerSurname = this.caseManagerEditForm.value.caseManagerSurname;
     caseManager.caseManagerGivenName = this.caseManagerEditForm.value.caseManagerGivenName;
@@ -125,7 +125,7 @@ export class CaseManagerDetailEditComponent implements OnInit {
       this.caseManagerService.createCaseManager(caseManager).subscribe(
         response => {
           console.log('response: ', response);
-          this.router.navigate(['case-managers/case-manager-detail', response.userId]).then();
+          this.router.navigate(['case-managers/case-manager-detail', response.caseManagerUserId]).then();
         },
         error => {
           console.error('Error: ' + error.message);
@@ -135,7 +135,7 @@ export class CaseManagerDetailEditComponent implements OnInit {
       this.caseManagerService.updateCaseManager(caseManager).subscribe(
         response => {
           // console.log('response: ', response);
-          this.router.navigate(['case-managers/case-manager-detail', response.userId]).then();
+          this.router.navigate(['case-managers/case-manager-detail', response.caseManagerUserId]).then();
         },
         error => {
           console.error('Error: ' + error.message);
@@ -146,7 +146,7 @@ export class CaseManagerDetailEditComponent implements OnInit {
 
   public cancel(): void {
     if (this.caseManager.caseManagerId) {
-      this.router.navigate(['case-managers/case-manager-detail', this.caseManager.userId]).then();
+      this.router.navigate(['case-managers/case-manager-detail', this.caseManager.caseManagerUserId]).then();
     } else {
       this.router.navigate(['case-managers/case-manager-list']).then();
     }

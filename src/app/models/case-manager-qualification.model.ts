@@ -1,6 +1,6 @@
 export class CaseManagerQualification {
   public caseManagerQualificationId?: number;
-  public caseManagerId?: number;
+  public caseManagerUserId?: number;
   public qualificationInstitution?: number;
   public qualificationName?: string;
 }

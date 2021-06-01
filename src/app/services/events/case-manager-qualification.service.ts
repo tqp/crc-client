@@ -1,13 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { CaregiverWorkshop } from '../../models/caregiver-workshop.model';
 import { environment } from '../../../environments/environment';
 import { map } from 'rxjs/operators';
 import { CaseManagerQualification } from '../../models/case-manager-qualification.model';
 import { HttpClient } from '@angular/common/http';
 import { HttpService } from '@tqp/services/http.service';
 import { TokenService } from '@tqp/services/token.service';
-import { Relationship } from '../../models/relationship.model';
 
 @Injectable({
   providedIn: 'root'

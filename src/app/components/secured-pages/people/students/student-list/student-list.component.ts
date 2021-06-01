@@ -6,11 +6,13 @@ import { merge } from 'rxjs';
 import { Student } from '../../../../../models/people/student.model';
 import { StudentService } from '../../../../../services/people/student.service';
 import { EventService } from '@tqp/services/event.service';
+import { AuthService } from '../../../../../../@tqp/services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-student-list',
   templateUrl: './student-list.component.html',
-  styleUrls: ['./student-list.component.css']
+  styleUrls: ['./student-list.component.scss']
 })
 export class StudentListComponent implements OnInit {
   @ViewChild(MatSort, {static: true}) sort: MatSort;
@@ -35,7 +37,9 @@ export class StudentListComponent implements OnInit {
   public recordList: Student[] = [];
 
   constructor(private studentService: StudentService,
-              private eventService: EventService) {
+              private eventService: EventService,
+              public authService: AuthService,
+              private router: Router) {
   }
 
   ngOnInit(): void {
@@ -52,7 +56,7 @@ export class StudentListComponent implements OnInit {
   public getStudentList(): void {
     this.isLoading = true;
     this.eventService.loadingEvent.emit(true);
-    this.studentService.getCaseManagerList().subscribe(
+    this.studentService.getStudentList().subscribe(
       (response: any | null) => {
         // console.log('response', response);
         if (response) {
@@ -132,6 +136,16 @@ export class StudentListComponent implements OnInit {
     // this.isFilterApplied = nameFilter;
     this.isLoading = false;
     this.eventService.loadingEvent.emit(false);
+  }
+
+  // BUTTONS
+
+  public clearFilters(): void {
+    this.searchFormControl.setValue('');
+  }
+
+  public openCreateStudentPage(): void {
+    this.router.navigate(['students/student-create']).then();
   }
 
   @HostListener('window:resize', ['$event'])

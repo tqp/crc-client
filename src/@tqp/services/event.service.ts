@@ -1,5 +1,5 @@
-import {Injectable} from '@angular/core';
-import {AppEvent} from '@tqp/models/AppEvent';
+import { Injectable } from '@angular/core';
+import { AppEvent } from '@tqp/models/AppEvent';
 
 @Injectable({
   providedIn: 'root'

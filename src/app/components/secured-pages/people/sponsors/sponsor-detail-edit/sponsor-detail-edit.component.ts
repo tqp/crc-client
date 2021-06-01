@@ -21,10 +21,10 @@ export class SponsorDetailEditComponent implements OnInit {
 
   public validationMessages = {
     'sponsorId': [
-      {type: 'required', message: 'An ID is required'}
+      {type: 'required', message: 'An ID is required.'}
     ],
     'sponsorSurname': [
-      {type: 'required', message: 'A Surname is required'}
+      {type: 'required', message: 'A Surname is required.'}
     ],
     'sponsorGivenName': [],
     'sponsorAffiliatedChurch': []

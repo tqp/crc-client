@@ -23,13 +23,13 @@ export class PaymentDetailEditComponent implements OnInit {
 
   public validationMessages = {
     'paymentId': [
-      {type: 'required', message: 'An ID is required'}
+      {type: 'required', message: 'An ID is required.'}
     ],
     'paymentAmount': [
-      {type: 'required', message: 'A Payment Amount is required'}
+      {type: 'required', message: 'A Payment Amount is required.'}
     ],
     'paymentDate': [
-      {type: 'required', message: 'A Payment Date is required'}
+      {type: 'required', message: 'A Payment Date is required.'}
     ]
   };
 

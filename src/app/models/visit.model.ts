@@ -2,7 +2,7 @@ export class Visit {
   public visitId?: number;
   public studentId?: number;
   public visitDate?: string;
-  public caseManagerId?: number;
+  public caseManagerUserId?: number;
   public interactionTypeId?: number;
   public visitTypeId?: number;
   public caregiverComments?: string;

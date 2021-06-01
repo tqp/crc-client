@@ -9,7 +9,7 @@
     </div>
     <div class="col-sm-6">
       <div class="form-group float-right">
-        <button class="btn btn-sm btn-outline-primary ml-3" (click)="returnToList()" style="width: 170px">
+        <button class="btn btn-sm btn-outline-primary ml-3" (click)="returnToList()">
           Go To Post-Grad Event List
         </button>
       </div>
@@ -31,24 +31,24 @@
         </div>
         <div class="card-body">
           <dl class="row">
-            <dt class="col-sm-3">Student:</dt>
-            <dd class="col-sm-9">
+            <dt class="col-sm-4">Student:</dt>
+            <dd class="col-sm-8">
               <span class="tqp-nav-link" [routerLink]="['/students/student-detail', postGradEvent.studentId]">
                 {{postGradEvent.studentGivenName}} {{postGradEvent.studentSurname}}
               </span>
             </dd>
           </dl>
           <dl class="row">
-            <dt class="col-sm-3">Event Date:</dt>
-            <dd class="col-sm-9">{{postGradEvent.postGradEventDate | date: 'dd-MMM-yyyy' | uppercase}}</dd>
+            <dt class="col-sm-4">Event Date:</dt>
+            <dd class="col-sm-8">{{postGradEvent.postGradEventDate | date: 'dd-MMM-yyyy'}}</dd>
           </dl>
           <dl class="row">
-            <dt class="col-sm-3">Event Type:</dt>
-            <dd class="col-sm-9">{{postGradEvent.postGradEventTypeName}}</dd>
+            <dt class="col-sm-4">Event Type:</dt>
+            <dd class="col-sm-8">{{postGradEvent.postGradEventTypeName}}</dd>
           </dl>
           <dl class="row">
-            <dt class="col-sm-3">Comments:</dt>
-            <dd class="col-sm-9">{{postGradEvent.postGradEventComments}}</dd>
+            <dt class="col-sm-4">Comments:</dt>
+            <dd class="col-sm-8">{{postGradEvent.postGradEventComments}}</dd>
           </dl>
         </div>
       </div>

@@ -11,6 +11,7 @@ import { RouterModule } from '@angular/router';
 import { ListAddRemoveItemsBasicModule } from '@tqp/components/list-add-remove-items-basic/list-add-remove-items-basic.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { SponsorListSspComponent } from './sponsor-list-ssp/sponsor-list-ssp.component';
+import { CollapseModule } from 'ngx-bootstrap/collapse';
 
 
 @NgModule({
@@ -23,6 +24,7 @@ import { SponsorListSspComponent } from './sponsor-list-ssp/sponsor-list-ssp.com
   imports: [
     CommonModule,
     AngularMaterialModule,
+    CollapseModule.forRoot(),
     FormsModule,
     ReactiveFormsModule,
     BsDatepickerModule.forRoot(),

@@ -7,41 +7,22 @@
 
   <form [formGroup]="studentCaseManagerEditForm" [hidden]="!dataLoaded">
 
-    <!--
     <div class="row">
       <div class="col-sm-12">
         <div class="form-group">
-          <label for="relationshipId">Student-Case Manager ID</label>
-          <input id="relationshipId" type="text" class="form-control" formControlName="relationshipId">
-          <mat-error *ngFor="let validation of validationMessages.relationshipId">
-            <mat-error class="error-message"
-                       *ngIf="studentCaseManagerEditForm.get('relationshipId').hasError(validation.type)
-                                && (studentCaseManagerEditForm.get('relationshipId').dirty ||
-                                studentCaseManagerEditForm.get('relationshipId').touched)">
-              {{validation.message}}
-            </mat-error>
-          </mat-error>
-        </div>
-      </div>
-    </div>
-    -->
-
-    <div class="row">
-      <div class="col-sm-12">
-        <div class="form-group">
-          <label for="userId">Case Manager*</label>
-          <select id="userId" class="form-control" formControlName="userId">
+          <label for="caseManagerUserId">Case Manager*</label>
+          <select id="caseManagerUserId" class="form-control" formControlName="caseManagerUserId">
             <option value=0>Select a Case Manager</option>
             <option *ngFor="let caseManager of caseManagerList"
-                    value="{{caseManager.userId}}">
-              {{caseManager.caseManagerGivenName}} {{caseManager.caseManagerSurname}} ({{caseManager.userId}})
+                    value="{{caseManager.caseManagerUserId}}">
+              {{caseManager.caseManagerGivenName}} {{caseManager.caseManagerSurname}} ({{caseManager.caseManagerUserId}})
             </option>
           </select>
-          <mat-error *ngFor="let validation of validationMessages.userId">
+          <mat-error *ngFor="let validation of validationMessages.caseManagerUserId">
             <mat-error class="error-message"
-                       *ngIf="studentCaseManagerEditForm.get('userId').hasError(validation.type)
-                                && (studentCaseManagerEditForm.get('userId').dirty ||
-                                studentCaseManagerEditForm.get('userId').touched)">
+                       *ngIf="studentCaseManagerEditForm.get('caseManagerUserId').hasError(validation.type)
+                                && (studentCaseManagerEditForm.get('caseManagerUserId').dirty ||
+                                studentCaseManagerEditForm.get('caseManagerUserId').touched)">
               {{validation.message}}
             </mat-error>
           </mat-error>

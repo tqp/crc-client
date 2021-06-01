@@ -1,10 +1,10 @@
-import {Injectable} from '@angular/core';
-import {environment} from '../../../environments/environment';
-import {map} from 'rxjs/operators';
-import {HttpClient} from '@angular/common/http';
-import {HttpService} from '@tqp/services/http.service';
-import {TokenService} from '@tqp/services/token.service';
-import {TierTypeModel} from '../../models/types/type-tier.model';
+import { Injectable } from '@angular/core';
+import { environment } from '../../../environments/environment';
+import { map } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
+import { HttpService } from '@tqp/services/http.service';
+import { TokenService } from '@tqp/services/token.service';
+import { TierTypeModel } from '../../models/types/type-tier.model';
 
 @Injectable({
   providedIn: 'root'

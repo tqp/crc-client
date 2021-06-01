@@ -9,7 +9,7 @@
     </div>
     <div class="col-sm-6">
       <div class="form-group float-right">
-        <button class="btn btn-sm btn-outline-primary ml-3" (click)="returnToList()" style="width: 150px">
+        <button class="btn btn-sm btn-outline-primary ml-3" (click)="returnToList()">
           Go To Loan <u>L</u>ist
         </button>
       </div>
@@ -31,24 +31,24 @@
         </div>
         <div class="card-body">
           <dl class="row">
-            <dt class="col-sm-3">Loan ID:</dt>
-            <dd class="col-sm-9">{{('00000' + loan.loanId).slice(-5)}}</dd>
+            <dt class="col-sm-4">Loan ID:</dt>
+            <dd class="col-sm-8">{{('00000' + loan.loanId).slice(-5)}}</dd>
           </dl>
           <dl class="row">
-            <dt class="col-sm-3">Recipient:</dt>
-            <dd class="col-sm-9">
+            <dt class="col-sm-4">Recipient:</dt>
+            <dd class="col-sm-8">
               <a [routerLink]="['/caregivers/caregiver-detail', loan.caregiverId]">
                 {{loan.caregiverGivenName}} {{loan.caregiverSurname}}
               </a>
             </dd>
           </dl>
           <dl class="row">
-            <dt class="col-sm-3">Amount:</dt>
-            <dd class="col-sm-9">{{loan.loanAmount | currency: 'Le'}}</dd>
+            <dt class="col-sm-4">Amount:</dt>
+            <dd class="col-sm-8">{{loan.loanAmount | currency: 'Le'}}</dd>
           </dl>
           <dl class="row">
-            <dt class="col-sm-3">Description:</dt>
-            <dd class="col-sm-9">{{loan.loanDescription}}</dd>
+            <dt class="col-sm-4">Description:</dt>
+            <dd class="col-sm-8">{{loan.loanDescription}}</dd>
           </dl>
         </div>
       </div>

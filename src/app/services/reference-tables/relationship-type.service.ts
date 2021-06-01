@@ -1,11 +1,11 @@
-import {Injectable} from '@angular/core';
-import {environment} from '../../../environments/environment';
-import {map} from 'rxjs/operators';
-import {HttpClient} from '@angular/common/http';
-import {HttpService} from '@tqp/services/http.service';
-import {TokenService} from '@tqp/services/token.service';
-import {Observable} from 'rxjs';
-import {RelationshipType} from '../../models/types/type-relationship.model';
+import { Injectable } from '@angular/core';
+import { environment } from '../../../environments/environment';
+import { map } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
+import { HttpService } from '@tqp/services/http.service';
+import { TokenService } from '@tqp/services/token.service';
+import { Observable } from 'rxjs';
+import { RelationshipType } from '../../models/types/type-relationship.model';
 
 @Injectable({
   providedIn: 'root'

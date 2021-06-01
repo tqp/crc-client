@@ -26,7 +26,7 @@ export class PostGradEventDetailEditDialogComponent implements OnInit {
     'postGradEventId': [],
     'postGradEventTypeId': [],
     'postGradEventDate': [
-      {type: 'required', message: 'A date is required'}
+      {type: 'required', message: 'A date is required.'}
     ],
     'postGradEventComments': [],
   };

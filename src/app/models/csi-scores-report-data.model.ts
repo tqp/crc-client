@@ -1,5 +1,5 @@
 export class CsiScoresReportData {
-  public caseManagerId?: number;
+  public caseManagerUserId?: number;
   public caseManagerSurname?: string;
   public caseManagerGivenName?: string;
   public totalScore?: number;

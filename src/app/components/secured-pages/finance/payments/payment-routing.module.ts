@@ -1,8 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { PaymentListComponent } from './payment-list/payment-list.component';
-import { LoanDetailComponent } from '../loans/loan-detail/loan-detail.component';
-import { LoanDetailEditComponent } from '../loans/loan-detail-edit/loan-detail-edit.component';
 import { PaymentDetailComponent } from './payment-detail/payment-detail.component';
 import { PaymentDetailEditComponent } from './payment-detail-edit/payment-detail-edit.component';
 

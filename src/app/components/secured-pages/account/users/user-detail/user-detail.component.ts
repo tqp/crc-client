@@ -6,10 +6,7 @@ import { User } from '../../../../../models/User';
 import { Token } from '@tqp/models/Token';
 import { TokenService } from '@tqp/services/token.service';
 import * as moment from 'moment';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { StudentCaregiverEditDialogComponent } from '../../../relationships/student-caregiver-edit-dialog/student-caregiver-edit-dialog.component';
-import { Relationship } from '../../../../../models/relationship.model';
-import { UserDetailEditDialogComponent } from '../user-detail-edit-dialog/user-detail-edit-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-user-detail',

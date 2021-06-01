@@ -9,8 +9,11 @@
     </div>
     <div class="col-sm-6">
       <div class="form-group float-right">
-        <button class="btn btn-sm btn-outline-primary ml-3" (click)="returnToList()" style="width: 150px">
-          Go To Student <u>L</u>ist
+        <button class="btn btn-sm btn-outline-primary ml-3" (click)="collapseAllLists()">
+          Collapse All Lists
+        </button>
+        <button class="btn btn-sm btn-outline-primary ml-3" (click)="returnToList()">
+          Student List
         </button>
       </div>
     </div>
@@ -20,7 +23,7 @@
     <div class="col-lg-6 col-sm-12">
 
       <div class="card">
-        <div class="card-header">
+        <div class="card-header disable-text-selection">
           <i class="fa fa-user"></i>
           Personal Information
           <i *ngIf="studentLoading" class="fa fa-spinner fa-spin"></i>
@@ -45,7 +48,7 @@
           </dl>
           <dl class="row">
             <dt class="col-sm-4">Date of Birth:</dt>
-            <dd class="col-sm-8">{{student.studentDateOfBirth | date: 'dd-MMM-yyyy' | uppercase}}</dd>
+            <dd class="col-sm-8">{{student.studentDateOfBirth | date: 'dd-MMM-yyyy'}}</dd>
           </dl>
           <dl class="row">
             <dt class="col-sm-4">School:</dt>
@@ -70,341 +73,8 @@
         </div>
       </div>
 
-      <div class="card" *ngIf="csiScoresChartData.length > 0">
-        <div class="card-header">
-          <i class="fa fa-line-chart"></i>
-          CSI Scores Chart
-        </div>
-        <div class="card-body">
-          <div class="chart-wrapper" style="min-height: 274px;">
-            <canvas *ngIf="csiScoresChartData.length > 0" baseChart class="chart"
-                    [datasets]="csiScoresChartData"
-                    [labels]="lineChartLabels"
-                    [options]="lineChartOptions"
-                    [colors]="lineChartColors"
-                    [legend]="lineChartLegend"
-                    [chartType]="lineChartType"
-                    (chartHover)="chartHovered($event)"
-                    (chartClick)="chartClicked($event)"></canvas>
-          </div>
-        </div>
-      </div>
-
       <div class="card">
-        <div class="card-header">
-          <i class="fa fa-calendar-check-o"></i>
-          Letters to Sponsor<span
-          class="badge badge-secondary ml-2">{{studentSponsorLetterListDataSource.length}}</span>
-          <i *ngIf="studentSponsorLetterListLoading" class="fa fa-spinner fa-spin"></i>
-          <div class="card-header-actions"
-               [hidden]="authService.allowRoles('ROLE_CASE_MANAGER, ROLE_ADMIN', 'Add Sponsor Letter')">
-            <small class="tqp-nav-link"
-                   (click)="openStudentSponsorLetterEditDialog(null, null, this.student.studentId);">
-              Add Sponsor Letter
-            </small>
-          </div>
-        </div>
-        <div class="card-body">
-
-          <div class="table-container">
-
-            <table mat-table [dataSource]="studentSponsorLetterListDataSource"
-                   *ngIf="studentSponsorLetterListDataSource && studentSponsorLetterListDataSource.length > 0"
-                   class="table">
-
-              <ng-container matColumnDef="sponsorLetterId">
-                <th mat-header-cell *matHeaderCellDef>Letter ID</th>
-                <td mat-cell *matCellDef="let row">
-                  <a [routerLink]="['/sponsor-letter/sponsor-letter-detail', row.sponsorLetterId]">
-                    {{row.sponsorLetterId}}
-                  </a>
-                </td>
-              </ng-container>
-
-              <ng-container matColumnDef="studentSponsorLetterDate">
-                <th mat-header-cell *matHeaderCellDef>Date of Letter</th>
-                <td mat-cell *matCellDef="let row">
-                  <a
-                    [routerLink]="['/student-sponsor-letter/student-sponsor-letter-detail', row.studentSponsorLetterId]">
-                    {{row.studentSponsorLetterDate | date: 'dd-MMM-yyyy' | uppercase}}
-                  </a>
-                </td>
-              </ng-container>
-
-              <ng-container matColumnDef="sponsorName">
-                <th mat-header-cell *matHeaderCellDef>Sponsor</th>
-                <td mat-cell *matCellDef="let row">
-                  <a [routerLink]="['/sponsors/sponsor-detail', row.sponsorId]">
-                    {{row.sponsorGivenName}} {{row.sponsorSurname}}
-                  </a>
-                </td>
-              </ng-container>
-
-              <tr mat-header-row *matHeaderRowDef="studentSponsorLetterListDisplayedColumns; sticky: true"
-                  [hidden]="false"></tr>
-              <tr mat-row *matRowDef="let row; columns: studentSponsorLetterListDisplayedColumns;"></tr>
-            </table>
-
-            <div class="no-records"
-                 *ngIf="studentSponsorLetterListDataSource && studentSponsorLetterListDataSource.length <= 0">
-              No Records Found
-            </div>
-
-          </div>
-
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-header">
-          <i class="fa fa-calendar-check-o"></i>
-          CSI Records<span class="badge badge-secondary ml-2">{{csiListDataSource.length}}</span>
-          <i *ngIf="csiListLoading" class="fa fa-spinner fa-spin"></i>
-          <div class="card-header-actions"
-               [hidden]="authService.allowRoles('ROLE_CASE_MANAGER, ROLE_ADMIN', 'Add CSI Record')">
-            <small class="tqp-nav-link" (click)="openCsiCreatePage();">Add CSI Record</small>
-          </div>
-        </div>
-        <div class="card-body">
-
-          <div class="table-container">
-
-            <table mat-table [dataSource]="csiListDataSource"
-                   *ngIf="csiListDataSource && csiListDataSource.length > 0" class="table">
-
-              <ng-container matColumnDef="csiId">
-                <th mat-header-cell *matHeaderCellDef>CSI ID</th>
-                <td mat-cell *matCellDef="let row">
-                  <a [routerLink]="['/csi/csi-detail', row.csiId]">
-                    {{row.csiId}}
-                  </a>
-                </td>
-              </ng-container>
-
-              <ng-container matColumnDef="csiDate">
-                <th mat-header-cell *matHeaderCellDef>Date</th>
-                <td mat-cell *matCellDef="let row">
-                  <a [routerLink]="['/csi/csi-detail', row.csiId]">
-                    {{row.csiDate | date: 'dd-MMM-yyyy' | uppercase}}
-                  </a>
-                </td>
-              </ng-container>
-
-              <ng-container matColumnDef="caseManager">
-                <th mat-header-cell *matHeaderCellDef>Case Manager</th>
-                <td mat-cell *matCellDef="let row">
-                  <a [routerLink]="['/case-managers/case-manager-detail', row.caseManagerId]">
-                    {{row.caseManagerGivenName}} {{row.caseManagerSurname}}
-                  </a>
-                </td>
-              </ng-container>
-
-              <tr mat-header-row *matHeaderRowDef="csiListDisplayedColumns; sticky: true" [hidden]="false"></tr>
-              <tr mat-row *matRowDef="let row; columns: csiListDisplayedColumns;"></tr>
-            </table>
-
-            <div class="no-records" *ngIf="csiListDataSource && csiListDataSource.length <= 0">
-              No Records Found
-            </div>
-
-          </div>
-
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-header">
-          <i class="fa fa-calendar-check-o"></i>
-          Student Visits<span class="badge badge-secondary ml-2">{{visitListDataSource.length}}</span>
-          <i *ngIf="visitListLoading" class="fa fa-spinner fa-spin"></i>
-          <div class="card-header-actions"
-               [hidden]="authService.allowRoles('ROLE_CASE_MANAGER, ROLE_ADMIN', 'Add Student')">
-            <small class="tqp-nav-link" (click)="openVisitCreateDialog(this.student.studentId);">Add Student
-              Visit</small>
-          </div>
-        </div>
-        <div class="card-body">
-
-          <div class="table-container">
-
-            <table mat-table [dataSource]="visitListDataSource"
-                   *ngIf="visitListDataSource && visitListDataSource.length > 0" class="table">
-
-              <ng-container matColumnDef="visitId">
-                <th mat-header-cell *matHeaderCellDef>Visit ID</th>
-                <td mat-cell *matCellDef="let row">{{row.visitId}}</td>
-              </ng-container>
-
-              <ng-container matColumnDef="visitDate">
-                <th mat-header-cell *matHeaderCellDef>Date</th>
-                <td mat-cell *matCellDef="let row">
-                  <a [routerLink]="['/visits/visit-detail', row.visitId]">
-                    {{row.visitDate | date: 'dd-MMM-yyyy' | uppercase}}
-                  </a>
-                </td>
-              </ng-container>
-
-              <ng-container matColumnDef="visitTypeName">
-                <th mat-header-cell *matHeaderCellDef>Visit Type</th>
-                <td mat-cell *matCellDef="let row">{{row.visitTypeName}}</td>
-              </ng-container>
-
-              <ng-container matColumnDef="interactionTypeName">
-                <th mat-header-cell *matHeaderCellDef>Interaction</th>
-                <td mat-cell *matCellDef="let row">{{row.interactionTypeName}}</td>
-              </ng-container>
-
-              <ng-container matColumnDef="caseManagerName">
-                <th mat-header-cell *matHeaderCellDef>Case Manager</th>
-                <td mat-cell *matCellDef="let row">
-                  {{row.caseManagerGivenName}} {{row.caseManagerSurname}}
-                </td>
-              </ng-container>
-
-              <tr mat-header-row *matHeaderRowDef="visitListDisplayedColumns; sticky: true" [hidden]="false"></tr>
-              <tr mat-row *matRowDef="let row; columns: visitListDisplayedColumns;"></tr>
-            </table>
-
-            <div class="no-records" *ngIf="visitListDataSource && visitListDataSource.length <= 0">
-              No Records Found
-            </div>
-
-          </div>
-
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-header">
-          <i class="fa fa-calendar-check-o"></i>
-          Post-Graduate Events<span class="badge badge-secondary ml-2">{{postGradEventListDataSource.length}}</span>
-          <i *ngIf="postGradEventListLoading" class="fa fa-spinner fa-spin"></i>
-          <div class="card-header-actions"
-               [hidden]="authService.allowRoles('ROLE_EDIT, ROLE_ADMIN', 'Add Post-Graduate Event')">
-            <small class="tqp-nav-link" (click)="openPostGradEventCreateDialog(null);">Add Post-Graduate Event</small>
-          </div>
-        </div>
-        <div class="card-body">
-
-          <div class="table-container">
-
-            <table mat-table [dataSource]="postGradEventListDataSource"
-                   *ngIf="postGradEventListDataSource && postGradEventListDataSource.length > 0" class="table">
-
-              <ng-container matColumnDef="postGradEventId">
-                <th mat-header-cell *matHeaderCellDef>ID</th>
-                <td mat-cell *matCellDef="let row">{{row.postGradEventId}}</td>
-              </ng-container>
-
-              <ng-container matColumnDef="postGradEventDate">
-                <th mat-header-cell *matHeaderCellDef>Date</th>
-                <td mat-cell *matCellDef="let row">
-                  <a [routerLink]="['/post-grad-events/post-grad-event-detail', row.postGradEventId]">
-                    {{row.postGradEventDate | date: 'dd-MMM-yyyy' | uppercase}}
-                  </a>
-                </td>
-              </ng-container>
-
-              <ng-container matColumnDef="postGradEventTypeName">
-                <th mat-header-cell *matHeaderCellDef>Event Type</th>
-                <td mat-cell *matCellDef="let row">{{row.postGradEventTypeName}}</td>
-              </ng-container>
-
-              <tr mat-header-row *matHeaderRowDef="postGradEventListDisplayedColumns; sticky: true"
-                  [hidden]="false"></tr>
-              <tr mat-row *matRowDef="let row; columns: postGradEventListDisplayedColumns;"></tr>
-            </table>
-
-            <div class="no-records" *ngIf="postGradEventListDataSource && postGradEventListDataSource.length <= 0">
-              No Records Found
-            </div>
-
-          </div>
-
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-header">
-          <i class="fa fa-calendar"></i>
-          Assignment History<span class="badge badge-secondary ml-2">{{historyListDataSource.length}}</span>
-        </div>
-        <div class="card-body">
-
-          <div class="table-container">
-
-            <table mat-table [dataSource]="historyListDataSource"
-                   *ngIf="historyListDataSource && historyListDataSource.length > 0"
-                   matSort matSortActive="lastName" matSortDirection="asc" matSortDisableClear="true"
-                   class="table">
-
-              <ng-container matColumnDef="relationshipId">
-                <th mat-header-cell *matHeaderCellDef>ID</th>
-                <td mat-cell *matCellDef="let row">
-                  {{row.relationshipId}}
-                </td>
-              </ng-container>
-
-              <ng-container matColumnDef="startDate">
-                <th mat-header-cell *matHeaderCellDef>Date</th>
-                <td mat-cell *matCellDef="let row">
-                  <ng-container
-                    *ngIf="!authService.allowRoles('ROLE_EDIT, ROLE_ADMIN', 'Add Post-Graduate Event'); else justDate;">
-                    <a class="tqp-nav-link" (click)="openEntityEditDialog(row.entityTypeId, row.relationshipId, null)">
-                      {{row.startDate | date: 'dd-MMM-yyyy' | uppercase}}
-                    </a>
-                  </ng-container>
-                  <ng-template #justDate>
-                    {{row.startDate | date: 'dd-MMM-yyyy' | uppercase}}
-                  </ng-template>
-                </td>
-              </ng-container>
-
-              <ng-container matColumnDef="historyAction">
-                <th mat-header-cell *matHeaderCellDef>Action</th>
-                <td mat-cell *matCellDef="let row">
-                  {{row.deletedStatus == 0 ? 'Assigned' : 'Deleted'}}
-                </td>
-              </ng-container>
-
-              <ng-container matColumnDef="entityType">
-                <th mat-header-cell *matHeaderCellDef>Type</th>
-                <td mat-cell *matCellDef="let row">
-                  <!--
-                  <a class="tqp-nav-link" (click)="openEntityEditDialog(row.entityTypeId, row.entityId)">
-                    {{row.entityTypeName}} ({{row.entityTypeId}})
-                  </a>
-                  -->
-                  {{row.entityTypeName}} ({{row.entityTypeId}})
-                </td>
-              </ng-container>
-
-              <ng-container matColumnDef="entityDescription">
-                <th mat-header-cell *matHeaderCellDef>Description</th>
-                <td mat-cell *matCellDef="let row">
-                  {{row.entityDescription}} ({{row.entityId}})
-                </td>
-              </ng-container>
-
-              <tr mat-header-row *matHeaderRowDef="historyListDisplayedColumns; sticky: true" [hidden]="false"></tr>
-              <tr mat-row *matRowDef="let row; columns: historyListDisplayedColumns;"></tr>
-            </table>
-
-            <div class="no-records" *ngIf="historyListDataSource && historyListDataSource.length <= 0">
-              No Records Found
-            </div>
-
-          </div>
-
-        </div>
-      </div>
-
-    </div>
-
-    <div class="col-lg-6 col-sm-12">
-
-      <div class="card">
-        <div class="card-header">
+        <div class="card-header disable-text-selection">
           <i class="fa fa-handshake-o"></i>
           Program Status
           <i *ngIf="programStatusLoading" class="fa fa-spinner fa-spin"></i>
@@ -444,7 +114,41 @@
       </div>
 
       <div class="card">
-        <div class="card-header">
+        <div class="card-header disable-text-selection">
+          <i class="fa fa-folder-o"></i>
+          Current Case Manager
+          <i *ngIf="caseManagerLoading" class="fa fa-spinner fa-spin"></i>
+          <div class="card-header-actions"
+               [hidden]="authService.allowRoles('ROLE_EDIT, ROLE_ADMIN', 'Assign Case Manager')">
+            <small class="tqp-nav-link" (click)="openStudentCaseManagerCreateDialog(null, caseManager.caseManagerUserId);">
+              Assign Case Manager
+            </small>
+          </div>
+        </div>
+        <div class="card-body">
+          <dl class="row">
+            <dt class="col-sm-4">Case Manager:</dt>
+            <dd class="col-sm-8">
+              <span class="tqp-nav-link" *ngIf="caseManager && caseManager.caseManagerUserId; else noCaseManagerAssigned;"
+                    [routerLink]="['/case-managers/case-manager-detail', caseManager.caseManagerUserId]">
+                {{caseManager.caseManagerGivenName}} {{caseManager.caseManagerSurname}}
+              </span>
+              <ng-template #noCaseManagerAssigned>
+                <span class="text-danger">No Case Manager Assigned</span>
+              </ng-template>
+            </dd>
+          </dl>
+          <ng-container *ngIf="caseManager && caseManager.caseManagerUserId">
+            <dl class="row">
+              <dt class="col-sm-4">Effective Date:</dt>
+              <dd class="col-sm-8">{{caseManager.relationshipStartDate}}</dd>
+            </dl>
+          </ng-container>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header disable-text-selection">
           <i class="fa fa-heartbeat"></i>
           Current Caregiver
           <i *ngIf="caregiverLoading" class="fa fa-spinner fa-spin"></i>
@@ -498,41 +202,7 @@
       </div>
 
       <div class="card">
-        <div class="card-header">
-          <i class="fa fa-folder-o"></i>
-          Current Case Manager
-          <i *ngIf="caseManagerLoading" class="fa fa-spinner fa-spin"></i>
-          <div class="card-header-actions"
-               [hidden]="authService.allowRoles('ROLE_EDIT, ROLE_ADMIN', 'Assign Case Manager')">
-            <small class="tqp-nav-link" (click)="openStudentCaseManagerCreateDialog(null, caseManager.caseManagerId);">
-              Assign Case Manager
-            </small>
-          </div>
-        </div>
-        <div class="card-body">
-          <dl class="row">
-            <dt class="col-sm-4">Case Manager:</dt>
-            <dd class="col-sm-8">
-              <span class="tqp-nav-link" *ngIf="caseManager && caseManager.caseManagerId; else noCaseManagerAssigned;"
-                    [routerLink]="['/case-managers/case-manager-detail', caseManager.caseManagerId]">
-                {{caseManager.caseManagerGivenName}} {{caseManager.caseManagerSurname}}
-              </span>
-              <ng-template #noCaseManagerAssigned>
-                <span class="text-danger">No Case Manager Assigned</span>
-              </ng-template>
-            </dd>
-          </dl>
-          <ng-container *ngIf="caseManager && caseManager.caseManagerId">
-            <dl class="row">
-              <dt class="col-sm-4">Effective Date:</dt>
-              <dd class="col-sm-8">{{caseManager.relationshipStartDate}}</dd>
-            </dl>
-          </ng-container>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-header">
+        <div class="card-header disable-text-selection">
           <i class="fa fa-handshake-o"></i>
           Current Sponsor
           <i *ngIf="sponsorLoading" class="fa fa-spinner fa-spin"></i>
@@ -561,6 +231,331 @@
               <dd class="col-sm-8">{{sponsor.relationshipStartDate}}</dd>
             </dl>
           </ng-container>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="col-lg-6 col-sm-12">
+
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-line-chart"></i>
+          CSI Scores Chart
+        </div>
+        <div class="card-body">
+          <div class="chart-wrapper" style="min-height: 274px;">
+            <canvas *ngIf="csiScoresChartData.length > 0" baseChart class="chart"
+                    [datasets]="csiScoresChartData"
+                    [labels]="lineChartLabels"
+                    [options]="lineChartOptions"
+                    [colors]="lineChartColors"
+                    [legend]="lineChartLegend"
+                    [chartType]="lineChartType"
+                    (chartHover)="chartHovered($event)"
+                    (chartClick)="chartClicked($event)"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <div class="card tqp-crud-detail-list">
+        <div class="card-header disable-text-selection" (click)="toggleCsiListIsCollapsed($event)">
+          <i class="fa fa-calendar-check-o"></i>
+          CSI Records<span class="badge badge-secondary ml-2">{{csiListDataSource.length}}</span>
+          <div class="card-header-actions">
+            <small class="tqp-nav-link"
+                   [hidden]="authService.allowRoles('ROLE_CASE_MANAGER, ROLE_ADMIN', 'Add CSI Record')"
+                   (click)=" openCsiCreatePage();">
+              Add CSI Record
+            </small>
+            <i class="fa fa-bars ml-2" [@rotateIcon]="csiListIsCollapsed ? 'default' : 'rotated'"></i>
+          </div>
+        </div>
+        <div class="card-body" [collapse]="csiListIsCollapsed">
+          <div class="table-container">
+
+            <table mat-table class="table table-sm" [dataSource]="csiListDataSource"
+                   *ngIf="csiListDataSource && csiListDataSource.length > 0">
+
+              <ng-container matColumnDef="csiDate">
+                <th mat-header-cell *matHeaderCellDef>Date</th>
+                <td mat-cell *matCellDef="let row">
+                  <a [routerLink]="['/csi/csi-detail', row.studentCsiId]">
+                    {{row.csiDate | date: 'dd-MMM-yyyy'}}
+                  </a>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="caseManagerName">
+                <th mat-header-cell *matHeaderCellDef>Case Manager</th>
+                <td mat-cell *matCellDef="let row">
+                  <a [routerLink]="['/case-managers/case-manager-detail', row.caseManagerId]">
+                    {{row.caseManagerGivenName}} {{row.caseManagerSurname}}
+                  </a>
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="csiListDisplayedColumns; sticky: true" [hidden]="true"></tr>
+              <tr mat-row *matRowDef="let row; columns: csiListDisplayedColumns;"></tr>
+            </table>
+
+            <div class="no-records" *ngIf="csiListDataSource && csiListDataSource.length <= 0">
+              No Records Found
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+      <div class="card tqp-crud-detail-list">
+        <div class="card-header disable-text-selection" (click)="toggleVisitListIsCollapsed($event)">
+          <i class="fa fa-calendar-check-o"></i>
+          Student Visits<span class="badge badge-secondary ml-2">{{visitListDataSource.length}}</span>
+          <div class="card-header-actions">
+            <small class="tqp-nav-link"
+                   (click)="openVisitCreateDialog(this.student.studentId);">
+              Add Student Visit
+            </small>
+            <i class="fa fa-bars ml-2" [@rotateIcon]="visitListIsCollapsed ? 'default' : 'rotated'"></i>
+          </div>
+        </div>
+        <div class="card-body" [collapse]="visitListIsCollapsed">
+          <div class="table-container">
+
+            <table mat-table class="table table-sm" [dataSource]="visitListDataSource"
+                   *ngIf="visitListDataSource && visitListDataSource.length > 0">
+
+              <ng-container matColumnDef="visitId">
+                <th mat-header-cell *matHeaderCellDef>Visit ID</th>
+                <td mat-cell *matCellDef="let row">{{row.visitId}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="visitDate">
+                <th mat-header-cell *matHeaderCellDef>Date</th>
+                <td mat-cell *matCellDef="let row">
+                  <a [routerLink]="['/visits/visit-detail', row.visitId]">
+                    {{row.visitDate | date: 'dd-MMM-yyyy' | uppercase}}
+                  </a>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="visitTypeName">
+                <th mat-header-cell *matHeaderCellDef>Visit Type</th>
+                <td mat-cell *matCellDef="let row">{{row.visitTypeName}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="interactionTypeName">
+                <th mat-header-cell *matHeaderCellDef>Interaction</th>
+                <td mat-cell *matCellDef="let row">{{row.interactionTypeName}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="caseManagerName">
+                <th mat-header-cell *matHeaderCellDef>Case Manager</th>
+                <td mat-cell *matCellDef="let row">
+                  {{row.caseManagerGivenName}} {{row.caseManagerSurname}}
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="visitListDisplayedColumns; sticky: true" [hidden]="true"></tr>
+              <tr mat-row *matRowDef="let row; columns: visitListDisplayedColumns;"></tr>
+            </table>
+
+            <div class="no-records" *ngIf="visitListDataSource && visitListDataSource.length <= 0">
+              No Records Found
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+      <div class="card tqp-crud-detail-list">
+        <div class="card-header disable-text-selection" (click)="togglePostGradEventListIsCollapsed($event)">
+          <i class="fa fa-calendar-check-o"></i>
+          Post-Graduate Events<span class="badge badge-secondary ml-2">{{postGradEventListDataSource.length}}</span>
+          <div class="card-header-actions">
+            <small class="tqp-nav-link"
+                   [hidden]="authService.allowRoles('ROLE_EDIT, ROLE_ADMIN', 'Add Post-Graduate Event')"
+                   (click)="openPostGradEventCreateDialog(null);">
+              Add Post-Graduate Event
+            </small>
+            <i class="fa fa-bars ml-2" [@rotateIcon]="postGradEventListIsCollapsed ? 'default' : 'rotated'"></i>
+          </div>
+        </div>
+        <div class="card-body" [collapse]="postGradEventListIsCollapsed">
+          <div class="table-container">
+
+            <table mat-table class="table table-sm" [dataSource]="postGradEventListDataSource"
+                   *ngIf="postGradEventListDataSource && postGradEventListDataSource.length > 0">
+
+              <ng-container matColumnDef="postGradEventId">
+                <th mat-header-cell *matHeaderCellDef>ID</th>
+                <td mat-cell *matCellDef="let row">{{row.postGradEventId}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="postGradEventDate">
+                <th mat-header-cell *matHeaderCellDef>Date</th>
+                <td mat-cell *matCellDef="let row">
+                  <a [routerLink]="['/post-grad-events/post-grad-event-detail', row.postGradEventId]">
+                    {{row.postGradEventDate | date: 'dd-MMM-yyyy'}}
+                  </a>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="postGradEventTypeName">
+                <th mat-header-cell *matHeaderCellDef>Event Type</th>
+                <td mat-cell *matCellDef="let row">{{row.postGradEventTypeName}}</td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="postGradEventListDisplayedColumns; sticky: true" [hidden]="true"></tr>
+              <tr mat-row *matRowDef="let row; columns: postGradEventListDisplayedColumns;"></tr>
+            </table>
+
+            <div class="no-records" *ngIf="postGradEventListDataSource && postGradEventListDataSource.length <= 0">
+              No Records Found
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+      <div class="card tqp-crud-detail-list">
+        <div class="card-header disable-text-selection" (click)="toggleStudentSponsorLetterListIsCollapsed($event)">
+          <i class="fa fa-calendar-check-o"></i>
+          Letters to Sponsor
+          <span class="badge badge-secondary ml-2">{{studentSponsorLetterListDataSource.length}}</span>
+          <div class="card-header-actions">
+            <small class="tqp-nav-link"
+                   [hidden]="authService.allowRoles('ROLE_CASE_MANAGER, ROLE_ADMIN', 'Add Sponsor Letter')"
+                   (click)="openStudentSponsorLetterEditDialog(null, null, this.student.studentId);">
+              Add Sponsor Letter
+            </small>
+            <i class="fa fa-bars ml-2" [@rotateIcon]="studentSponsorLetterListIsCollapsed ? 'default' : 'rotated'"></i>
+          </div>
+        </div>
+        <div class="card-body" [collapse]="studentSponsorLetterListIsCollapsed">
+          <div class="table-container">
+
+            <table mat-table class="table table-sm" [dataSource]="studentSponsorLetterListDataSource"
+                   *ngIf="studentSponsorLetterListDataSource && studentSponsorLetterListDataSource.length > 0">
+
+              <ng-container matColumnDef="sponsorLetterId">
+                <th mat-header-cell *matHeaderCellDef>Letter ID</th>
+                <td mat-cell *matCellDef="let row">
+                  <a [routerLink]="['/sponsor-letter/sponsor-letter-detail', row.sponsorLetterId]">
+                    {{row.sponsorLetterId}}
+                  </a>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="studentSponsorLetterDate">
+                <th mat-header-cell *matHeaderCellDef>Date of Letter</th>
+                <td mat-cell *matCellDef="let row">
+                  <a
+                    [routerLink]="['/student-sponsor-letter/student-sponsor-letter-detail', row.studentSponsorLetterId]">
+                    {{row.studentSponsorLetterDate | date: 'dd-MMM-yyyy'}}
+                  </a>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="sponsorName">
+                <th mat-header-cell *matHeaderCellDef>Sponsor</th>
+                <td mat-cell *matCellDef="let row">
+                  <a [routerLink]="['/sponsors/sponsor-detail', row.sponsorId]">
+                    {{row.sponsorGivenName}} {{row.sponsorSurname}}
+                  </a>
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="studentSponsorLetterListDisplayedColumns; sticky: true"
+                  [hidden]="true"></tr>
+              <tr mat-row *matRowDef="let row; columns: studentSponsorLetterListDisplayedColumns;"></tr>
+            </table>
+
+            <div class="no-records"
+                 *ngIf="studentSponsorLetterListDataSource && studentSponsorLetterListDataSource.length <= 0">
+              No Records Found
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+      <div class="card tqp-crud-detail-list">
+        <div class="card-header disable-text-selection" (click)="toggleHistoryListIsCollapsed($event)">
+          <i class="fa fa-calendar"></i>
+          Assignment/Action History<span class="badge badge-secondary ml-2">{{historyListDataSource.length}}</span>
+          <div class="card-header-actions">
+            <i class="fa fa-bars ml-2" [@rotateIcon]="historyListIsCollapsed ? 'default' : 'rotated'"></i>
+          </div>
+        </div>
+        <div class="card-body" [collapse]="historyListIsCollapsed">
+          <div class="table-container">
+
+            <table mat-table class="table table-sm" [dataSource]="historyListDataSource"
+                   *ngIf="historyListDataSource && historyListDataSource.length > 0">
+
+              <ng-container matColumnDef="relationshipId">
+                <th mat-header-cell *matHeaderCellDef>ID</th>
+                <td mat-cell *matCellDef="let row">
+                  {{row.relationshipId}}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="startDate">
+                <th mat-header-cell *matHeaderCellDef>Date</th>
+                <td mat-cell *matCellDef="let row">
+                  <ng-container
+                    *ngIf="!authService.allowRoles('ROLE_EDIT, ROLE_ADMIN', 'Add Post-Graduate Event'); else justDate;">
+                    <a class="tqp-nav-link" (click)="openEntityEditDialog(row.entityTypeId, row.relationshipId, null)">
+                      {{row.startDate | date: 'dd-MMM-yyyy'}}
+                    </a>
+                  </ng-container>
+                  <ng-template #justDate>
+                    {{row.startDate | date: 'dd-MMM-yyyy'}}
+                  </ng-template>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="historyAction">
+                <th mat-header-cell *matHeaderCellDef>Action</th>
+                <td mat-cell *matCellDef="let row">
+                  {{row.deletedStatus == 0 ? 'Assigned' : 'Deleted'}}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="entityType">
+                <th mat-header-cell *matHeaderCellDef>Type</th>
+                <td mat-cell *matCellDef="let row">
+                  <!--
+                  <a class="tqp-nav-link" (click)="openEntityEditDialog(row.entityTypeId, row.entityId)">
+                    {{row.entityTypeName}} ({{row.entityTypeId}})
+                  </a>
+                  -->
+                  {{row.entityTypeName}}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="entityDescription">
+                <th mat-header-cell *matHeaderCellDef>Description</th>
+                <td mat-cell *matCellDef="let row">
+                  {{row.entityDescription}}
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="historyListDisplayedColumns; sticky: true" [hidden]="true"></tr>
+              <tr mat-row *matRowDef="let row; columns: historyListDisplayedColumns;"></tr>
+            </table>
+
+            <div class="no-records" *ngIf="historyListDataSource && historyListDataSource.length <= 0">
+              No Records Found
+            </div>
+
+          </div>
+
         </div>
       </div>
 

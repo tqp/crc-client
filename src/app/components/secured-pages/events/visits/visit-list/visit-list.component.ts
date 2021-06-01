@@ -224,7 +224,7 @@ export class VisitListComponent implements OnInit, AfterViewInit, OnDestroy {
         const visit: Visit = {};
         visit.studentId = dialogData.studentId;
         visit.visitDate = this.formattingService.formatStandardDateAsMySql(dialogData.visitDate);
-        visit.caseManagerId = dialogData.caseManagerId;
+        visit.caseManagerUserId = dialogData.caseManagerId;
         visit.interactionTypeId = dialogData.interactionTypeId;
         visit.visitTypeId = dialogData.visitTypeId;
         visit.caregiverComments = dialogData.caregiverComments;

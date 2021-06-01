@@ -3,7 +3,6 @@ import { SummaryReportService } from '../../../../services/reports/summary-repor
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { SummaryReportResultsDialogComponent } from '../summary-report-results-dialog/summary-report-results-dialog.component';
 import { SummaryReportResultModel } from '../../../../models/summary-report-result.model';
-import { Student } from '../../../../models/people/student.model';
 
 @Component({
   selector: 'app-summary-report',

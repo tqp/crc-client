@@ -52,10 +52,13 @@ $spinkit-spinner-color: $body-color;
 @import '~spinkit/scss/spinkit.scss';
 
 // TQP Custom Styles
+@import 'tqp-common';
 @import 'tqp-crud-list';
 @import 'tqp-crud-detail';
 @import 'tqp-crud-detail-edit';
-@import 'tqp-general';
+
+// TQP Added Plug-Ins
+@import '~ngx-toastr/toastr.css';
 
 // Import Hosted Fonts
 @import 'src/scss/font';

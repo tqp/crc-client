@@ -73,19 +73,19 @@
             <div class="row">
               <div class="col-sm-12">
                 <div class="form-group">
-                  <label for="caseManagerId">Case Manager*</label>
-                  <select id="caseManagerId" class="form-control" formControlName="caseManagerId">
+                  <label for="caseManagerUserId">Case Manager*</label>
+                  <select id="caseManagerUserId" class="form-control" formControlName="caseManagerUserId">
                     <option value=0>Select a Case Manager</option>
                     <option *ngFor="let caseManager of caseManagerList"
-                            value="{{caseManager.caseManagerId}}">
+                            value="{{caseManager.caseManagerUserId}}">
                       {{caseManager.caseManagerGivenName}} {{caseManager.caseManagerSurname}}
                     </option>
                   </select>
-                  <mat-error *ngFor="let validation of validationMessages.caseManagerId">
+                  <mat-error *ngFor="let validation of validationMessages.caseManagerUserId">
                     <mat-error class="error-message"
-                               *ngIf="visitEditForm.get('caseManagerId').hasError(validation.type)
-                                && (visitEditForm.get('caseManagerId').dirty ||
-                                visitEditForm.get('caseManagerId').touched)">
+                               *ngIf="visitEditForm.get('caseManagerUserId').hasError(validation.type)
+                                && (visitEditForm.get('caseManagerUserId').dirty ||
+                                visitEditForm.get('caseManagerUserId').touched)">
                       {{validation.message}}
                     </mat-error>
                   </mat-error>

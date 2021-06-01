@@ -1,12 +1,12 @@
-import {Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {FormControl} from '@angular/forms';
-import {TierTypeModel} from '../../../../../models/types/type-tier.model';
-import {MatSort} from '@angular/material/sort';
-import {TierTypeService} from '../../../../../services/reference-tables/tier-type.service';
-import {EventService} from '@tqp/services/event.service';
-import {Router} from '@angular/router';
-import {merge} from 'rxjs';
-import {debounceTime} from 'rxjs/operators';
+import { Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { TierTypeModel } from '../../../../../models/types/type-tier.model';
+import { MatSort } from '@angular/material/sort';
+import { TierTypeService } from '../../../../../services/reference-tables/tier-type.service';
+import { EventService } from '@tqp/services/event.service';
+import { Router } from '@angular/router';
+import { merge } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'app-tier-type-list',

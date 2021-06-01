@@ -44,7 +44,7 @@ export class StudentService {
     }
   }
 
-  public getCaseManagerList(): Observable<Student[]> {
+  public getStudentList(): Observable<Student[]> {
     const url = environment.apiUrl + '/api/v1/student/';
     const token = this.tokenService.getToken();
     if (token) {

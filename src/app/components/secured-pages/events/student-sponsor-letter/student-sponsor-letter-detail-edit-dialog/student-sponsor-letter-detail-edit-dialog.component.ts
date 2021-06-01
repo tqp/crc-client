@@ -32,7 +32,7 @@ export class StudentSponsorLetterDetailEditDialogComponent implements OnInit {
     'sponsorIdDropdown': [],
     'studentIdDropdown': [],
     'studentSponsorLetterDate': [
-      {type: 'required', message: 'A date is required'}
+      {type: 'required', message: 'A date is required.'}
     ]
   };
 

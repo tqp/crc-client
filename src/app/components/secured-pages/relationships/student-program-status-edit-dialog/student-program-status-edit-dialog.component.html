@@ -7,25 +7,6 @@
 
   <form [formGroup]="programStatusEditForm" [hidden]="!dataLoaded && !programStatusPackageLevelOne">
 
-    <!--
-    <div class="row">
-      <div class="col-sm-12">
-        <div class="form-group">
-          <label for="programStatusId">Program Status ID</label>
-          <input id="programStatusId" type="text" class="form-control" formControlName="programStatusId">
-          <mat-error *ngFor="let validation of validationMessages.programStatusId">
-            <mat-error class="error-message"
-                       *ngIf="programStatusEditForm.get('programStatusId').hasError(validation.type)
-                                && (programStatusEditForm.get('programStatusId').dirty ||
-                                programStatusEditForm.get('programStatusId').touched)">
-              {{validation.message}}
-            </mat-error>
-          </mat-error>
-        </div>
-      </div>
-    </div>
-    -->
-
     <div class="row" *ngIf="programStatusPackageLevelOne">
       <div class="col-sm-12">
         <div class="form-group">

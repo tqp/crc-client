@@ -6,6 +6,8 @@ import { merge } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { SponsorService } from '../../../../../services/people/sponsor.service';
 import { Sponsor } from '../../../../../models/people/sponsor.model';
+import { AuthService } from '../../../../../../@tqp/services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sponsor-list',
@@ -33,7 +35,9 @@ export class SponsorListComponent implements OnInit {
   public recordList: Sponsor[] = [];
 
   constructor(private sponsorService: SponsorService,
-              private eventService: EventService) {
+              private eventService: EventService,
+              public authService: AuthService,
+              private router: Router) {
   }
 
   ngOnInit(): void {
@@ -129,6 +133,16 @@ export class SponsorListComponent implements OnInit {
     // this.isFilterApplied = nameFilter;
     this.isLoading = false;
     this.eventService.loadingEvent.emit(false);
+  }
+
+  // BUTTONS
+
+  public clearFilters(): void {
+    this.searchFormControl.setValue('');
+  }
+
+  public openCreateSponsorPage(): void {
+    this.router.navigate(['sponsors/sponsor-create']).then();
   }
 
   @HostListener('window:resize', ['$event'])

@@ -15,12 +15,12 @@ export class ResetPasswordDialogComponent implements OnInit {
   public resetPasswordForm: FormGroup;
 
   public validationMessages = {
-    'userId': [],
+    'caseManagerUserId': [],
     'newPassword': [
-      {type: 'required', message: 'Please enter a new password'}
+      {type: 'required', message: 'Please enter a new password.'}
     ],
     'newPasswordConfirm': [
-      {type: 'required', message: 'Confirm your new password'},
+      {type: 'required', message: 'Confirm your new password.'},
       {type: 'confirmNewPasswordValidator', message: 'The passwords do not match.'}
     ]
   };
@@ -46,7 +46,7 @@ export class ResetPasswordDialogComponent implements OnInit {
 
   private initializeForm(): void {
     this.resetPasswordForm = this.formBuilder.group({
-      userId: new FormControl(this.data.userId, [Validators.required]),
+      caseManagerUserId: new FormControl(this.data.userId, [Validators.required]),
       newPassword: new FormControl('', [Validators.required]),
       newPasswordConfirm: new FormControl('', [Validators.required])
     }, {

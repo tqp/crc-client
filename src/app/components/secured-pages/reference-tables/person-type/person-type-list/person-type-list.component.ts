@@ -1,12 +1,12 @@
-import {Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {FormControl} from '@angular/forms';
-import {MatSort} from '@angular/material/sort';
-import {EventService} from '@tqp/services/event.service';
-import {Router} from '@angular/router';
-import {PersonTypeService} from '../../../../../services/reference-tables/person-type.service';
-import {merge} from 'rxjs';
-import {debounceTime} from 'rxjs/operators';
-import {PersonType} from '../../../../../models/types/type-person.model';
+import { Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { MatSort } from '@angular/material/sort';
+import { EventService } from '@tqp/services/event.service';
+import { Router } from '@angular/router';
+import { PersonTypeService } from '../../../../../services/reference-tables/person-type.service';
+import { merge } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
+import { PersonType } from '../../../../../models/types/type-person.model';
 
 @Component({
   selector: 'app-person-type-list',

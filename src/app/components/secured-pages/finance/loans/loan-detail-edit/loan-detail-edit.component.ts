@@ -1,5 +1,5 @@
 import { Component, ElementRef, HostListener, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '@tqp/components/confirm-dialog/confirm-dialog.component';
 import { ActivatedRoute, Params, Router } from '@angular/router';
@@ -22,10 +22,10 @@ export class LoanDetailEditComponent implements OnInit {
 
   public validationMessages = {
     'loanId': [
-      {type: 'required', message: 'An ID is required'}
+      {type: 'required', message: 'An ID is required.'}
     ],
     'loanAmount': [
-      {type: 'required', message: 'An Amount is required'}
+      {type: 'required', message: 'An Amount is required.'}
     ],
     'loanDescription': []
   };

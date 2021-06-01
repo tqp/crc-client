@@ -21,13 +21,13 @@ export class CaregiverDetailEditComponent implements OnInit {
 
   public validationMessages = {
     'caregiverId': [
-      {type: 'required', message: 'An ID is required'}
+      {type: 'required', message: 'An ID is required.'}
     ],
     'caregiverSurname': [
-      {type: 'required', message: 'A Surname is required'}
+      {type: 'required', message: 'A Surname is required.'}
     ],
     'caregiverGivenName': [
-      {type: 'required', message: 'A Given Name is required'}
+      {type: 'required', message: 'A Given Name is required.'}
     ],
     'caregiverAddress': [],
     'caregiverPhone': [],

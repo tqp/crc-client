@@ -1,4 +1,4 @@
-import {Observable, Subject, Subscription} from 'rxjs';
+import { Observable, Subject, Subscription } from 'rxjs';
 
 export class AppEvent<T> {
   public observable: Observable<T>;

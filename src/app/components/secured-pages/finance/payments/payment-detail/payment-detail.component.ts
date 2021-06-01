@@ -76,7 +76,7 @@ export class PaymentDetailComponent implements OnInit {
   //   );
   // }
 
-  // Buttons
+  // BUTTONS
 
   public returnToList(): void {
     this.router.navigate(['payments/payment-list']).then();

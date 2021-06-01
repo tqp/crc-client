@@ -1,0 +1,44 @@
+// Global Table Styles
+table {
+  width: 100%;
+}
+
+// Login Page
+app-login-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+// Disable Text Selection
+.disable-text-selection {
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+}
+
+// Spinner
+.spinner-container {
+  position: relative;
+  background: transparent;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  box-shadow: none;
+}
+
+// Error Messages on Reactive Forms
+.error-message {
+  width: 100% !important;
+  font-size: 90% !important;
+  margin-left: 14px !important;
+  color: rgb(248, 08, 107) !important;
+}
+
+// Overriding template animation settings
+.animated {
+  animation-duration: 200ms !important;
+  // animation-fill-mode: both;
+}
+
+

@@ -22,16 +22,16 @@ export class CaregiverWorkshopEditDialogComponent implements OnInit {
 
   public validationMessages = {
     'caregiverWorkshopId': [
-      {type: 'required', message: 'A Caregiver Workshop ID is required'}
+      {type: 'required', message: 'A Caregiver Workshop ID is required.'}
     ],
     'caregiverId': [
-      {type: 'required', message: 'A Caregiver ID is required'}
+      {type: 'required', message: 'A Caregiver ID is required.'}
     ],
     'workshopName': [
-      {type: 'required', message: 'A Workshop Name is required'}
+      {type: 'required', message: 'A Workshop Name is required.'}
     ],
     'workshopDate': [
-      {type: 'required', message: 'A Workshop Date is required'}
+      {type: 'required', message: 'A Workshop Date is required.'}
     ]
   };
 

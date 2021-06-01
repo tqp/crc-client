@@ -32,19 +32,19 @@ export class StudentCaregiverEditDialogComponent implements OnInit {
   public validationMessages = {
     'relationshipId': [],
     'caregiverId': [
-      {type: 'required', message: 'A Caregiver is required'}
+      {type: 'required', message: 'A Caregiver is required.'}
     ],
     'relationshipStartDate': [
-      {type: 'required', message: 'An Effective Date is required'}
+      {type: 'required', message: 'An Effective Date is required.'}
     ],
     'tierTypeId': [
-      {type: 'required', message: 'A Support Tier is required'}
+      {type: 'required', message: 'A Support Tier is required.'}
     ],
     'relationshipTypeId': [
-      {type: 'required', message: 'A Relationship Type is required'}
+      {type: 'required', message: 'A Relationship Type is required.'}
     ],
     'relationshipFamilyOfOriginTypeId': [
-      {type: 'required', message: 'A Family of Origin response required'}
+      {type: 'required', message: 'A Family of Origin response required.'}
     ]
   };
 

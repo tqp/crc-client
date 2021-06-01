@@ -9,8 +9,6 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { RouterModule } from '@angular/router';
 import { ListAddRemoveItemsBasicModule } from '@tqp/components/list-add-remove-items-basic/list-add-remove-items-basic.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { StudentRoutingModule } from '../../people/students/student-routing.module';
-import { PersonTypeRoutingModule } from '../person-type/person-type-routing.module';
 import { PostGradEventTypeRoutingModule } from './post-grad-event-type-routing.module';
 
 

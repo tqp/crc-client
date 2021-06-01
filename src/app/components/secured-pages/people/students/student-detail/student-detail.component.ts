@@ -34,67 +34,59 @@ import { PostGradEventDetailEditDialogComponent } from '../../../events/post-gra
 import { StudentSponsorLetterService } from '../../../../../services/events/student-sponsor-letter.service';
 import { StudentSponsorLetterModel } from '../../../../../models/student-sponsor-letter.model';
 import { StudentSponsorLetterDetailEditDialogComponent } from '../../../events/student-sponsor-letter/student-sponsor-letter-detail-edit-dialog/student-sponsor-letter-detail-edit-dialog.component';
+import { tqpCustomAnimations } from '../../../../../../@tqp/animations/tqpCustomAnimations';
 
 @Component({
   selector: 'app-student-detail',
   templateUrl: './student-detail.component.html',
-  styleUrls: ['./student-detail.component.css']
+  styleUrls: ['./student-detail.component.css'],
+  animations: [tqpCustomAnimations]
 })
 export class StudentDetailComponent implements OnInit {
   public pageSource: string;
+
   public student: Student;
   public caregiver: Caregiver;
   public caseManager: CaseManager;
   public sponsor: Sponsor;
   public programStatus: ProgramStatus;
-  public yesNoFromInteger = {0: 'Unknown', 1: 'Yes', 2: 'No'};
+
+  public genderNames = {'M': 'Male', 'F': 'Female', 'O': 'Other'};
+  public yesNoFromInteger = {0: '', 1: 'Yes', 2: 'No'};
   public csiScoresChartData: Array<any> = [];
 
   // Loading
   public studentLoading: boolean = false;
-  public caregiverLoading: boolean = false;
-  public caseManagerLoading: boolean = false;
-  public sponsorLoading: boolean = false;
   public programStatusLoading: boolean = false;
-
-  public genderNames = {'M': 'Male', 'F': 'Female', 'O': 'Other'};
+  public caseManagerLoading: boolean = false;
+  public caregiverLoading: boolean = false;
+  public sponsorLoading: boolean = false;
 
   // Visit List
   public visitListLoading: boolean = false;
+  public visitListIsCollapsed: boolean = true;
   public visitListRecords: Visit[] = [];
   public visitListDataSource: Visit[] = [];
   public visitListDisplayedColumns: string[] = [
-    // 'visitId',
     'visitDate',
     'visitTypeName',
     'interactionTypeName',
     'caseManagerName'
   ];
 
-  // History List
-  public historyListLoading: boolean = false;
-  public historyListRecords: History[] = [];
-  public historyListDataSource: History[] = [];
-  public historyListDisplayedColumns: string[] = [
-    'relationshipId',
-    'startDate',
-    // 'historyAction',
-    'entityType',
-    'entityDescription'
-  ];
-
   // CSI List
   public csiListLoading: boolean = false;
+  public csiListIsCollapsed: boolean = true;
   public csiListRecords: Csi[] = [];
   public csiListDataSource: Csi[] = [];
   public csiListDisplayedColumns: string[] = [
-    // 'csiId',
     'csiDate',
-    'caseManager'
+    'caseManagerName'
   ];
 
   // Post Grad Event List
   public postGradEventListLoading: boolean = false;
+  public postGradEventListIsCollapsed: boolean = true;
   public postGradEventListRecords: PostGradEvent[] = [];
   public postGradEventListDataSource: PostGradEvent[] = [];
   public postGradEventListDisplayedColumns: string[] = [
@@ -105,12 +97,24 @@ export class StudentDetailComponent implements OnInit {
 
   // Student-Sponsor Letters
   public studentSponsorLetterListLoading: boolean = false;
+  public studentSponsorLetterListIsCollapsed: boolean = true;
   public studentSponsorLetterListRecords: Visit[] = [];
   public studentSponsorLetterListDataSource: Visit[] = [];
   public studentSponsorLetterListDisplayedColumns: string[] = [
     // 'studentSponsorLetterId',
     'studentSponsorLetterDate',
     'sponsorName'
+  ];
+
+  // History List
+  public historyListLoading: boolean = false;
+  public historyListIsCollapsed: boolean = true;
+  public historyListRecords: History[] = [];
+  public historyListDataSource: History[] = [];
+  public historyListDisplayedColumns: string[] = [
+    'startDate',
+    'entityType',
+    'entityDescription'
   ];
 
   // lineChart
@@ -258,10 +262,12 @@ export class StudentDetailComponent implements OnInit {
       (csiList: Csi[]) => {
         // console.log('csiList', csiList);
         this.csiListRecords = [];
-        csiList.forEach(item => {
-          this.csiListRecords.push(item);
-        });
-        this.csiListDataSource = this.csiListRecords;
+        if (csiList) {
+          csiList.forEach(item => {
+            this.csiListRecords.push(item);
+          });
+          this.csiListDataSource = this.csiListRecords;
+        }
       },
       error => {
         console.error('Error: ', error);
@@ -322,10 +328,12 @@ export class StudentDetailComponent implements OnInit {
       (historyList: History[]) => {
         // console.log('historyList', historyList);
         this.historyListRecords = [];
-        historyList.forEach(item => {
-          this.historyListRecords.push(item);
-        });
-        this.historyListDataSource = this.historyListRecords;
+        if (historyList) {
+          historyList.forEach(item => {
+            this.historyListRecords.push(item);
+          });
+          this.historyListDataSource = this.historyListRecords;
+        }
       },
       error => {
         console.error('Error: ', error);
@@ -355,7 +363,7 @@ export class StudentDetailComponent implements OnInit {
     this.caseManagerLoading = true;
     this.caseManagerService.getCurrentCaseManagerDetailByStudentId(studentId).subscribe(
       response => {
-        console.log('response', response);
+        // console.log('response', response);
         this.caseManager = response;
         this.caseManager.relationshipStartDate = this.formattingService.formatMySqlDateAsStandard(this.caseManager.relationshipStartDate);
         this.eventService.loadingEvent.emit(false);
@@ -374,7 +382,6 @@ export class StudentDetailComponent implements OnInit {
       response => {
         // console.log('response', response);
         this.sponsor = response;
-        console.log('sponsor', this.sponsor);
         // this.sponsor.relationshipStartDate = this.formattingService.formatMySqlDateAsStandard(this.sponsor.relationshipStartDate);
         this.eventService.loadingEvent.emit(false);
         this.sponsorLoading = false;
@@ -489,7 +496,7 @@ export class StudentDetailComponent implements OnInit {
         const visit: Visit = {};
         visit.studentId = dialogData.studentId;
         visit.visitDate = this.formattingService.formatStandardDateAsMySql(dialogData.visitDate);
-        visit.caseManagerId = dialogData.caseManagerId;
+        visit.caseManagerUserId = dialogData.caseManagerUserId;
         visit.interactionTypeId = dialogData.interactionTypeId;
         visit.visitTypeId = dialogData.visitTypeId;
         visit.caregiverComments = dialogData.caregiverComments;
@@ -532,7 +539,7 @@ export class StudentDetailComponent implements OnInit {
     // console.log('studentCaregiverId', studentCaregiverId);
     const dialogConfig = new MatDialogConfig();
     dialogConfig.minWidth = '40%';
-    dialogConfig.minHeight = '400px';
+    dialogConfig.minHeight = '200px';
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     dialogConfig.data = {
@@ -694,7 +701,7 @@ export class StudentDetailComponent implements OnInit {
         relationship.studentId = this.student.studentId;
         relationship.relationshipType = 'Student-Caregiver';
         relationship.relationshipId = formData.relationshipId;
-        relationship.relationshipEntityId = formData.userId;
+        relationship.relationshipEntityId = formData.caseManagerUserId;
         relationship.relationshipStartDate = this.formattingService.formatStandardDateAsMySql(formData.relationshipStartDate);
         console.log('relationship', relationship);
 
@@ -884,7 +891,50 @@ export class StudentDetailComponent implements OnInit {
     });
   }
 
-  // Buttons
+  // BUTTONS
+
+  public toggleVisitListIsCollapsed(event) {
+    if (event.target.nodeName === 'SMALL') {
+      return;
+    }
+    this.visitListIsCollapsed = !this.visitListIsCollapsed;
+  }
+
+  public toggleCsiListIsCollapsed(event) {
+    if (event.target.nodeName === 'SMALL') {
+      return;
+    }
+    this.csiListIsCollapsed = !this.csiListIsCollapsed;
+  }
+
+  public toggleStudentSponsorLetterListIsCollapsed(event) {
+    if (event.target.nodeName === 'SMALL') {
+      return;
+    }
+    this.studentSponsorLetterListIsCollapsed = !this.studentSponsorLetterListIsCollapsed;
+  }
+
+  public togglePostGradEventListIsCollapsed(event) {
+    if (event.target.nodeName === 'SMALL') {
+      return;
+    }
+    this.postGradEventListIsCollapsed = !this.postGradEventListIsCollapsed;
+  }
+
+  public toggleHistoryListIsCollapsed(event) {
+    if (event.target.nodeName === 'SMALL') {
+      return;
+    }
+    this.historyListIsCollapsed = !this.historyListIsCollapsed;
+  }
+
+  public collapseAllLists(): void {
+    this.visitListIsCollapsed = true;
+    this.csiListIsCollapsed = true;
+    this.postGradEventListIsCollapsed = true;
+    this.studentSponsorLetterListIsCollapsed = true;
+    this.historyListIsCollapsed = true;
+  }
 
   public returnToList(): void {
     this.router.navigate(['students/student-list']).then();

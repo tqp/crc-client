@@ -8,7 +8,6 @@ import { HttpService } from '@tqp/services/http.service';
 import { TokenService } from '@tqp/services/token.service';
 import { map } from 'rxjs/operators';
 import { CaseManager } from '../../models/people/case-manager.model';
-import { Caregiver } from '../../models/people/caregiver.model';
 
 @Injectable({
   providedIn: 'root'
@@ -56,6 +55,7 @@ export class CaseManagerService {
       })
         .pipe(
           map(res => {
+            console.log('res', res);
             return res.body;
           })
         );

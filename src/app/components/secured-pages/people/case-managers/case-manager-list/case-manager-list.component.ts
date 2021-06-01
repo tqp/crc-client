@@ -6,6 +6,8 @@ import { merge } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { CaseManager } from '../../../../../models/people/case-manager.model';
 import { CaseManagerService } from '../../../../../services/people/case-manager.service';
+import { AuthService } from '@tqp/services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-case-manager-list',
@@ -34,7 +36,9 @@ export class CaseManagerListComponent implements OnInit {
   public recordList: CaseManager[] = [];
 
   constructor(private caseManagerService: CaseManagerService,
-              private eventService: EventService) {
+              private eventService: EventService,
+              public authService: AuthService,
+              private router: Router) {
   }
 
   ngOnInit(): void {
@@ -131,6 +135,16 @@ export class CaseManagerListComponent implements OnInit {
     // this.isFilterApplied = nameFilter;
     this.isLoading = false;
     this.eventService.loadingEvent.emit(false);
+  }
+
+  // BUTTONS
+
+  public clearFilters(): void {
+    this.searchFormControl.setValue('');
+  }
+
+  public openCreateCaseManagerPage(): void {
+    this.router.navigate(['case-managers/case-manager-create']).then();
   }
 
   @HostListener('window:resize', ['$event'])

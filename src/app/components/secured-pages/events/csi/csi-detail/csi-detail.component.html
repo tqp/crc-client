@@ -1,16 +1,16 @@
 <div class="tqp-crud-detail animated fadeIn" *ngIf="csi">
 
   <div class="row">
-    <div class="col-sm-6">
+    <div class="col-sm-8">
       <h1>
         <i class="fa fa-pencil-square-o"></i>
-        {{csi.studentGivenName}} {{csi.studentSurname}} CSI on {{csi.csiDate | date:'dd-MMM-yyyy' | uppercase}}
+        {{csi.studentGivenName}} {{csi.studentSurname}} CSI on {{csi.csiDate | date:'dd-MMM-yyyy'}}
       </h1>
     </div>
-    <div class="col-sm-6">
+    <div class="col-sm-4">
       <div class="form-group float-right">
-        <button class="btn btn-sm btn-outline-primary ml-3" (click)="returnToList()" style="width: 150px">
-          Go To Csi <u>L</u>ist
+        <button class="btn btn-sm btn-outline-primary ml-3" (click)="returnToList()">
+          CSI List
         </button>
       </div>
     </div>
@@ -32,41 +32,41 @@
         <div class="card-body">
           <!--
           <dl class="row">
-            <dt class="col-sm-3">CSI ID:</dt>
-            <dd class="col-sm-9">{{csi.csiId}}</dd>
+            <dt class="col-sm-4">CSI ID:</dt>
+            <dd class="col-sm-8">{{csi.csiId}}</dd>
           </dl>
           -->
           <dl class="row">
-            <dt class="col-sm-3">Student:</dt>
-            <dd class="col-sm-9">
+            <dt class="col-sm-4">Student:</dt>
+            <dd class="col-sm-8">
               <span class="tqp-nav-link" [routerLink]="['/students/student-detail', csi.studentId]">
                 {{csi.studentGivenName}} {{csi.studentSurname}}
               </span>
             </dd>
           </dl>
           <dl class="row">
-            <dt class="col-sm-3">Case Manager:</dt>
-            <dd class="col-sm-9">
-              <span class="tqp-nav-link" [routerLink]="['/case-managers/case-manager-detail', csi.caseManagerId]">
+            <dt class="col-sm-4">Case Manager:</dt>
+            <dd class="col-sm-8">
+              <span class="tqp-nav-link" [routerLink]="['/case-managers/case-manager-detail', csi.caseManagerUserId]">
                 {{csi.caseManagerGivenName}} {{csi.caseManagerSurname}}
               </span>
             </dd>
           </dl>
           <dl class="row">
-            <dt class="col-sm-3">CSI Date:</dt>
-            <dd class="col-sm-9">{{csi.csiDate | date:'dd-MMM-yyyy' | uppercase}}</dd>
+            <dt class="col-sm-4">CSI Date:</dt>
+            <dd class="col-sm-8">{{csi.csiDate | date:'dd-MMM-yyyy'}}</dd>
           </dl>
           <dl class="row">
-            <dt class="col-sm-3">Services Provided:</dt>
-            <dd class="col-sm-9">
+            <dt class="col-sm-4">Services Provided:</dt>
+            <dd class="col-sm-8">
               <div *ngFor="let serviceProvided of csi.csiServicesProvided.split('|')">
                 {{getServiceProvidedNameFromID(serviceProvided).servicesProvidedTypeName}}
               </div>
             </dd>
           </dl>
           <dl class="row">
-            <dt class="col-sm-3">Comments:</dt>
-            <dd class="col-sm-9">{{csi.csiComments}}</dd>
+            <dt class="col-sm-4">Comments:</dt>
+            <dd class="col-sm-8">{{csi.csiComments}}</dd>
           </dl>
 
         </div>

@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import {RelationshipTypeListComponent} from './relationship-type-list/relationship-type-list.component';
-import {RelationshipTypeDetailComponent} from './relationship-type-detail/relationship-type-detail.component';
-import {RelationshipTypeDetailEditComponent} from './relationship-type-detail-edit/relationship-type-detail-edit.component';
+import { RelationshipTypeListComponent } from './relationship-type-list/relationship-type-list.component';
+import { RelationshipTypeDetailComponent } from './relationship-type-detail/relationship-type-detail.component';
+import { RelationshipTypeDetailEditComponent } from './relationship-type-detail-edit/relationship-type-detail-edit.component';
 
 const routes: Routes = [
 

@@ -76,7 +76,7 @@ export class LoanDetailComponent implements OnInit {
   //   );
   // }
 
-  // Buttons
+  // BUTTONS
 
   public returnToList(): void {
     this.router.navigate(['loans/loan-list']).then();

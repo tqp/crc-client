@@ -33,15 +33,15 @@ export class UserDetailEditDialogComponent implements OnInit {
 
   public validationMessages = {
     'surname': [
-      {type: 'required', message: 'A surname is required'}
+      {type: 'required', message: 'A surname is required.'}
     ],
     'givenName': [
-      {type: 'required', message: 'A given name is required'}
+      {type: 'required', message: 'A given name is required.'}
     ],
     'username': [
-      {type: 'required', message: 'A username is required'},
-      {type: 'maxlength', message: 'The Username cannot be more than 60 characters long'},
-      {type: 'existingUsernameValidator', message: 'That username already exists'}
+      {type: 'required', message: 'A username is required.'},
+      {type: 'maxlength', message: 'The Username cannot be more than 60 characters long.'},
+      {type: 'existingUsernameValidator', message: 'That username already exists.'}
     ],
     'initialPassword': []
   };

@@ -13,6 +13,7 @@ import { StudentRoutingModule } from './student-routing.module';
 import { ChartsModule } from 'ng2-charts';
 import { StudentListByCaseManagerComponent } from './student-list-by-case-manager/student-list-by-case-manager.component';
 import { StudentListSspComponent } from './student-list-ssp/student-list-ssp.component';
+import { CollapseModule } from 'ngx-bootstrap/collapse';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { StudentListSspComponent } from './student-list-ssp/student-list-ssp.com
     CommonModule,
     AngularMaterialModule,
     ChartsModule,
+    CollapseModule.forRoot(),
     FormsModule,
     ReactiveFormsModule,
     BsDatepickerModule.forRoot(),

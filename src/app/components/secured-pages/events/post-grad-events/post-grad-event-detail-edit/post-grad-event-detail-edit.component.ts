@@ -32,17 +32,17 @@ export class PostGradEventDetailEditComponent implements OnInit {
 
   public validationMessages = {
     'postGradEventId': [
-      {type: 'required', message: 'An ID is required'}
+      {type: 'required', message: 'An ID is required.'}
     ],
     'studentId': [
-      {type: 'required', message: 'A Student is required'},
-      {type: 'validateNonZeroValue', message: 'You must select a Student'}
+      {type: 'required', message: 'A Student is required.'},
+      {type: 'validateNonZeroValue', message: 'You must select a Student.'}
     ],
     'postGradEventDate': [
-      {type: 'required', message: 'An Event Date is required'}
+      {type: 'required', message: 'An Event Date is required.'}
     ],
     'postGradEventTypeId': [
-      {type: 'required', message: 'An Event Type is required'}
+      {type: 'required', message: 'An Event Type is required.'}
     ],
     'postGradEventComments': [],
   };
@@ -91,7 +91,7 @@ export class PostGradEventDetailEditComponent implements OnInit {
   // Load Option Value Lists
 
   private getStudentList(): void {
-    this.studentService.getCaseManagerList().subscribe(
+    this.studentService.getStudentList().subscribe(
       (response: Caregiver[]) => {
         // console.log('response', response);
         this.studentList = response;

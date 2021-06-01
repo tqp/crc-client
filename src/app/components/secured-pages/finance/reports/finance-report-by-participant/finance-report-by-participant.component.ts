@@ -6,7 +6,7 @@ import { FormControl } from '@angular/forms';
 import { SponsorService } from '../../../../../services/people/sponsor.service';
 import { EventService } from '@tqp/services/event.service';
 import { Router } from '@angular/router';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { ServerSidePaginationResponse } from '@tqp/models/ServerSidePaginationResponse';
 import { merge, of } from 'rxjs';
 import { catchError, debounceTime, map, switchMap } from 'rxjs/operators';

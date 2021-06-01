@@ -58,7 +58,7 @@
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Event Date</th>
             <td mat-cell *matCellDef="let row">
               <a [routerLink]="['/post-grad-events/post-grad-event-detail', row.postGradEventId]">
-                {{row.postGradEventDate | date: 'dd-MMM-yyyy' | uppercase}}
+                {{row.postGradEventDate | date: 'dd-MMM-yyyy'}}
               </a>
             </td>
           </ng-container>

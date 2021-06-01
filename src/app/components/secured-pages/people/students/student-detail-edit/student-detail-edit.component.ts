@@ -47,19 +47,19 @@ export class StudentDetailEditComponent implements OnInit {
   public validationMessages = {
     // Personal Information
     'studentId': [
-      {type: 'required', message: 'An ID is required'}
+      {type: 'required', message: 'An ID is required.'}
     ],
     'studentSurname': [
-      {type: 'required', message: 'A Surname is required'}
+      {type: 'required', message: 'A Surname is required.'}
     ],
     'studentGivenName': [
-      {type: 'required', message: 'A Given Name is required'}
+      {type: 'required', message: 'A Given Name is required.'}
     ],
     'studentGender': [
-      {type: 'required', message: 'A Gender is required'}
+      {type: 'required', message: 'A Gender is required.'}
     ],
     'studentDateOfBirth': [
-      {type: 'required', message: 'A Date of Birth is required'}
+      {type: 'required', message: 'A Date of Birth is required.'}
     ],
     'studentSchool': [],
     'schoolLevelTypeId': [],
@@ -145,11 +145,14 @@ export class StudentDetailEditComponent implements OnInit {
         this.studentEditForm.controls['schoolLevelTypeId'].patchValue(this.student.schoolLevelTypeId);
         this.studentEditForm.controls['classRepeatYearTypeId'].patchValue(this.student.classRepeatYearTypeId);
         this.studentEditForm.controls['impairmentTypeId'].patchValue(this.student.impairmentTypeId);
-        // Program Status
         this.studentEditForm.controls['caregiverId'].patchValue(this.student.caregiverId);
-
-        this.getClassLevelList(this.student.schoolLevelTypeId);
         this.studentEditForm.controls['classLevelTypeId'].patchValue(this.student.classLevelTypeId);
+
+        if (this.student.schoolLevelTypeId === 0) {
+          this.studentEditForm.get('classLevelTypeId').disable();
+        } else {
+          this.getClassLevelList(this.student.schoolLevelTypeId);
+        }
       },
       error => {
         console.error('Error: ', error);
@@ -173,7 +176,7 @@ export class StudentDetailEditComponent implements OnInit {
     this.schoolClassTypeService.getSchoolClassChildListByParentId(0).subscribe(
       (response: SchoolClassType[]) => {
         this.schoolLevelList = response;
-        // console.log('response', response);
+        console.log('response', response);
       },
       error => {
         console.error('Error: ', error);

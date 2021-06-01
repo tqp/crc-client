@@ -125,7 +125,7 @@
             <div class="row">
               <div class="col-sm-12">
                 <div class="form-group">
-                  <label for="schoolLevelTypeId">Select School Level*</label>
+                  <label for="schoolLevelTypeId">Select School Level</label>
                   <select id="schoolLevelTypeId" class="form-control" formControlName="schoolLevelTypeId"
                           (change)="schoolLevelIdChanged($event)">
                     <option value=0>Select a School Level</option>
@@ -148,7 +148,7 @@
             <div class="row">
               <div class="col-sm-12">
                 <div class="form-group">
-                  <label for="classLevelTypeId">Class Level*</label>
+                  <label for="classLevelTypeId">Class Level</label>
                   <select id="classLevelTypeId" class="form-control" formControlName="classLevelTypeId">
                     <option value=0>Select a Class Level</option>
                     <option *ngFor="let classLevel of classLevelList" value="{{classLevel.schoolClassTypeId}}">
@@ -170,7 +170,7 @@
             <div class="row">
               <div class="col-sm-12">
                 <div class="form-group">
-                  <label for="classRepeatYearTypeId">Was this a repeat year?*</label>
+                  <label for="classRepeatYearTypeId">Was this a repeat year?</label>
                   <select id="classRepeatYearTypeId" class="form-control" formControlName="classRepeatYearTypeId">
                     <option value=0>Select a Response</option>
                     <option value=2>No</option>

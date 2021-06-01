@@ -29,21 +29,21 @@ export class VisitDetailEditDialogComponent implements OnInit {
 
   public validationMessages = {
     'studentId': [
-      {type: 'required', message: 'A Student is required'},
-      {type: 'validateNonZeroValue', message: 'You must select a Student'}
+      {type: 'required', message: 'A Student is required.'},
+      {type: 'validateNonZeroValue', message: 'You must select a Student.'}
     ],
-    'caseManagerId': [
-      {type: 'required', message: 'A Case Manager is required'},
-      {type: 'validateNonZeroValue', message: 'You must select a Case Manager'}
+    'caseManagerUserId': [
+      {type: 'required', message: 'A Case Manager is required.'},
+      {type: 'validateNonZeroValue', message: 'You must select a Case Manager.'}
     ],
     'visitDate': [
-      {type: 'required', message: 'A Visit Date is required'}
+      {type: 'required', message: 'A Visit Date is required.'}
     ],
     'visitTypeId': [
-      {type: 'required', message: 'A Visit Type is required'}
+      {type: 'required', message: 'A Visit Type is required.'}
     ],
     'interactionTypeId': [
-      {type: 'required', message: 'An Interaction Type is required'}
+      {type: 'required', message: 'An Interaction Type is required.'}
     ],
     'caregiverComments': [],
     'caseManagerComments': [],
@@ -81,7 +81,7 @@ export class VisitDetailEditDialogComponent implements OnInit {
         value: this.data.studentId !== undefined ? this.data.studentId : 0,
         disabled: this.data.studentId !== undefined
       }, [Validators.required, validateNonZeroValue]),
-      caseManagerId: new FormControl(0, [Validators.required, validateNonZeroValue]),
+      caseManagerUserId: new FormControl(0, [Validators.required, validateNonZeroValue]),
       visitDate: new FormControl(moment().format('DD-MMM-yyyy'), Validators.required),
       visitTypeId: new FormControl(0, [Validators.required, validateNonZeroValue]),
       interactionTypeId: new FormControl(0, [Validators.required, validateNonZeroValue]),
@@ -97,7 +97,7 @@ export class VisitDetailEditDialogComponent implements OnInit {
   // Load Option Value Lists
 
   private getStudentList(): void {
-    this.studentService.getCaseManagerList().subscribe(
+    this.studentService.getStudentList().subscribe(
       (response: Caregiver[]) => {
         // console.log('response', response);
         this.studentList = response;
@@ -135,7 +135,7 @@ export class VisitDetailEditDialogComponent implements OnInit {
   private getInteractionTypeList(): void {
     this.interactionTypeService.getInteractionTypeList().subscribe(
       (response: InteractionType[]) => {
-        // console.log('response', response);
+        console.log('response', response);
         this.interactionTypeList = response;
       },
       error => {

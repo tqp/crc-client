@@ -45,64 +45,64 @@ export class CsiDetailEditComponent implements OnInit, OnDestroy {
 
   public validationMessages = {
     'csiId': [
-      {type: 'required', message: 'An ID is required'}
+      {type: 'required', message: 'An ID is required.'}
     ],
     'studentId': [
-      {type: 'required', message: 'An Student is required'},
-      {type: 'validateNonZeroValue', message: 'You must select a Student'}
+      {type: 'required', message: 'An Student is required.'},
+      {type: 'validateNonZeroValue', message: 'You must select a Student.'}
     ],
-    'userId': [
-      {type: 'required', message: 'A Case Manager is required'},
-      {type: 'validateNonZeroValue', message: 'You must select a Case Manager'}
+    'caseManagerUserId': [
+      {type: 'required', message: 'A Case Manager is required.'},
+      {type: 'validateNonZeroValue', message: 'You must select a Case Manager.'}
     ],
     'csiDate': [
-      {type: 'required', message: 'A date is required'}
+      {type: 'required', message: 'A date is required.'}
     ],
     'csiServicesProvided': [
-      {type: 'required', message: 'Please check the services provided'}
+      {type: 'required', message: 'Please check the services provided.'}
     ],
     'csiServicesProvidedArray': [
-      {type: 'required', message: 'Please check the services provided'}
+      {type: 'required', message: 'Please check the services provided.'}
     ],
     'csiComments': [
-      {type: 'required', message: 'A response is required'}
+      {type: 'required', message: 'A response is required.'}
     ],
 
     'csiScoreFoodSecurity': [
-      {type: 'required', message: 'A response is required'}
+      {type: 'required', message: 'A response is required.'}
     ],
     'csiScoreNutritionAndGrowth': [
-      {type: 'required', message: 'A response is required'}
+      {type: 'required', message: 'A response is required.'}
     ],
     'csiScoreShelter': [
-      {type: 'required', message: 'A response is required'}
+      {type: 'required', message: 'A response is required.'}
     ],
     'csiScoreCare': [
-      {type: 'required', message: 'A response is required'}
+      {type: 'required', message: 'A response is required.'}
     ],
     'csiScoreAbuseAndExploitation': [
-      {type: 'required', message: 'A response is required'}
+      {type: 'required', message: 'A response is required.'}
     ],
     'csiScoreLegalProtection': [
-      {type: 'required', message: 'A response is required'}
+      {type: 'required', message: 'A response is required.'}
     ],
     'csiScoreWellness': [
-      {type: 'required', message: 'A response is required'}
+      {type: 'required', message: 'A response is required.'}
     ],
     'csiScoreHealthCareServices': [
-      {type: 'required', message: 'A response is required'}
+      {type: 'required', message: 'A response is required.'}
     ],
     'csiScoreEmotionalHealth': [
-      {type: 'required', message: 'A response is required'}
+      {type: 'required', message: 'A response is required.'}
     ],
     'csiScoreSocialBehavior': [
-      {type: 'required', message: 'A response is required'}
+      {type: 'required', message: 'A response is required.'}
     ],
     'csiScorePerformance': [
-      {type: 'required', message: 'A response is required'}
+      {type: 'required', message: 'A response is required.'}
     ],
     'csiScoreEducationAndWork': [
-      {type: 'required', message: 'A response is required'}
+      {type: 'required', message: 'A response is required.'}
     ]
   };
 
@@ -162,7 +162,7 @@ export class CsiDetailEditComponent implements OnInit, OnDestroy {
     this.csiEditForm = this.formBuilder.group({
       csiId: new FormControl({value: 0, disabled: true}),
       studentId: new FormControl({value: this.studentId, disabled: true}, [validateNonZeroValue]),
-      userId: new FormControl({value: 0, disabled: false}, [validateNonZeroValue]),
+      caseManagerUserId: new FormControl({value: 0, disabled: false}, [validateNonZeroValue]),
       csiDate: new FormControl(moment().format('DD-MMM-yyyy'), Validators.required),
       csiComments: new FormControl('', Validators.required),
       csiServicesProvided: new FormControl(''),
@@ -201,7 +201,7 @@ export class CsiDetailEditComponent implements OnInit, OnDestroy {
         // console.log('this.csi', this.csi);
         this.csiEditForm.controls['csiId'].patchValue(this.csi.csiId);
         this.csiEditForm.controls['studentId'].patchValue(this.csi.studentId);
-        this.csiEditForm.controls['userId'].patchValue(this.csi.userId);
+        this.csiEditForm.controls['caseManagerUserId'].patchValue(this.csi.caseManagerUserId);
         this.csiEditForm.controls['csiDate'].patchValue(this.formattingService.formatMySqlDateAsStandard(this.csi.csiDate));
         this.csiEditForm.controls['csiComments'].patchValue(this.csi.csiComments);
         this.csiEditForm.controls['csiServicesProvided'].patchValue(this.csi.csiServicesProvided);
@@ -262,7 +262,7 @@ export class CsiDetailEditComponent implements OnInit, OnDestroy {
   }
 
   private getStudentList(): void {
-    this.studentService.getCaseManagerList().subscribe(
+    this.studentService.getStudentList().subscribe(
       (response: Student[]) => {
         // console.log('response', response);
         this.studentList = response;
@@ -342,7 +342,7 @@ export class CsiDetailEditComponent implements OnInit, OnDestroy {
     // console.log('csiEditForm', this.csiEditForm.getRawValue());
     csi.csiId = this.csiEditForm.getRawValue().csiId;
     csi.studentId = this.csiEditForm.getRawValue().studentId;
-    csi.userId = this.csiEditForm.getRawValue().userId;
+    csi.caseManagerUserId = this.csiEditForm.getRawValue().caseManagerUserId;
     csi.csiDate = this.formattingService.formatStandardDateAsMySql(this.csiEditForm.getRawValue().csiDate);
     csi.csiComments = this.csiEditForm.getRawValue().csiComments;
     csi.csiServicesProvided = this.csiEditForm.getRawValue().csiServicesProvided;

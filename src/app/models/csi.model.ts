@@ -1,7 +1,7 @@
 export class Csi {
   public csiId?: number;
   public studentId?: number;
-  public userId?: number;
+  public caseManagerUserId?: number;
   public csiDate?: string;
   public csiServicesProvided?: string;
   public csiComments?: string;
@@ -23,7 +23,6 @@ export class Csi {
   // JOINED TABLES
   public studentSurname?: string;
   public studentGivenName?: string;
-  public caseManagerId?: string;
   public caseManagerSurname?: string;
   public caseManagerGivenName?: string;
 

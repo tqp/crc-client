@@ -1,85 +1,105 @@
 <div class="tqp-crud-list table-container animated fadeIn" [hidden]="isLoading || error">
 
-  <div class="row mb-3">
-    <div class="col-md-4 offset-md-8">
-      <div class="input-group">
-        <div class="input-group-prepend">
-          <div class="input-group-text"><i class="fa fa-search"></i></div>
+  <div class="card">
+
+    <div class="card-header">
+
+      <div class="float-left" style="width: 40%;">
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <div class="input-group-text"><i class="fa fa-search"></i></div>
+          </div>
+          <label for="nameSearchFieldId" *ngIf="false"></label>
+          <input id="nameSearchFieldId" type="text" class="form-control" placeholder="Search by Student Name"
+                 [formControl]="searchFormControl" #searchElementRef autocomplete="off"/>
+          <div class="input-group-append">
+            <div class="input-group-text btn btn-dark" (click)="clearFilters()"><i class="fa fa-times"></i></div>
+          </div>
         </div>
-        <label for="nameSearchFieldId" *ngIf="false"></label>
-        <input id="nameSearchFieldId" type="text" class="form-control" placeholder="Search by Student Name"
-               [formControl]="searchFormControl" #searchElementRef
-               autocomplete="chrome-off"/>
       </div>
+
+      <div class="col-md-4 float-right">
+        <button class="btn btn-sm btn-outline-primary float-right" (click)="openCreateStudentPage()"
+                [hidden]="authService.allowRoles('ROLE_CREATE, ROLE_ADMIN', 'Create Student')">
+          <i class="fa fa-plus mr-1"></i>
+          Create New Student
+        </button>
+      </div>
+
+    </div>
+
+    <div class="card-body">
+
+      <table mat-table [dataSource]="dataSource" class="table table-striped"
+             matSort matSortActive="studentName" matSortDirection="asc" matSortDisableClear="true">
+
+        <ng-container matColumnDef="studentId">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+          <td mat-cell *matCellDef="let row">{{row.studentId}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="studentName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Student Name</th>
+          <td mat-cell *matCellDef="let row">
+            <a [routerLink]="['/students/student-detail', row.studentId]">
+              {{row.studentName}}
+            </a>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="studentGivenName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Given Name</th>
+          <td mat-cell *matCellDef="let row">{{row.studentGivenName}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="caregiverName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Caregiver Name</th>
+          <td mat-cell *matCellDef="let row">
+              <span
+                *ngIf="row.caregiverGivenName; else noCaregiverAssigned;">{{row.caregiverName}}</span>
+            <ng-template #noCaregiverAssigned>
+              <span class="text-danger">No Caregiver Assigned</span>
+            </ng-template>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="caregiverAddress">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Caregiver Address</th>
+          <td mat-cell *matCellDef="let row">{{row.caregiverAddress}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="caregiverPhone">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Caregiver Phone</th>
+          <td mat-cell *matCellDef="let row">{{row.caregiverPhone}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="relationshipTierTypeName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Support</th>
+          <td mat-cell *matCellDef="let row">{{row.relationshipTierTypeName}}</td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="getDisplayedColumns()"></tr>
+        <tr mat-row *matRowDef="let row; columns: getDisplayedColumns();"></tr>
+
+      </table>
+
+      <div class="no-records" *ngIf="dataSource == null || (dataSource && dataSource.length <= 0)">
+        No Records Found
+      </div>
+
+    </div>
+
+  </div>
+
+  <div *ngIf="error">
+    {{error}}
+  </div>
+
+  <div *ngIf="isLoading && !error">
+    <div class="spinner-container">
+      <mat-progress-spinner mode="indeterminate">
+      </mat-progress-spinner>
     </div>
   </div>
 
-  <table mat-table [dataSource]="dataSource" class="table table-striped"
-         matSort matSortActive="studentName" matSortDirection="asc" matSortDisableClear="true">
-
-    <ng-container matColumnDef="studentId">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
-      <td mat-cell *matCellDef="let row">{{row.studentId}}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="studentName">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Student Name</th>
-      <td mat-cell *matCellDef="let row">
-        <a [routerLink]="['/students/student-detail', row.studentId]">
-          {{row.studentName}}
-        </a>
-      </td>
-    </ng-container>
-
-    <ng-container matColumnDef="studentGivenName">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Given Name</th>
-      <td mat-cell *matCellDef="let row">{{row.studentGivenName}}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="caregiverName">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Caregiver Name</th>
-      <td mat-cell *matCellDef="let row">
-              <span
-                *ngIf="row.caregiverGivenName; else noCaregiverAssigned;">{{row.caregiverName}}</span>
-        <ng-template #noCaregiverAssigned>
-          <span class="text-danger">No Caregiver Assigned</span>
-        </ng-template>
-      </td>
-    </ng-container>
-
-    <ng-container matColumnDef="caregiverAddress">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Caregiver Address</th>
-      <td mat-cell *matCellDef="let row">{{row.caregiverAddress}}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="caregiverPhone">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Caregiver Phone</th>
-      <td mat-cell *matCellDef="let row">{{row.caregiverPhone}}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="relationshipTierTypeName">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Support</th>
-      <td mat-cell *matCellDef="let row">{{row.relationshipTierTypeName}}</td>
-    </ng-container>
-
-    <tr mat-header-row *matHeaderRowDef="getDisplayedColumns()"></tr>
-    <tr mat-row *matRowDef="let row; columns: getDisplayedColumns();"></tr>
-
-  </table>
-
-  <div class="no-records" *ngIf="dataSource == null || (dataSource && dataSource.length <= 0)">
-    No Records Found
-  </div>
-
-</div>
-
-<div *ngIf="error">
-  {{error}}
-</div>
-
-<div *ngIf="isLoading && !error">
-  <div class="spinner-container">
-    <mat-progress-spinner mode="indeterminate">
-    </mat-progress-spinner>
-  </div>
 </div>

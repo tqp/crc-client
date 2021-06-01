@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { ServerSidePaginationRequest } from '@tqp/models/ServerSidePaginationRequest';
 import { Observable, throwError } from 'rxjs';
 import { ServerSidePaginationResponse } from '@tqp/models/ServerSidePaginationResponse';
-import { Student } from '../../models/people/student.model';
 import { environment } from '../../../environments/environment';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
@@ -11,7 +10,6 @@ import { TokenService } from '@tqp/services/token.service';
 import { User } from '../../models/User';
 import { Role } from '../../components/secured-pages/account/roles/Role';
 import { Router } from '@angular/router';
-import { Caregiver } from '../../models/people/caregiver.model';
 
 @Injectable({
   providedIn: 'root'

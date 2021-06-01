@@ -24,11 +24,11 @@ export class StudentSponsorEditDialogComponent implements OnInit {
   public validationMessages = {
     'relationshipId': [],
     'sponsorId': [
-      {type: 'required', message: 'A Sponsor is required'},
-      {type: 'validateNonZeroValue', message: 'A Sponsor is required'}
+      {type: 'required', message: 'A Sponsor is required.'},
+      {type: 'validateNonZeroValue', message: 'A Sponsor is required.'}
     ],
     'relationshipStartDate': [
-      {type: 'required', message: 'An Effective Date is required'}
+      {type: 'required', message: 'An Effective Date is required.'}
     ]
   };
 

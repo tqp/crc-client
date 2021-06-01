@@ -36,22 +36,22 @@ export class VisitDetailEditComponent implements OnInit {
 
   public validationMessages = {
     'studentId': [
-      {type: 'required', message: 'A Student is required'}
+      {type: 'required', message: 'A Student is required.'}
     ],
-    'caseManagerId': [
-      {type: 'required', message: 'A Case Manager is required'}
+    'caseManagerUserId': [
+      {type: 'required', message: 'A Case Manager is required.'}
     ],
     'visitId': [
-      {type: 'required', message: 'An Student Visit ID is required'}
+      {type: 'required', message: 'An Student Visit ID is required.'}
     ],
     'visitDate': [
-      {type: 'required', message: 'A Visit Date is required'}
+      {type: 'required', message: 'A Visit Date is required.'}
     ],
     'visitTypeId': [
-      {type: 'required', message: 'A Visit Type is required'}
+      {type: 'required', message: 'A Visit Type is required.'}
     ],
     'interactionTypeId': [
-      {type: 'required', message: 'An Interaction Type is required'}
+      {type: 'required', message: 'An Interaction Type is required.'}
     ],
     'caregiverComments': [],
     'caseManagerComments': []
@@ -96,7 +96,7 @@ export class VisitDetailEditComponent implements OnInit {
   private initializeForm(): void {
     this.visitEditForm = this.formBuilder.group({
       studentId: new FormControl({value: 0, disabled: true}, Validators.required),
-      caseManagerId: new FormControl('', Validators.required),
+      caseManagerUserId: new FormControl('', Validators.required),
       visitId: new FormControl('', Validators.required),
       visitDate: new FormControl('', Validators.required),
       visitTypeId: new FormControl('', Validators.required),
@@ -110,9 +110,9 @@ export class VisitDetailEditComponent implements OnInit {
     this.visitService.getVisitDetail(visitId).subscribe(
       response => {
         this.visit = response;
-        console.log('response', response);
+        // console.log('response', response);
         this.visitEditForm.controls['studentId'].patchValue(this.visit.studentId);
-        this.visitEditForm.controls['caseManagerId'].patchValue(this.visit.caseManagerId);
+        this.visitEditForm.controls['caseManagerUserId'].patchValue(this.visit.caseManagerUserId);
         this.visitEditForm.controls['visitId'].patchValue(this.visit.visitId);
         this.visitEditForm.controls['visitDate'].patchValue(this.formattingService.formatMySqlDateAsStandard(this.visit.visitDate));
         this.visitEditForm.controls['visitTypeId'].patchValue(this.visit.visitTypeId);
@@ -127,7 +127,7 @@ export class VisitDetailEditComponent implements OnInit {
   }
 
   private getStudentList(): void {
-    this.studentService.getCaseManagerList().subscribe(
+    this.studentService.getStudentList().subscribe(
       (response: Student[]) => {
         // console.log('response', response);
         this.studentList = response;
@@ -165,7 +165,7 @@ export class VisitDetailEditComponent implements OnInit {
   private getInteractionTypeList(): void {
     this.interactionTypeService.getInteractionTypeList().subscribe(
       (response: InteractionType[]) => {
-        // console.log('response', response);
+        console.log('response', response);
         this.interactionTypeList = response;
       },
       error => {
@@ -201,7 +201,7 @@ export class VisitDetailEditComponent implements OnInit {
     const visit = new Visit();
     // console.log('crudEditForm', this.visitEditForm.value);
     visit.visitId = this.visitEditForm.value.visitId;
-    visit.caseManagerId = this.visitEditForm.value.caseManagerId;
+    visit.caseManagerUserId = this.visitEditForm.value.caseManagerUserId;
     visit.visitDate = this.formattingService.formatStandardDateAsMySql(this.visitEditForm.value.visitDate);
     visit.visitTypeId = this.visitEditForm.value.visitTypeId;
     visit.interactionTypeId = this.visitEditForm.value.interactionTypeId;

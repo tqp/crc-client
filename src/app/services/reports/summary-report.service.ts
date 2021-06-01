@@ -5,8 +5,6 @@ import { HttpClient } from '@angular/common/http';
 import { HttpService } from '@tqp/services/http.service';
 import { TokenService } from '@tqp/services/token.service';
 import { Observable } from 'rxjs';
-import { Sponsor } from '../../models/people/sponsor.model';
-import { Student } from '../../models/people/student.model';
 import { SummaryReportResultModel } from '../../models/summary-report-result.model';
 
 @Injectable({

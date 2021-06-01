@@ -23,18 +23,18 @@ export class PaymentDetailEditDialogComponent implements OnInit {
 
   public validationMessages = {
     'caregiverId': [
-      {type: 'required', message: 'A Caregiver is required'},
-      {type: 'validateNonZeroValue', message: 'You must select a Caregiver'}
+      {type: 'required', message: 'A Caregiver is required.'},
+      {type: 'validateNonZeroValue', message: 'You must select a Caregiver.'}
     ],
     'loanId': [
-      {type: 'required', message: 'A Loan is required'},
-      {type: 'validateNonZeroValue', message: 'You must select a loan'}
+      {type: 'required', message: 'A Loan is required.'},
+      {type: 'validateNonZeroValue', message: 'You must select a loan.'}
     ],
     'paymentDate': [
-      {type: 'required', message: 'A Payment Date is required'}
+      {type: 'required', message: 'A Payment Date is required.'}
     ],
     'paymentAmount': [
-      {type: 'required', message: 'A Payment Amount is required'}
+      {type: 'required', message: 'A Payment Amount is required.'}
     ],
   };
 

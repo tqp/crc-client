@@ -3,7 +3,6 @@ import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dial
 import { ConfirmDialogComponent } from '@tqp/components/confirm-dialog/confirm-dialog.component';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { FormattingService } from '@tqp/services/formatting.service';
-import * as moment from 'moment';
 import { CaseManagerQualificationService } from '../../../../../services/events/case-manager-qualification.service';
 import { CaseManagerQualification } from '../../../../../models/case-manager-qualification.model';
 
@@ -21,14 +20,14 @@ export class CaseManagerQualificationEditDialogComponent implements OnInit {
 
   public validationMessages = {
     'caseManagerQualificationId': [
-      {type: 'required', message: 'A Case Manager Qualification ID is required'}
+      {type: 'required', message: 'A Case Manager Qualification ID is required.'}
     ],
     'caseManagerId': [
-      {type: 'required', message: 'A Case Manager ID is required'}
+      {type: 'required', message: 'A Case Manager ID is required.'}
     ],
     'qualificationInstitution': [],
     'qualificationName': [
-      {type: 'required', message: 'A Qualification Name is required'}
+      {type: 'required', message: 'A Qualification Name is required.'}
     ]
   };
 
@@ -68,7 +67,7 @@ export class CaseManagerQualificationEditDialogComponent implements OnInit {
         // console.log('response', response);
         this.caseManagerQualification = response;
         this.caseManagerQualificationEditForm.controls['caseManagerQualificationId'].patchValue(this.caseManagerQualification.caseManagerQualificationId);
-        this.caseManagerQualificationEditForm.controls['caseManagerId'].patchValue(this.caseManagerQualification.caseManagerId);
+        this.caseManagerQualificationEditForm.controls['caseManagerId'].patchValue(this.caseManagerQualification.caseManagerUserId);
         this.caseManagerQualificationEditForm.controls['qualificationInstitution'].patchValue(this.caseManagerQualification.qualificationInstitution);
         this.caseManagerQualificationEditForm.controls['qualificationName'].patchValue(this.caseManagerQualification.qualificationName);
         this.dataLoaded = true;

@@ -7,6 +7,8 @@ import { debounceTime } from 'rxjs/operators';
 import { Student } from '../../../../../models/people/student.model';
 import { CaregiverService } from '../../../../../services/people/caregiver.service';
 import { Caregiver } from '../../../../../models/people/caregiver.model';
+import { AuthService } from '../../../../../../@tqp/services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-caregiver-list',
@@ -38,7 +40,9 @@ export class CaregiverListComponent implements OnInit {
   public recordList: Student[] = [];
 
   constructor(private caregiverService: CaregiverService,
-              private eventService: EventService) {
+              private eventService: EventService,
+              public authService: AuthService,
+              private router: Router) {
   }
 
   ngOnInit(): void {
@@ -135,6 +139,16 @@ export class CaregiverListComponent implements OnInit {
     // this.isFilterApplied = nameFilter;
     this.isLoading = false;
     this.eventService.loadingEvent.emit(false);
+  }
+
+  // BUTTONS
+
+  public clearFilters(): void {
+    this.searchFormControl.setValue('');
+  }
+
+  public openCreateCaregiverPage(): void {
+    this.router.navigate(['caregivers/caregiver-create']).then();
   }
 
   @HostListener('window:resize', ['$event'])

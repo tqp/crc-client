@@ -22,14 +22,14 @@
       "@tqp": [
         "@tqp/"
       ],
-      "@services": [
-        "app/services/"
+      "services/*": [
+        "./app/services/*"
       ],
-      "@models": [
-        "app/models/"
+      "models/*": [
+        "./app/models/*"
       ],
-      "@environment": [
-        "environments/"
+      "environment/*": [
+        "./environments/*"
       ]
     }
   }

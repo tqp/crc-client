@@ -27,13 +27,9 @@ export class CaseManagerDetailComponent implements OnInit {
   public genderNames = {'M': 'Male', 'F': 'Female', 'O': 'Other'};
   public caseManagerLoading: boolean = false;
 
-  // Collapse
-  studentListIsCollapsed: boolean = true;
-  csiListIsCollapsed: boolean = false;
-  qualificationListIsCollapsed: boolean = true;
-
   // Associated Students List
   public studentListLoading: boolean = false;
+  public studentListIsCollapsed: boolean = true;
   public studentListRecords: Student[] = [];
   public studentListDataSource: Student[] = [];
   public studentListDisplayedColumns: string[] = [
@@ -42,6 +38,8 @@ export class CaseManagerDetailComponent implements OnInit {
   ];
 
   // CSI Records List
+  public csiListLoading: boolean = false;
+  public csiListIsCollapsed: boolean = true;
   public csiListRecords: Student[] = [];
   public csiListDataSource: Student[] = [];
   public csiListDisplayedColumns: string[] = [
@@ -50,6 +48,8 @@ export class CaseManagerDetailComponent implements OnInit {
   ];
 
   // Qualifications List
+  public qualificationListLoading: boolean = false;
+  public qualificationListIsCollapsed: boolean = true;
   public qualificationListRecords: CaseManagerQualification[] = [];
   public qualificationListDataSource: CaseManagerQualification[] = [];
   public qualificationListDisplayedColumns: string[] = [
@@ -173,7 +173,7 @@ export class CaseManagerDetailComponent implements OnInit {
         const caseManagerQualification: CaseManagerQualification = {};
         const formData = dialogData[1];
         caseManagerQualification.caseManagerQualificationId = formData.caseManagerQualificationId;
-        caseManagerQualification.caseManagerId = formData.caseManagerId;
+        caseManagerQualification.caseManagerUserId = formData.caseManagerId;
         caseManagerQualification.qualificationInstitution = formData.qualificationInstitution;
         caseManagerQualification.qualificationName = formData.qualificationName;
 
@@ -182,7 +182,7 @@ export class CaseManagerDetailComponent implements OnInit {
             this.caseManagerQualificationService.createCaseManagerQualification(caseManagerQualification).subscribe(
               () => {
                 // console.log('response', response);
-                this.getQualificationListByCaseManagerId(this.caseManager.userId);
+                this.getQualificationListByCaseManagerId(this.caseManager.caseManagerUserId);
               },
               error => {
                 console.error('Error: ', error);
@@ -192,7 +192,7 @@ export class CaseManagerDetailComponent implements OnInit {
           case 'update':
             this.caseManagerQualificationService.updateCaseManagerQualification(caseManagerQualification).subscribe(
               () => {
-                this.getQualificationListByCaseManagerId(this.caseManager.userId);
+                this.getQualificationListByCaseManagerId(this.caseManager.caseManagerUserId);
               },
               error => {
                 console.error('Error: ', error);
@@ -202,7 +202,7 @@ export class CaseManagerDetailComponent implements OnInit {
           case 'delete':
             this.caseManagerQualificationService.deleteCaseManagerQualification(caseManagerQualification).subscribe(
               () => {
-                this.getQualificationListByCaseManagerId(this.caseManager.userId);
+                this.getQualificationListByCaseManagerId(this.caseManager.caseManagerUserId);
               },
               error => {
                 console.error('Error: ', error);
@@ -223,7 +223,7 @@ export class CaseManagerDetailComponent implements OnInit {
   }
 
   public openEditPage(): void {
-    this.router.navigate(['case-managers/case-manager-detail-edit', this.caseManager.userId]).then();
+    this.router.navigate(['case-managers/case-manager-detail-edit', this.caseManager.caseManagerUserId]).then();
   }
 
   public collapseAllLists(): void {

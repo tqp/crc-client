@@ -26,13 +26,13 @@ export class StudentProgramStatusEditDialogComponent implements OnInit {
   public validationMessages = {
     'programStatusId': [],
     'programStatusLevelOneId': [
-      {type: 'required', message: 'A Program Status is required'}
+      {type: 'required', message: 'A Program Status is required.'}
     ],
     'programStatusLevelTwoId': [
-      {type: 'required', message: 'This field is required'}
+      {type: 'required', message: 'This field is required.'}
     ],
     'relationshipStartDate': [
-      {type: 'required', message: 'An Effective Date is required'}
+      {type: 'required', message: 'An Effective Date is required.'}
     ]
   };
 

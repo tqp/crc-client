@@ -76,7 +76,7 @@ export class VisitDetailComponent implements OnInit {
   //   );
   // }
 
-  // Buttons
+  // BUTTONS
 
   public returnToList(): void {
     this.router.navigate(['visits/visit-list']).then();

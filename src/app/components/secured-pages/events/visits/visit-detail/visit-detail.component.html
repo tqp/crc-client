@@ -9,7 +9,7 @@
     </div>
     <div class="col-sm-6">
       <div class="form-group float-right">
-        <button class="btn btn-sm btn-outline-primary ml-3" (click)="returnToList()" style="width: 150px">
+        <button class="btn btn-sm btn-outline-primary ml-3" (click)="returnToList()">
           Go To Visit <u>L</u>ist
         </button>
       </div>
@@ -31,36 +31,36 @@
         </div>
         <div class="card-body">
           <dl class="row">
-            <dt class="col-sm-3">Student:</dt>
-            <dd class="col-sm-9">
+            <dt class="col-sm-4">Student:</dt>
+            <dd class="col-sm-8">
               <span class="tqp-nav-link" [routerLink]="['/students/student-detail', visit.studentId]">
                 {{visit.studentGivenName}} {{visit.studentSurname}}
               </span>
             </dd>
           </dl>
           <dl class="row">
-            <dt class="col-sm-3">Visit Date:</dt>
-            <dd class="col-sm-9">{{visit.visitDate | date:'dd-MMM-yyyy'}}</dd>
+            <dt class="col-sm-4">Visit Date:</dt>
+            <dd class="col-sm-8">{{visit.visitDate | date:'dd-MMM-yyyy'}}</dd>
           </dl>
           <dl class="row">
-            <dt class="col-sm-3">Case Manager:</dt>
-            <dd class="col-sm-9">{{visit.caseManagerGivenName}} {{visit.caseManagerSurname}}</dd>
+            <dt class="col-sm-4">Case Manager:</dt>
+            <dd class="col-sm-8">{{visit.caseManagerGivenName}} {{visit.caseManagerSurname}}</dd>
           </dl>
           <dl class="row">
-            <dt class="col-sm-3">Visit Type:</dt>
-            <dd class="col-sm-9">{{visit.visitTypeName}}</dd>
+            <dt class="col-sm-4">Visit Type:</dt>
+            <dd class="col-sm-8">{{visit.visitTypeName}}</dd>
           </dl>
           <dl class="row">
-            <dt class="col-sm-3">Interaction Type:</dt>
-            <dd class="col-sm-9">{{visit.interactionTypeName}}</dd>
+            <dt class="col-sm-4">Interaction Type:</dt>
+            <dd class="col-sm-8">{{visit.interactionTypeName}}</dd>
           </dl>
           <dl class="row">
-            <dt class="col-sm-3">Caregiver/Teacher:</dt>
-            <dd class="col-sm-9">{{visit.caregiverComments}}</dd>
+            <dt class="col-sm-4">Caregiver/Teacher:</dt>
+            <dd class="col-sm-8">{{visit.caregiverComments}}</dd>
           </dl>
           <dl class="row">
-            <dt class="col-sm-3">Case Manager:</dt>
-            <dd class="col-sm-9">{{visit.caseManagerComments}}</dd>
+            <dt class="col-sm-4">Case Manager:</dt>
+            <dd class="col-sm-8">{{visit.caseManagerComments}}</dd>
           </dl>
         </div>
       </div>

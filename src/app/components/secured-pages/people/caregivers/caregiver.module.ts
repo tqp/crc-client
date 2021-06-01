@@ -11,6 +11,7 @@ import { CaregiverDetailComponent } from './caregiver-detail/caregiver-detail.co
 import { CaregiverDetailEditComponent } from './caregiver-detail-edit/caregiver-detail-edit.component';
 import { CaregiverRoutingModule } from './caregiver-routing.module';
 import { CaregiverListSspComponent } from './caregiver-list-ssp/caregiver-list-ssp.component';
+import { CollapseModule } from 'ngx-bootstrap/collapse';
 
 
 @NgModule({
@@ -23,6 +24,7 @@ import { CaregiverListSspComponent } from './caregiver-list-ssp/caregiver-list-s
   imports: [
     CommonModule,
     AngularMaterialModule,
+    CollapseModule.forRoot(),
     FormsModule,
     ReactiveFormsModule,
     BsDatepickerModule.forRoot(),

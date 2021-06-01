@@ -2,7 +2,6 @@ import { Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild } fro
 import { FormControl } from '@angular/forms';
 import { Student } from '../../../../models/people/student.model';
 import { MatSort } from '@angular/material/sort';
-import { CaseManagerCoverageService } from '../../../../services/reports/case-manager-coverage.service';
 import { EventService } from '@tqp/services/event.service';
 import { merge } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';

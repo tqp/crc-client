@@ -6,9 +6,7 @@ import { map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { HttpService } from '@tqp/services/http.service';
 import { TokenService } from '@tqp/services/token.service';
-import { Student } from '../../models/people/student.model';
 import { Browser } from 'leaflet';
-import win = Browser.win;
 
 @Injectable({
   providedIn: 'root'

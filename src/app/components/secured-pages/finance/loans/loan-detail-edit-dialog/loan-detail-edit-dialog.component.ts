@@ -22,14 +22,14 @@ export class LoanDetailEditDialogComponent implements OnInit {
 
   public validationMessages = {
     'caregiverId': [
-      {type: 'required', message: 'A Caregiver is required'},
-      {type: 'validateNonZeroValue', message: 'You must select a Caregiver'}
+      {type: 'required', message: 'A Caregiver is required.'},
+      {type: 'validateNonZeroValue', message: 'You must select a Caregiver.'}
     ],
     'loanAmount': [
-      {type: 'required', message: 'A Loan Amount is required'}
+      {type: 'required', message: 'A Loan Amount is required.'}
     ],
     'loanDescription': [
-      {type: 'required', message: 'A Description is required'}
+      {type: 'required', message: 'A Description is required.'}
     ],
   };
 

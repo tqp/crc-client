@@ -23,12 +23,12 @@ export class StudentCaseManagerEditDialogComponent implements OnInit {
 
   public validationMessages = {
     'relationshipId': [],
-    'userId': [
-      {type: 'required', message: 'A Case Manager is required'},
-      {type: 'validateNonZeroValue', message: 'A Case Manager is required'}
+    'caseManagerUserId': [
+      {type: 'required', message: 'A Case Manager is required.'},
+      {type: 'validateNonZeroValue', message: 'A Case Manager is required.'}
     ],
     'relationshipStartDate': [
-      {type: 'required', message: 'An Effective Date is required'}
+      {type: 'required', message: 'An Effective Date is required.'}
     ]
   };
 
@@ -53,7 +53,7 @@ export class StudentCaseManagerEditDialogComponent implements OnInit {
   private initializeForm(): void {
     this.studentCaseManagerEditForm = this.formBuilder.group({
       relationshipId: new FormControl({value: 0, disabled: true}),
-      userId: new FormControl(0, [Validators.required, validateNonZeroValue]),
+      caseManagerUserId: new FormControl(0, [Validators.required, validateNonZeroValue]),
       relationshipStartDate: new FormControl(moment().format('DD-MMM-yyyy'), Validators.required)
     });
 
@@ -71,7 +71,7 @@ export class StudentCaseManagerEditDialogComponent implements OnInit {
         this.caseManagerRelationship = response;
         this.caseManagerRelationship.relationshipStartDate = this.formattingService.formatMySqlDateAsStandard(this.caseManagerRelationship.relationshipStartDate);
         this.studentCaseManagerEditForm.controls['relationshipId'].patchValue(this.caseManagerRelationship.relationshipId);
-        this.studentCaseManagerEditForm.controls['userId'].patchValue(this.caseManagerRelationship.userId);
+        this.studentCaseManagerEditForm.controls['userId'].patchValue(this.caseManagerRelationship.caseManagerUserId);
         this.studentCaseManagerEditForm.controls['relationshipStartDate'].patchValue(this.caseManagerRelationship.relationshipStartDate);
         this.dataLoaded = true;
       },
@@ -89,7 +89,7 @@ export class StudentCaseManagerEditDialogComponent implements OnInit {
         // console.log('caseManagerList', response);
         this.caseManagerList = response;
         this.caseManagerList = this.caseManagerList.filter(item => {
-          return item.userId !== excludeId;
+          return item.caseManagerUserId !== excludeId;
         });
       },
       error => {

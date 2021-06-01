@@ -99,7 +99,7 @@ export class CsiDetailComponent implements OnInit {
   //   );
   // }
 
-  // Buttons
+  // BUTTONS
 
   public returnToList(): void {
     this.router.navigate(['csi/csi-list']).then();
