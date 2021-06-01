@@ -93,8 +93,6 @@ export class CaregiverListComponent implements OnInit {
         this.isLoading = false;
         this.eventService.loadingEvent.emit(false);
       }, () => {
-        this.isLoading = false;
-        this.eventService.loadingEvent.emit(false);
       }
     );
   }

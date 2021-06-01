@@ -96,7 +96,7 @@ export class PostGradEventListComponent implements OnInit, AfterViewInit, OnDest
     this.isLoading = true;
     this.eventService.loadingEvent.emit(true);
     this.postGradEventService.getPostGradEventList_SSP(searchParams).subscribe((response: ServerSidePaginationResponse<PostGradEvent>) => {
-        console.log('getPage response', response);
+        // console.log('getPage response', response);
         this.records = [];
         response.data.forEach(item => {
           this.records.push(item);

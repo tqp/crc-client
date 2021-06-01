@@ -71,8 +71,8 @@ export class CaseManagerListComponent implements OnInit {
 
             // Default Sort
             this.recordList = this.recordList.sort((a, b) => {
-              return a.caseManagerSurname.toLowerCase() + a.caseManagerGivenName.toLowerCase()
-              < b.caseManagerSurname.toLowerCase() + b.caseManagerGivenName.toLowerCase() ? -1 : 1;
+              return a.caseManagerGivenName.toLowerCase() + a.caseManagerSurname.toLowerCase()
+              < b.caseManagerGivenName.toLowerCase() + b.caseManagerSurname.toLowerCase() ? -1 : 1;
             });
 
             setTimeout(() => {
@@ -89,8 +89,6 @@ export class CaseManagerListComponent implements OnInit {
         this.isLoading = false;
         this.eventService.loadingEvent.emit(false);
       }, () => {
-        this.isLoading = false;
-        this.eventService.loadingEvent.emit(false);
       }
     );
   }

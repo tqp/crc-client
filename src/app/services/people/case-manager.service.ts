@@ -55,7 +55,6 @@ export class CaseManagerService {
       })
         .pipe(
           map(res => {
-            console.log('res', res);
             return res.body;
           })
         );
@@ -184,4 +183,5 @@ export class CaseManagerService {
   public getCaseManagerListNameSearchValue() {
     return this.caseManagerListNameSearchValue;
   }
+
 }

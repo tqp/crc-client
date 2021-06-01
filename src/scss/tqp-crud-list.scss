@@ -37,17 +37,6 @@
     border-top: 0 !important; /* Fixes issue where row text pixels appear above header when using 'table' class . */
   }
 
-  .spinner-container {
-    position: relative;
-    background: transparent;
-    //height: calc(100vh - 390px);
-    height: 200px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    box-shadow: none;
-  }
-
   /* PAGINATION */
 
   .paginator {
