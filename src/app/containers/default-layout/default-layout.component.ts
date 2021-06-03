@@ -124,7 +124,7 @@ export class DefaultLayoutComponent implements OnInit {
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     dialogConfig.data = {
-      caseManagerUserId: userId,
+      userId: userId,
     };
     dialogConfig.autoFocus = false;
     const dialogRef = this._matDialog.open(ChangePasswordDialogComponent, dialogConfig);

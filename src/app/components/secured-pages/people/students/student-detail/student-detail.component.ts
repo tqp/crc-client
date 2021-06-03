@@ -51,6 +51,8 @@ export class StudentDetailComponent implements OnInit {
   public sponsor: Sponsor;
   public programStatus: ProgramStatus;
 
+  public caseManagerOwner: boolean;
+
   public genderNames = {'M': 'Male', 'F': 'Female', 'O': 'Other'};
   public yesNoFromInteger = {0: '', 1: 'Yes', 2: 'No'};
   public csiScoresChartData: Array<any> = [];
@@ -193,6 +195,7 @@ export class StudentDetailComponent implements OnInit {
       if (params['id'] !== undefined) {
         const studentId = params['id'];
         // console.log('studentId', studentId);
+        this.isTheLoggedInUserTheStudentsCaseManager(studentId);
         this.getStudentDetail(studentId);
         this.getCsiListByStudentId(studentId);
         this.getVisitListByStudentId(studentId);
@@ -208,6 +211,18 @@ export class StudentDetailComponent implements OnInit {
         console.error('No ID was present.');
       }
     }).then();
+  }
+
+  private isTheLoggedInUserTheStudentsCaseManager(studentId: number): void {
+    this.caseManagerService.isTheLoggedInUserTheStudentsCaseManager(studentId).subscribe(
+      (response: boolean) => {
+        console.log('caseManagerOwner', response);
+        this.caseManagerOwner = response != null ? response : false
+      },
+      error => {
+        console.error('Error: ', error);
+      }
+    );
   }
 
   private drawCsiScoresChart(studentId: number): void {
@@ -246,8 +261,8 @@ export class StudentDetailComponent implements OnInit {
   private getStudentDetail(studentId: number): void {
     this.eventService.loadingEvent.emit(true);
     this.studentService.getStudentDetail(studentId).subscribe(
-      response => {
-        this.student = response;
+      (student: Student) => {
+        this.student = student;
         // console.log('response', response);
         this.eventService.loadingEvent.emit(false);
       },
@@ -258,6 +273,7 @@ export class StudentDetailComponent implements OnInit {
   }
 
   private getCsiListByStudentId(studentId: number): void {
+    this.csiListLoading = true;
     this.csiService.getCsiListByStudentId(studentId).subscribe(
       (csiList: Csi[]) => {
         // console.log('csiList', csiList);
@@ -267,6 +283,7 @@ export class StudentDetailComponent implements OnInit {
             this.csiListRecords.push(item);
           });
           this.csiListDataSource = this.csiListRecords;
+          this.csiListLoading = false;
         }
       },
       error => {
@@ -276,14 +293,18 @@ export class StudentDetailComponent implements OnInit {
   }
 
   private getVisitListByStudentId(studentId: number): void {
+    this.visitListLoading = true;
     this.visitService.getVisitListByStudentId(studentId).subscribe(
       (visitList: Visit[]) => {
         // console.log('visitList', visitList);
         this.visitListRecords = [];
-        visitList.forEach(item => {
-          this.visitListRecords.push(item);
-        });
-        this.visitListDataSource = this.visitListRecords;
+        if (visitList) {
+          visitList.forEach(item => {
+            this.visitListRecords.push(item);
+          });
+          this.visitListDataSource = this.visitListRecords;
+          this.visitListLoading = false;
+        }
       },
       error => {
         console.error('Error: ', error);
@@ -292,14 +313,18 @@ export class StudentDetailComponent implements OnInit {
   }
 
   private getPostGradEventListByStudentId(studentId: number): void {
+    this.postGradEventListLoading = true;
     this.postGradEventService.getPostGradEventListByStudentId(studentId).subscribe(
       (postGradEventList: PostGradEvent[]) => {
         // console.log('postGradEventList', postGradEventList);
         this.postGradEventListRecords = [];
-        postGradEventList.forEach(item => {
-          this.postGradEventListRecords.push(item);
-        });
-        this.postGradEventListDataSource = this.postGradEventListRecords;
+        if (postGradEventList) {
+          postGradEventList.forEach(item => {
+            this.postGradEventListRecords.push(item);
+          });
+          this.postGradEventListDataSource = this.postGradEventListRecords;
+          this.postGradEventListLoading = false;
+        }
       },
       error => {
         console.error('Error: ', error);
@@ -308,14 +333,18 @@ export class StudentDetailComponent implements OnInit {
   }
 
   private getStudentSponsorLetterListByStudentId(studentId: number): void {
+    this.studentSponsorLetterListLoading = true;
     this.studentSponsorLetterService.getStudentSponsorLetterListByStudentId(studentId).subscribe(
       (studentSponsorLetterList: StudentSponsorLetterModel[]) => {
         // console.log('studentSponsorLetterList', studentSponsorLetterList);
         this.studentSponsorLetterListRecords = [];
-        studentSponsorLetterList.forEach(item => {
-          this.studentSponsorLetterListRecords.push(item);
-        });
-        this.studentSponsorLetterListDataSource = this.studentSponsorLetterListRecords;
+        if (studentSponsorLetterList) {
+          studentSponsorLetterList.forEach(item => {
+            this.studentSponsorLetterListRecords.push(item);
+          });
+          this.studentSponsorLetterListDataSource = this.studentSponsorLetterListRecords;
+          this.studentSponsorLetterListLoading = false;
+        }
       },
       error => {
         console.error('Error: ', error);

@@ -6,7 +6,7 @@ import { merge } from 'rxjs';
 import { Student } from '../../../../../models/people/student.model';
 import { StudentService } from '../../../../../services/people/student.service';
 import { EventService } from '@tqp/services/event.service';
-import { AuthService } from '../../../../../../@tqp/services/auth.service';
+import { AuthService } from '@tqp/services/auth.service';
 import { Router } from '@angular/router';
 
 @Component({

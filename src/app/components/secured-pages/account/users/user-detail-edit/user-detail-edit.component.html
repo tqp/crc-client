@@ -28,6 +28,26 @@
           </div>
           <div class="card-body">
 
+            <!--
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="userId">User ID*</label>
+                  <input matInput id="userId" type="text" class="form-control" placeholder="User ID"
+                         formControlName="userId">
+                  <mat-error *ngFor="let validation of validationMessages.userId">
+                    <mat-error class="error-message"
+                               *ngIf="userEditForm.get('userId').hasError(validation.type)
+                                && (userEditForm.get('userId').dirty ||
+                                userEditForm.get('userId').touched)">
+                      {{validation.message}}
+                    </mat-error>
+                  </mat-error>
+                </div>
+              </div>
+            </div>
+            -->
+
             <div class="row">
               <div class="col-sm-12">
                 <div class="form-group">

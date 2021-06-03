@@ -76,6 +76,20 @@ export class AuthService {
     });
   }
 
+  public getUserIdFromToken(): string {
+    let subject: string = null;
+    this.getTokenInfo().subscribe(
+      response => {
+        const token: Token = response;
+        subject = token.sub;
+      },
+      error => {
+        // Do nothing
+      }
+    );
+    return subject;
+  }
+
   public getAuthoritiesFromToken(): string {
     let authorities: string = null;
     this.getTokenInfo().subscribe(
@@ -141,7 +155,7 @@ export class AuthService {
   //   return false; // If no role is listed, default option is to display
   // }
 
-  public allowRoles(allowedRoles: string, tag: string): boolean {
+  public hiddenBasedOnRoles(allowedRoles: string, tag: string): boolean {
     const allowedRolesArray = allowedRoles.split(' ').join('').split(',');
     const myRoles = this.getAuthoritiesFromToken();
     const intersection = allowedRolesArray.filter(element => myRoles.includes(element));
@@ -151,6 +165,23 @@ export class AuthService {
     // console.log('myRoles', myRoles);
     // console.log('intersection', intersection);
     return intersection.length <= 0;
+  }
+
+  public hiddenBasedOnRolesOrCaseManagerOwner(allowedRoles: string, owner: boolean, tag: string): boolean {
+    if (owner) {
+      return false;
+    } else {
+      const allowedRolesArray = allowedRoles.split(' ').join('').split(',');
+      const myRoles = this.getAuthoritiesFromToken();
+      const intersection = allowedRolesArray.filter(element => myRoles.includes(element));
+      // console.log('Tag:', tag);
+      // console.log('allowedRoles', allowedRoles.split(' ').join(''));
+      // console.log('allowedRolesArray', allowedRolesArray);
+      // console.log('myRoles', myRoles);
+      // console.log('intersection', intersection);
+      return intersection.length <= 0;
+    }
+
   }
 
 }

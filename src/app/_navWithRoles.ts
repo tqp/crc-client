@@ -14,20 +14,20 @@ export const navItemsWithRoles: INavDataTqp[] = [
     allow: 'ROLE_USER, ROLE_CASE_MANAGER'
   },
   {
+    name: 'My Students',
+    url: '/students/student-list-by-case-manager',
+    icon: 'fa fa-graduation-cap',
+    allow: 'ROLE_CASE_MANAGER'
+  },
+  {
     name: 'Students',
     url: '/students/student-list',
     icon: 'fa fa-graduation-cap',
     allow: 'ROLE_USER'
   },
-  // {
-  //   name: 'Students SSP',
-  //   url: '/students/student-list-ssp',
-  //   icon: 'fa fa-graduation-cap',
-  //   allow: 'ROLE_USER'
-  // },
   {
-    name: 'My Students',
-    url: '/students/student-list-by-case-manager',
+    name: 'All Students',
+    url: '/students/student-list',
     icon: 'fa fa-graduation-cap',
     allow: 'ROLE_CASE_MANAGER'
   },

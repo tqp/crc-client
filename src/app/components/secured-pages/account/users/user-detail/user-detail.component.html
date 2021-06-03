@@ -24,7 +24,7 @@
           <i class="fa fa-user"></i>User Profile
           <i *ngIf="userLoading" class="fa fa-spinner fa-spin"></i>
           <div class="card-header-actions"
-               [hidden]="authService.allowRoles('ROLE_MANAGER, ROLE_ADMIN', 'Edit User Info')">
+               [hidden]="authService.hiddenBasedOnRoles('ROLE_MANAGER, ROLE_ADMIN', 'Edit User Info')">
             <small class="tqp-nav-link" (click)="openUserEditPage();">Edit User Info</small>
           </div>
         </div>

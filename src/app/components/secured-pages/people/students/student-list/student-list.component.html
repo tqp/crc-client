@@ -20,7 +20,7 @@
 
       <div class="col-md-4 float-right">
         <button class="btn btn-sm btn-outline-primary float-right" (click)="openCreateStudentPage()"
-                [hidden]="authService.allowRoles('ROLE_CREATE, ROLE_ADMIN', 'Create Student')">
+                [hidden]="authService.hiddenBasedOnRoles('ROLE_CREATE, ROLE_ADMIN', 'Create Student')">
           <i class="fa fa-plus mr-1"></i>
           Create New Student
         </button>

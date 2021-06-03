@@ -104,7 +104,7 @@ export class CaseManagerDetailComponent implements OnInit {
     this.studentListLoading = true;
     this.relationshipService.getStudentListByCaseManagerId(caseManagerId).subscribe(
       (studentList: Student[]) => {
-        // console.log('studentList', studentList);
+        console.log('studentList', studentList);
         studentList.forEach(item => {
           this.studentListRecords.push(item);
         });
@@ -139,12 +139,13 @@ export class CaseManagerDetailComponent implements OnInit {
   private getQualificationListByCaseManagerId(caseManagerId: number): void {
     this.caseManagerQualificationService.getQualificationListByCaseManagerId(caseManagerId).subscribe(
       (qualificationList: CaseManagerQualification[]) => {
-        // console.log('qualificationList', qualificationList);
         this.qualificationListRecords = [];
-        qualificationList.forEach(item => {
-          this.qualificationListRecords.push(item);
-        });
-        this.qualificationListDataSource = this.qualificationListRecords;
+        if (qualificationList) {
+          qualificationList.forEach(item => {
+            this.qualificationListRecords.push(item);
+          });
+          this.qualificationListDataSource = this.qualificationListRecords;
+        }
       },
       error => {
         console.error('Error: ', error);

@@ -28,7 +28,7 @@
           Personal Information
           <i *ngIf="caseManagerLoading" class="fa fa-spinner fa-spin"></i>
           <div class="card-header-actions"
-               [hidden]="authService.allowRoles('ROLE_EDIT, ROLE_ADMIN', 'Edit Case Manager Info')">
+               [hidden]="authService.hiddenBasedOnRoles('ROLE_EDIT, ROLE_ADMIN', 'Edit Case Manager Info')">
             <small class="tqp-nav-link" (click)="openEditPage();">Edit Case Manager Info</small>
           </div>
         </div>
@@ -190,7 +190,7 @@
               <ng-container matColumnDef="actions">
                 <th mat-header-cell *matHeaderCellDef></th>
                 <td mat-cell *matCellDef="let row"
-                    [hidden]="authService.allowRoles('ROLE_EDIT, ROLE_ADMIN', 'Edit Caregiver-Workshop')">
+                    [hidden]="authService.hiddenBasedOnRoles('ROLE_EDIT, ROLE_ADMIN', 'Edit Caregiver-Workshop')">
                   <i class="fa fa-edit"
                      (click)="openCaseManagerQualificationCreateDialog(this.caseManager.caseManagerId, row.caseManagerQualificationId)"
                      style="cursor: pointer;"></i>

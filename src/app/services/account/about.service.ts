@@ -18,7 +18,7 @@ export class AboutService {
               private tokenService: TokenService) { }
 
   public getServerBuildTimestamp(): Observable<Person[]> {
-    const url = environment.apiUrl + '/app/v1/build-timestamp/';
+    const url = environment.apiUrl + '/api/v1/health-check/build-timestamp/';
     const token = this.tokenService.getToken();
     if (token) {
       return this.http.get<any>(url, {

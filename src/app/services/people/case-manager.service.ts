@@ -8,6 +8,7 @@ import { HttpService } from '@tqp/services/http.service';
 import { TokenService } from '@tqp/services/token.service';
 import { map } from 'rxjs/operators';
 import { CaseManager } from '../../models/people/case-manager.model';
+import { AuthService } from '../../../@tqp/services/auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,8 @@ export class CaseManagerService {
 
   constructor(private http: HttpClient,
               private httpService: HttpService,
-              private tokenService: TokenService) {
+              private tokenService: TokenService,
+              public authService: AuthService) {
   }
 
   // BASIC CRUD
@@ -158,6 +160,28 @@ export class CaseManagerService {
     const token = this.tokenService.getToken();
     if (token) {
       return this.http.get<CaseManager>(url,
+        {
+          headers: this.httpService.setHeadersWithToken(),
+          observe: 'response',
+          params: {}
+        })
+        .pipe(
+          map(res => {
+            return res.body;
+          })
+        );
+    } else {
+      console.error('No token was present.');
+      return null;
+    }
+  }
+
+  public isTheLoggedInUserTheStudentsCaseManager(studentId: number): Observable<boolean> {
+    const username = this.authService.getUserIdFromToken();
+    const url = environment.apiUrl + '/api/v1/case-manager/student/' + studentId + '/owner/' + username;
+    const token = this.tokenService.getToken();
+    if (token) {
+      return this.http.get<boolean>(url,
         {
           headers: this.httpService.setHeadersWithToken(),
           observe: 'response',

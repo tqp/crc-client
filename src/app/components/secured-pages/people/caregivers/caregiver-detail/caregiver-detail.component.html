@@ -25,7 +25,7 @@
           Personal Information
           <i *ngIf="caregiverLoading" class="fa fa-spinner fa-spin"></i>
           <div class="card-header-actions"
-               [hidden]="authService.allowRoles('ROLE_EDIT, ROLE_ADMIN', 'Edit Caregiver Info')">
+               [hidden]="authService.hiddenBasedOnRoles('ROLE_EDIT, ROLE_ADMIN', 'Edit Caregiver Info')">
             <small class="tqp-nav-link" (click)="openEditPage();">Edit Caregiver Info</small>
           </div>
         </div>
@@ -169,7 +169,7 @@
           <i class="fa fa-ticket"></i>
           Workshops Attended<span class="badge badge-secondary ml-2">{{workshopListDataSource.length}}</span>
           <div class="card-header-actions"
-               [hidden]="authService.allowRoles('ROLE_EDIT, ROLE_ADMIN', 'Add Caregiver-Workshop')">
+               [hidden]="authService.hiddenBasedOnRoles('ROLE_EDIT, ROLE_ADMIN', 'Add Caregiver-Workshop')">
             <small class="tqp-nav-link" (click)="openCaregiverWorkshopCreateDialog(this.caregiver.caregiverId, null);">Add Workshop</small>
           </div>
         </div>
@@ -205,7 +205,7 @@
 
               <ng-container matColumnDef="actions">
                 <th mat-header-cell *matHeaderCellDef></th>
-                <td mat-cell *matCellDef="let row" [hidden]="authService.allowRoles('ROLE_EDIT, ROLE_ADMIN', 'Edit Caregiver-Workshop')">
+                <td mat-cell *matCellDef="let row" [hidden]="authService.hiddenBasedOnRoles('ROLE_EDIT, ROLE_ADMIN', 'Edit Caregiver-Workshop')">
                   <i class="fa fa-edit" (click)="openCaregiverWorkshopCreateDialog(this.caregiver.caregiverId, row.caregiverWorkshopId)" style="cursor: pointer;"></i>
                 </td>
               </ng-container>

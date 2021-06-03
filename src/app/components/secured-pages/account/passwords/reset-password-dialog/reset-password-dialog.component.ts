@@ -2,7 +2,6 @@ import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core'
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '@tqp/components/confirm-dialog/confirm-dialog.component';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { UserValidationService } from '../../../../../services/account/user-validation.service';
 
 @Component({
   selector: 'app-reset-password-dialog',
@@ -15,7 +14,7 @@ export class ResetPasswordDialogComponent implements OnInit {
   public resetPasswordForm: FormGroup;
 
   public validationMessages = {
-    'caseManagerUserId': [],
+    'userId': [],
     'newPassword': [
       {type: 'required', message: 'Please enter a new password.'}
     ],
@@ -36,17 +35,17 @@ export class ResetPasswordDialogComponent implements OnInit {
   constructor(private dialogRef: MatDialogRef<ResetPasswordDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
               private formBuilder: FormBuilder,
-              public _matDialog: MatDialog,
-              private userValidationService: UserValidationService) {
+              public _matDialog: MatDialog) {
   }
 
   ngOnInit(): void {
+    console.log('data', this.data);
     this.initializeForm();
   }
 
   private initializeForm(): void {
     this.resetPasswordForm = this.formBuilder.group({
-      caseManagerUserId: new FormControl(this.data.userId, [Validators.required]),
+      userId: new FormControl(this.data.userId, [Validators.required]),
       newPassword: new FormControl('', [Validators.required]),
       newPasswordConfirm: new FormControl('', [Validators.required])
     }, {

@@ -41,7 +41,7 @@ export class UserDetailEditComponent implements OnInit {
   }
 
   public validationMessages = {
-    'caseManagerUserId': [
+    'userId': [
       {type: 'required', message: 'An ID is required.'}
     ],
     'username': [
@@ -96,7 +96,7 @@ export class UserDetailEditComponent implements OnInit {
 
   private initializeForm(): void {
     this.userEditForm = this.formBuilder.group({
-      caseManagerUserId: new FormControl(''),
+      userId: new FormControl(''),
       username: new FormControl('', Validators.required),
       surname: new FormControl('', Validators.required),
       givenName: new FormControl('', Validators.required),
@@ -129,7 +129,7 @@ export class UserDetailEditComponent implements OnInit {
     // We need to ensure that both the roles list and the userDetail come back before
     // trying to populate the checkboxes... so, we use forkJoin.
     forkJoin([roles, userDetail, caseManagerNumberOfStudents]).subscribe(response => {
-      // console.log('response', response);
+      console.log('response', response);
 
       // Use the roleList response
       this.roleList = response[0];
@@ -342,7 +342,7 @@ export class UserDetailEditComponent implements OnInit {
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     dialogConfig.data = {
-      caseManagerUserId: this.user.userId
+      userId: this.user.userId
     };
     dialogConfig.autoFocus = false;
     const dialogRef = this._matDialog.open(ResetPasswordDialogComponent, dialogConfig);

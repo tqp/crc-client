@@ -20,7 +20,7 @@
 
       <div class="col-md-4 float-right">
         <button class="btn btn-sm btn-outline-primary float-right" (click)="openCreateSponsorPage()"
-                [hidden]="authService.allowRoles('ROLE_CREATE, ROLE_ADMIN', 'Create Sponsor')">
+                [hidden]="authService.hiddenBasedOnRoles('ROLE_CREATE, ROLE_ADMIN', 'Create Sponsor')">
           <i class="fa fa-plus mr-1"></i>
           Create New Sponsor
         </button>

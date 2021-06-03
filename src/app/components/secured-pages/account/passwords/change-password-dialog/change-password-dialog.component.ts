@@ -17,7 +17,7 @@ export class ChangePasswordDialogComponent implements OnInit {
   public hideCancelButton: boolean = false;
 
   public validationMessages = {
-    'caseManagerUserId': [],
+    'userId': [],
     'currentPassword': [
       {type: 'required', message: 'You must enter your current password.'},
       {type: 'currentPasswordValidator', message: 'Your current password is incorrect.'},
@@ -52,7 +52,7 @@ export class ChangePasswordDialogComponent implements OnInit {
 
   private initializeForm(): void {
     this.changePasswordForm = this.formBuilder.group({
-      caseManagerUserId: new FormControl(this.data.userId, [Validators.required]),
+      userId: new FormControl(this.data.userId, [Validators.required]),
       currentPassword: new FormControl('', [Validators.required], [this.userValidationService.currentPasswordValidator()]),
       newPassword: new FormControl('', [Validators.required]),
       newPasswordConfirm: new FormControl('', [Validators.required])
