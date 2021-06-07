@@ -30,7 +30,7 @@
           <i *ngIf="studentLoading" class="fa fa-spinner fa-spin"></i>
           <div class="card-header-actions"
                [hidden]="authService.hiddenBasedOnRolesOrCaseManagerOwner(
-               'ROLE_EDIT, ROLE_ADMIN, ROLE_CASE_MANAGER_OWNER', caseManagerOwner,'Edit Student Info')">
+               'ROLE_EDIT_ALL_STUDENTS', caseManagerOwner,'Edit Student Info')">
             <small class="tqp-nav-link" (click)="openStudentEditPage();">Edit Student Info</small>
           </div>
         </div>
@@ -81,7 +81,7 @@
           <i *ngIf="programStatusLoading" class="fa fa-spinner fa-spin"></i>
           <div class="card-header-actions"
                [hidden]="authService.hiddenBasedOnRolesOrCaseManagerOwner(
-               'ROLE_EDIT, ROLE_ADMIN', caseManagerOwner,  'Set Program Status')">
+               'ROLE_EDIT_ALL_STUDENTS', caseManagerOwner,  'Set Program Status')">
             <small class="tqp-nav-link" (click)="openStudentProgramStatusCreateDialog(null);">Set Program Status</small>
           </div>
         </div>
@@ -120,7 +120,8 @@
           Current Case Manager
           <i *ngIf="caseManagerLoading" class="fa fa-spinner fa-spin"></i>
           <div class="card-header-actions"
-               [hidden]="authService.hiddenBasedOnRoles('ROLE_EDIT, ROLE_ADMIN', 'Assign Case Manager')">
+               [hidden]="authService.hiddenBasedOnRolesOrCaseManagerOwner(
+               'ROLE_EDIT_ALL_STUDENTS', caseManagerOwner,  'Assign Case Manager')">
             <small class="tqp-nav-link"
                    (click)="openStudentCaseManagerCreateDialog(null, caseManager.caseManagerUserId);">
               Assign Case Manager
@@ -157,7 +158,7 @@
           <i *ngIf="caregiverLoading" class="fa fa-spinner fa-spin"></i>
           <div class="card-header-actions"
                [hidden]="authService.hiddenBasedOnRolesOrCaseManagerOwner(
-               'ROLE_EDIT, ROLE_ADMIN', caseManagerOwner, 'Assign Caregiver')">
+               'ROLE_EDIT_ALL_STUDENTS', caseManagerOwner,  'Assign Caregiver')">
             <small class="tqp-nav-link" (click)="openStudentCaregiverCreateDialog(null, caregiver.caregiverId);">Assign
               Caregiver</small>
           </div>
@@ -210,7 +211,8 @@
           Current Sponsor
           <i *ngIf="sponsorLoading" class="fa fa-spinner fa-spin"></i>
           <div class="card-header-actions"
-               [hidden]="authService.hiddenBasedOnRoles('ROLE_EDIT, ROLE_ADMIN', 'Assign Sponsor')">
+               [hidden]="authService.hiddenBasedOnRolesOrCaseManagerOwner(
+               'ROLE_EDIT_ALL_STUDENTS', caseManagerOwner,  'Assign Sponsor')">
             <small class="tqp-nav-link" (click)="openStudentSponsorCreateDialog(null, sponsor.sponsorId);">Assign
               Sponsor</small>
           </div>

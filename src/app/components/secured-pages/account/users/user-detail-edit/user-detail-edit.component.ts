@@ -100,7 +100,7 @@ export class UserDetailEditComponent implements OnInit {
       username: new FormControl('', Validators.required),
       surname: new FormControl('', Validators.required),
       givenName: new FormControl('', Validators.required),
-      position: new FormControl('', Validators.required),
+      positionId: new FormControl('', Validators.required),
       caseManagerNumberOfStudents: new FormControl({value: '', disabled: false}),
       roles: new FormControl(''),
       roleCheckboxes: new FormArray([],
@@ -129,7 +129,7 @@ export class UserDetailEditComponent implements OnInit {
     // We need to ensure that both the roles list and the userDetail come back before
     // trying to populate the checkboxes... so, we use forkJoin.
     forkJoin([roles, userDetail, caseManagerNumberOfStudents]).subscribe(response => {
-      console.log('response', response);
+      // console.log('response', response);
 
       // Use the roleList response
       this.roleList = response[0];
@@ -139,10 +139,10 @@ export class UserDetailEditComponent implements OnInit {
       // console.log('response', response);
       this.caseManagerNumberOfStudents = response[2].length;
       this.userEditForm.controls['userId'].patchValue(this.user.userId);
-      this.userEditForm.controls['username'].patchValue(this.user.username);
-      this.userEditForm.controls['surname'].patchValue(this.user.surname);
-      this.userEditForm.controls['givenName'].patchValue(this.user.givenName);
-      this.userEditForm.controls['position'].patchValue(this.user.position);
+      this.userEditForm.controls['username'].patchValue(this.user.userUsername);
+      this.userEditForm.controls['surname'].patchValue(this.user.userSurname);
+      this.userEditForm.controls['givenName'].patchValue(this.user.userGivenName);
+      this.userEditForm.controls['positionId'].patchValue(this.user.positionId);
       this.userEditForm.controls['caseManagerNumberOfStudents'].patchValue(this.caseManagerNumberOfStudents);
 
       // Populate Checkboxes
@@ -174,13 +174,13 @@ export class UserDetailEditComponent implements OnInit {
 
   public setInitialCheckboxFormValue(): void {
     this.setCheckboxFormValue();
-    console.log('this.roleListCheckboxArray', this.roleListCheckboxArray);
-    this.startedWithCaseManagerRole = this.roleListCheckboxArray.find(role => role.roleId === 5).status;
-    console.log('this.startedWithCaseManagerRole', this.startedWithCaseManagerRole);
+    // console.log('this.roleListCheckboxArray', this.roleListCheckboxArray);
+    this.startedWithCaseManagerRole = this.roleListCheckboxArray.find(role => role.roleId === 15).status;
+    // console.log('this.startedWithCaseManagerRole', this.startedWithCaseManagerRole);
   }
 
   public updateCheckboxFormValue(): void {
-    this.userEditForm.controls['position'].patchValue(5); // Custom
+    this.userEditForm.controls['positionId'].patchValue(5); // Custom
     this.setCheckboxFormValue();
   }
 
@@ -255,22 +255,23 @@ export class UserDetailEditComponent implements OnInit {
     }
   }
 
-  public validateViewAndCaseManager(): boolean {
-    const roleUser = this.roleListCheckboxArray.find(role => role.roleId === 1).status;
-    const roleCaseManager = this.roleListCheckboxArray.find(role => role.roleId === 5).status;
-    return roleUser && roleCaseManager;
-  }
-
-  public validateViewOrCaseManager(): boolean {
-    const roleUser = this.roleListCheckboxArray.find(role => role.roleId === 1).status;
-    const roleCaseManager = this.roleListCheckboxArray.find(role => role.roleId === 5).status;
-    return !roleUser && !roleCaseManager;
-  }
+  // public validateViewAndCaseManager(): boolean {
+  //   const roleUser = this.roleListCheckboxArray.find(role => role.roleId === 1).status;
+  //   const roleCaseManager = this.roleListCheckboxArray.find(role => role.roleId === 5).status;
+  //   return roleUser && roleCaseManager;
+  // }
+  //
+  // public validateViewOrCaseManager(): boolean {
+  //   const roleUser = this.roleListCheckboxArray.find(role => role.roleId === 1).status;
+  //   const roleCaseManager = this.roleListCheckboxArray.find(role => role.roleId === 5).status;
+  //   return !roleUser && !roleCaseManager;
+  // }
 
   public save(): void {
     // Prevent Case Manager Role change if Students are currently assigned.
-    const hasCaseManagerRoleNow = this.roleListCheckboxArray.find(role => role.roleId === 5).status;
-    if ((this.startedWithCaseManagerRole === true && hasCaseManagerRoleNow === false) && this.caseManagerNumberOfStudents > 0) {
+    // console.log('roleListCheckboxArray', this.roleListCheckboxArray);
+    const hasCaseManagerRoleNow = this.roleListCheckboxArray.find(role => role.roleId === 15);
+    if ((this.startedWithCaseManagerRole === true && hasCaseManagerRoleNow.status === false) && this.caseManagerNumberOfStudents > 0) {
       this.confirmDialogRef = this._matDialog.open(ConfirmDialogComponent, {
         disableClose: false,
         minWidth: '30%'
@@ -290,41 +291,36 @@ export class UserDetailEditComponent implements OnInit {
   }
 
   private performSave(): void {
-    if (this.validateViewOrCaseManager()) {
-      this.userEditForm.controls['roleCheckboxes'].setErrors({'viewOrCaseManager': true});
-    } else if (this.validateViewAndCaseManager()) {
-      this.userEditForm.controls['roleCheckboxes'].setErrors({'viewAndCaseManager': true});
-    } else {
-      const user = new User();
-      user.userId = this.userEditForm.value.userId;
-      user.username = this.userEditForm.value.username;
-      user.surname = this.userEditForm.value.surname;
-      user.givenName = this.userEditForm.value.givenName;
-      user.rolesString = this.userEditForm.value.roles;
-      user.position = this.userEditForm.value.position;
-      user.roles = this.roleListCheckboxArray;
+    const user = new User();
+    user.userId = this.userEditForm.value.userId;
+    user.userUsername = this.userEditForm.value.username;
+    user.userSurname = this.userEditForm.value.surname;
+    user.userGivenName = this.userEditForm.value.givenName;
+    user.rolesString = this.userEditForm.value.roles;
+    user.positionId = this.userEditForm.value.positionId;
+    user.roles = this.roleListCheckboxArray;
 
-      if (this.newRecord) {
-        this.userService.createUser(user).subscribe(
-          response => {
-            // console.log('response: ', response);
-            this.router.navigate(['users/user-detail', response.userId]).then();
-          },
-          error => {
-            console.error('Error: ' + error.message);
-          }
-        );
-      } else {
-        this.userService.updateUser(user).subscribe(
-          response => {
-            // console.log('response: ', response);
-            this.router.navigate(['users/user-detail', response.userId]).then();
-          },
-          error => {
-            console.error('Error: ' + error.message);
-          }
-        );
-      }
+    if (this.newRecord) {
+      this.userService.createUser(user).subscribe(
+        response => {
+          // console.log('response: ', response);
+          this.router.navigate(['users/user-detail', response.userId]).then();
+        },
+        error => {
+          console.error('Error: ' + error.message);
+        }
+      );
+    } else {
+      this.userService.updateUser(user).subscribe(
+        response => {
+          // console.log('response: ', response);
+          this.router.navigate(['users/user-detail', response.userId]).then();
+        },
+        error => {
+          console.error('Error: ' + error.message);
+        }
+      );
+
     }
   }
 

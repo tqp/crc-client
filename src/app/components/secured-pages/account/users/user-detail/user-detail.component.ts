@@ -7,11 +7,16 @@ import { Token } from '@tqp/models/Token';
 import { TokenService } from '@tqp/services/token.service';
 import * as moment from 'moment';
 import { MatDialog } from '@angular/material/dialog';
+import { Csi } from '../../../../../models/csi.model';
+import { tqpCustomAnimations } from '../../../../../../@tqp/animations/tqpCustomAnimations';
+import { RoleService } from '../../../../../services/account/role.service';
+import { Role } from '../../roles/Role';
 
 @Component({
   selector: 'app-user-detail',
   templateUrl: './user-detail.component.html',
-  styleUrls: ['./user-detail.component.css']
+  styleUrls: ['./user-detail.component.css'],
+  animations: [tqpCustomAnimations]
 })
 export class UserDetailComponent implements OnInit {
   public user: User;
@@ -20,9 +25,19 @@ export class UserDetailComponent implements OnInit {
 
   public statusTranslate = {0: 'Active', 1: 'Deleted'};
 
+  // User-Roles List
+  public roleListLoading: boolean = false;
+  public roleListIsCollapsed: boolean = false;
+  public roleListRecords: Role[] = [];
+  public roleListDataSource: Role[] = [];
+  public roleListDisplayedColumns: string[] = [
+    'roleName'
+  ];
+
   constructor(private route: ActivatedRoute,
               private router: Router,
               private userService: UserService,
+              private roleService: RoleService,
               public authService: AuthService,
               private tokenService: TokenService,
               public _matDialog: MatDialog) {
@@ -34,6 +49,7 @@ export class UserDetailComponent implements OnInit {
         const userId = params['id'];
         // console.log('userId', userId);
         this.getUserDetail(userId);
+        this.getRoleListByUserId(userId);
       } else {
         console.error('No ID was present.');
       }
@@ -48,7 +64,6 @@ export class UserDetailComponent implements OnInit {
         this.user.createdOn = moment(this.user.createdOn).format('DD-MMM-YYYY h:mm:ss a').toUpperCase();
         this.user.updatedOn = moment(this.user.updatedOn).format('DD-MMM-YYYY h:mm:ss a').toUpperCase();
         this.user.passwordSet = this.user.passwordSet = null ? null : moment(this.user.passwordSet).format('DD-MMM-YYYY h:mm:ss a').toUpperCase();
-        // console.log('user', this.user);
       },
       error => {
         console.error('Error: ', error);
@@ -57,7 +72,34 @@ export class UserDetailComponent implements OnInit {
     );
   }
 
+  private getRoleListByUserId(userId: number): void {
+    this.roleListLoading = true;
+    this.roleService.getRoleListByUserId(userId).subscribe(
+      (roleList: Role[]) => {
+        // console.log('roleList', roleList);
+        this.roleListRecords = [];
+        if (roleList) {
+          roleList.forEach(item => {
+            this.roleListRecords.push(item);
+          });
+          this.roleListDataSource = this.roleListRecords;
+          this.roleListLoading = false;
+        }
+      },
+      error => {
+        console.error('Error: ', error);
+      }
+    );
+  }
+
   // BUTTONS
+
+  public toggleVisitListIsCollapsed(event) {
+    if (event.target.nodeName === 'SMALL') {
+      return;
+    }
+    this.roleListIsCollapsed = !this.roleListIsCollapsed;
+  }
 
   public returnToList(): void {
     this.router.navigate(['users/user-list']).then();

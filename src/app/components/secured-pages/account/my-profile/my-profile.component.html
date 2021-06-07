@@ -4,7 +4,7 @@
     <div class="col-sm-6">
       <h1>
         <i class="fa fa-address-card"></i>
-        {{user.givenName}} {{user.surname}}
+        {{user.userGivenName}} {{user.userSurname}}
       </h1>
     </div>
     <div class="col-sm-6">
@@ -25,15 +25,15 @@
         <div class="card-body">
           <dl class="row">
             <dt class="col-sm-4">Username:</dt>
-            <dd class="col-sm-8">{{user.username}}</dd>
+            <dd class="col-sm-8">{{user.userUsername}}</dd>
           </dl>
           <dl class="row">
             <dt class="col-sm-4">Surname:</dt>
-            <dd class="col-sm-8">{{user.surname}}</dd>
+            <dd class="col-sm-8">{{user.userSurname}}</dd>
           </dl>
           <dl class="row">
             <dt class="col-sm-4">Given Name:</dt>
-            <dd class="col-sm-8">{{user.givenName}}</dd>
+            <dd class="col-sm-8">{{user.userGivenName}}</dd>
           </dl>
           <dl class="row">
             <dt class="col-sm-4">Roles:</dt>
@@ -139,9 +139,10 @@
 
       <div class="card">
         <div class="card-header">
-          <i class="fa fa-exchange"></i>Diagnostics
+          <i class="fa fa-exchange"></i>Access Control Diagnostics
         </div>
         <div class="card-body">
+
           <dl class="row">
             <dt class="col-sm-4">Open Access:</dt>
             <dd class="col-sm-8">
@@ -150,36 +151,185 @@
               {{openTestResult}}
             </dd>
           </dl>
+
           <dl class="row">
-            <dt class="col-sm-4">User Access:</dt>
+            <dt class="col-sm-4">Edit My Information:</dt>
             <dd class="col-sm-8">
               <i class="fa fa-close text-danger" *ngIf="userTestResult === 'Blocked'"></i>
               <i class="fa fa-check text-success" *ngIf="userTestResult !== 'Blocked'"></i>
               {{userTestResult}}
             </dd>
           </dl>
+
+          <br/>
+
           <dl class="row">
-            <dt class="col-sm-4">Manager Access:</dt>
+            <dt class="col-sm-4">Add Students:</dt>
             <dd class="col-sm-8">
-              <i class="fa fa-close text-danger" *ngIf="managerTestResult === 'Blocked'"></i>
-              <i class="fa fa-check text-success" *ngIf="managerTestResult !== 'Blocked'"></i>
-              {{managerTestResult}}
+              <i class="fa fa-close text-danger" *ngIf="userTestResult === 'Blocked'"></i>
+              <i class="fa fa-check text-success" *ngIf="userTestResult !== 'Blocked'"></i>
+              {{userTestResult}}
             </dd>
           </dl>
+
           <dl class="row">
-            <dt class="col-sm-4">Admin Access:</dt>
+            <dt class="col-sm-4">View All Students:</dt>
             <dd class="col-sm-8">
-              <i class="fa fa-close text-danger" *ngIf="adminTestResult === 'Blocked'"></i>
-              <i class="fa fa-check text-success" *ngIf="adminTestResult !== 'Blocked'"></i>
-              {{adminTestResult}}
+              <i class="fa fa-close text-danger" *ngIf="userTestResult === 'Blocked'"></i>
+              <i class="fa fa-check text-success" *ngIf="userTestResult !== 'Blocked'"></i>
+              {{userTestResult}}
             </dd>
           </dl>
+
           <dl class="row">
-            <dt class="col-sm-4">Developer Access:</dt>
+            <dt class="col-sm-4">Edit All Students:</dt>
             <dd class="col-sm-8">
-              <i class="fa fa-close text-danger" *ngIf="developerTestResult === 'Blocked'"></i>
-              <i class="fa fa-check text-success" *ngIf="developerTestResult !== 'Blocked'"></i>
-              {{developerTestResult}}
+              <i class="fa fa-close text-danger" *ngIf="userTestResult === 'Blocked'"></i>
+              <i class="fa fa-check text-success" *ngIf="userTestResult !== 'Blocked'"></i>
+              {{userTestResult}}
+            </dd>
+          </dl>
+
+          <dl class="row">
+            <dt class="col-sm-4">Edit Only My Students:</dt>
+            <dd class="col-sm-8">
+              <i class="fa fa-close text-danger" *ngIf="userTestResult === 'Blocked'"></i>
+              <i class="fa fa-check text-success" *ngIf="userTestResult !== 'Blocked'"></i>
+              {{userTestResult}}
+            </dd>
+          </dl>
+
+          <dl class="row">
+            <dt class="col-sm-4">Delete Students:</dt>
+            <dd class="col-sm-8">
+              <i class="fa fa-close text-danger" *ngIf="userTestResult === 'Blocked'"></i>
+              <i class="fa fa-check text-success" *ngIf="userTestResult !== 'Blocked'"></i>
+              {{userTestResult}}
+            </dd>
+          </dl>
+
+          <br/>
+
+          <dl class="row">
+            <dt class="col-sm-4">Add Caregiver:</dt>
+            <dd class="col-sm-8">
+              <i class="fa fa-close text-danger" *ngIf="userTestResult === 'Blocked'"></i>
+              <i class="fa fa-check text-success" *ngIf="userTestResult !== 'Blocked'"></i>
+              {{userTestResult}}
+            </dd>
+          </dl>
+
+          <dl class="row">
+            <dt class="col-sm-4">View All Caregivers:</dt>
+            <dd class="col-sm-8">
+              <i class="fa fa-close text-danger" *ngIf="userTestResult === 'Blocked'"></i>
+              <i class="fa fa-check text-success" *ngIf="userTestResult !== 'Blocked'"></i>
+              {{userTestResult}}
+            </dd>
+          </dl>
+
+          <dl class="row">
+            <dt class="col-sm-4">Edit All Caregivers:</dt>
+            <dd class="col-sm-8">
+              <i class="fa fa-close text-danger" *ngIf="userTestResult === 'Blocked'"></i>
+              <i class="fa fa-check text-success" *ngIf="userTestResult !== 'Blocked'"></i>
+              {{userTestResult}}
+            </dd>
+          </dl>
+
+          <dl class="row">
+            <dt class="col-sm-4">Edit Only My Caregivers:</dt>
+            <dd class="col-sm-8">
+              <i class="fa fa-close text-danger" *ngIf="userTestResult === 'Blocked'"></i>
+              <i class="fa fa-check text-success" *ngIf="userTestResult !== 'Blocked'"></i>
+              {{userTestResult}}
+            </dd>
+          </dl>
+
+          <dl class="row">
+            <dt class="col-sm-4">Delete Caregivers:</dt>
+            <dd class="col-sm-8">
+              <i class="fa fa-close text-danger" *ngIf="userTestResult === 'Blocked'"></i>
+              <i class="fa fa-check text-success" *ngIf="userTestResult !== 'Blocked'"></i>
+              {{userTestResult}}
+            </dd>
+          </dl>
+
+          <br/>
+
+          <dl class="row">
+            <dt class="col-sm-4">Add Case Manager:</dt>
+            <dd class="col-sm-8">
+              <i class="fa fa-close text-danger" *ngIf="userTestResult === 'Blocked'"></i>
+              <i class="fa fa-check text-success" *ngIf="userTestResult !== 'Blocked'"></i>
+              {{userTestResult}}
+            </dd>
+          </dl>
+
+          <dl class="row">
+            <dt class="col-sm-4">View All Case Mangers:</dt>
+            <dd class="col-sm-8">
+              <i class="fa fa-close text-danger" *ngIf="userTestResult === 'Blocked'"></i>
+              <i class="fa fa-check text-success" *ngIf="userTestResult !== 'Blocked'"></i>
+              {{userTestResult}}
+            </dd>
+          </dl>
+
+          <dl class="row">
+            <dt class="col-sm-4">Edit All Case Managers:</dt>
+            <dd class="col-sm-8">
+              <i class="fa fa-close text-danger" *ngIf="userTestResult === 'Blocked'"></i>
+              <i class="fa fa-check text-success" *ngIf="userTestResult !== 'Blocked'"></i>
+              {{userTestResult}}
+            </dd>
+          </dl>
+
+          <dl class="row">
+            <dt class="col-sm-4">Delete Case Managers:</dt>
+            <dd class="col-sm-8">
+              <i class="fa fa-close text-danger" *ngIf="userTestResult === 'Blocked'"></i>
+              <i class="fa fa-check text-success" *ngIf="userTestResult !== 'Blocked'"></i>
+              {{userTestResult}}
+            </dd>
+          </dl>
+
+          <br/>
+
+          <dl class="row">
+            <dt class="col-sm-4">View Reports:</dt>
+            <dd class="col-sm-8">
+              <i class="fa fa-close text-danger" *ngIf="userTestResult === 'Blocked'"></i>
+              <i class="fa fa-check text-success" *ngIf="userTestResult !== 'Blocked'"></i>
+              {{userTestResult}}
+            </dd>
+          </dl>
+
+          <dl class="row">
+            <dt class="col-sm-4">View and Edit Finance:</dt>
+            <dd class="col-sm-8">
+              <i class="fa fa-close text-danger" *ngIf="userTestResult === 'Blocked'"></i>
+              <i class="fa fa-check text-success" *ngIf="userTestResult !== 'Blocked'"></i>
+              {{userTestResult}}
+            </dd>
+          </dl>
+
+          <br/>
+
+          <dl class="row">
+            <dt class="col-sm-4">Manage Users:</dt>
+            <dd class="col-sm-8">
+              <i class="fa fa-close text-danger" *ngIf="userTestResult === 'Blocked'"></i>
+              <i class="fa fa-check text-success" *ngIf="userTestResult !== 'Blocked'"></i>
+              {{userTestResult}}
+            </dd>
+          </dl>
+
+          <dl class="row">
+            <dt class="col-sm-4">Admin:</dt>
+            <dd class="col-sm-8">
+              <i class="fa fa-close text-danger" *ngIf="userTestResult === 'Blocked'"></i>
+              <i class="fa fa-check text-success" *ngIf="userTestResult !== 'Blocked'"></i>
+              {{userTestResult}}
             </dd>
           </dl>
 

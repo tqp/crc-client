@@ -1,16 +1,3 @@
-.spinner-container {
-  background: transparent;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  box-shadow: none;
-}
-
-.role-cell-header {
-  width: 50px;
-  text-align: center;
-}
-
 .role-cell {
   width: 50px;
   text-align: center;

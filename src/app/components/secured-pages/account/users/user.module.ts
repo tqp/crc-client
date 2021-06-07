@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { UserListComponent } from './user-list/user-list.component';
 import { UserDetailComponent } from './user-detail/user-detail.component';
 import { UserDetailEditComponent } from './user-detail-edit/user-detail-edit.component';
 import { AngularMaterialModule } from '@tqp/modules/angular-material.module';
@@ -12,6 +11,8 @@ import { ListAddRemoveItemsBasicModule } from '@tqp/components/list-add-remove-i
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { UserRoutingModule } from './user-routing.module';
 import { UserDetailEditDialogComponent } from './user-detail-edit-dialog/user-detail-edit-dialog.component';
+import { UserListComponent } from './user-list/user-list.component';
+import { CollapseModule } from 'ngx-bootstrap/collapse';
 
 
 @NgModule({
@@ -25,6 +26,7 @@ import { UserDetailEditDialogComponent } from './user-detail-edit-dialog/user-de
     CommonModule,
     AngularMaterialModule,
     ChartsModule,
+    CollapseModule.forRoot(),
     FormsModule,
     ReactiveFormsModule,
     BsDatepickerModule.forRoot(),

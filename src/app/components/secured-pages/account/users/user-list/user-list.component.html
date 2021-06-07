@@ -1,167 +1,132 @@
-<div class="tqp-crud-list animated fadeIn">
+<div class="tqp-crud-list table-container animated fadeIn">
 
-  <div class="card">
+  <div class="card" [hidden]="isLoading || error">
 
     <div class="card-header">
-      <div class="float-left" style="line-height: 28px;">
-        <i class="fa fa-users mr-2"></i>
-        User List
-        <span class="badge badge-info ml-2" *ngIf="loadedFirstPage">
-          Displaying {{pageStart}} to {{pageEnd}} of {{totalRecords}} records</span>
-        <span class="badge badge-warning ml-2" style="cursor: pointer" *ngIf="isFilterApplied" (click)="clearFilters()">Clear Filters</span>
+
+      <div class="float-left" style="width: 40%;">
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <div class="input-group-text"><i class="fa fa-search"></i></div>
+          </div>
+          <label for="nameSearchFieldId" *ngIf="false"></label>
+          <input id="nameSearchFieldId" type="text" class="form-control" placeholder="Search by User"
+                 [formControl]="searchFormControl" #searchElementRef autocomplete="off"/>
+          <div class="input-group-append">
+            <div class="input-group-text btn btn-dark" (click)="clearFilters()"><i class="fa fa-times"></i></div>
+          </div>
+        </div>
       </div>
-      <button class="btn btn-sm btn-outline-primary float-right" (click)="openUserCreateDialog()"
-              [hidden]="authService.hiddenBasedOnRoles('ROLE_CREATE, ROLE_ADMIN', 'Create New User')">
-        <i class="fa fa-plus mr-1"></i>
-        Create New User
-      </button>
+
+      <div class="col-md-4 float-right">
+        <button class="btn btn-sm btn-outline-primary float-right" (click)="openUserCreateDialog()"
+                [hidden]="authService.hiddenBasedOnRoles('ROLE_ADD_STUDENTS', 'Create Student')">
+          <i class="fa fa-plus mr-1"></i>
+          Create New Student
+        </button>
+      </div>
+
     </div>
 
     <div class="card-body">
 
-      <div class="row mb-3">
+      <table mat-table [dataSource]="userListDataSource" class="table table-striped"
+             matSort matSortActive="userName" matSortDirection="asc" matSortDisableClear="true">
 
-        <div class="col-md-5">
-          <mat-paginator class="paginator"
-                         [length]="totalRecords" [pageSize]="pageSize" [hidePageSize]="true"
-                         [showFirstLastButtons]="true"></mat-paginator>
-        </div>
+        <ng-container matColumnDef="userName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+          <td mat-cell *matCellDef="let row">
+            <a [routerLink]="['/users/user-detail', row.userId]">
+              {{row.userName}}
+            </a>
+          </td>
+        </ng-container>
 
-        <div class="col-md-5 offset-md-7">
+        <ng-container matColumnDef="userUsername">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Username</th>
+          <td mat-cell *matCellDef="let row">{{row.userUsername}}</td>
+        </ng-container>
 
-          <div class="input-group">
+        <ng-container matColumnDef="lastLogin">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Last Login</th>
+          <td mat-cell *matCellDef="let row">
+            <span *ngIf="row.lastLogin; else neverLoggedOn;">{{row.lastLogin | date:'dd-MMM-yyyy h:mm:ss a'}}</span>
+            <ng-template #neverLoggedOn>
+              <span class="text-danger">Never Logged In</span>
+            </ng-template>
+          </td>
+        </ng-container>
 
-            <div class="input-group-prepend">
-              <div class="input-group-text"><i class="fa fa-search"></i></div>
-            </div>
-            <label for="nameSearchFieldId" *ngIf="false"></label>
-            <input id="nameSearchFieldId" type="text" class="form-control" placeholder="Search Users"
-                   [formControl]="userListNameSearchFormControl" #nameSearchElementRef autocomplete="off"/>
-            <span class="input-group-append">
-              <button class="btn btn-secondary" type="button" (click)="clearSearch()">
-                <i class="fa fa-times"></i>
-              </button>
-            </span>
-          </div>
+        <ng-container matColumnDef="director">
+          <th mat-header-cell *matHeaderCellDef matTooltip="Director" class="role-cell-header">DIR</th>
+          <td mat-cell *matCellDef="let row" class="role-cell">
+            <i class="fa fa-check-square" *ngIf="row.positionId == 3"></i>
+          </td>
+        </ng-container>
 
-        </div>
+        <ng-container matColumnDef="m&e">
+          <th mat-header-cell *matHeaderCellDef matTooltip="M&E" class="role-cell-header">M&E</th>
+          <td mat-cell *matCellDef="let row" class="role-cell">
+            <i class="fa fa-check-square" *ngIf="row.positionId == 6"></i>
+          </td>
+        </ng-container>
 
+        <ng-container matColumnDef="leadCaseManager">
+          <th mat-header-cell *matHeaderCellDef matTooltip="Lead Case Manager" class="role-cell-header">LCM</th>
+          <td mat-cell *matCellDef="let row" class="role-cell">
+            <i class="fa fa-check-square" *ngIf="row.positionId == 7"></i>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="caseManager">
+          <th mat-header-cell *matHeaderCellDef matTooltip="Case Manager" class="role-cell-header">CM</th>
+          <td mat-cell *matCellDef="let row" class="role-cell">
+            <i class="fa fa-check-square" *ngIf="row.positionId == 4"></i>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="hcwCrcStaff">
+          <th mat-header-cell *matHeaderCellDef matTooltip="HCW/CRC Staff" class="role-cell-header">CRC</th>
+          <td mat-cell *matCellDef="let row" class="role-cell">
+            <i class="fa fa-check-square" *ngIf="row.positionId == 1"></i>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="custom">
+          <th mat-header-cell *matHeaderCellDef matTooltip="Custom" class="role-cell-header">Cust.</th>
+          <td mat-cell *matCellDef="let row" class="role-cell">
+            <i class="fa fa-check-square" *ngIf="row.positionId == 5"></i>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="loginCount">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Login Count</th>
+          <td mat-cell *matCellDef="let row">{{row.loginCount}}</td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="getDisplayedColumns()"></tr>
+        <tr mat-row *matRowDef="let row; columns: getDisplayedColumns();"></tr>
+
+      </table>
+
+      <div class="no-records"
+           *ngIf="userListDataSource == null || (userListDataSource && userListDataSource.length <= 0)">
+        No Records Found
       </div>
 
-      <div class="table-container" #tableContainer>
+    </div>
 
-        <table mat-table [dataSource]="dataSource"
-               matSort matSortActive="name" matSortDirection="asc" matSortDisableClear="true"
-               class="table table-striped">
+  </div>
 
-          <ng-container matColumnDef="userId">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>User ID</th>
-            <td mat-cell *matCellDef="let row">{{row.userId}}</td>
-          </ng-container>
+  <div *ngIf="error">
+    {{error}}
+  </div>
 
-          <ng-container matColumnDef="name">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
-            <td mat-cell *matCellDef="let row">
-              <!-- This hidden span is to allow the 'name' column to be sorted by surname, given name. -->
-              <span [hidden]=true>{{row.surname | lowercase}}{{row.givenName | lowercase}}</span>
-              {{row.givenName}} {{row.surname}}
-            </td>
-          </ng-container>
-
-          <ng-container matColumnDef="surname">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Last Name</th>
-            <td mat-cell *matCellDef="let row">{{row.surname}}</td>
-          </ng-container>
-
-          <ng-container matColumnDef="givenName">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>First Name</th>
-            <td mat-cell *matCellDef="let row">{{row.givenName}}</td>
-          </ng-container>
-
-          <ng-container matColumnDef="username">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Username</th>
-            <td mat-cell *matCellDef="let row">{{row.username}}</td>
-          </ng-container>
-
-          <ng-container matColumnDef="roleView">
-            <th mat-header-cell *matHeaderCellDef matTooltip="View All Records" class="role-cell-header">View</th>
-            <td mat-cell *matCellDef="let row" class="role-cell">
-              <i class="fa fa-check-square" *ngIf="row.roleView == 1"></i>
-            </td>
-          </ng-container>
-
-          <ng-container matColumnDef="roleCreate">
-            <th mat-header-cell *matHeaderCellDef matTooltip="Add Records" class="role-cell-header">Add</th>
-            <td mat-cell *matCellDef="let row" class="role-cell">
-              <i class="fa fa-check-square" *ngIf="row.roleCreate == 1"></i>
-            </td>
-          </ng-container>
-
-          <ng-container matColumnDef="roleEdit">
-            <th mat-header-cell *matHeaderCellDef matTooltip="Edit Records" class="role-cell-header">Edit</th>
-            <td mat-cell *matCellDef="let row" class="role-cell">
-              <i class="fa fa-check-square" *ngIf="row.roleEdit == 1"></i>
-            </td>
-          </ng-container>
-
-          <ng-container matColumnDef="roleCaseManager">
-            <th mat-header-cell *matHeaderCellDef matTooltip="View My Case Manager Records" class="role-cell-header">CM</th>
-            <td mat-cell *matCellDef="let row" class="role-cell">
-              <i class="fa fa-check-square" *ngIf="row.roleCaseManager == 1"></i>
-            </td>
-          </ng-container>
-
-          <ng-container matColumnDef="roleReports">
-            <th mat-header-cell *matHeaderCellDef matTooltip="View Reports" class="role-cell-header">Rep</th>
-            <td mat-cell *matCellDef="let row" class="role-cell">
-              <i class="fa fa-check-square" *ngIf="row.roleReports == 1"></i>
-            </td>
-          </ng-container>
-
-          <ng-container matColumnDef="roleFinance">
-            <th mat-header-cell *matHeaderCellDef matTooltip="View & Edit Finance" class="role-cell-header">Fin</th>
-            <td mat-cell *matCellDef="let row" class="role-cell">
-              <i class="fa fa-check-square" *ngIf="row.roleFinance == 1"></i>
-            </td>
-          </ng-container>
-
-          <ng-container matColumnDef="roleManager">
-            <th mat-header-cell *matHeaderCellDef matTooltip="Manage App Users" class="role-cell-header">App</th>
-            <td mat-cell *matCellDef="let row" class="role-cell">
-              <i class="fa fa-star" *ngIf="row.roleManager == 1"></i>
-            </td>
-          </ng-container>
-
-          <ng-container matColumnDef="lastLogin">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Last Login</th>
-            <td mat-cell *matCellDef="let row">
-              <span *ngIf="row.lastLogin; else neverLoggedOn;">{{row.lastLogin | date:'dd-MMM-yyyy h:mm:ss a'}}</span>
-              <ng-template #neverLoggedOn>
-                <span class="text-danger">Never Logged In</span>
-              </ng-template>
-            </td>
-          </ng-container>
-
-          <ng-container matColumnDef="loginCount">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Login Count</th>
-            <td mat-cell *matCellDef="let row">{{row.loginCount}}</td>
-          </ng-container>
-
-          <tr mat-header-row *matHeaderRowDef="getDisplayedColumns(); sticky: true"></tr>
-          <tr mat-row *matRowDef="let row; columns: getDisplayedColumns();" (click)="openDetailPage(row);"></tr>
-        </table>
-
-        <mat-card class="spinner-container" *ngIf="isLoading">
-          <mat-progress-spinner
-            color="primary"
-            mode="indeterminate">
-          </mat-progress-spinner>
-        </mat-card>
-
-      </div>
-
+  <div *ngIf="isLoading && !error">
+    <div class="spinner-container">
+      <mat-progress-spinner mode="indeterminate">
+      </mat-progress-spinner>
     </div>
   </div>
 
 </div>
-

@@ -112,7 +112,7 @@
                     <div class="radio form-check" *ngFor="let position of positionList; let i = index">
                       <input class="form-check-input" type="radio"
                              id="radio{{i}}" [value]="position.positionId" checked
-                             formControlName="position"
+                             formControlName="positionId"
                              (change)="radioButtonChanged($event, position)">
                       <label class="form-check-label" for="radio{{i}}">
                         {{position.positionName}}

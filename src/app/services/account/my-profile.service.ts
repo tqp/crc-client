@@ -21,7 +21,7 @@ export class MyProfileService {
   }
 
   public getMyUserInfo(): Observable<User> {
-    const user_url = environment.apiUrl + '/api/v1/my-profile/';
+    const user_url = environment.apiUrl + '/api/v1/my-profile';
     const token = this.tokenService.getToken();
     if (token) {
       return this.http.get<User>(user_url, {

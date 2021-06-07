@@ -10,6 +10,7 @@ import { TokenService } from '@tqp/services/token.service';
 import { User } from '../../models/User';
 import { Role } from '../../components/secured-pages/account/roles/Role';
 import { Router } from '@angular/router';
+import { Student } from '../../models/people/student.model';
 
 @Injectable({
   providedIn: 'root'
@@ -34,6 +35,26 @@ export class UserService {
           observe: 'response',
           params: {}
         })
+        .pipe(
+          map(res => {
+            return res.body;
+          })
+        );
+    } else {
+      console.error('No token was present.');
+      return null;
+    }
+  }
+
+  public getUserList(): Observable<User[]> {
+    const url = environment.apiUrl + '/api/v1/user';
+    const token = this.tokenService.getToken();
+    if (token) {
+      return this.http.get<User[]>(url, {
+        headers: this.httpService.setHeadersWithToken(),
+        observe: 'response',
+        params: {}
+      })
         .pipe(
           map(res => {
             return res.body;
