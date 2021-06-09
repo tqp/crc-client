@@ -25,7 +25,7 @@
           Payment Information
           <i *ngIf="paymentLoading" class="fa fa-spinner fa-spin"></i>
           <div class="card-header-actions"
-               [hidden]="authService.hiddenBasedOnRoles('ROLE_EDIT, ROLE_ADMIN', 'Edit Payment Info')">
+               [hidden]="authService.hiddenBasedOnRoles('ROLE_ADMIN', 'Edit Payment Info')">
             <small class="tqp-nav-link" (click)="openEditPage();">Edit Payment Info</small>
           </div>
         </div>

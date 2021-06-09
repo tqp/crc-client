@@ -5,7 +5,6 @@ import { AngularMaterialModule } from '../../modules/angular-material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { CaseManagerRoutingModule } from '../../../app/components/secured-pages/people/case-managers/case-manager-routing.module';
 
 
 @NgModule({
@@ -18,8 +17,7 @@ import { CaseManagerRoutingModule } from '../../../app/components/secured-pages/
     FormsModule,
     ReactiveFormsModule,
     RouterModule,
-    FlexLayoutModule,
-    CaseManagerRoutingModule
+    FlexLayoutModule
   ]
 })
 export class ConfirmDialogModule {

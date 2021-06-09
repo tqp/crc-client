@@ -13,6 +13,13 @@ const routes: Routes = [
     },
     children: [
       {
+        path: 'user-create',
+        component: UserDetailComponent,
+        data: {
+          title: 'Add User'
+        }
+      },
+      {
         path: '',
         redirectTo: 'user-list',
         pathMatch: 'full'

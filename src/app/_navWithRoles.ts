@@ -17,7 +17,7 @@ export const navItemsWithRoles: INavDataTqp[] = [
     name: 'My Students',
     url: '/students/student-list-by-case-manager',
     icon: 'fa fa-graduation-cap',
-    allow: 'ROLE_EDIT_ONLY_THEIR_STUDENTS'
+    allow: 'ROLE_EDIT_MY_STUDENTS'
   },
   {
     name: 'Students',
@@ -29,7 +29,7 @@ export const navItemsWithRoles: INavDataTqp[] = [
     name: 'All Students',
     url: '/students/student-list',
     icon: 'fa fa-graduation-cap',
-    allow: 'ROLE_ADMIN, ROLE_CASE_MANAGER'
+    allow: 'ROLE_EDIT_MY_STUDENTS'
   },
   {
     name: 'Case Managers',
@@ -196,13 +196,13 @@ export const navItemsWithRoles: INavDataTqp[] = [
   {
     title: true,
     name: 'Account',
-    allow: 'ROLE_ADMIN, ROLE_EDIT_YOUR_OWN_PERSONAL_INFORMATION'
+    allow: 'ROLE_ADMIN, ROLE_EDIT_MY_PROFILE'
   },
   {
     name: 'My Profile',
     url: '/account/my-profile',
     icon: 'fa fa-address-card',
-    allow: 'ROLE_ADMIN, ROLE_EDIT_YOUR_OWN_PERSONAL_INFORMATION'
+    allow: 'ROLE_ADMIN, ROLE_EDIT_MY_PROFILE'
   },
   {
     name: 'User List',
@@ -214,7 +214,7 @@ export const navItemsWithRoles: INavDataTqp[] = [
     name: 'Logout',
     url: '/logout',
     icon: 'fa fa-sign-out',
-    allow: 'ROLE_ADMIN, ROLE_EDIT_YOUR_OWN_PERSONAL_INFORMATION'
+    allow: 'ROLE_ADMIN, ROLE_EDIT_MY_PROFILE'
   }
 
 ];

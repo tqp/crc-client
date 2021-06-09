@@ -86,7 +86,7 @@ export class StudentCaseManagerEditDialogComponent implements OnInit {
   private getCaseManagerList(excludeId: number): void {
     this.caseManagerService.getCaseManagerList().subscribe(
       (response: CaseManager[]) => {
-        // console.log('caseManagerList', response);
+        console.log('caseManagerList', response);
         this.caseManagerList = response;
         this.caseManagerList = this.caseManagerList.filter(item => {
           return item.caseManagerUserId !== excludeId;

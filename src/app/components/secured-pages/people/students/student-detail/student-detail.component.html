@@ -30,7 +30,7 @@
           <i *ngIf="studentLoading" class="fa fa-spinner fa-spin"></i>
           <div class="card-header-actions"
                [hidden]="authService.hiddenBasedOnRolesOrCaseManagerOwner(
-               'ROLE_EDIT_ALL_STUDENTS', caseManagerOwner,'Edit Student Info')">
+               'ROLE_ADMIN, ROLE_EDIT_ALL_STUDENTS', caseManagerOwner,'Edit Student Info')">
             <small class="tqp-nav-link" (click)="openStudentEditPage();">Edit Student Info</small>
           </div>
         </div>
@@ -81,7 +81,7 @@
           <i *ngIf="programStatusLoading" class="fa fa-spinner fa-spin"></i>
           <div class="card-header-actions"
                [hidden]="authService.hiddenBasedOnRolesOrCaseManagerOwner(
-               'ROLE_EDIT_ALL_STUDENTS', caseManagerOwner,  'Set Program Status')">
+               'ROLE_ADMIN, ROLE_EDIT_ALL_STUDENTS', caseManagerOwner,  'Set Program Status')">
             <small class="tqp-nav-link" (click)="openStudentProgramStatusCreateDialog(null);">Set Program Status</small>
           </div>
         </div>
@@ -121,7 +121,7 @@
           <i *ngIf="caseManagerLoading" class="fa fa-spinner fa-spin"></i>
           <div class="card-header-actions"
                [hidden]="authService.hiddenBasedOnRolesOrCaseManagerOwner(
-               'ROLE_EDIT_ALL_STUDENTS', caseManagerOwner,  'Assign Case Manager')">
+               'ROLE_ADMIN, ROLE_EDIT_ALL_STUDENTS', caseManagerOwner,  'Assign Case Manager')">
             <small class="tqp-nav-link"
                    (click)="openStudentCaseManagerCreateDialog(null, caseManager.caseManagerUserId);">
               Assign Case Manager
@@ -158,7 +158,7 @@
           <i *ngIf="caregiverLoading" class="fa fa-spinner fa-spin"></i>
           <div class="card-header-actions"
                [hidden]="authService.hiddenBasedOnRolesOrCaseManagerOwner(
-               'ROLE_EDIT_ALL_STUDENTS', caseManagerOwner,  'Assign Caregiver')">
+               'ROLE_ADMIN, ROLE_EDIT_ALL_STUDENTS', caseManagerOwner,  'Assign Caregiver')">
             <small class="tqp-nav-link" (click)="openStudentCaregiverCreateDialog(null, caregiver.caregiverId);">Assign
               Caregiver</small>
           </div>
@@ -212,7 +212,7 @@
           <i *ngIf="sponsorLoading" class="fa fa-spinner fa-spin"></i>
           <div class="card-header-actions"
                [hidden]="authService.hiddenBasedOnRolesOrCaseManagerOwner(
-               'ROLE_EDIT_ALL_STUDENTS', caseManagerOwner,  'Assign Sponsor')">
+               'ROLE_ADMIN, ROLE_EDIT_ALL_STUDENTS', caseManagerOwner,  'Assign Sponsor')">
             <small class="tqp-nav-link" (click)="openStudentSponsorCreateDialog(null, sponsor.sponsorId);">Assign
               Sponsor</small>
           </div>
@@ -269,7 +269,7 @@
           CSI Records<span class="badge badge-secondary ml-2">{{csiListDataSource.length}}</span>
           <div class="card-header-actions">
             <small class="tqp-nav-link"
-                   [hidden]="authService.hiddenBasedOnRolesOrCaseManagerOwner('ROLE_CASE_MANAGER_OWNER, ROLE_ADMIN', caseManagerOwner,'Add CSI Record')"
+                   [hidden]="authService.hiddenBasedOnRolesOrCaseManagerOwner('ROLE_ADMIN, ROLE_CASE_MANAGER_OWNER', caseManagerOwner,'Add CSI Record')"
                    (click)=" openCsiCreatePage();">
               Add CSI Record
             </small>
@@ -319,7 +319,7 @@
           Student Visits<span class="badge badge-secondary ml-2">{{visitListDataSource.length}}</span>
           <div class="card-header-actions">
             <small class="tqp-nav-link"
-                   [hidden]="authService.hiddenBasedOnRolesOrCaseManagerOwner('ROLE_CASE_MANAGER_OWNER, ROLE_ADMIN', caseManagerOwner,'Add CSI Record')"
+                   [hidden]="authService.hiddenBasedOnRolesOrCaseManagerOwner('ROLE_ADMIN, ROLE_CASE_MANAGER_OWNER', caseManagerOwner,'Add CSI Record')"
                    (click)="openVisitCreateDialog(this.student.studentId);">
               Add Student Visit
             </small>
@@ -382,7 +382,7 @@
           Post-Graduate Events<span class="badge badge-secondary ml-2">{{postGradEventListDataSource.length}}</span>
           <div class="card-header-actions">
             <small class="tqp-nav-link"
-                   [hidden]="authService.hiddenBasedOnRolesOrCaseManagerOwner('ROLE_EDIT, ROLE_ADMIN', caseManagerOwner,'Add Post-Graduate Event')"
+                   [hidden]="authService.hiddenBasedOnRolesOrCaseManagerOwner('ROLE_ADMIN', caseManagerOwner,'Add Post-Graduate Event')"
                    (click)="openPostGradEventCreateDialog(null);">
               Add Post-Graduate Event
             </small>
@@ -516,7 +516,7 @@
                 <th mat-header-cell *matHeaderCellDef>Date</th>
                 <td mat-cell *matCellDef="let row">
                   <ng-container
-                    *ngIf="!authService.hiddenBasedOnRoles('ROLE_EDIT, ROLE_ADMIN', 'Add Post-Graduate Event'); else justDate;">
+                    *ngIf="!authService.hiddenBasedOnRoles('ROLE_ADMIN', 'Add Post-Graduate Event'); else justDate;">
                     <a class="tqp-nav-link" (click)="openEntityEditDialog(row.entityTypeId, row.relationshipId, null)">
                       {{row.startDate | date: 'dd-MMM-yyyy'}}
                     </a>

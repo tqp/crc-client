@@ -20,9 +20,9 @@
 
       <div class="col-md-4 float-right">
         <button class="btn btn-sm btn-outline-primary float-right" (click)="openCreateCaregiverPage()"
-                [hidden]="authService.hiddenBasedOnRoles('ROLE_ADD_CAREGIVER', 'Create Caregiver')">
+                [hidden]="authService.hiddenBasedOnRoles('ROLE_ADMIN, ROLE_ADD_CAREGIVER', 'Create Caregiver')">
           <i class="fa fa-plus mr-1"></i>
-          Create New Caregiver
+          Add Caregiver
         </button>
       </div>
 

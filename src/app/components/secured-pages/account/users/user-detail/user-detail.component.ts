@@ -39,7 +39,6 @@ export class UserDetailComponent implements OnInit {
               private userService: UserService,
               private roleService: RoleService,
               public authService: AuthService,
-              private tokenService: TokenService,
               public _matDialog: MatDialog) {
   }
 

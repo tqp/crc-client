@@ -11,7 +11,7 @@
         <span class="badge badge-warning ml-2" style="cursor: pointer" *ngIf="isFilterApplied" (click)="clearFilters()">Clear Filters</span>
       </div>
       <button class="btn btn-sm btn-outline-primary float-right" (click)="openCreateSponsorPage()"
-              [hidden]="authService.hiddenBasedOnRoles('ROLE_CREATE, ROLE_ADMIN', 'Create Sponsor')">
+              [hidden]="authService.hiddenBasedOnRoles('ROLE_ADMIN', 'Create Sponsor')">
         <i class="fa fa-plus mr-1"></i>
         Create Sponsor
       </button>

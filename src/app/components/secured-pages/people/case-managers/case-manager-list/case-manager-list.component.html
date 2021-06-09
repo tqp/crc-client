@@ -20,9 +20,9 @@
 
       <div class="col-md-4 float-right">
         <button class="btn btn-sm btn-outline-primary float-right" (click)="openCreateCaseManagerPage()"
-                [hidden]="authService.hiddenBasedOnRoles('ROLE_CREATE, ROLE_ADMIN', 'Create Case Manager')">
+                [hidden]="authService.hiddenBasedOnRoles('ROLE_ADMIN', 'Create Case Manager')">
           <i class="fa fa-plus mr-1"></i>
-          Create New Case Manager
+          Add Case Manager
         </button>
       </div>
 
