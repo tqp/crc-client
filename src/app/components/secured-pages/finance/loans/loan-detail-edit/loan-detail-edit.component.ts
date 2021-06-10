@@ -13,7 +13,7 @@ import { LoanService } from '../../../../../services/finance/loan.service';
   encapsulation: ViewEncapsulation.None
 })
 export class LoanDetailEditComponent implements OnInit {
-  @ViewChild('loanSurnameInputField', {static: false}) loanSurnameInputField: ElementRef;
+  @ViewChild('defaultInputField', {static: false}) defaultInputField: ElementRef;
   public pageSource: string;
   public newRecord: boolean;
   public loan: Loan;
@@ -50,7 +50,7 @@ export class LoanDetailEditComponent implements OnInit {
         this.loan = new Loan();
         this.loan.loanId = null;
         setTimeout(() => {
-          this.loanSurnameInputField.nativeElement.focus();
+          this.defaultInputField.nativeElement.focus();
         }, 0);
       }
     }).then();

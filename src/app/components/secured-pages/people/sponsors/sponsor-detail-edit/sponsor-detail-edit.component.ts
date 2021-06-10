@@ -12,7 +12,7 @@ import { SponsorService } from '../../../../../services/people/sponsor.service';
   styleUrls: ['./sponsor-detail-edit.component.css']
 })
 export class SponsorDetailEditComponent implements OnInit {
-  @ViewChild('sponsorSurnameInputField', {static: false}) sponsorSurnameInputField: ElementRef;
+  @ViewChild('defaultInputField', {static: false}) defaultInputField: ElementRef;
   public pageSource: string;
   public newRecord: boolean;
   public sponsor: Sponsor;
@@ -45,12 +45,12 @@ export class SponsorDetailEditComponent implements OnInit {
         // console.log('sponsorId', sponsorId);
         this.getSponsorDetail(sponsorId);
       } else {
-        // Create new Person
+        // Create New Record
         this.newRecord = true;
         this.sponsor = new Sponsor();
         this.sponsor.sponsorId = null;
         setTimeout(() => {
-          this.sponsorSurnameInputField.nativeElement.focus();
+          this.defaultInputField.nativeElement.focus();
         }, 0);
       }
     }).then();

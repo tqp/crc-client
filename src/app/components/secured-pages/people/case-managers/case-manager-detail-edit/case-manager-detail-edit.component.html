@@ -23,7 +23,6 @@
           </div>
           <div class="card-body">
 
-            <!--
             <div class="row">
               <div class="col-sm-12">
                 <div class="form-group">
@@ -41,40 +40,18 @@
                 </div>
               </div>
             </div>
-            -->
-
-            <!--
-            <div class="row">
-              <div class="col-sm-12">
-                <div class="form-group">
-                  <label for="userId">User ID*</label>
-                  <input matInput id="userId" type="text" class="form-control" placeholder="User ID"
-                         formControlName="userId" autocomplete="chrome-off">
-                  <mat-error *ngFor="let validation of validationMessages.userId">
-                    <mat-error class="error-message"
-                               *ngIf="caseManagerEditForm.get('userId').hasError(validation.type)
-                                && (caseManagerEditForm.get('userId').dirty ||
-                                caseManagerEditForm.get('userId').touched)">
-                      {{validation.message}}
-                    </mat-error>
-                  </mat-error>
-                </div>
-              </div>
-            </div>
-            -->
 
             <div class="row">
               <div class="col-sm-12">
                 <div class="form-group">
-                  <label for="caseManagerSurname">Surname*</label>
-                  <input matInput id="caseManagerSurname" #caseManagerSurnameInputField type="text" class="form-control"
-                         placeholder="Surname"
-                         formControlName="caseManagerSurname" autocomplete="chrome-off">
-                  <mat-error *ngFor="let validation of validationMessages.caseManagerSurname">
+                  <label for="caseManagerUserId">User ID*</label>
+                  <input matInput id="caseManagerUserId" type="text" class="form-control" placeholder="User ID"
+                         formControlName="caseManagerUserId" autocomplete="chrome-off">
+                  <mat-error *ngFor="let validation of validationMessages.caseManagerUserId">
                     <mat-error class="error-message"
-                               *ngIf="caseManagerEditForm.get('caseManagerSurname').hasError(validation.type)
-                                && (caseManagerEditForm.get('caseManagerSurname').dirty ||
-                                caseManagerEditForm.get('caseManagerSurname').touched)">
+                               *ngIf="caseManagerEditForm.get('caseManagerUserId').hasError(validation.type)
+                                && (caseManagerEditForm.get('caseManagerUserId').dirty ||
+                                caseManagerEditForm.get('caseManagerUserId').touched)">
                       {{validation.message}}
                     </mat-error>
                   </mat-error>
@@ -85,7 +62,7 @@
             <div class="row">
               <div class="col-sm-12">
                 <div class="form-group">
-                  <label for="caseManagerGivenName">Given Name*</label>
+                  <label for="caseManagerGivenName">First Name*</label>
                   <input matInput id="caseManagerGivenName" type="text" class="form-control" placeholder="Given Name"
                          formControlName="caseManagerGivenName">
                   <mat-error *ngFor="let validation of validationMessages.caseManagerGivenName">
@@ -93,6 +70,25 @@
                                *ngIf="caseManagerEditForm.get('caseManagerGivenName').hasError(validation.type)
                                 && (caseManagerEditForm.get('caseManagerGivenName').dirty ||
                                 caseManagerEditForm.get('caseManagerGivenName').touched)">
+                      {{validation.message}}
+                    </mat-error>
+                  </mat-error>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="caseManagerSurname">Last Name*</label>
+                  <input matInput id="caseManagerSurname" #defaultInputField type="text" class="form-control"
+                         placeholder="Surname"
+                         formControlName="caseManagerSurname" autocomplete="chrome-off">
+                  <mat-error *ngFor="let validation of validationMessages.caseManagerSurname">
+                    <mat-error class="error-message"
+                               *ngIf="caseManagerEditForm.get('caseManagerSurname').hasError(validation.type)
+                                && (caseManagerEditForm.get('caseManagerSurname').dirty ||
+                                caseManagerEditForm.get('caseManagerSurname').touched)">
                       {{validation.message}}
                     </mat-error>
                   </mat-error>

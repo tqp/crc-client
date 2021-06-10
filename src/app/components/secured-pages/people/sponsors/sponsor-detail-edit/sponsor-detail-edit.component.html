@@ -11,7 +11,7 @@
         <ng-template #notShow>
           <h1>
             <i class="fa fa-handshake-o"></i>
-            {{sponsorEditForm.controls['sponsorSurname'].value}}, {{sponsorEditForm.controls['sponsorGivenName'].value}}
+            {{sponsorEditForm.controls['sponsorGivenName'].value}} {{sponsorEditForm.controls['sponsorSurname'].value}}
           </h1>
         </ng-template>
       </div>
@@ -31,14 +31,14 @@
             <div class="row">
               <div class="col-sm-12">
                 <div class="form-group">
-                  <label for="sponsorSurname">Surname*</label>
-                  <input matInput id="sponsorSurname" #sponsorSurnameInputField type="text" class="form-control" placeholder="Surname"
-                         formControlName="sponsorSurname" autocomplete="chrome-off">
-                  <mat-error *ngFor="let validation of validationMessages.sponsorSurname">
+                  <label for="sponsorGivenName">Given Name*</label>
+                  <input matInput id="sponsorGivenName" #defaultInputField type="text" class="form-control" placeholder="Given Name"
+                         formControlName="sponsorGivenName">
+                  <mat-error *ngFor="let validation of validationMessages.sponsorGivenName">
                     <mat-error class="error-message"
-                               *ngIf="sponsorEditForm.get('sponsorSurname').hasError(validation.type)
-                                && (sponsorEditForm.get('sponsorSurname').dirty ||
-                                sponsorEditForm.get('sponsorSurname').touched)">
+                               *ngIf="sponsorEditForm.get('sponsorGivenName').hasError(validation.type)
+                                && (sponsorEditForm.get('sponsorGivenName').dirty ||
+                                sponsorEditForm.get('sponsorGivenName').touched)">
                       {{validation.message}}
                     </mat-error>
                   </mat-error>
@@ -49,14 +49,14 @@
             <div class="row">
               <div class="col-sm-12">
                 <div class="form-group">
-                  <label for="sponsorGivenName">Given Name*</label>
-                  <input matInput id="sponsorGivenName" type="text" class="form-control" placeholder="Given Name"
-                         formControlName="sponsorGivenName">
-                  <mat-error *ngFor="let validation of validationMessages.sponsorGivenName">
+                  <label for="sponsorSurname">Surname*</label>
+                  <input matInput id="sponsorSurname" type="text" class="form-control" placeholder="Surname"
+                         formControlName="sponsorSurname" autocomplete="chrome-off">
+                  <mat-error *ngFor="let validation of validationMessages.sponsorSurname">
                     <mat-error class="error-message"
-                               *ngIf="sponsorEditForm.get('sponsorGivenName').hasError(validation.type)
-                                && (sponsorEditForm.get('sponsorGivenName').dirty ||
-                                sponsorEditForm.get('sponsorGivenName').touched)">
+                               *ngIf="sponsorEditForm.get('sponsorSurname').hasError(validation.type)
+                                && (sponsorEditForm.get('sponsorSurname').dirty ||
+                                sponsorEditForm.get('sponsorSurname').touched)">
                       {{validation.message}}
                     </mat-error>
                   </mat-error>

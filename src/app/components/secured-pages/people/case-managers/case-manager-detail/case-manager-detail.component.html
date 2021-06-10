@@ -136,7 +136,7 @@
                 </td>
               </ng-container>
 
-              <tr mat-header-row *matHeaderRowDef="csiListDisplayedColumns; sticky: true" [hidden]="false"></tr>
+              <tr mat-header-row *matHeaderRowDef="csiListDisplayedColumns; sticky: true" [hidden]="true"></tr>
               <tr mat-row *matRowDef="let row; columns: csiListDisplayedColumns;"></tr>
             </table>
 
@@ -197,8 +197,7 @@
                 </td>
               </ng-container>
 
-              <tr mat-header-row *matHeaderRowDef="qualificationListDisplayedColumns; sticky: true"
-                  [hidden]="false"></tr>
+              <tr mat-header-row *matHeaderRowDef="qualificationListDisplayedColumns; sticky: true" [hidden]="true"></tr>
               <tr mat-row *matRowDef="let row; columns: qualificationListDisplayedColumns;"></tr>
             </table>
 

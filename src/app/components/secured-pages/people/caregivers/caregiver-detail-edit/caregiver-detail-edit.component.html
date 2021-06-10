@@ -11,7 +11,7 @@
         <ng-template #notShow>
           <h1>
             <i class="fa fa-heartbeat"></i>
-            {{caregiverEditForm.controls['caregiverSurname'].value}}, {{caregiverEditForm.controls['caregiverGivenName'].value}}
+            {{caregiverEditForm.controls['caregiverGivenName'].value}} {{caregiverEditForm.controls['caregiverSurname'].value}}
           </h1>
         </ng-template>
       </div>
@@ -31,7 +31,7 @@
             <div class="row">
               <div class="col-sm-12">
                 <div class="form-group">
-                  <label for="caregiverGivenName">Given Name*</label>
+                  <label for="caregiverGivenName">First Name*</label>
                   <input matInput id="caregiverGivenName" type="text" class="form-control" placeholder="Given Name"
                          formControlName="caregiverGivenName">
                   <mat-error *ngFor="let validation of validationMessages.caregiverGivenName">
@@ -49,7 +49,7 @@
             <div class="row">
               <div class="col-sm-12">
                 <div class="form-group">
-                  <label for="caregiverSurname">Surname*</label>
+                  <label for="caregiverSurname">Last Name*</label>
                   <input matInput id="caregiverSurname" #caregiverSurnameInputField type="text" class="form-control" placeholder="Surname"
                          formControlName="caregiverSurname" autocomplete="chrome-off">
                   <mat-error *ngFor="let validation of validationMessages.caregiverSurname">

@@ -21,7 +21,7 @@ import { FormattingService } from '@tqp/services/formatting.service';
   encapsulation: ViewEncapsulation.None
 })
 export class PostGradEventDetailEditComponent implements OnInit {
-  @ViewChild('postGradEventSurnameInputField', {static: false}) postGradEventSurnameInputField: ElementRef;
+  @ViewChild('defaultInputField', {static: false}) defaultInputField: ElementRef;
   public pageSource: string;
   public newRecord: boolean;
   public studentList: Student[];
@@ -72,7 +72,7 @@ export class PostGradEventDetailEditComponent implements OnInit {
         this.postGradEvent = new PostGradEvent();
         this.postGradEvent.postGradEventId = null;
         setTimeout(() => {
-          this.postGradEventSurnameInputField.nativeElement.focus();
+          this.defaultInputField.nativeElement.focus();
         }, 0);
       }
     }).then();

@@ -104,7 +104,7 @@ export class CaseManagerDetailComponent implements OnInit {
     this.studentListLoading = true;
     this.relationshipService.getStudentListByCaseManagerId(caseManagerId).subscribe(
       (studentList: Student[]) => {
-        console.log('studentList', studentList);
+        // console.log('studentList', studentList);
         studentList.forEach(item => {
           this.studentListRecords.push(item);
         });

@@ -12,7 +12,7 @@ import { CaseManager } from '../../../../../models/people/case-manager.model';
   styleUrls: ['./case-manager-detail-edit.component.css']
 })
 export class CaseManagerDetailEditComponent implements OnInit {
-  @ViewChild('caseManagerSurnameInputField', {static: false}) caseManagerSurnameInputField: ElementRef;
+  @ViewChild('defaultInputField', {static: false}) defaultInputField: ElementRef;
   public pageSource: string;
   public caseManager: CaseManager;
   public caseManagerEditForm: FormGroup;
@@ -47,17 +47,17 @@ export class CaseManagerDetailEditComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.forEach((params: Params) => {
       if (params['id'] !== undefined) {
-        const userId = params['id'];
+        const caseManagerUserId = params['id'];
         // console.log('caseManagerId', caseManagerId);
-        this.getCaseManagerDetail(userId);
+        this.getCaseManagerDetail(caseManagerUserId);
       }
     }).then();
   }
 
   private initializeForm(): void {
     this.caseManagerEditForm = this.formBuilder.group({
-      caseManagerUserId: new FormControl(''),
-      caseManagerId: new FormControl(''),
+      caseManagerUserId: new FormControl({value: '', disabled: true}),
+      caseManagerId: new FormControl({value: '', disabled: true}),
       caseManagerSurname: new FormControl('', Validators.required),
       caseManagerGivenName: new FormControl('', Validators.required),
       caseManagerAddress: new FormControl(''),
@@ -70,8 +70,8 @@ export class CaseManagerDetailEditComponent implements OnInit {
     this.caseManagerService.getCaseManagerDetail(caseManagerId).subscribe(
       response => {
         this.caseManager = response;
-        console.log('response', response);
-        this.caseManagerEditForm.controls['userId'].patchValue(this.caseManager.caseManagerUserId);
+        // console.log('response', response);
+        this.caseManagerEditForm.controls['caseManagerUserId'].patchValue(this.caseManager.caseManagerUserId);
         this.caseManagerEditForm.controls['caseManagerId'].patchValue(this.caseManager.caseManagerId);
         this.caseManagerEditForm.controls['caseManagerSurname'].patchValue(this.caseManager.caseManagerSurname);
         this.caseManagerEditForm.controls['caseManagerGivenName'].patchValue(this.caseManager.caseManagerGivenName);
@@ -110,17 +110,15 @@ export class CaseManagerDetailEditComponent implements OnInit {
 
   public save(): void {
     const caseManager = new CaseManager();
-    console.log('crudEditForm', this.caseManagerEditForm.value);
-    caseManager.caseManagerUserId = this.caseManagerEditForm.value.userId;
-    caseManager.caseManagerId = this.caseManagerEditForm.value.caseManagerId;
-    caseManager.caseManagerSurname = this.caseManagerEditForm.value.caseManagerSurname;
-    caseManager.caseManagerGivenName = this.caseManagerEditForm.value.caseManagerGivenName;
-    caseManager.caseManagerAddress = this.caseManagerEditForm.value.caseManagerAddress;
-    caseManager.caseManagerPhone = this.caseManagerEditForm.value.caseManagerPhone;
-    caseManager.caseManagerEmail = this.caseManagerEditForm.value.caseManagerEmail;
-
+    const formRawValues = this.caseManagerEditForm.getRawValue()
+    caseManager.caseManagerUserId = formRawValues.caseManagerUserId;
+    caseManager.caseManagerId = formRawValues.caseManagerId;
+    caseManager.caseManagerSurname = formRawValues.caseManagerSurname;
+    caseManager.caseManagerGivenName = formRawValues.caseManagerGivenName;
+    caseManager.caseManagerAddress = formRawValues.caseManagerAddress;
+    caseManager.caseManagerPhone = formRawValues.caseManagerPhone;
+    caseManager.caseManagerEmail = formRawValues.caseManagerEmail;
     const newRecord = caseManager.caseManagerId === 0;
-
     if (newRecord) {
       this.caseManagerService.createCaseManager(caseManager).subscribe(
         response => {

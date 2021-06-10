@@ -30,9 +30,9 @@
             <div class="row">
               <div class="col-sm-12">
                 <div class="form-group">
-                  <label for="studentGivenName">Given Name*</label>
+                  <label for="studentGivenName">First Name*</label>
                   <input matInput id="studentGivenName" type="text" class="form-control" placeholder="Given Name"
-                         formControlName="studentGivenName" #studentGivenNameInputField>
+                         formControlName="studentGivenName" #defaultInputField>
                   <mat-error *ngFor="let validation of validationMessages.studentGivenName">
                     <mat-error class="error-message"
                                *ngIf="studentEditForm.get('studentGivenName').hasError(validation.type)
@@ -48,7 +48,7 @@
             <div class="row">
               <div class="col-sm-12">
                 <div class="form-group">
-                  <label for="studentSurname">Surname*</label>
+                  <label for="studentSurname">Last Name*</label>
                   <input matInput id="studentSurname" type="text" class="form-control"
                          placeholder="Surname" formControlName="studentSurname" autocomplete="chrome-off">
                   <mat-error *ngFor="let validation of validationMessages.studentSurname">

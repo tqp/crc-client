@@ -23,7 +23,7 @@ import { debounceTime } from 'rxjs/operators';
   encapsulation: ViewEncapsulation.None
 })
 export class StudentDetailEditComponent implements OnInit {
-  @ViewChild('studentGivenNameInputField', {static: false}) studentGivenNameInputField: ElementRef;
+  @ViewChild('defaultInputField', {static: false}) defaultInputField: ElementRef;
   public pageSource: string;
   public newRecord: boolean;
   public student: Student;
@@ -103,7 +103,7 @@ export class StudentDetailEditComponent implements OnInit {
         this.student = new Student();
         this.student.studentId = null;
         setTimeout(() => {
-          this.studentGivenNameInputField.nativeElement.focus();
+          this.defaultInputField.nativeElement.focus();
         }, 0);
       }
     }).then();

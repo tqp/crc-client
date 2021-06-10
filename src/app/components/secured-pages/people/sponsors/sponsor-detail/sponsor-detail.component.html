@@ -4,7 +4,7 @@
     <div class="col-sm-6">
       <h1>
         <i class="fa fa-handshake-o"></i>
-        {{sponsor.sponsorSurname}}, {{sponsor.sponsorGivenName}}
+        {{sponsor.sponsorGivenName}} {{sponsor.sponsorSurname}}
       </h1>
     </div>
     <div class="col-sm-6">
@@ -31,12 +31,12 @@
         </div>
         <div class="card-body">
           <dl class="row">
-            <dt class="col-sm-4">Last Name:</dt>
-            <dd class="col-sm-8">{{sponsor.sponsorSurname}}</dd>
-          </dl>
-          <dl class="row">
             <dt class="col-sm-4">First Name:</dt>
             <dd class="col-sm-8">{{sponsor.sponsorGivenName}}</dd>
+          </dl>
+          <dl class="row">
+            <dt class="col-sm-4">Last Name:</dt>
+            <dd class="col-sm-8">{{sponsor.sponsorSurname}}</dd>
           </dl>
           <dl class="row">
             <dt class="col-sm-4">Affiliated Church:</dt>
