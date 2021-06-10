@@ -9,7 +9,7 @@ import { StudentSponsorLetter } from '../../../../../models/student-sponsor.lett
 import { Sponsor } from '../../../../../models/people/sponsor.model';
 import { Student } from '../../../../../models/people/student.model';
 import { SponsorService } from '../../../../../services/people/sponsor.service';
-import { StudentService } from '../../../../../services/people/student.service';
+import { RelationshipService } from '../../../../../services/relationships/relationship.service';
 
 @Component({
   selector: 'app-student-sponsor-letter-detail-edit-dialog',
@@ -42,7 +42,7 @@ export class StudentSponsorLetterDetailEditDialogComponent implements OnInit {
               private formBuilder: FormBuilder,
               private formattingService: FormattingService,
               private sponsorService: SponsorService,
-              private studentService: StudentService,
+              private relationshipService: RelationshipService,
               public _matDialog: MatDialog) {
     console.log('data', this.data);
 
@@ -107,7 +107,7 @@ export class StudentSponsorLetterDetailEditDialogComponent implements OnInit {
   }
 
   private getStudentListBySponsorId(sponsorId: number): void {
-    this.studentService.getStudentListBySponsorId(sponsorId).subscribe(
+    this.relationshipService.getStudentListBySponsorId(sponsorId).subscribe(
       (response: Student[]) => {
         console.log('response', response);
         this.studentList = response;
