@@ -1,22 +1,22 @@
-<h2 mat-dialog-title *ngIf="data.action == 'update'; else create;">Edit Student-Sponsor Letter</h2>
+<h2 mat-dialog-title *ngIf="data.action == 'update'; else create;">Edit Sponsor Letter</h2>
 <ng-template #create>
-  <h2 mat-dialog-title>Add Student-Sponsor Letter</h2>
+  <h2 mat-dialog-title>Add Sponsor Letter</h2>
 </ng-template>
 
 <mat-dialog-content style="overflow: auto">
 
-  <form [formGroup]="studentSponsorLetterEditForm" [hidden]="!dataLoaded">
+  <form [formGroup]="sponsorLetterEditForm" [hidden]="!dataLoaded">
 
     <div class="row">
       <div class="col-sm-12">
         <div class="form-group">
-          <label for="studentSponsorLetterId">Sponsor Letter ID</label>
-          <input id="studentSponsorLetterId" type="text" class="form-control" formControlName="studentSponsorLetterId">
-          <mat-error *ngFor="let validation of validationMessages.studentSponsorLetterId">
+          <label for="sponsorLetterId">Sponsor Letter ID</label>
+          <input id="sponsorLetterId" type="text" class="form-control" formControlName="sponsorLetterId">
+          <mat-error *ngFor="let validation of validationMessages.sponsorLetterId">
             <mat-error class="error-message"
-                       *ngIf="studentSponsorLetterEditForm.get('studentSponsorLetterId').hasError(validation.type)
-                                && (studentSponsorLetterEditForm.get('studentSponsorLetterId').dirty ||
-                                studentSponsorLetterEditForm.get('studentSponsorLetterId').touched)">
+                       *ngIf="sponsorLetterEditForm.get('sponsorLetterId').hasError(validation.type)
+                                && (sponsorLetterEditForm.get('sponsorLetterId').dirty ||
+                                sponsorLetterEditForm.get('sponsorLetterId').touched)">
               {{validation.message}}
             </mat-error>
           </mat-error>
@@ -31,9 +31,9 @@
           <input id="studentId" type="text" class="form-control" formControlName="studentId">
           <mat-error *ngFor="let validation of validationMessages.studentId">
             <mat-error class="error-message"
-                       *ngIf="studentSponsorLetterEditForm.get('studentId').hasError(validation.type)
-                                && (studentSponsorLetterEditForm.get('studentId').dirty ||
-                                studentSponsorLetterEditForm.get('studentId').touched)">
+                       *ngIf="sponsorLetterEditForm.get('studentId').hasError(validation.type)
+                                && (sponsorLetterEditForm.get('studentId').dirty ||
+                                sponsorLetterEditForm.get('studentId').touched)">
               {{validation.message}}
             </mat-error>
           </mat-error>
@@ -48,9 +48,9 @@
           <input id="sponsorId" type="text" class="form-control" formControlName="sponsorId">
           <mat-error *ngFor="let validation of validationMessages.sponsorId">
             <mat-error class="error-message"
-                       *ngIf="studentSponsorLetterEditForm.get('sponsorId').hasError(validation.type)
-                                && (studentSponsorLetterEditForm.get('sponsorId').dirty ||
-                                studentSponsorLetterEditForm.get('sponsorId').touched)">
+                       *ngIf="sponsorLetterEditForm.get('sponsorId').hasError(validation.type)
+                                && (sponsorLetterEditForm.get('sponsorId').dirty ||
+                                sponsorLetterEditForm.get('sponsorId').touched)">
               {{validation.message}}
             </mat-error>
           </mat-error>
@@ -71,9 +71,9 @@
           </select>
           <mat-error *ngFor="let validation of validationMessages.sponsorId">
             <mat-error class="error-message"
-                       *ngIf="studentSponsorLetterEditForm.get('sponsorIdDropdown').hasError(validation.type)
-                                && (studentSponsorLetterEditForm.get('sponsorIdDropdown').dirty ||
-                                studentSponsorLetterEditForm.get('sponsorIdDropdown').touched)">
+                       *ngIf="sponsorLetterEditForm.get('sponsorIdDropdown').hasError(validation.type)
+                                && (sponsorLetterEditForm.get('sponsorIdDropdown').dirty ||
+                                sponsorLetterEditForm.get('sponsorIdDropdown').touched)">
               {{validation.message}}
             </mat-error>
           </mat-error>
@@ -84,7 +84,7 @@
     <div class="row">
       <div class="col-sm-12">
         <div class="form-group">
-          <label for="studentIdDropdown">Student ID Drop-Down</label>
+          <label for="studentIdDropdown">Student Drop-Down</label>
           <select id="studentIdDropdown" class="form-control" formControlName="studentIdDropdown">
             <option value=0>Select a Student</option>
             <option *ngFor="let student of studentList"
@@ -94,9 +94,9 @@
           </select>
           <mat-error *ngFor="let validation of validationMessages.sponsorId">
             <mat-error class="error-message"
-                       *ngIf="studentSponsorLetterEditForm.get('studentIdDropdown').hasError(validation.type)
-                                && (studentSponsorLetterEditForm.get('studentIdDropdown').dirty ||
-                                studentSponsorLetterEditForm.get('studentIdDropdown').touched)">
+                       *ngIf="sponsorLetterEditForm.get('studentIdDropdown').hasError(validation.type)
+                                && (sponsorLetterEditForm.get('studentIdDropdown').dirty ||
+                                sponsorLetterEditForm.get('studentIdDropdown').touched)">
               {{validation.message}}
             </mat-error>
           </mat-error>
@@ -107,15 +107,15 @@
     <div class="row">
       <div class="col-sm-12">
         <div class="form-group">
-          <label for="studentSponsorLetterDate">Letter Date*</label>
-          <input id="studentSponsorLetterDate" type="text" class="form-control" bsDatepicker
+          <label for="sponsorLetterDate">Letter Date*</label>
+          <input id="sponsorLetterDate" type="text" class="form-control" bsDatepicker
                  [bsConfig]="{dateInputFormat: 'DD-MMM-YYYY'}"
-                 formControlName="studentSponsorLetterDate">
-          <mat-error *ngFor="let validation of validationMessages.studentSponsorLetterDate">
+                 formControlName="sponsorLetterDate">
+          <mat-error *ngFor="let validation of validationMessages.sponsorLetterDate">
             <mat-error class="error-message"
-                       *ngIf="studentSponsorLetterEditForm.get('studentSponsorLetterDate').hasError(validation.type)
-                                && (studentSponsorLetterEditForm.get('studentSponsorLetterDate').dirty ||
-                                studentSponsorLetterEditForm.get('studentSponsorLetterDate').touched)">
+                       *ngIf="sponsorLetterEditForm.get('sponsorLetterDate').hasError(validation.type)
+                                && (sponsorLetterEditForm.get('sponsorLetterDate').dirty ||
+                                sponsorLetterEditForm.get('sponsorLetterDate').touched)">
               {{validation.message}}
             </mat-error>
           </mat-error>
@@ -141,6 +141,6 @@
   <button mat-raised-button mat-dialog-close>Cancel</button>
   <div fxFlex></div>
   <button mat-raised-button mat-dialog-close class="btn btn-primary" (click)="save();"
-          [disabled]="!studentSponsorLetterEditForm.valid">Save
+          [disabled]="!sponsorLetterEditForm.valid">Save
   </button>
 </mat-dialog-actions>

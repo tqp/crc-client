@@ -1,0 +1,139 @@
+<div class="tqp-crud-detail-edit animated fadeIn" *ngIf="sponsorLetter">
+
+  <form [formGroup]="sponsorLetterEditForm">
+
+    <div class="row">
+
+      <div class="col-sm-6">
+        <h1 *ngIf="sponsorLetter && newRecord && sponsorLetterEditForm.controls['sponsorLetterId'].value == ''; else notShow">
+          New Sponsor Letter
+        </h1>
+        <ng-template #notShow>
+          <h1>
+            <i class="fa fa-envelope-o"></i>
+            {{sponsorLetter.studentGivenName}} {{sponsorLetter.studentSurname}} Sponsor Letter
+          </h1>
+        </ng-template>
+      </div>
+
+    </div>
+
+    <div class="row">
+      <div class="col-lg-6 col-sm-12">
+
+        <div class="card">
+          <div class="card-header">
+            <i class="fa fa-envelope-o"></i>
+            Sponsor Letter Information
+          </div>
+          <div class="card-body">
+
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="sponsorLetterId">Sponsor Letter ID*</label>
+                  <input id="sponsorLetterId" type="text" class="form-control" formControlName="sponsorLetterId">
+                  <mat-error *ngFor="let validation of validationMessages.sponsorLetterId">
+                    <mat-error class="error-message"
+                               *ngIf="sponsorLetterEditForm.get('sponsorLetterId').hasError(validation.type)
+                                && (sponsorLetterEditForm.get('sponsorLetterId').dirty ||
+                                sponsorLetterEditForm.get('sponsorLetterId').touched)">
+                      {{validation.message}}
+                    </mat-error>
+                  </mat-error>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="studentId">Student*</label>
+                  <select id="studentId" class="form-control" formControlName="studentId">
+                    <option value=0>Select a Student</option>
+                    <option *ngFor="let student of studentList"
+                            value="{{student.studentId}}">
+                      {{student.studentGivenName}} {{student.studentSurname}}
+                    </option>
+                  </select>
+                  <mat-error *ngFor="let validation of validationMessages.studentId">
+                    <mat-error class="error-message"
+                               *ngIf="sponsorLetterEditForm.get('studentId').hasError(validation.type)
+                                && (sponsorLetterEditForm.get('studentId').dirty ||
+                                sponsorLetterEditForm.get('studentId').touched)">
+                      {{validation.message}}
+                    </mat-error>
+                  </mat-error>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="sponsorId">Sponsor*</label>
+                  <select id="sponsorId" class="form-control" formControlName="sponsorId">
+                    <option value=0>Select a Sponsor</option>
+                    <option *ngFor="let sponsor of sponsorList"
+                            value="{{sponsor.sponsorId}}">
+                      {{sponsor.sponsorGivenName}} {{sponsor.sponsorSurname}}
+                    </option>
+                  </select>
+                  <mat-error *ngFor="let validation of validationMessages.sponsorId">
+                    <mat-error class="error-message"
+                               *ngIf="sponsorLetterEditForm.get('sponsorId').hasError(validation.type)
+                                && (sponsorLetterEditForm.get('sponsorId').dirty ||
+                                sponsorLetterEditForm.get('sponsorId').touched)">
+                      {{validation.message}}
+                    </mat-error>
+                  </mat-error>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="sponsorLetterDate">Sponsor Letter Date*</label>
+                  <input id="sponsorLetterDate" type="text" class="form-control" bsDatepicker
+                         [bsConfig]="{dateInputFormat: 'DD-MMM-YYYY'}"
+                         formControlName="sponsorLetterDate">
+                  <mat-error *ngFor="let validation of validationMessages.sponsorLetterDate">
+                    <mat-error class="error-message"
+                               *ngIf="sponsorLetterEditForm.get('sponsorLetterDate').hasError(validation.type)
+                                && (sponsorLetterEditForm.get('sponsorLetterDate').dirty ||
+                                sponsorLetterEditForm.get('sponsorLetterDate').touched)">
+                      {{validation.message}}
+                    </mat-error>
+                  </mat-error>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="card-footer">
+            <button type="button" class="btn btn-primary float-right" (click)="save()"
+                    [disabled]="!sponsorLetterEditForm.valid">
+              <i class="fa fa-save mr-2"></i>Save
+            </button>
+            <button type="button" class="btn btn-secondary" (click)="cancel()">
+              <i class="fa fa-ban mr-2"></i>Cancel
+            </button>
+            <button type="button" class="btn btn-danger" (click)="delete(sponsorLetter.sponsorLetterId)">
+              <i class="fa fa-trash-o mr-2"></i>Delete
+            </button>
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="col-lg-6 col-sm-12">
+
+      </div>
+    </div>
+
+  </form>
+
+</div>

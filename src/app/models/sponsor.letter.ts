@@ -1,8 +1,8 @@
-export class StudentSponsorLetter {
-  public studentSponsorLetterId?: number;
+export class SponsorLetter {
+  public sponsorLetterId?: number;
   public studentId?: number;
   public sponsorId?: number;
-  public studentSponsorLetterDate?: string;
+  public sponsorLetterDate?: string;
   // JOINED TABLES
   public studentSurname?: string;
   public studentGivenName?: string;

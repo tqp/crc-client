@@ -340,25 +340,26 @@ export class CsiDetailEditComponent implements OnInit, OnDestroy {
   public save(): void {
     const csi = new Csi();
     // console.log('csiEditForm', this.csiEditForm.getRawValue());
-    csi.studentCsiId = this.csiEditForm.getRawValue().studentCsiId;
-    csi.studentId = this.csiEditForm.getRawValue().studentId;
-    csi.caseManagerUserId = this.csiEditForm.getRawValue().caseManagerUserId;
-    csi.csiDate = this.formattingService.formatStandardDateAsMySql(this.csiEditForm.getRawValue().csiDate);
-    csi.csiComments = this.csiEditForm.getRawValue().csiComments;
-    csi.csiServicesProvided = this.csiEditForm.getRawValue().csiServicesProvided;
+    const formRawValues = this.csiEditForm.getRawValue()
+    csi.studentCsiId = formRawValues.studentCsiId;
+    csi.studentId = formRawValues.studentId;
+    csi.caseManagerUserId = formRawValues.caseManagerUserId;
+    csi.csiDate = this.formattingService.formatStandardDateAsMySql(formRawValues.csiDate);
+    csi.csiComments = formRawValues.csiComments;
+    csi.csiServicesProvided = formRawValues.csiServicesProvided;
     // Scores
-    csi.csiScoreFoodSecurity = this.csiEditForm.getRawValue().csiScoreFoodSecurity;
-    csi.csiScoreNutritionAndGrowth = this.csiEditForm.getRawValue().csiScoreNutritionAndGrowth;
-    csi.csiScoreShelter = this.csiEditForm.getRawValue().csiScoreShelter;
-    csi.csiScoreCare = this.csiEditForm.getRawValue().csiScoreCare;
-    csi.csiScoreAbuseAndExploitation = this.csiEditForm.getRawValue().csiScoreAbuseAndExploitation;
-    csi.csiScoreLegalProtection = this.csiEditForm.getRawValue().csiScoreLegalProtection;
-    csi.csiScoreWellness = this.csiEditForm.getRawValue().csiScoreWellness;
-    csi.csiScoreHealthCareServices = this.csiEditForm.getRawValue().csiScoreHealthCareServices;
-    csi.csiScoreEmotionalHealth = this.csiEditForm.getRawValue().csiScoreEmotionalHealth;
-    csi.csiScoreSocialBehavior = this.csiEditForm.getRawValue().csiScoreSocialBehavior;
-    csi.csiScorePerformance = this.csiEditForm.getRawValue().csiScorePerformance;
-    csi.csiScoreEducationAndWork = this.csiEditForm.getRawValue().csiScoreEducationAndWork;
+    csi.csiScoreFoodSecurity = formRawValues.csiScoreFoodSecurity;
+    csi.csiScoreNutritionAndGrowth = formRawValues.csiScoreNutritionAndGrowth;
+    csi.csiScoreShelter = formRawValues.csiScoreShelter;
+    csi.csiScoreCare = formRawValues.csiScoreCare;
+    csi.csiScoreAbuseAndExploitation = formRawValues.csiScoreAbuseAndExploitation;
+    csi.csiScoreLegalProtection = formRawValues.csiScoreLegalProtection;
+    csi.csiScoreWellness = formRawValues.csiScoreWellness;
+    csi.csiScoreHealthCareServices = formRawValues.csiScoreHealthCareServices;
+    csi.csiScoreEmotionalHealth = formRawValues.csiScoreEmotionalHealth;
+    csi.csiScoreSocialBehavior = formRawValues.csiScoreSocialBehavior;
+    csi.csiScorePerformance = formRawValues.csiScorePerformance;
+    csi.csiScoreEducationAndWork = formRawValues.csiScoreEducationAndWork;
 
     if (this.newRecord) {
       this.csiService.createCsi(csi).subscribe(

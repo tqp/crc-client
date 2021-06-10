@@ -1,0 +1,76 @@
+<div class="tqp-crud-detail animated fadeIn" *ngIf="sponsorLetter">
+
+  <div class="row">
+    <div class="col-sm-6">
+      <h1>
+        <i class="fa fa-envelope-o"></i>
+        Sponsor Letter
+      </h1>
+    </div>
+    <div class="col-sm-6">
+      <div class="form-group float-right">
+        <button class="btn btn-sm btn-outline-primary ml-3" (click)="returnToList()">
+          Go To Sponsor Letter <u>L</u>ist
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-6 col-sm-12">
+
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-envelope-o"></i>
+          Sponsor Letter Information
+          <i *ngIf="sponsorLetterLoading" class="fa fa-spinner fa-spin"></i>
+          <div class="card-header-actions"
+               [hidden]="authService.hiddenBasedOnRoles('ROLE_ADMIN', 'Edit Sponsor Letter')">
+            <small class="tqp-nav-link" (click)="openEditPage();">Edit Sponsor Letter</small>
+          </div>
+        </div>
+        <div class="card-body">
+          <!--
+          <dl class="row">
+            <dt class="col-sm-4">Sponsor Letter ID:</dt>
+            <dd class="col-sm-8">{{sponsorLetter.sponsorLetterId}}</dd>
+          </dl>
+          <dl class="row">
+            <dt class="col-sm-4">Student ID:</dt>
+            <dd class="col-sm-8">{{sponsorLetter.studentId}}</dd>
+          </dl>
+          <dl class="row">
+            <dt class="col-sm-4">Sponsor ID:</dt>
+            <dd class="col-sm-8">{{sponsorLetter.sponsorId}}</dd>
+          </dl>
+          -->
+          <dl class="row">
+            <dt class="col-sm-4">Student:</dt>
+            <dd class="col-sm-8">
+              <span class="tqp-nav-link" [routerLink]="['/students/student-detail', sponsorLetter.studentId]">
+                {{sponsorLetter.studentGivenName}} {{sponsorLetter.studentSurname}}
+              </span>
+            </dd>
+          </dl>
+          <dl class="row">
+            <dt class="col-sm-4">Sponsor:</dt>
+            <dd class="col-sm-8">
+              <span class="tqp-nav-link" [routerLink]="['/sponsors/sponsor-detail', sponsorLetter.sponsorId]">
+                {{sponsorLetter.sponsorGivenName}} {{sponsorLetter.sponsorSurname}}
+              </span>
+            </dd>
+          </dl>
+          <dl class="row">
+            <dt class="col-sm-4">Letter Date:</dt>
+            <dd class="col-sm-8">{{sponsorLetter.sponsorLetterDate | date:'dd-MMM-yyyy'}}</dd>
+          </dl>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="col-lg-6 col-sm-12">
+    </div>
+  </div>
+
+</div>

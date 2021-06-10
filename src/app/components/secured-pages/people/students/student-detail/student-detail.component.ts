@@ -31,9 +31,9 @@ import { ChartType } from 'chart.js';
 import { getStyle, hexToRgba } from '@coreui/coreui-pro/dist/js/coreui-utilities';
 import { PostGradEventService } from '../../../../../services/events/post-grad-event.service';
 import { PostGradEventDetailEditDialogComponent } from '../../../events/post-grad-events/post-grad-event-detail-edit-dialog/post-grad-event-detail-edit-dialog.component';
-import { StudentSponsorLetterService } from '../../../../../services/events/student-sponsor-letter.service';
-import { StudentSponsorLetter } from '../../../../../models/student-sponsor.letter';
-import { StudentSponsorLetterDetailEditDialogComponent } from '../../../events/student-sponsor-letter/student-sponsor-letter-detail-edit-dialog/student-sponsor-letter-detail-edit-dialog.component';
+import { SponsorLetterService } from '../../../../../services/events/sponsor-letter.service';
+import { SponsorLetter } from '../../../../../models/sponsor.letter';
+import { SponsorLetterDetailEditDialogComponent } from '../../../events/sponsor-letters/sponsor-letter-detail-edit-dialog/sponsor-letter-detail-edit-dialog.component';
 import { tqpCustomAnimations } from '@tqp/animations/tqpCustomAnimations';
 
 @Component({
@@ -92,19 +92,17 @@ export class StudentDetailComponent implements OnInit {
   public postGradEventListRecords: PostGradEvent[] = [];
   public postGradEventListDataSource: PostGradEvent[] = [];
   public postGradEventListDisplayedColumns: string[] = [
-    // 'postGradEventId',
     'postGradEventDate',
     'postGradEventTypeName',
   ];
 
   // Student-Sponsor Letters
-  public studentSponsorLetterListLoading: boolean = false;
-  public studentSponsorLetterListIsCollapsed: boolean = true;
-  public studentSponsorLetterListRecords: Visit[] = [];
-  public studentSponsorLetterListDataSource: Visit[] = [];
-  public studentSponsorLetterListDisplayedColumns: string[] = [
-    // 'studentSponsorLetterId',
-    'studentSponsorLetterDate',
+  public sponsorLetterListLoading: boolean = false;
+  public sponsorLetterListIsCollapsed: boolean = true;
+  public sponsorLetterListRecords: Visit[] = [];
+  public sponsorLetterListDataSource: Visit[] = [];
+  public sponsorLetterListDisplayedColumns: string[] = [
+    'sponsorLetterDate',
     'sponsorName'
   ];
 
@@ -179,7 +177,7 @@ export class StudentDetailComponent implements OnInit {
               private programStatusService: ProgramStatusService,
               private relationshipService: RelationshipService,
               private postGradEventService: PostGradEventService,
-              private studentSponsorLetterService: StudentSponsorLetterService,
+              private sponsorLetterService: SponsorLetterService,
               private historyService: HistoryService,
               private visitService: VisitService,
               private csiService: CsiService,
@@ -200,7 +198,7 @@ export class StudentDetailComponent implements OnInit {
         this.getCsiListByStudentId(studentId);
         this.getVisitListByStudentId(studentId);
         this.getPostGradEventListByStudentId(studentId);
-        this.getStudentSponsorLetterListByStudentId(studentId);
+        this.getSponsorLetterListByStudentId(studentId);
         this.getHistoryListByStudentId(studentId);
         this.getCurrentCaregiverDetailByStudentId(studentId);
         this.getCurrentCaseManagerDetailByStudentId(studentId);
@@ -332,18 +330,18 @@ export class StudentDetailComponent implements OnInit {
     );
   }
 
-  private getStudentSponsorLetterListByStudentId(studentId: number): void {
-    this.studentSponsorLetterListLoading = true;
-    this.studentSponsorLetterService.getStudentSponsorLetterListByStudentId(studentId).subscribe(
-      (studentSponsorLetterList: StudentSponsorLetter[]) => {
-        // console.log('studentSponsorLetterList', studentSponsorLetterList);
-        this.studentSponsorLetterListRecords = [];
-        if (studentSponsorLetterList) {
-          studentSponsorLetterList.forEach(item => {
-            this.studentSponsorLetterListRecords.push(item);
+  private getSponsorLetterListByStudentId(studentId: number): void {
+    this.sponsorLetterListLoading = true;
+    this.sponsorLetterService.getSponsorLetterListByStudentId(studentId).subscribe(
+      (sponsorLetterList: SponsorLetter[]) => {
+        // console.log('sponsorLetterList', sponsorLetterList);
+        this.sponsorLetterListRecords = [];
+        if (sponsorLetterList) {
+          sponsorLetterList.forEach(item => {
+            this.sponsorLetterListRecords.push(item);
           });
-          this.studentSponsorLetterListDataSource = this.studentSponsorLetterListRecords;
-          this.studentSponsorLetterListLoading = false;
+          this.sponsorLetterListDataSource = this.sponsorLetterListRecords;
+          this.sponsorLetterListLoading = false;
         }
       },
       error => {
@@ -850,18 +848,18 @@ export class StudentDetailComponent implements OnInit {
     });
   }
 
-  public openStudentSponsorLetterEditDialog(studentSponsorLetterId: number, sponsorId: number, studentId: number): void {
+  public openSponsorLetterEditDialog(sponsorLetterId: number, sponsorId: number, studentId: number): void {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.minWidth = '40%';
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     dialogConfig.data = {
-      action: studentSponsorLetterId === null ? 'create' : 'update',
+      action: sponsorLetterId === null ? 'create' : 'update',
       studentId: studentId,
       sponsorId: sponsorId
     };
     dialogConfig.autoFocus = false;
-    const dialogRef = this._matDialog.open(StudentSponsorLetterDetailEditDialogComponent, dialogConfig);
+    const dialogRef = this._matDialog.open(SponsorLetterDetailEditDialogComponent, dialogConfig);
 
     dialogRef.afterClosed().subscribe(dialogData => {
       // console.log('dialogData', dialogData);
@@ -936,11 +934,11 @@ export class StudentDetailComponent implements OnInit {
     this.csiListIsCollapsed = !this.csiListIsCollapsed;
   }
 
-  public toggleStudentSponsorLetterListIsCollapsed(event) {
+  public toggleSponsorLetterListIsCollapsed(event) {
     if (event.target.nodeName === 'SMALL') {
       return;
     }
-    this.studentSponsorLetterListIsCollapsed = !this.studentSponsorLetterListIsCollapsed;
+    this.sponsorLetterListIsCollapsed = !this.sponsorLetterListIsCollapsed;
   }
 
   public togglePostGradEventListIsCollapsed(event) {
@@ -961,7 +959,7 @@ export class StudentDetailComponent implements OnInit {
     this.visitListIsCollapsed = true;
     this.csiListIsCollapsed = true;
     this.postGradEventListIsCollapsed = true;
-    this.studentSponsorLetterListIsCollapsed = true;
+    this.sponsorLetterListIsCollapsed = true;
     this.historyListIsCollapsed = true;
   }
 

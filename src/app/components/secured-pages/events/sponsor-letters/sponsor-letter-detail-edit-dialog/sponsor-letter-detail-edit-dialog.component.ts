@@ -4,47 +4,46 @@ import { ConfirmDialogComponent } from '@tqp/components/confirm-dialog/confirm-d
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { FormattingService } from '@tqp/services/formatting.service';
 import * as moment from 'moment';
-import { StudentSponsorLetterService } from '../../../../../services/events/student-sponsor-letter.service';
-import { StudentSponsorLetter } from '../../../../../models/student-sponsor.letter';
+import { SponsorLetter } from '../../../../../models/sponsor.letter';
 import { Sponsor } from '../../../../../models/people/sponsor.model';
 import { Student } from '../../../../../models/people/student.model';
+import { SponsorLetterService } from '../../../../../services/events/sponsor-letter.service';
 import { SponsorService } from '../../../../../services/people/sponsor.service';
 import { RelationshipService } from '../../../../../services/relationships/relationship.service';
 
 @Component({
-  selector: 'app-student-sponsor-letter-detail-edit-dialog',
-  templateUrl: './student-sponsor-letter-detail-edit-dialog.component.html',
-  styleUrls: ['./student-sponsor-letter-detail-edit-dialog.component.scss'],
+  selector: 'app-sponsor-letter-detail-edit-dialog',
+  templateUrl: './sponsor-letter-detail-edit-dialog.component.html',
+  styleUrls: ['./sponsor-letter-detail-edit-dialog.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class StudentSponsorLetterDetailEditDialogComponent implements OnInit {
+export class SponsorLetterDetailEditDialogComponent implements OnInit {
   public confirmDialogRef: MatDialogRef<ConfirmDialogComponent>;
   public dataLoaded: boolean = true;
-  public studentSponsorLetterEditForm: FormGroup;
-  public studentSponsorLetter: StudentSponsorLetter;
+  public sponsorLetterEditForm: FormGroup;
+  public sponsorLetter: SponsorLetter;
   public sponsorList: Sponsor[];
   public studentList: Student[];
 
   public validationMessages = {
-    'studentSponsorLetterId': [],
+    'sponsorLetterId': [],
     'sponsorId': [],
     'studentId': [],
     'sponsorIdDropdown': [],
     'studentIdDropdown': [],
-    'studentSponsorLetterDate': [
+    'sponsorLetterDate': [
       {type: 'required', message: 'A date is required.'}
     ]
   };
 
-  constructor(private dialogRef: MatDialogRef<StudentSponsorLetterDetailEditDialogComponent>,
+  constructor(private dialogRef: MatDialogRef<SponsorLetterDetailEditDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
-              private studentSponsorLetterService: StudentSponsorLetterService,
+              private sponsorLetterService: SponsorLetterService,
               private formBuilder: FormBuilder,
               private formattingService: FormattingService,
               private sponsorService: SponsorService,
               private relationshipService: RelationshipService,
               public _matDialog: MatDialog) {
-    console.log('data', this.data);
 
     if (this.data.studentId != null) {
       this.getSponsorListByStudentId(this.data.studentId);
@@ -55,7 +54,7 @@ export class StudentSponsorLetterDetailEditDialogComponent implements OnInit {
     }
 
     if (this.data.action === 'update') {
-      this.getStudentSponsorLetterByStudentId(this.data.studentId);
+      this.getSponsorLetterByStudentId(this.data.studentId);
     } else {
       this.dataLoaded = true;
     }
@@ -66,19 +65,19 @@ export class StudentSponsorLetterDetailEditDialogComponent implements OnInit {
   }
 
   private initializeForm(): void {
-    this.studentSponsorLetterEditForm = this.formBuilder.group({
-      studentSponsorLetterId: new FormControl({value: 0, disabled: true}),
+    this.sponsorLetterEditForm = this.formBuilder.group({
+      sponsorLetterId: new FormControl({value: 0, disabled: true}),
       sponsorId: new FormControl({value: this.data.sponsorId != null ? this.data.sponsorId : 0, disabled: true}),
       studentId: new FormControl({value: this.data.studentId != null ? this.data.studentId : 0, disabled: true}),
       sponsorIdDropdown: new FormControl({value: 0, disabled: false}),
       studentIdDropdown: new FormControl({value: 0, disabled: false}),
-      studentSponsorLetterDate: new FormControl(moment().format('DD-MMM-yyyy'), Validators.required)
+      sponsorLetterDate: new FormControl(moment().format('DD-MMM-yyyy'), Validators.required)
     });
   }
 
   // LOAD DATA
 
-  private getStudentSponsorLetterByStudentId(studentId: number): void {
+  private getSponsorLetterByStudentId(studentId: number): void {
     // this.postGradEventService.getPostGradEventDetailByStudentId(studentId).subscribe(
     //   response => {
     //     // console.log('response', response);
@@ -97,7 +96,7 @@ export class StudentSponsorLetterDetailEditDialogComponent implements OnInit {
   private getSponsorListByStudentId(studentId: number): void {
     this.sponsorService.getSponsorListByStudentId(studentId).subscribe(
       (response: Sponsor[]) => {
-        console.log('response', response);
+        // console.log('response', response);
         this.sponsorList = response;
       },
       error => {
@@ -128,14 +127,14 @@ export class StudentSponsorLetterDetailEditDialogComponent implements OnInit {
     this.confirmDialogRef.componentInstance.dialogMessage = 'Are you sure you want to delete?';
     this.confirmDialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.dialogRef.close(['delete', this.studentSponsorLetterEditForm.getRawValue()]);
+        this.dialogRef.close(['delete', this.sponsorLetterEditForm.getRawValue()]);
       }
       this.confirmDialogRef = null;
     });
   }
 
   public save(): void {
-    this.dialogRef.close([this.data.action, this.studentSponsorLetterEditForm.getRawValue()]);
+    this.dialogRef.close([this.data.action, this.sponsorLetterEditForm.getRawValue()]);
   }
 
 }

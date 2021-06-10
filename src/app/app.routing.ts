@@ -10,6 +10,7 @@ import { LoginPageComponent } from './components/open-pages/login-page/login-pag
 import { LogoutComponent } from './components/open-pages/logout/logout.component';
 import { SecuredPageResolverService } from '@tqp/services/secured-page-resolver.service';
 import { TokenExchangeComponent } from './components/open-pages/token-exchange/token-exchange.component';
+import { SponsorLetterModule } from './components/secured-pages/events/sponsor-letters/sponsor-letter.module';
 
 export const routes: Routes = [
   {
@@ -139,6 +140,13 @@ export const routes: Routes = [
       {
         path: 'csi',
         loadChildren: () => import('./components/secured-pages/events/csi/csi.module').then(m => m.CsiModule),
+        resolve: {
+          securedPageResolver: SecuredPageResolverService
+        }
+      },
+      {
+        path: 'sponsor-letters',
+        loadChildren: () => import('./components/secured-pages/events/sponsor-letters/sponsor-letter.module').then(m => m.SponsorLetterModule),
         resolve: {
           securedPageResolver: SecuredPageResolverService
         }

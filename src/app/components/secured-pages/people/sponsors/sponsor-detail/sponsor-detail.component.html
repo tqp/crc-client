@@ -51,6 +51,7 @@
 
       <div class="card tqp-crud-detail-list">
         <div class="card-header" (click)="studentListIsCollapsed = !studentListIsCollapsed">
+          <i class="fa fa-graduation-cap"></i>
           Associated Students<span class="badge badge-secondary ml-2">{{studentListDataSource.length}}</span>
           <div class="card-header-actions">
             <i class="fa fa-bars" [@rotateIcon]="studentListIsCollapsed ? 'default' : 'rotated'"></i>
@@ -93,6 +94,7 @@
 
       <div class="card tqp-crud-detail-list">
         <div class="card-header" (click)="sponsorLetterListIsCollapsed = !sponsorLetterListIsCollapsed">
+          <i class="fa fa-envelope-o"></i>
           Letters from Students<span class="badge badge-secondary ml-2">{{sponsorLetterListDataSource.length}}</span>
           <div class="card-header-actions">
             <i class="fa fa-bars" [@rotateIcon]="sponsorLetterListIsCollapsed ? 'default' : 'rotated'"></i>
@@ -104,12 +106,12 @@
             <table mat-table class="table table-sm" [dataSource]="sponsorLetterListDataSource"
                    *ngIf="sponsorLetterListDataSource && sponsorLetterListDataSource.length > 0">
 
-              <ng-container matColumnDef="studentSponsorLetterDate">
+              <ng-container matColumnDef="sponsorLetterDate">
                 <th mat-header-cell *matHeaderCellDef>Date of Letter</th>
                 <td mat-cell *matCellDef="let row">
                   <a
-                    [routerLink]="['/student-sponsor-letter/student-sponsor-letter-detail', row.studentSponsorLetterId]">
-                    {{row.studentSponsorLetterDate | date: 'dd-MMM-yyyy'}}
+                    [routerLink]="['/sponsor-letters/sponsor-letter-detail', row.sponsorLetterId]">
+                    {{row.sponsorLetterDate | date: 'dd-MMM-yyyy'}}
                   </a>
                 </td>
               </ng-container>

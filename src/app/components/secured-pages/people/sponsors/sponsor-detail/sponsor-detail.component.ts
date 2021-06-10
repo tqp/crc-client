@@ -7,9 +7,9 @@ import { AuthService } from '@tqp/services/auth.service';
 import { RelationshipService } from '../../../../../services/relationships/relationship.service';
 import { Student } from '../../../../../models/people/student.model';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { StudentSponsorLetterService } from '../../../../../services/events/student-sponsor-letter.service';
-import { StudentSponsorLetter } from '../../../../../models/student-sponsor.letter';
-import { StudentSponsorLetterDetailEditDialogComponent } from '../../../events/student-sponsor-letter/student-sponsor-letter-detail-edit-dialog/student-sponsor-letter-detail-edit-dialog.component';
+import { SponsorLetterService } from '../../../../../services/events/sponsor-letter.service';
+import { SponsorLetter } from '../../../../../models/sponsor.letter';
+import { SponsorLetterDetailEditDialogComponent } from '../../../events/sponsor-letters/sponsor-letter-detail-edit-dialog/sponsor-letter-detail-edit-dialog.component';
 import { StudentService } from '../../../../../services/people/student.service';
 import { tqpCustomAnimations } from '@tqp/animations/tqpCustomAnimations';
 
@@ -38,10 +38,10 @@ export class SponsorDetailComponent implements OnInit {
   // Sponsor-Letter List
   public sponsorLetterListLoading: boolean = false;
   public sponsorLetterListIsCollapsed: boolean = true;
-  public sponsorLetterListRecords: StudentSponsorLetter[] = [];
-  public sponsorLetterListDataSource: StudentSponsorLetter[] = [];
+  public sponsorLetterListRecords: SponsorLetter[] = [];
+  public sponsorLetterListDataSource: SponsorLetter[] = [];
   public sponsorLetterListDisplayedColumns: string[] = [
-    'studentSponsorLetterDate',
+    'sponsorLetterDate',
     'studentName'
   ];
 
@@ -49,7 +49,7 @@ export class SponsorDetailComponent implements OnInit {
               private sponsorService: SponsorService,
               private relationshipService: RelationshipService,
               private studentService: StudentService,
-              private sponsorLetterService: StudentSponsorLetterService,
+              private sponsorLetterService: SponsorLetterService,
               private eventService: EventService,
               private router: Router,
               public authService: AuthService,
@@ -87,7 +87,7 @@ export class SponsorDetailComponent implements OnInit {
   private getStudentListBySponsorId(sponsorId: number): void {
     this.relationshipService.getStudentListBySponsorId(sponsorId).subscribe(
       (studentList: Student[]) => {
-        console.log('studentList', studentList);
+        // console.log('studentList', studentList);
         studentList.forEach(item => {
           this.studentListRecords.push(item);
         });
@@ -100,9 +100,9 @@ export class SponsorDetailComponent implements OnInit {
   }
 
   private getSponsorLetterListBySponsorId(sponsorId: number): void {
-    this.sponsorLetterService.getStudentSponsorLetterListBySponsorId(sponsorId).subscribe(
-      (sponsorLetterList: StudentSponsorLetter[]) => {
-        console.log('sponsorLetterList', sponsorLetterList);
+    this.sponsorLetterService.getSponsorLetterListBySponsorId(sponsorId).subscribe(
+      (sponsorLetterList: SponsorLetter[]) => {
+        // console.log('sponsorLetterList', sponsorLetterList);
         this.sponsorLetterListRecords = [];
         sponsorLetterList.forEach(item => {
           this.sponsorLetterListRecords.push(item);
@@ -115,18 +115,18 @@ export class SponsorDetailComponent implements OnInit {
     );
   }
 
-  public openStudentSponsorLetterEditDialog(studentSponsorLetterId, sponsorId, studentId): void {
+  public openSponsorLetterEditDialog(sponsorLetterId, sponsorId, studentId): void {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.minWidth = '40%';
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     dialogConfig.data = {
-      action: studentSponsorLetterId === null ? 'create' : 'update',
+      action: sponsorLetterId === null ? 'create' : 'update',
       studentId: studentId,
       sponsorId: sponsorId
     };
     dialogConfig.autoFocus = false;
-    const dialogRef = this._matDialog.open(StudentSponsorLetterDetailEditDialogComponent, dialogConfig);
+    const dialogRef = this._matDialog.open(SponsorLetterDetailEditDialogComponent, dialogConfig);
 
     dialogRef.afterClosed().subscribe(dialogData => {
       console.log('dialogData', dialogData);

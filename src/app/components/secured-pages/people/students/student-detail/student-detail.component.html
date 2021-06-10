@@ -432,40 +432,40 @@
       </div>
 
       <div class="card tqp-crud-detail-list">
-        <div class="card-header disable-text-selection" (click)="toggleStudentSponsorLetterListIsCollapsed($event)">
-          <i class="fa fa-calendar-check-o"></i>
+        <div class="card-header disable-text-selection" (click)="toggleSponsorLetterListIsCollapsed($event)">
+          <i class="fa fa-envelope-o"></i>
           Letters to Sponsor
-          <span class="badge badge-secondary ml-2">{{studentSponsorLetterListDataSource.length}}</span>
+          <span class="badge badge-secondary ml-2">{{sponsorLetterListDataSource.length}}</span>
           <div class="card-header-actions">
             <small class="tqp-nav-link"
                    [hidden]="authService.hiddenBasedOnRoles('ROLE_ADMIN', 'Add Sponsor Letter')"
-                   (click)="openStudentSponsorLetterEditDialog(null, null, this.student.studentId);">
+                   (click)="openSponsorLetterEditDialog(null, null, this.student.studentId);">
               Add Sponsor Letter
             </small>
-            <i class="fa fa-bars ml-2" [@rotateIcon]="studentSponsorLetterListIsCollapsed ? 'default' : 'rotated'"></i>
+            <i class="fa fa-bars ml-2" [@rotateIcon]="sponsorLetterListIsCollapsed ? 'default' : 'rotated'"></i>
           </div>
         </div>
-        <div class="card-body" [collapse]="studentSponsorLetterListIsCollapsed">
+        <div class="card-body" [collapse]="sponsorLetterListIsCollapsed">
           <div class="table-container">
 
-            <table mat-table class="table table-sm" [dataSource]="studentSponsorLetterListDataSource"
-                   *ngIf="studentSponsorLetterListDataSource && studentSponsorLetterListDataSource.length > 0">
+            <table mat-table class="table table-sm" [dataSource]="sponsorLetterListDataSource"
+                   *ngIf="sponsorLetterListDataSource && sponsorLetterListDataSource.length > 0">
 
               <ng-container matColumnDef="sponsorLetterId">
                 <th mat-header-cell *matHeaderCellDef>Letter ID</th>
                 <td mat-cell *matCellDef="let row">
-                  <a [routerLink]="['/sponsor-letter/sponsor-letter-detail', row.sponsorLetterId]">
+                  <a [routerLink]="['/sponsor-letters/sponsor-letter-detail', row.sponsorLetterId]">
                     {{row.sponsorLetterId}}
                   </a>
                 </td>
               </ng-container>
 
-              <ng-container matColumnDef="studentSponsorLetterDate">
+              <ng-container matColumnDef="sponsorLetterDate">
                 <th mat-header-cell *matHeaderCellDef>Date of Letter</th>
                 <td mat-cell *matCellDef="let row">
                   <a
-                    [routerLink]="['/student-sponsor-letter/student-sponsor-letter-detail', row.studentSponsorLetterId]">
-                    {{row.studentSponsorLetterDate | date: 'dd-MMM-yyyy'}}
+                    [routerLink]="['/sponsor-letters/sponsor-letter-detail', row.sponsorLetterId]">
+                    {{row.sponsorLetterDate | date: 'dd-MMM-yyyy'}}
                   </a>
                 </td>
               </ng-container>
@@ -479,13 +479,13 @@
                 </td>
               </ng-container>
 
-              <tr mat-header-row *matHeaderRowDef="studentSponsorLetterListDisplayedColumns; sticky: true"
+              <tr mat-header-row *matHeaderRowDef="sponsorLetterListDisplayedColumns; sticky: true"
                   [hidden]="true"></tr>
-              <tr mat-row *matRowDef="let row; columns: studentSponsorLetterListDisplayedColumns;"></tr>
+              <tr mat-row *matRowDef="let row; columns: sponsorLetterListDisplayedColumns;"></tr>
             </table>
 
             <div class="no-records"
-                 *ngIf="studentSponsorLetterListDataSource && studentSponsorLetterListDataSource.length <= 0">
+                 *ngIf="sponsorLetterListDataSource && sponsorLetterListDataSource.length <= 0">
               No Records Found
             </div>
 

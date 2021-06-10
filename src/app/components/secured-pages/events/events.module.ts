@@ -5,7 +5,7 @@ import { CsiModule } from './csi/csi.module';
 import { PostGradEventModule } from './post-grad-events/post-grad-event.module';
 import { CaregiverWorkshopModule } from './caregiver-workshop/caregiver-workshop.module';
 import { CaseManagerQualificationModule } from './case-manager-qualifications/case-manager-qualification.module';
-import { StudentSponsorLetterModule } from './student-sponsor-letter/student-sponsor-letter.module';
+import { SponsorLetterModule } from './sponsor-letters/sponsor-letter.module';
 
 
 @NgModule({
@@ -17,7 +17,7 @@ import { StudentSponsorLetterModule } from './student-sponsor-letter/student-spo
     CaregiverWorkshopModule,
     CaseManagerQualificationModule,
     CsiModule,
-    StudentSponsorLetterModule
+    SponsorLetterModule
   ]
 })
 export class EventsModule {
