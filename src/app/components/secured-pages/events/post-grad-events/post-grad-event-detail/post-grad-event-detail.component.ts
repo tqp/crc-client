@@ -41,7 +41,7 @@ export class PostGradEventDetailComponent implements OnInit {
     this.postGradEventService.getPostGradEventDetail(postGradEventId).subscribe(
       response => {
         this.postGradEvent = response;
-        console.log('response', response);
+        // console.log('response', response);
         this.eventService.loadingEvent.emit(false);
       },
       error => {

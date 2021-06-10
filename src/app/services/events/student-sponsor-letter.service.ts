@@ -5,7 +5,7 @@ import { TokenService } from '@tqp/services/token.service';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { map } from 'rxjs/operators';
-import { StudentSponsorLetterModel } from '../../models/student-sponsor-letter.model';
+import { StudentSponsorLetter } from '../../models/student-sponsor.letter';
 
 @Injectable({
   providedIn: 'root'
@@ -18,11 +18,11 @@ export class StudentSponsorLetterService {
 
   // JOINED TABLES
 
-  public getStudentSponsorLetterListByStudentId(studentId: number): Observable<StudentSponsorLetterModel[]> {
+  public getStudentSponsorLetterListByStudentId(studentId: number): Observable<StudentSponsorLetter[]> {
     const url = environment.apiUrl + '/api/v1/student-sponsor-letter/student/' + studentId;
     const token = this.tokenService.getToken();
     if (token) {
-      return this.http.get<StudentSponsorLetterModel[]>(url, {
+      return this.http.get<StudentSponsorLetter[]>(url, {
         headers: this.httpService.setHeadersWithToken(),
         observe: 'response',
         params: {}
@@ -38,11 +38,11 @@ export class StudentSponsorLetterService {
     }
   }
 
-  public getStudentSponsorLetterListBySponsorId(sponsorId: number): Observable<StudentSponsorLetterModel[]> {
+  public getStudentSponsorLetterListBySponsorId(sponsorId: number): Observable<StudentSponsorLetter[]> {
     const url = environment.apiUrl + '/api/v1/student-sponsor-letter/sponsor/' + sponsorId;
     const token = this.tokenService.getToken();
     if (token) {
-      return this.http.get<StudentSponsorLetterModel[]>(url, {
+      return this.http.get<StudentSponsorLetter[]>(url, {
         headers: this.httpService.setHeadersWithToken(),
         observe: 'response',
         params: {}

@@ -8,9 +8,9 @@ import { TokenService } from '@tqp/services/token.service';
 import * as moment from 'moment';
 import { MatDialog } from '@angular/material/dialog';
 import { Csi } from '../../../../../models/csi.model';
-import { tqpCustomAnimations } from '../../../../../../@tqp/animations/tqpCustomAnimations';
+import { tqpCustomAnimations } from '@tqp/animations/tqpCustomAnimations';
 import { RoleService } from '../../../../../services/account/role.service';
-import { Role } from '../../roles/Role';
+import { Role } from '../../../../../models/Role';
 
 @Component({
   selector: 'app-user-detail',

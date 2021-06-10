@@ -86,7 +86,7 @@ export class StudentSponsorEditDialogComponent implements OnInit {
   private getSponsorList(excludeId: number): void {
     this.sponsorService.getSponsorList().subscribe(
       (response: Sponsor[]) => {
-        console.log('response', response);
+        // console.log('response', response);
         this.sponsorList = response;
         this.sponsorList = this.sponsorList.filter(item => {
           return item.sponsorId !== excludeId;

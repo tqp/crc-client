@@ -134,7 +134,7 @@ export class StudentDetailEditComponent implements OnInit {
     this.studentService.getStudentDetail(studentId).subscribe(
       response => {
         this.student = response;
-        console.log('getStudentDetail', response);
+        // console.log('getStudentDetail', response);
         // Personal Information
         this.studentEditForm.controls['studentId'].patchValue(this.student.studentId);
         this.studentEditForm.controls['studentSurname'].patchValue(this.student.studentSurname);
@@ -176,7 +176,7 @@ export class StudentDetailEditComponent implements OnInit {
     this.schoolClassTypeService.getSchoolClassChildListByParentId(0).subscribe(
       (response: SchoolClassType[]) => {
         this.schoolLevelList = response;
-        console.log('response', response);
+        // console.log('response', response);
       },
       error => {
         console.error('Error: ', error);
@@ -271,8 +271,7 @@ export class StudentDetailEditComponent implements OnInit {
 
   private performSave(): void {
     const student = new Student();
-    console.log('crudEditForm', this.studentEditForm.value);
-    // Personal Information
+    // console.log('crudEditForm', this.studentEditForm.value);
     student.studentId = this.studentEditForm.value.studentId;
     student.studentSurname = this.studentEditForm.value.studentSurname;
     student.studentGivenName = this.studentEditForm.value.studentGivenName;
@@ -283,7 +282,6 @@ export class StudentDetailEditComponent implements OnInit {
     student.classLevelTypeId = this.studentEditForm.value.classLevelTypeId;
     student.classRepeatYearTypeId = this.studentEditForm.value.classRepeatYearTypeId;
     student.impairmentTypeId = this.studentEditForm.value.impairmentTypeId;
-    // Program Status
     student.caregiverId = this.studentEditForm.value.caregiverId;
 
     if (this.newRecord) {

@@ -44,7 +44,7 @@ export class CsiDetailEditComponent implements OnInit, OnDestroy {
   }
 
   public validationMessages = {
-    'csiId': [
+    'studentCsiId': [
       {type: 'required', message: 'An ID is required.'}
     ],
     'studentId': [
@@ -118,13 +118,13 @@ export class CsiDetailEditComponent implements OnInit, OnDestroy {
 
     this.route.params.forEach((params: Params) => {
       if (params['id'] !== undefined) {
-        const csiId = params['id'];
+        const studentCsiId = params['id'];
         this.newRecord = false;
-        this.getCsiDetail(csiId);
+        this.getCsiDetail(studentCsiId);
       } else {
         this.newRecord = true;
         this.csi = new Csi();
-        this.csi.csiId = null;
+        this.csi.studentCsiId = null;
         this.prepareCreatePage();
       }
     }).then();
@@ -160,7 +160,7 @@ export class CsiDetailEditComponent implements OnInit, OnDestroy {
   private initializeForm(): void {
     // console.log('this.studentId', this.studentId);
     this.csiEditForm = this.formBuilder.group({
-      csiId: new FormControl({value: 0, disabled: true}),
+      studentCsiId: new FormControl({value: 0, disabled: true}),
       studentId: new FormControl({value: this.studentId, disabled: true}, [validateNonZeroValue]),
       caseManagerUserId: new FormControl({value: 0, disabled: false}, [validateNonZeroValue]),
       csiDate: new FormControl(moment().format('DD-MMM-yyyy'), Validators.required),
@@ -183,9 +183,9 @@ export class CsiDetailEditComponent implements OnInit, OnDestroy {
     });
   }
 
-  private getCsiDetail(csiId: number): void {
+  private getCsiDetail(studentCsiId: number): void {
     const servicesProvided = this.servicesProvidedTypeService.getServicesProvidedTypeList();
-    const csiDetail = this.csiService.getCsiDetail(csiId);
+    const csiDetail = this.csiService.getCsiDetail(studentCsiId);
 
     // We need to ensure that both the servicedProvided list and the csiDetail come back before
     // trying to populate the checkboxes... so, we use forkJoin.
@@ -199,7 +199,7 @@ export class CsiDetailEditComponent implements OnInit, OnDestroy {
         // User the csiDetail response
         this.csi = response[1];
         // console.log('this.csi', this.csi);
-        this.csiEditForm.controls['csiId'].patchValue(this.csi.csiId);
+        this.csiEditForm.controls['studentCsiId'].patchValue(this.csi.studentCsiId);
         this.csiEditForm.controls['studentId'].patchValue(this.csi.studentId);
         this.csiEditForm.controls['caseManagerUserId'].patchValue(this.csi.caseManagerUserId);
         this.csiEditForm.controls['csiDate'].patchValue(this.formattingService.formatMySqlDateAsStandard(this.csi.csiDate));
@@ -316,14 +316,14 @@ export class CsiDetailEditComponent implements OnInit, OnDestroy {
 
   // BUTTONS
 
-  public delete(csiId: number): void {
+  public delete(studentCsiId: number): void {
     this.confirmDialogRef = this._matDialog.open(ConfirmDialogComponent, {
       disableClose: false
     });
     this.confirmDialogRef.componentInstance.dialogMessage = 'Are you sure you want to delete?';
     this.confirmDialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.csiService.deleteCsi(csiId).subscribe(
+        this.csiService.deleteCsi(studentCsiId).subscribe(
           response => {
             // console.log('response: ', response);
             this.router.navigate(['csi/csi-list']).then();
@@ -340,7 +340,7 @@ export class CsiDetailEditComponent implements OnInit, OnDestroy {
   public save(): void {
     const csi = new Csi();
     // console.log('csiEditForm', this.csiEditForm.getRawValue());
-    csi.csiId = this.csiEditForm.getRawValue().csiId;
+    csi.studentCsiId = this.csiEditForm.getRawValue().studentCsiId;
     csi.studentId = this.csiEditForm.getRawValue().studentId;
     csi.caseManagerUserId = this.csiEditForm.getRawValue().caseManagerUserId;
     csi.csiDate = this.formattingService.formatStandardDateAsMySql(this.csiEditForm.getRawValue().csiDate);
@@ -364,7 +364,7 @@ export class CsiDetailEditComponent implements OnInit, OnDestroy {
       this.csiService.createCsi(csi).subscribe(
         response => {
           console.log('response: ', response);
-          this.router.navigate(['csi/csi-detail', response.csiId]).then();
+          this.router.navigate(['csi/csi-detail', response.studentCsiId]).then();
         },
         error => {
           console.error('Error: ' + error.message);
@@ -374,7 +374,7 @@ export class CsiDetailEditComponent implements OnInit, OnDestroy {
       this.csiService.updateCsi(csi).subscribe(
         response => {
           // console.log('response: ', response);
-          this.router.navigate(['csi/csi-detail', response.csiId]).then();
+          this.router.navigate(['csi/csi-detail', response.studentCsiId]).then();
         },
         error => {
           console.error('Error: ' + error.message);
@@ -384,8 +384,8 @@ export class CsiDetailEditComponent implements OnInit, OnDestroy {
   }
 
   public cancel(): void {
-    if (this.csi.csiId) {
-      this.router.navigate(['csi/csi-detail', this.csi.csiId]).then();
+    if (this.csi.studentCsiId) {
+      this.router.navigate(['csi/csi-detail', this.csi.studentCsiId]).then();
     } else if (this.studentId) {
       this.router.navigate(['students/student-detail', this.studentId]).then();
     } else {

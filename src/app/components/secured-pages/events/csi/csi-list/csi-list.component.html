@@ -49,15 +49,15 @@
                matSort matSortActive="caregiverSurname" matSortDirection="asc" matSortDisableClear="true"
                class="table table-striped">
 
-          <ng-container matColumnDef="csiId">
+          <ng-container matColumnDef="studentCsiId">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>CSI ID</th>
-            <td mat-cell *matCellDef="let row">{{row.csiId}}</td>
+            <td mat-cell *matCellDef="let row">{{row.studentCsiId}}</td>
           </ng-container>
 
           <ng-container matColumnDef="csiDate">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>CSI Date</th>
             <td mat-cell *matCellDef="let row">
-              <a [routerLink]="['/csi/csi-detail', row.csiId]">
+              <a [routerLink]="['/csi/csi-detail', row.studentCsiId]">
                 {{row.csiDate | date: 'dd-MMM-yyyy'}}
               </a>
             </td>

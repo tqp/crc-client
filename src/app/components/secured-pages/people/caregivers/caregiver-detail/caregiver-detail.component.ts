@@ -13,11 +13,13 @@ import { CaregiverWorkshop } from '../../../../../models/caregiver-workshop.mode
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { CaregiverWorkshopEditDialogComponent } from '../../../events/caregiver-workshop/caregiver-workshop-edit-dialog/caregiver-workshop-edit-dialog.component';
 import { FormattingService } from '@tqp/services/formatting.service';
+import { tqpCustomAnimations } from '@tqp/animations/tqpCustomAnimations';
 
 @Component({
   selector: 'app-caregiver-detail',
   templateUrl: './caregiver-detail.component.html',
   styleUrls: ['./caregiver-detail.component.css'],
+  animations: [tqpCustomAnimations]
 })
 export class CaregiverDetailComponent implements OnInit {
   public pageSource: string;
@@ -25,16 +27,19 @@ export class CaregiverDetailComponent implements OnInit {
   public genderNames = {'M': 'Male', 'F': 'Female', 'O': 'Other'};
   public caregiverLoading: boolean = false;
 
-  // Associated Students List
+  // Caregiver-Students List
+  public studentListLoading: boolean = false;
+  public studentListIsCollapsed: boolean = true;
   public studentListRecords: Student[] = [];
   public studentListDataSource: Student[] = [];
   public studentListDisplayedColumns: string[] = [
     'name',
-    'relationshipTierTypeName',
     'relationshipStartDate'
   ];
 
-  // Associated Loans List
+  // Caregiver-Loan List
+  public loanListLoading: boolean = false;
+  public loanListIsCollapsed: boolean = true;
   public loanListRecords: Student[] = [];
   public loanListDataSource: Student[] = [];
   public loanListDisplayedColumns: string[] = [
@@ -44,9 +49,11 @@ export class CaregiverDetailComponent implements OnInit {
     'percentPaid'
   ];
 
-  // Workshops Attended List
-  public workshopListRecords: CaregiverWorkshop[] = [];
-  public workshopListDataSource: CaregiverWorkshop[] = [];
+  // Caregiver-Workshop List
+  public workshopListLoading: boolean = false;
+  public workshopListIsCollapsed: boolean = true;
+  public workshopListRecords: Student[] = [];
+  public workshopListDataSource: Student[] = [];
   public workshopListDisplayedColumns: string[] = [
     'workshopName',
     'workshopDate',

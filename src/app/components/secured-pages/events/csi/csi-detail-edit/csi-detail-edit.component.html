@@ -5,7 +5,7 @@
     <div class="row">
 
       <div class="col-sm-6">
-        <h1 *ngIf="csi && newRecord && csiEditForm.controls['csiId'].value == ''; else notShow">
+        <h1 *ngIf="csi && newRecord && csiEditForm.controls['studentCsiId'].value == ''; else notShow">
           New CSI Record
         </h1>
         <ng-template #notShow>
@@ -32,13 +32,13 @@
             <div class="row">
               <div class="col-sm-12">
                 <div class="form-group">
-                  <label for="csiId">CSI ID*</label>
-                  <input id="csiId" type="text" class="form-control" formControlName="csiId">
-                  <mat-error *ngFor="let validation of validationMessages.csiId">
+                  <label for="studentCsiId">CSI ID*</label>
+                  <input id="studentCsiId" type="text" class="form-control" formControlName="studentCsiId">
+                  <mat-error *ngFor="let validation of validationMessages.studentCsiId">
                     <mat-error class="error-message"
-                               *ngIf="csiEditForm.get('csiId').hasError(validation.type)
-                                && (csiEditForm.get('csiId').dirty ||
-                                csiEditForm.get('csiId').touched)">
+                               *ngIf="csiEditForm.get('studentCsiId').hasError(validation.type)
+                                && (csiEditForm.get('studentCsiId').dirty ||
+                                csiEditForm.get('studentCsiId').touched)">
                       {{validation.message}}
                     </mat-error>
                   </mat-error>
@@ -544,7 +544,7 @@
             <button type="button" class="btn btn-secondary" (click)="cancel()">
               <i class="fa fa-ban mr-2"></i>Cancel
             </button>
-            <button type="button" class="btn btn-danger" (click)="delete(csi.csiId)">
+            <button type="button" class="btn btn-danger" (click)="delete(csi.studentCsiId)">
               <i class="fa fa-trash-o mr-2"></i>Delete
             </button>
           </div>

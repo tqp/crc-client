@@ -21,7 +21,7 @@
 
       <div class="card">
         <div class="card-header">
-          <i class="fa fa-user"></i>
+          <i class="fa fa-info-circle"></i>
           Personal Information
           <i *ngIf="caregiverLoading" class="fa fa-spinner fa-spin"></i>
           <div class="card-header-actions"
@@ -57,85 +57,25 @@
 
     <div class="col-lg-6 col-sm-12">
 
-      <!--
       <div class="card tqp-crud-detail-list">
-        <div class="card-header disable-text-selection" (click)="toggleCsiListIsCollapsed($event)">
-          <i class="fa fa-graduation-cap"></i>
+        <div class="card-header" (click)="studentListIsCollapsed = !studentListIsCollapsed">
           Associated Students<span class="badge badge-secondary ml-2">{{studentListDataSource.length}}</span>
           <div class="card-header-actions">
-            <small class="tqp-nav-link"
-                   [hidden]="authService.hiddenBasedOnRolesOrCaseManagerOwner('ROLE_ADMIN, ROLE_CASE_MANAGER_OWNER', caseManagerOwner,'Add CSI Record')"
-                   (click)=" openCsiCreatePage();">
-              Add CSI Record
-            </small>
-            <i class="fa fa-bars ml-2" [@rotateIcon]="csiListIsCollapsed ? 'default' : 'rotated'"></i>
+            <i class="fa fa-bars" [@rotateIcon]="studentListIsCollapsed ? 'default' : 'rotated'"></i>
           </div>
         </div>
-        <div class="card-body" [collapse]="csiListIsCollapsed">
+        <div class="card-body" [collapse]="studentListIsCollapsed">
           <div class="table-container">
 
-            <table mat-table class="table table-sm" [dataSource]="csiListDataSource"
-                   *ngIf="csiListDataSource && csiListDataSource.length > 0">
-
-              <ng-container matColumnDef="csiDate">
-                <th mat-header-cell *matHeaderCellDef>Date</th>
-                <td mat-cell *matCellDef="let row">
-                  <a [routerLink]="['/csi/csi-detail', row.studentCsiId]">
-                    {{row.csiDate | date: 'dd-MMM-yyyy'}}
-                  </a>
-                </td>
-              </ng-container>
-
-              <ng-container matColumnDef="caseManagerName">
-                <th mat-header-cell *matHeaderCellDef>Case Manager</th>
-                <td mat-cell *matCellDef="let row">
-                  <a [routerLink]="['/case-managers/case-manager-detail', row.caseManagerId]">
-                    {{row.caseManagerGivenName}} {{row.caseManagerSurname}}
-                  </a>
-                </td>
-              </ng-container>
-
-              <tr mat-header-row *matHeaderRowDef="csiListDisplayedColumns; sticky: true" [hidden]="true"></tr>
-              <tr mat-row *matRowDef="let row; columns: csiListDisplayedColumns;"></tr>
-            </table>
-
-            <div class="no-records" *ngIf="csiListDataSource && csiListDataSource.length <= 0">
-              No Records Found
-            </div>
-
-          </div>
-
-        </div>
-      </div>
-      -->
-
-      <div class="card">
-        <div class="card-header">
-          <i class="fa fa-graduation-cap"></i>
-          Associated Students<span class="badge badge-secondary ml-2">{{studentListDataSource.length}}</span>
-        </div>
-        <div class="card-body">
-
-          <div class="table-container" style="height: 200px; border: 1px solid rgb(200, 206, 211);">
-
-            <table mat-table [dataSource]="studentListDataSource"
-                   *ngIf="studentListDataSource && studentListDataSource.length > 0"
-                   matSort matSortActive="lastName" matSortDirection="asc" matSortDisableClear="true"
-                   class="table">
+            <table mat-table class="table table-sm" [dataSource]="studentListDataSource"
+                   *ngIf="studentListDataSource && studentListDataSource.length > 0">
 
               <ng-container matColumnDef="name">
-                <th mat-header-cell *matHeaderCellDef>Name</th>
+                <th mat-header-cell *matHeaderCellDef>Student Name</th>
                 <td mat-cell *matCellDef="let row">
                   <a [routerLink]="['/students/student-detail', row.studentId]">
                     {{row.studentGivenName}} {{row.studentSurname}}
                   </a>
-                </td>
-              </ng-container>
-
-              <ng-container matColumnDef="relationshipTierTypeName">
-                <th mat-header-cell *matHeaderCellDef>Tier Level</th>
-                <td mat-cell *matCellDef="let row">
-                  {{row.relationshipTierTypeName}}
                 </td>
               </ng-container>
 
@@ -146,12 +86,12 @@
                 </td>
               </ng-container>
 
-              <tr mat-header-row *matHeaderRowDef="studentListDisplayedColumns; sticky: true" [hidden]="false"></tr>
+              <tr mat-header-row *matHeaderRowDef="studentListDisplayedColumns; sticky: true" [hidden]="true"></tr>
               <tr mat-row *matRowDef="let row; columns: studentListDisplayedColumns;"></tr>
             </table>
 
             <div class="no-records" *ngIf="studentListDataSource && studentListDataSource.length <= 0">
-              No records to display.
+              No Records Found
             </div>
 
           </div>
@@ -159,56 +99,41 @@
         </div>
       </div>
 
-      <div class="card">
-        <div class="card-header">
-          <i class="fa fa-bank"></i>
+      <div class="card tqp-crud-detail-list">
+        <div class="card-header" (click)="loanListIsCollapsed = !loanListIsCollapsed">
           Loans<span class="badge badge-secondary ml-2">{{loanListDataSource.length}}</span>
+          <div class="card-header-actions">
+            <i class="fa fa-bars" [@rotateIcon]="loanListIsCollapsed ? 'default' : 'rotated'"></i>
+          </div>
         </div>
-        <div class="card-body">
+        <div class="card-body" [collapse]="loanListIsCollapsed">
+          <div class="table-container">
 
-          <div class="table-container" style="height: 200px; border: 1px solid rgb(200, 206, 211);">
+            <table mat-table class="table table-sm" [dataSource]="loanListDataSource"
+                   *ngIf="loanListDataSource && loanListDataSource.length > 0">
 
-            <table mat-table [dataSource]="loanListDataSource"
-                   *ngIf="loanListDataSource && loanListDataSource.length > 0"
-                   matSort matSortActive="lastName" matSortDirection="asc" matSortDisableClear="true"
-                   class="table">
-
-              <ng-container matColumnDef="loanId">
-                <th mat-header-cell *matHeaderCellDef>Loan ID</th>
+              <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef>Student Name</th>
                 <td mat-cell *matCellDef="let row">
-                  <a [routerLink]="['/loans/loan-detail', row.loanId]">
-                    {{('00000' + row.loanId).slice(-5)}}
+                  <a [routerLink]="['/students/student-detail', row.studentId]">
+                    {{row.studentGivenName}} {{row.studentSurname}}
                   </a>
                 </td>
               </ng-container>
 
-              <ng-container matColumnDef="loanAmount">
-                <th mat-header-cell *matHeaderCellDef>Loan Amount</th>
+              <ng-container matColumnDef="relationshipStartDate">
+                <th mat-header-cell *matHeaderCellDef>Assignment Date</th>
                 <td mat-cell *matCellDef="let row">
-                  {{row.loanAmount | currency: 'Le'}}
+                  {{row.relationshipStartDate | date: 'dd-MMM-yyyy'}}
                 </td>
               </ng-container>
 
-              <ng-container matColumnDef="amountPaid">
-                <th mat-header-cell *matHeaderCellDef>Total Paid</th>
-                <td mat-cell *matCellDef="let row">
-                  {{row.amountPaid | currency: 'Le'}}
-                </td>
-              </ng-container>
-
-              <ng-container matColumnDef="percentPaid">
-                <th mat-header-cell *matHeaderCellDef>Percent Paid</th>
-                <td mat-cell *matCellDef="let row">
-                  {{(row.amountPaid / row.loanAmount) | percent:'1.2-2'}}
-                </td>
-              </ng-container>
-
-              <tr mat-header-row *matHeaderRowDef="loanListDisplayedColumns; sticky: true" [hidden]="false"></tr>
+              <tr mat-header-row *matHeaderRowDef="loanListDisplayedColumns; sticky: true" [hidden]="true"></tr>
               <tr mat-row *matRowDef="let row; columns: loanListDisplayedColumns;"></tr>
             </table>
 
             <div class="no-records" *ngIf="loanListDataSource && loanListDataSource.length <= 0">
-              No records to display.
+              No Records Found
             </div>
 
           </div>
@@ -216,58 +141,41 @@
         </div>
       </div>
 
-      <div class="card">
-        <div class="card-header">
-          <i class="fa fa-ticket"></i>
+      <div class="card tqp-crud-detail-list">
+        <div class="card-header" (click)="workshopListIsCollapsed = !workshopListIsCollapsed">
           Workshops Attended<span class="badge badge-secondary ml-2">{{workshopListDataSource.length}}</span>
-          <div class="card-header-actions"
-               [hidden]="authService.hiddenBasedOnRoles('ROLE_ADMIN', 'Add Caregiver-Workshop')">
-            <small class="tqp-nav-link" (click)="openCaregiverWorkshopCreateDialog(this.caregiver.caregiverId, null);">Add Workshop</small>
+          <div class="card-header-actions">
+            <i class="fa fa-bars" [@rotateIcon]="workshopListIsCollapsed ? 'default' : 'rotated'"></i>
           </div>
         </div>
-        <div class="card-body">
+        <div class="card-body" [collapse]="workshopListIsCollapsed">
+          <div class="table-container">
 
-          <div class="table-container" style="height: 200px; border: 1px solid rgb(200, 206, 211);">
+            <table mat-table class="table table-sm" [dataSource]="workshopListDataSource"
+                   *ngIf="workshopListDataSource && workshopListDataSource.length > 0">
 
-            <table mat-table [dataSource]="workshopListDataSource"
-                   *ngIf="workshopListDataSource && workshopListDataSource.length > 0"
-                   matSort matSortActive="lastName" matSortDirection="asc" matSortDisableClear="true"
-                   class="table">
-
-              <ng-container matColumnDef="caregiverWorkshopId">
-                <th mat-header-cell *matHeaderCellDef>ID</th>
+              <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef>Student Name</th>
                 <td mat-cell *matCellDef="let row">
-                  {{row.caregiverWorkshopId}}
+                  <a [routerLink]="['/students/student-detail', row.studentId]">
+                    {{row.studentGivenName}} {{row.studentSurname}}
+                  </a>
                 </td>
               </ng-container>
 
-              <ng-container matColumnDef="workshopName">
-                <th mat-header-cell *matHeaderCellDef>Workshop Name</th>
+              <ng-container matColumnDef="relationshipStartDate">
+                <th mat-header-cell *matHeaderCellDef>Assignment Date</th>
                 <td mat-cell *matCellDef="let row">
-                  {{row.workshopName}}
+                  {{row.relationshipStartDate | date: 'dd-MMM-yyyy'}}
                 </td>
               </ng-container>
 
-              <ng-container matColumnDef="workshopDate">
-                <th mat-header-cell *matHeaderCellDef>Workshop Date</th>
-                <td mat-cell *matCellDef="let row">
-                  {{row.workshopDate | date: 'dd-MMM-yyyy'}}
-                </td>
-              </ng-container>
-
-              <ng-container matColumnDef="actions">
-                <th mat-header-cell *matHeaderCellDef></th>
-                <td mat-cell *matCellDef="let row" [hidden]="authService.hiddenBasedOnRoles('ROLE_EDIT, ROLE_ADMIN', 'Edit Caregiver-Workshop')">
-                  <i class="fa fa-edit" (click)="openCaregiverWorkshopCreateDialog(this.caregiver.caregiverId, row.caregiverWorkshopId)" style="cursor: pointer;"></i>
-                </td>
-              </ng-container>
-
-              <tr mat-header-row *matHeaderRowDef="workshopListDisplayedColumns; sticky: true" [hidden]="false"></tr>
+              <tr mat-header-row *matHeaderRowDef="workshopListDisplayedColumns; sticky: true" [hidden]="true"></tr>
               <tr mat-row *matRowDef="let row; columns: workshopListDisplayedColumns;"></tr>
             </table>
 
             <div class="no-records" *ngIf="workshopListDataSource && workshopListDataSource.length <= 0">
-              No records to display.
+              No Records Found
             </div>
 
           </div>
@@ -275,7 +183,6 @@
         </div>
       </div>
 
-    </div>
   </div>
 
 </div>

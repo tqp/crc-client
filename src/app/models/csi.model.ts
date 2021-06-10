@@ -1,5 +1,5 @@
 export class Csi {
-  public csiId?: number;
+  public studentCsiId?: number;
   public studentId?: number;
   public caseManagerUserId?: number;
   public csiDate?: string;

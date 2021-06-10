@@ -6,7 +6,7 @@ import { merge } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { SponsorService } from '../../../../../services/people/sponsor.service';
 import { Sponsor } from '../../../../../models/people/sponsor.model';
-import { AuthService } from '../../../../../../@tqp/services/auth.service';
+import { AuthService } from '@tqp/services/auth.service';
 import { Router } from '@angular/router';
 
 @Component({

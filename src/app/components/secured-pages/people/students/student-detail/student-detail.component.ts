@@ -18,8 +18,8 @@ import { StudentSponsorEditDialogComponent } from '../../../relationships/studen
 import { SponsorService } from '../../../../../services/people/sponsor.service';
 import { RelationshipService } from '../../../../../services/relationships/relationship.service';
 import { StudentProgramStatusEditDialogComponent } from '../../../relationships/student-program-status-edit-dialog/student-program-status-edit-dialog.component';
-import { ProgramStatusService } from '../../../relationships/student-program-status-edit-dialog/program-status.service';
-import { ProgramStatus } from '../../../relationships/student-program-status-edit-dialog/ProgramStatus';
+import { ProgramStatusService } from '../../../../../services/program-status.service';
+import { ProgramStatus } from '../../../../../models/ProgramStatus';
 import { Visit } from '../../../../../models/visit.model';
 import { VisitService } from '../../../../../services/events/visit.service';
 import { VisitDetailEditDialogComponent } from '../../../events/visits/visit-detail-edit-dialog/visit-detail-edit-dialog.component';
@@ -32,9 +32,9 @@ import { getStyle, hexToRgba } from '@coreui/coreui-pro/dist/js/coreui-utilities
 import { PostGradEventService } from '../../../../../services/events/post-grad-event.service';
 import { PostGradEventDetailEditDialogComponent } from '../../../events/post-grad-events/post-grad-event-detail-edit-dialog/post-grad-event-detail-edit-dialog.component';
 import { StudentSponsorLetterService } from '../../../../../services/events/student-sponsor-letter.service';
-import { StudentSponsorLetterModel } from '../../../../../models/student-sponsor-letter.model';
+import { StudentSponsorLetter } from '../../../../../models/student-sponsor.letter';
 import { StudentSponsorLetterDetailEditDialogComponent } from '../../../events/student-sponsor-letter/student-sponsor-letter-detail-edit-dialog/student-sponsor-letter-detail-edit-dialog.component';
-import { tqpCustomAnimations } from '../../../../../../@tqp/animations/tqpCustomAnimations';
+import { tqpCustomAnimations } from '@tqp/animations/tqpCustomAnimations';
 
 @Component({
   selector: 'app-student-detail',
@@ -216,7 +216,7 @@ export class StudentDetailComponent implements OnInit {
   private isTheLoggedInUserTheStudentsCaseManager(studentId: number): void {
     this.caseManagerService.isTheLoggedInUserTheStudentsCaseManager(studentId).subscribe(
       (response: boolean) => {
-        console.log('caseManagerOwner', response);
+        // console.log('caseManagerOwner', response);
         this.caseManagerOwner = response != null ? response : false
       },
       error => {
@@ -335,7 +335,7 @@ export class StudentDetailComponent implements OnInit {
   private getStudentSponsorLetterListByStudentId(studentId: number): void {
     this.studentSponsorLetterListLoading = true;
     this.studentSponsorLetterService.getStudentSponsorLetterListByStudentId(studentId).subscribe(
-      (studentSponsorLetterList: StudentSponsorLetterModel[]) => {
+      (studentSponsorLetterList: StudentSponsorLetter[]) => {
         // console.log('studentSponsorLetterList', studentSponsorLetterList);
         this.studentSponsorLetterListRecords = [];
         if (studentSponsorLetterList) {
@@ -453,7 +453,7 @@ export class StudentDetailComponent implements OnInit {
     const dialogRef = this._matDialog.open(PostGradEventDetailEditDialogComponent, dialogConfig);
 
     dialogRef.afterClosed().subscribe(dialogData => {
-      console.log('dialogData', dialogData);
+      // console.log('dialogData', dialogData);
       if (dialogData) {
         const postGradEvent: PostGradEvent = {};
         const formData = dialogData[1];
@@ -461,13 +461,13 @@ export class StudentDetailComponent implements OnInit {
         postGradEvent.postGradEventTypeId = formData.postGradEventTypeId;
         postGradEvent.postGradEventDate = this.formattingService.formatStandardDateAsMySql(formData.postGradEventDate);
         postGradEvent.postGradEventComments = formData.postGradEventComments;
-        console.log('postGradEvent', postGradEvent);
+        // console.log('postGradEvent', postGradEvent);
 
         switch (dialogData[0]) {
           case 'create':
             this.postGradEventService.createPostGradEvent(postGradEvent).subscribe(
               (response) => {
-                console.log('response', response);
+                // console.log('response', response);
                 this.getPostGradEventListByStudentId(this.student.studentId);
                 // this.getHistoryListByStudentId(this.student.studentId);
               },
@@ -520,7 +520,7 @@ export class StudentDetailComponent implements OnInit {
     const dialogRef = this._matDialog.open(VisitDetailEditDialogComponent, dialogConfig);
 
     dialogRef.afterClosed().subscribe(dialogData => {
-      console.log('dialogData', dialogData);
+      // console.log('dialogData', dialogData);
       if (dialogData) {
         const visit: Visit = {};
         visit.studentId = dialogData.studentId;
@@ -530,10 +530,10 @@ export class StudentDetailComponent implements OnInit {
         visit.visitTypeId = dialogData.visitTypeId;
         visit.caregiverComments = dialogData.caregiverComments;
         visit.caseManagerComments = dialogData.caseManagerComments;
-        console.log('visit', visit);
+        // console.log('visit', visit);
         this.visitService.createVisit(visit).subscribe(
           response => {
-            console.log('response', response);
+            // console.log('response', response);
             this.getVisitListByStudentId(this.student.studentId);
           },
           error => {
@@ -794,7 +794,7 @@ export class StudentDetailComponent implements OnInit {
     const dialogRef = this._matDialog.open(StudentSponsorEditDialogComponent, dialogConfig);
 
     dialogRef.afterClosed().subscribe(dialogData => {
-      console.log('dialogData', dialogData);
+      // console.log('dialogData', dialogData);
       if (dialogData) {
         const relationship: Relationship = {};
         const formData = dialogData[1];
@@ -803,7 +803,7 @@ export class StudentDetailComponent implements OnInit {
         relationship.relationshipId = formData.relationshipId;
         relationship.relationshipEntityId = formData.sponsorId;
         relationship.relationshipStartDate = this.formattingService.formatStandardDateAsMySql(formData.relationshipStartDate);
-        console.log('relationship', relationship);
+        // console.log('relationship', relationship);
 
         switch (dialogData[0]) {
           case 'create':
@@ -864,7 +864,7 @@ export class StudentDetailComponent implements OnInit {
     const dialogRef = this._matDialog.open(StudentSponsorLetterDetailEditDialogComponent, dialogConfig);
 
     dialogRef.afterClosed().subscribe(dialogData => {
-      console.log('dialogData', dialogData);
+      // console.log('dialogData', dialogData);
       if (dialogData) {
         const relationship: Relationship = {};
         const formData = dialogData[1];

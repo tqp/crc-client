@@ -237,7 +237,7 @@ export class CsiListComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public openDetailPage(row: any): void {
-    this.router.navigate(['csi/csi-detail', row.csiId]).then();
+    this.router.navigate(['csi/csi-detail', row.studentCsiId]).then();
   }
 
   @HostListener('window:keydown', ['$event'])

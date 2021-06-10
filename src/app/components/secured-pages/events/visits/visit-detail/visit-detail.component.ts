@@ -52,7 +52,7 @@ export class VisitDetailComponent implements OnInit {
     this.visitService.getVisitDetail(visitId).subscribe(
       response => {
         this.visit = response;
-        console.log('response', response);
+        // console.log('response', response);
         this.eventService.loadingEvent.emit(false);
       },
       error => {

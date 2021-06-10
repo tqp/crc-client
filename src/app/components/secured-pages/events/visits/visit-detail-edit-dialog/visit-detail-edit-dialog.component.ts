@@ -111,7 +111,7 @@ export class VisitDetailEditDialogComponent implements OnInit {
   private getCaseManagerList(): void {
     this.caseManagerService.getCaseManagerList().subscribe(
       (response: Caregiver[]) => {
-        console.log('response', response);
+        // console.log('response', response);
         this.caseManagerList = response;
       },
       error => {
@@ -135,7 +135,7 @@ export class VisitDetailEditDialogComponent implements OnInit {
   private getInteractionTypeList(): void {
     this.interactionTypeService.getInteractionTypeList().subscribe(
       (response: InteractionType[]) => {
-        console.log('response', response);
+        // console.log('response', response);
         this.interactionTypeList = response;
       },
       error => {
@@ -145,10 +145,6 @@ export class VisitDetailEditDialogComponent implements OnInit {
   }
 
   // BUTTONS
-
-  public reset(): void {
-    console.log('reset');
-  }
 
   public save(): void {
     this.dialogRef.close(this.visitEditForm.getRawValue());

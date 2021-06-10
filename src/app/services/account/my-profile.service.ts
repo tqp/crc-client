@@ -4,7 +4,7 @@ import { User } from 'app/models/User';
 import { environment } from '../../../environments/environment';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { TokenService } from '@tqp/services/token.service';
-import { Role } from 'app/components/secured-pages/account/roles/Role';
+import { Role } from 'app/models/Role';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { HttpService } from '@tqp/services/http.service';

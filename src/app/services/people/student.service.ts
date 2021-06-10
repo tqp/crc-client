@@ -192,28 +192,6 @@ export class StudentService {
     }
   }
 
-  // FILTERED
-
-  public getStudentListBySponsorId(sponsorId: number): Observable<Student[]> {
-    const url = environment.apiUrl + '/api/v1/student/sponsor/' + sponsorId;
-    const token = this.tokenService.getToken();
-    if (token) {
-      return this.http.get<Student[]>(url, {
-        headers: this.httpService.setHeadersWithToken(),
-        observe: 'response',
-        params: {}
-      })
-        .pipe(
-          map(res => {
-            return res.body;
-          })
-        );
-    } else {
-      console.error('No token was present.');
-      return null;
-    }
-  }
-
   // OTHER QUERIES
 
   public checkDuplicateStudentRecord(student: Student) {

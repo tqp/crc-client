@@ -1,4 +1,4 @@
-export class StudentSponsorLetterModel {
+export class StudentSponsorLetter {
   public studentSponsorLetterId?: number;
   public studentId?: number;
   public sponsorId?: number;

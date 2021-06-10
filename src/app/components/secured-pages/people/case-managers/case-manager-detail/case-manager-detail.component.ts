@@ -27,7 +27,7 @@ export class CaseManagerDetailComponent implements OnInit {
   public genderNames = {'M': 'Male', 'F': 'Female', 'O': 'Other'};
   public caseManagerLoading: boolean = false;
 
-  // Associated Students List
+  // Case Manager - Students List
   public studentListLoading: boolean = false;
   public studentListIsCollapsed: boolean = true;
   public studentListRecords: Student[] = [];

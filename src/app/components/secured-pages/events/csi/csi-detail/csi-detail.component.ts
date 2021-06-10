@@ -42,21 +42,21 @@ export class CsiDetailComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.forEach((params: Params) => {
       if (params['id'] !== undefined) {
-        const csiId = params['id'];
-        // console.log('csiId', csiId);
-        this.getCsiDetail(csiId);
-        // this.getStudentListByCsiId(csiId);
+        const studentCsiId = params['id'];
+        // console.log('studentCsiId', studentCsiId);
+        this.getCsiDetail(studentCsiId);
+        // this.getStudentListByCsiId(studentCsiId);
       } else {
         console.error('No ID was present.');
       }
     }).then();
   }
 
-  private getCsiDetail(csiId: number): void {
+  private getCsiDetail(studentCsiId: number): void {
     this.eventService.loadingEvent.emit(true);
 
     const servicesProvided = this.servicesProvidedTypeService.getServicesProvidedTypeList();
-    const csiDetail = this.csiService.getCsiDetail(csiId);
+    const csiDetail = this.csiService.getCsiDetail(studentCsiId);
 
     // We need to ensure that both the servicedProvided list and the csiDetail come back before
     // trying to populate the checkboxes... so, we use forkJoin.
@@ -106,7 +106,7 @@ export class CsiDetailComponent implements OnInit {
   }
 
   public openEditPage(): void {
-    this.router.navigate(['csi/csi-detail-edit', this.csi.csiId]).then();
+    this.router.navigate(['csi/csi-detail-edit', this.csi.studentCsiId]).then();
   }
 
   public openTwitter(twitterHandle: string): void {

@@ -4,7 +4,7 @@ import { map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { HttpService } from '@tqp/services/http.service';
 import { TokenService } from '@tqp/services/token.service';
-import { Role } from '../../components/secured-pages/account/roles/Role';
+import { Role } from '../../models/Role';
 
 @Injectable({
   providedIn: 'root'

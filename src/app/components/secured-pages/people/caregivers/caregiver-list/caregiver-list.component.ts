@@ -7,7 +7,7 @@ import { debounceTime } from 'rxjs/operators';
 import { Student } from '../../../../../models/people/student.model';
 import { CaregiverService } from '../../../../../services/people/caregiver.service';
 import { Caregiver } from '../../../../../models/people/caregiver.model';
-import { AuthService } from '../../../../../../@tqp/services/auth.service';
+import { AuthService } from '@tqp/services/auth.service';
 import { Router } from '@angular/router';
 
 @Component({

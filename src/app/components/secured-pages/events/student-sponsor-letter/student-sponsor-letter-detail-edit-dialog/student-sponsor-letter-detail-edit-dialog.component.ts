@@ -5,7 +5,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { FormattingService } from '@tqp/services/formatting.service';
 import * as moment from 'moment';
 import { StudentSponsorLetterService } from '../../../../../services/events/student-sponsor-letter.service';
-import { StudentSponsorLetterModel } from '../../../../../models/student-sponsor-letter.model';
+import { StudentSponsorLetter } from '../../../../../models/student-sponsor.letter';
 import { Sponsor } from '../../../../../models/people/sponsor.model';
 import { Student } from '../../../../../models/people/student.model';
 import { SponsorService } from '../../../../../services/people/sponsor.service';
@@ -21,7 +21,7 @@ export class StudentSponsorLetterDetailEditDialogComponent implements OnInit {
   public confirmDialogRef: MatDialogRef<ConfirmDialogComponent>;
   public dataLoaded: boolean = true;
   public studentSponsorLetterEditForm: FormGroup;
-  public studentSponsorLetter: StudentSponsorLetterModel;
+  public studentSponsorLetter: StudentSponsorLetter;
   public sponsorList: Sponsor[];
   public studentList: Student[];
 

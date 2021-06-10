@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
-import { environment } from '../../../../../environments/environment';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { HttpService } from '@tqp/services/http.service';
 import { TokenService } from '@tqp/services/token.service';
-import { ProgramStatusPackage } from './ProgramStatusPackage';
-import { ProgramStatus } from './ProgramStatus';
+import { ProgramStatusPackage } from '../models/ProgramStatusPackage';
+import { environment } from '../../environments/environment';
+import { ProgramStatus } from '../models/ProgramStatus';
 
 @Injectable({
   providedIn: 'root'

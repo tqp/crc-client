@@ -1,4 +1,4 @@
-import { Role } from '../components/secured-pages/account/roles/Role';
+import { Role } from './Role';
 
 export class User {
   public userName: string;

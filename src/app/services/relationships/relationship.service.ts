@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { map } from 'rxjs/operators';
 import { Student } from '../../models/people/student.model';
-import { ProgramStatus } from '../../components/secured-pages/relationships/student-program-status-edit-dialog/ProgramStatus';
+import { ProgramStatus } from '../../models/ProgramStatus';
 
 @Injectable({
   providedIn: 'root'
@@ -206,6 +206,26 @@ export class RelationshipService {
           observe: 'response',
           params: {}
         })
+        .pipe(
+          map(res => {
+            return res.body;
+          })
+        );
+    } else {
+      console.error('No token was present.');
+      return null;
+    }
+  }
+
+  public getStudentListBySponsorId(sponsorId: number): Observable<Student[]> {
+    const url = environment.apiUrl + '/api/v1/relationship/sponsor/' + sponsorId;
+    const token = this.tokenService.getToken();
+    if (token) {
+      return this.http.get<Student[]>(url, {
+        headers: this.httpService.setHeadersWithToken(),
+        observe: 'response',
+        params: {}
+      })
         .pipe(
           map(res => {
             return res.body;

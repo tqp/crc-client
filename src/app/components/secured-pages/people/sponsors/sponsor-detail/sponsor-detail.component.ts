@@ -6,17 +6,18 @@ import { SponsorService } from '../../../../../services/people/sponsor.service';
 import { AuthService } from '@tqp/services/auth.service';
 import { RelationshipService } from '../../../../../services/relationships/relationship.service';
 import { Student } from '../../../../../models/people/student.model';
-import { Visit } from '../../../../../models/visit.model';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { StudentSponsorLetterService } from '../../../../../services/events/student-sponsor-letter.service';
-import { StudentSponsorLetterModel } from '../../../../../models/student-sponsor-letter.model';
+import { StudentSponsorLetter } from '../../../../../models/student-sponsor.letter';
 import { StudentSponsorLetterDetailEditDialogComponent } from '../../../events/student-sponsor-letter/student-sponsor-letter-detail-edit-dialog/student-sponsor-letter-detail-edit-dialog.component';
 import { StudentService } from '../../../../../services/people/student.service';
+import { tqpCustomAnimations } from '@tqp/animations/tqpCustomAnimations';
 
 @Component({
   selector: 'app-sponsor-detail',
   templateUrl: './sponsor-detail.component.html',
-  styleUrls: ['./sponsor-detail.component.css']
+  styleUrls: ['./sponsor-detail.component.css'],
+  animations: [tqpCustomAnimations]
 })
 export class SponsorDetailComponent implements OnInit {
   public pageSource: string;
@@ -24,7 +25,9 @@ export class SponsorDetailComponent implements OnInit {
   public genderNames = {'M': 'Male', 'F': 'Female', 'O': 'Other'};
   public sponsorLoading: boolean = false;
 
-  // Associated Students List
+  // Sponsor-Students List
+  public studentListLoading: boolean = false;
+  public studentListIsCollapsed: boolean = true;
   public studentListRecords: Student[] = [];
   public studentListDataSource: Student[] = [];
   public studentListDisplayedColumns: string[] = [
@@ -32,14 +35,14 @@ export class SponsorDetailComponent implements OnInit {
     'relationshipStartDate'
   ];
 
-  // Student-Sponsor Letters
+  // Sponsor-Letter List
   public sponsorLetterListLoading: boolean = false;
-  public sponsorLetterListRecords: Visit[] = [];
-  public sponsorLetterListDataSource: Visit[] = [];
+  public sponsorLetterListIsCollapsed: boolean = true;
+  public sponsorLetterListRecords: StudentSponsorLetter[] = [];
+  public sponsorLetterListDataSource: StudentSponsorLetter[] = [];
   public sponsorLetterListDisplayedColumns: string[] = [
-    // 'studentSponsorLetterId',
     'studentSponsorLetterDate',
-    'sponsorName'
+    'studentName'
   ];
 
   constructor(private route: ActivatedRoute,
@@ -82,9 +85,9 @@ export class SponsorDetailComponent implements OnInit {
   }
 
   private getStudentListBySponsorId(sponsorId: number): void {
-    this.studentService.getStudentListBySponsorId(sponsorId).subscribe(
+    this.relationshipService.getStudentListBySponsorId(sponsorId).subscribe(
       (studentList: Student[]) => {
-        // console.log('studentList', studentList);
+        console.log('studentList', studentList);
         studentList.forEach(item => {
           this.studentListRecords.push(item);
         });
@@ -98,8 +101,8 @@ export class SponsorDetailComponent implements OnInit {
 
   private getSponsorLetterListBySponsorId(sponsorId: number): void {
     this.sponsorLetterService.getStudentSponsorLetterListBySponsorId(sponsorId).subscribe(
-      (sponsorLetterList: StudentSponsorLetterModel[]) => {
-        // console.log('sponsorLetterList', sponsorLetterList);
+      (sponsorLetterList: StudentSponsorLetter[]) => {
+        console.log('sponsorLetterList', sponsorLetterList);
         this.sponsorLetterListRecords = [];
         sponsorLetterList.forEach(item => {
           this.sponsorLetterListRecords.push(item);
