@@ -14,8 +14,15 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'csi-recordlist',
+        redirectTo: 'csi-record-list',
         pathMatch: 'full'
+      },
+      {
+        path: 'csi-record-create',
+        component: CsiRecordDetailEditComponent,
+        data: {
+          title: 'Create CSI Record'
+        }
       },
       {
         path: 'csi-record-list',
@@ -29,13 +36,6 @@ const routes: Routes = [
         component: CsiRecordDetailComponent,
         data: {
           title: 'CSI Record Detail'
-        }
-      },
-      {
-        path: 'csi-record-create',
-        component: CsiRecordDetailEditComponent,
-        data: {
-          title: 'Create CSI Record'
         }
       },
       {

@@ -42,25 +42,24 @@ export class CsiRecordDetailComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.forEach((params: Params) => {
       if (params['id'] !== undefined) {
-        const studentCsiId = params['id'];
-        // console.log('studentCsiId', studentCsiId);
-        this.getCsiDetail(studentCsiId);
-        // this.getStudentListByCsiId(studentCsiId);
+        const csiRecordId = params['id'];
+        // console.log('csiRecordId', csiRecordId);
+        this.getCsiRecordDetail(csiRecordId);
       } else {
         console.error('No ID was present.');
       }
     }).then();
   }
 
-  private getCsiDetail(studentCsiId: number): void {
+  private getCsiRecordDetail(csiRecordId: number): void {
     this.eventService.loadingEvent.emit(true);
 
-    const servicesProvided = this.servicesProvidedTypeService.getServicesProvidedTypeList();
-    const csiDetail = this.csiService.getCsiRecordDetail(studentCsiId);
+    const servicesProvidedTypeList = this.servicesProvidedTypeService.getServicesProvidedTypeList();
+    const csiRecordDetail = this.csiService.getCsiRecordDetail(csiRecordId);
 
-    // We need to ensure that both the servicedProvided list and the csiDetail come back before
+    // We need to ensure that both the servicedProvided list and the csiRecordDetail come back before
     // trying to populate the checkboxes... so, we use forkJoin.
-    forkJoin([servicesProvided, csiDetail]).subscribe(response => {
+    forkJoin([servicesProvidedTypeList, csiRecordDetail]).subscribe(response => {
         // console.log('response', response);
 
         // Use the servicesProvidedTypeList response
@@ -69,7 +68,7 @@ export class CsiRecordDetailComponent implements OnInit {
           return item.servicesProvidedTypeId = ('000' + item.servicesProvidedTypeId).slice(-3);
         });
 
-        // UserModel the csiDetail response
+        // UserModel the csiRecordDetail response
         this.csi = response[1];
 
         this.eventService.loadingEvent.emit(false);
@@ -102,11 +101,11 @@ export class CsiRecordDetailComponent implements OnInit {
   // BUTTONS
 
   public returnToList(): void {
-    this.router.navigate(['csi/csi-record-list']).then();
+    this.router.navigate(['csi-records/csi-record-list']).then();
   }
 
   public openEditPage(): void {
-    this.router.navigate(['csi/csi-record-detail-edit', this.csi.csiRecordId]).then();
+    this.router.navigate(['csi-records/csi-record-detail-edit', this.csi.csiRecordId]).then();
   }
 
   public openTwitter(twitterHandle: string): void {

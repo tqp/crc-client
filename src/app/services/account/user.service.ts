@@ -10,7 +10,6 @@ import { TokenService } from '@tqp/services/token.service';
 import { UserModel } from '../../models/user.model';
 import { Role } from '../../models/role.model';
 import { Router } from '@angular/router';
-import { Student } from '../../models/people/student.model';
 
 @Injectable({
   providedIn: 'root'

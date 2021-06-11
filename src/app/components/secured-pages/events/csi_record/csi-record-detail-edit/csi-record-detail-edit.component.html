@@ -1,18 +1,18 @@
-<div class="tqp-crud-detail-edit animated fadeIn" *ngIf="csi">
+<div class="tqp-crud-detail-edit animated fadeIn" *ngIf="csiRecord">
 
-  <form [formGroup]="csiEditForm">
+  <form [formGroup]="csiRecordEditForm">
 
     <div class="row">
 
       <div class="col-sm-12">
-        <h1 *ngIf="csi && newRecord && csiEditForm.controls['studentCsiId'].value == ''; else notShow">
+        <h1 *ngIf="csiRecord && newRecord && csiRecordEditForm.controls['studentCsiId'].value == ''; else notShow">
           New CSI Record
         </h1>
         <ng-template #notShow>
           <h1>
             <i class="fa fa-pencil-square-o"></i>
-            {{csi.studentGivenName}} {{csi.studentSurname}} CSI
-            on {{csiEditForm.controls['csiDate'].value | date: 'dd-MMM-yyyy'}}
+            {{csiRecord.studentGivenName}} {{csiRecord.studentSurname}} CSI
+            on {{csiRecordEditForm.controls['csiDate'].value | date: 'dd-MMM-yyyy'}}
           </h1>
         </ng-template>
       </div>
@@ -36,9 +36,9 @@
                   <input id="studentCsiId" type="text" class="form-control" formControlName="studentCsiId">
                   <mat-error *ngFor="let validation of validationMessages.studentCsiId">
                     <mat-error class="error-message"
-                               *ngIf="csiEditForm.get('studentCsiId').hasError(validation.type)
-                                && (csiEditForm.get('studentCsiId').dirty ||
-                                csiEditForm.get('studentCsiId').touched)">
+                               *ngIf="csiRecordEditForm.get('studentCsiId').hasError(validation.type)
+                                && (csiRecordEditForm.get('studentCsiId').dirty ||
+                                csiRecordEditForm.get('studentCsiId').touched)">
                       {{validation.message}}
                     </mat-error>
                   </mat-error>
@@ -59,9 +59,9 @@
                   </select>
                   <mat-error *ngFor="let validation of validationMessages.studentId">
                     <mat-error class="error-message"
-                               *ngIf="csiEditForm.get('studentId').hasError(validation.type)
-                                && (csiEditForm.get('studentId').dirty ||
-                                csiEditForm.get('studentId').touched)">
+                               *ngIf="csiRecordEditForm.get('studentId').hasError(validation.type)
+                                && (csiRecordEditForm.get('studentId').dirty ||
+                                csiRecordEditForm.get('studentId').touched)">
                       {{validation.message}}
                     </mat-error>
                   </mat-error>
@@ -77,14 +77,14 @@
                     <option value=0>Select a Case Manager</option>
                     <option *ngFor="let caseManager of caseManagerList"
                             value="{{caseManager.caseManagerUserId}}">
-                      {{caseManager.caseManagerGivenName}} {{caseManager.caseManagerSurname}} ({{caseManager.caseManagerUserId}})
+                      {{caseManager.caseManagerGivenName}} {{caseManager.caseManagerSurname}}
                     </option>
                   </select>
                   <mat-error *ngFor="let validation of validationMessages.caseManagerUserId">
                     <mat-error class="error-message"
-                               *ngIf="csiEditForm.get('caseManagerUserId').hasError(validation.type)
-                                && (csiEditForm.get('caseManagerUserId').dirty ||
-                                csiEditForm.get('caseManagerUserId').touched)">
+                               *ngIf="csiRecordEditForm.get('caseManagerUserId').hasError(validation.type)
+                                && (csiRecordEditForm.get('caseManagerUserId').dirty ||
+                                csiRecordEditForm.get('caseManagerUserId').touched)">
                       {{validation.message}}
                     </mat-error>
                   </mat-error>
@@ -101,9 +101,9 @@
                          formControlName="csiDate">
                   <mat-error *ngFor="let validation of validationMessages.csiDate">
                     <mat-error class="error-message"
-                               *ngIf="csiEditForm.get('csiDate').hasError(validation.type)
-                                && (csiEditForm.get('csiDate').dirty ||
-                                csiEditForm.get('csiDate').touched)">
+                               *ngIf="csiRecordEditForm.get('csiDate').hasError(validation.type)
+                                && (csiRecordEditForm.get('csiDate').dirty ||
+                                csiRecordEditForm.get('csiDate').touched)">
                       {{validation.message}}
                     </mat-error>
                   </mat-error>
@@ -139,9 +139,9 @@
                             formControlName="csiComments"></textarea>
                   <mat-error *ngFor="let validation of validationMessages.csiComments">
                     <mat-error class="error-message"
-                               *ngIf="csiEditForm.get('csiComments').hasError(validation.type)
-                                && (csiEditForm.get('csiComments').dirty ||
-                                csiEditForm.get('csiComments').touched)">
+                               *ngIf="csiRecordEditForm.get('csiComments').hasError(validation.type)
+                                && (csiRecordEditForm.get('csiComments').dirty ||
+                                csiRecordEditForm.get('csiComments').touched)">
                       {{validation.message}}
                     </mat-error>
                   </mat-error>
@@ -171,24 +171,24 @@
                   <label for="csiScoreAbuseAndExploitation" class="rating-label">Abuse & Exploitation*</label>
                   <mat-button-toggle-group id="csiScoreAbuseAndExploitation" class="tqp-custom-toggle"
                                            formControlName="csiScoreAbuseAndExploitation">
-                    <mat-button-toggle value=1 [checked]="csi.csiRecordScoreAbuseAndExploitation===1" disableRipple>
+                    <mat-button-toggle value=1 [checked]="csiRecord.csiRecordScoreAbuseAndExploitation===1" disableRipple>
                       1
                     </mat-button-toggle>
-                    <mat-button-toggle value=2 [checked]="csi.csiRecordScoreAbuseAndExploitation===2" disableRipple>
+                    <mat-button-toggle value=2 [checked]="csiRecord.csiRecordScoreAbuseAndExploitation===2" disableRipple>
                       2
                     </mat-button-toggle>
-                    <mat-button-toggle value=3 [checked]="csi.csiRecordScoreAbuseAndExploitation===3" disableRipple>
+                    <mat-button-toggle value=3 [checked]="csiRecord.csiRecordScoreAbuseAndExploitation===3" disableRipple>
                       3
                     </mat-button-toggle>
-                    <mat-button-toggle value=4 [checked]="csi.csiRecordScoreAbuseAndExploitation===4" disableRipple>
+                    <mat-button-toggle value=4 [checked]="csiRecord.csiRecordScoreAbuseAndExploitation===4" disableRipple>
                       4
                     </mat-button-toggle>
                   </mat-button-toggle-group>
                   <mat-error *ngFor="let validation of validationMessages.csiScoreAbuseAndExploitation">
                     <mat-error class="error-message"
-                               *ngIf="csiEditForm.get('csiScoreAbuseAndExploitation').hasError(validation.type)
-                                && (csiEditForm.get('csiScoreAbuseAndExploitation').dirty ||
-                                csiEditForm.get('csiScoreAbuseAndExploitation').touched)">
+                               *ngIf="csiRecordEditForm.get('csiScoreAbuseAndExploitation').hasError(validation.type)
+                                && (csiRecordEditForm.get('csiScoreAbuseAndExploitation').dirty ||
+                                csiRecordEditForm.get('csiScoreAbuseAndExploitation').touched)">
                       {{validation.message}}
                     </mat-error>
                   </mat-error>
@@ -202,24 +202,24 @@
                   <label for="csiScoreLegalProtection" class="rating-label">Legal Protection*</label>
                   <mat-button-toggle-group id="csiScoreLegalProtection" class="tqp-custom-toggle"
                                            formControlName="csiScoreLegalProtection">
-                    <mat-button-toggle value=1 [checked]="csi.csiRecordScoreLegalProtection===1" disableRipple>
+                    <mat-button-toggle value=1 [checked]="csiRecord.csiRecordScoreLegalProtection===1" disableRipple>
                       1
                     </mat-button-toggle>
-                    <mat-button-toggle value=2 [checked]="csi.csiRecordScoreLegalProtection===2" disableRipple>
+                    <mat-button-toggle value=2 [checked]="csiRecord.csiRecordScoreLegalProtection===2" disableRipple>
                       2
                     </mat-button-toggle>
-                    <mat-button-toggle value=3 [checked]="csi.csiRecordScoreLegalProtection===3" disableRipple>
+                    <mat-button-toggle value=3 [checked]="csiRecord.csiRecordScoreLegalProtection===3" disableRipple>
                       3
                     </mat-button-toggle>
-                    <mat-button-toggle value=4 [checked]="csi.csiRecordScoreLegalProtection===4" disableRipple>
+                    <mat-button-toggle value=4 [checked]="csiRecord.csiRecordScoreLegalProtection===4" disableRipple>
                       4
                     </mat-button-toggle>
                   </mat-button-toggle-group>
                   <mat-error *ngFor="let validation of validationMessages.csiScoreLegalProtection">
                     <mat-error class="error-message"
-                               *ngIf="csiEditForm.get('csiScoreLegalProtection').hasError(validation.type)
-                                && (csiEditForm.get('csiScoreLegalProtection').dirty ||
-                                csiEditForm.get('csiScoreLegalProtection').touched)">
+                               *ngIf="csiRecordEditForm.get('csiScoreLegalProtection').hasError(validation.type)
+                                && (csiRecordEditForm.get('csiScoreLegalProtection').dirty ||
+                                csiRecordEditForm.get('csiScoreLegalProtection').touched)">
                       {{validation.message}}
                     </mat-error>
                   </mat-error>
@@ -233,24 +233,24 @@
                   <label for="csiScorePerformance" class="rating-label">Performance*</label>
                   <mat-button-toggle-group id="csiScorePerformance" class="tqp-custom-toggle"
                                            formControlName="csiScorePerformance">
-                    <mat-button-toggle value=1 [checked]="csi.csiRecordScorePerformance===1" disableRipple>
+                    <mat-button-toggle value=1 [checked]="csiRecord.csiRecordScorePerformance===1" disableRipple>
                       1
                     </mat-button-toggle>
-                    <mat-button-toggle value=2 [checked]="csi.csiRecordScorePerformance===2" disableRipple>
+                    <mat-button-toggle value=2 [checked]="csiRecord.csiRecordScorePerformance===2" disableRipple>
                       2
                     </mat-button-toggle>
-                    <mat-button-toggle value=3 [checked]="csi.csiRecordScorePerformance===3" disableRipple>
+                    <mat-button-toggle value=3 [checked]="csiRecord.csiRecordScorePerformance===3" disableRipple>
                       3
                     </mat-button-toggle>
-                    <mat-button-toggle value=4 [checked]="csi.csiRecordScorePerformance===4" disableRipple>
+                    <mat-button-toggle value=4 [checked]="csiRecord.csiRecordScorePerformance===4" disableRipple>
                       4
                     </mat-button-toggle>
                   </mat-button-toggle-group>
                   <mat-error *ngFor="let validation of validationMessages.csiScorePerformance">
                     <mat-error class="error-message"
-                               *ngIf="csiEditForm.get('csiScorePerformance').hasError(validation.type)
-                                && (csiEditForm.get('csiScorePerformance').dirty ||
-                                csiEditForm.get('csiScorePerformance').touched)">
+                               *ngIf="csiRecordEditForm.get('csiScorePerformance').hasError(validation.type)
+                                && (csiRecordEditForm.get('csiScorePerformance').dirty ||
+                                csiRecordEditForm.get('csiScorePerformance').touched)">
                       {{validation.message}}
                     </mat-error>
                   </mat-error>
@@ -264,24 +264,24 @@
                   <label for="csiScoreEducationAndWork" class="rating-label">Education & Work*</label>
                   <mat-button-toggle-group id="csiScoreEducationAndWork" class="tqp-custom-toggle"
                                            formControlName="csiScoreEducationAndWork">
-                    <mat-button-toggle value=1 [checked]="csi.csiRecordScoreEducationAndWork===1" disableRipple>
+                    <mat-button-toggle value=1 [checked]="csiRecord.csiRecordScoreEducationAndWork===1" disableRipple>
                       1
                     </mat-button-toggle>
-                    <mat-button-toggle value=2 [checked]="csi.csiRecordScoreEducationAndWork===2" disableRipple>
+                    <mat-button-toggle value=2 [checked]="csiRecord.csiRecordScoreEducationAndWork===2" disableRipple>
                       2
                     </mat-button-toggle>
-                    <mat-button-toggle value=3 [checked]="csi.csiRecordScoreEducationAndWork===3" disableRipple>
+                    <mat-button-toggle value=3 [checked]="csiRecord.csiRecordScoreEducationAndWork===3" disableRipple>
                       3
                     </mat-button-toggle>
-                    <mat-button-toggle value=4 [checked]="csi.csiRecordScoreEducationAndWork===4" disableRipple>
+                    <mat-button-toggle value=4 [checked]="csiRecord.csiRecordScoreEducationAndWork===4" disableRipple>
                       4
                     </mat-button-toggle>
                   </mat-button-toggle-group>
                   <mat-error *ngFor="let validation of validationMessages.csiScoreEducationAndWork">
                     <mat-error class="error-message"
-                               *ngIf="csiEditForm.get('csiScoreEducationAndWork').hasError(validation.type)
-                                && (csiEditForm.get('csiScoreEducationAndWork').dirty ||
-                                csiEditForm.get('csiScoreEducationAndWork').touched)">
+                               *ngIf="csiRecordEditForm.get('csiScoreEducationAndWork').hasError(validation.type)
+                                && (csiRecordEditForm.get('csiScoreEducationAndWork').dirty ||
+                                csiRecordEditForm.get('csiScoreEducationAndWork').touched)">
                       {{validation.message}}
                     </mat-error>
                   </mat-error>
@@ -295,24 +295,24 @@
                   <label for="csiScoreFoodSecurity" class="rating-label">Food Security*</label>
                   <mat-button-toggle-group id="csiScoreFoodSecurity" class="tqp-custom-toggle"
                                            formControlName="csiScoreFoodSecurity">
-                    <mat-button-toggle value=1 [checked]="csi.csiRecordScoreFoodSecurity===1" disableRipple>
+                    <mat-button-toggle value=1 [checked]="csiRecord.csiRecordScoreFoodSecurity===1" disableRipple>
                       1
                     </mat-button-toggle>
-                    <mat-button-toggle value=2 [checked]="csi.csiRecordScoreFoodSecurity===2" disableRipple>
+                    <mat-button-toggle value=2 [checked]="csiRecord.csiRecordScoreFoodSecurity===2" disableRipple>
                       2
                     </mat-button-toggle>
-                    <mat-button-toggle value=3 [checked]="csi.csiRecordScoreFoodSecurity===3" disableRipple>
+                    <mat-button-toggle value=3 [checked]="csiRecord.csiRecordScoreFoodSecurity===3" disableRipple>
                       3
                     </mat-button-toggle>
-                    <mat-button-toggle value=4 [checked]="csi.csiRecordScoreFoodSecurity===4" disableRipple>
+                    <mat-button-toggle value=4 [checked]="csiRecord.csiRecordScoreFoodSecurity===4" disableRipple>
                       4
                     </mat-button-toggle>
                   </mat-button-toggle-group>
                   <mat-error *ngFor="let validation of validationMessages.csiScoreFoodSecurity">
                     <mat-error class="error-message"
-                               *ngIf="csiEditForm.get('csiScoreFoodSecurity').hasError(validation.type)
-                                && (csiEditForm.get('csiScoreFoodSecurity').dirty ||
-                                csiEditForm.get('csiScoreFoodSecurity').touched)">
+                               *ngIf="csiRecordEditForm.get('csiScoreFoodSecurity').hasError(validation.type)
+                                && (csiRecordEditForm.get('csiScoreFoodSecurity').dirty ||
+                                csiRecordEditForm.get('csiScoreFoodSecurity').touched)">
                       {{validation.message}}
                     </mat-error>
                   </mat-error>
@@ -326,24 +326,24 @@
                   <label for="csiScoreNutritionAndGrowth" class="rating-label">Nutrition & Growth*</label>
                   <mat-button-toggle-group id="csiScoreNutritionAndGrowth" class="tqp-custom-toggle"
                                            formControlName="csiScoreNutritionAndGrowth">
-                    <mat-button-toggle value=1 [checked]="csi.csiRecordScoreNutritionAndGrowth===1" disableRipple>
+                    <mat-button-toggle value=1 [checked]="csiRecord.csiRecordScoreNutritionAndGrowth===1" disableRipple>
                       1
                     </mat-button-toggle>
-                    <mat-button-toggle value=2 [checked]="csi.csiRecordScoreNutritionAndGrowth===2" disableRipple>
+                    <mat-button-toggle value=2 [checked]="csiRecord.csiRecordScoreNutritionAndGrowth===2" disableRipple>
                       2
                     </mat-button-toggle>
-                    <mat-button-toggle value=3 [checked]="csi.csiRecordScoreNutritionAndGrowth===3" disableRipple>
+                    <mat-button-toggle value=3 [checked]="csiRecord.csiRecordScoreNutritionAndGrowth===3" disableRipple>
                       3
                     </mat-button-toggle>
-                    <mat-button-toggle value=4 [checked]="csi.csiRecordScoreNutritionAndGrowth===4" disableRipple>
+                    <mat-button-toggle value=4 [checked]="csiRecord.csiRecordScoreNutritionAndGrowth===4" disableRipple>
                       4
                     </mat-button-toggle>
                   </mat-button-toggle-group>
                   <mat-error *ngFor="let validation of validationMessages.csiScoreNutritionAndGrowth">
                     <mat-error class="error-message"
-                               *ngIf="csiEditForm.get('csiScoreNutritionAndGrowth').hasError(validation.type)
-                                && (csiEditForm.get('csiScoreNutritionAndGrowth').dirty ||
-                                csiEditForm.get('csiScoreNutritionAndGrowth').touched)">
+                               *ngIf="csiRecordEditForm.get('csiScoreNutritionAndGrowth').hasError(validation.type)
+                                && (csiRecordEditForm.get('csiScoreNutritionAndGrowth').dirty ||
+                                csiRecordEditForm.get('csiScoreNutritionAndGrowth').touched)">
                       {{validation.message}}
                     </mat-error>
                   </mat-error>
@@ -357,24 +357,24 @@
                   <label for="csiScoreHealthCareServices" class="rating-label">Health Care Services*</label>
                   <mat-button-toggle-group id="csiScoreHealthCareServices" class="tqp-custom-toggle"
                                            formControlName="csiScoreHealthCareServices">
-                    <mat-button-toggle value=1 [checked]="csi.csiRecordScoreHealthCareServices===1" disableRipple>
+                    <mat-button-toggle value=1 [checked]="csiRecord.csiRecordScoreHealthCareServices===1" disableRipple>
                       1
                     </mat-button-toggle>
-                    <mat-button-toggle value=2 [checked]="csi.csiRecordScoreHealthCareServices===2" disableRipple>
+                    <mat-button-toggle value=2 [checked]="csiRecord.csiRecordScoreHealthCareServices===2" disableRipple>
                       2
                     </mat-button-toggle>
-                    <mat-button-toggle value=3 [checked]="csi.csiRecordScoreHealthCareServices===3" disableRipple>
+                    <mat-button-toggle value=3 [checked]="csiRecord.csiRecordScoreHealthCareServices===3" disableRipple>
                       3
                     </mat-button-toggle>
-                    <mat-button-toggle value=4 [checked]="csi.csiRecordScoreHealthCareServices===4" disableRipple>
+                    <mat-button-toggle value=4 [checked]="csiRecord.csiRecordScoreHealthCareServices===4" disableRipple>
                       4
                     </mat-button-toggle>
                   </mat-button-toggle-group>
                   <mat-error *ngFor="let validation of validationMessages.csiScoreHealthCareServices">
                     <mat-error class="error-message"
-                               *ngIf="csiEditForm.get('csiScoreHealthCareServices').hasError(validation.type)
-                                && (csiEditForm.get('csiScoreHealthCareServices').dirty ||
-                                csiEditForm.get('csiScoreHealthCareServices').touched)">
+                               *ngIf="csiRecordEditForm.get('csiScoreHealthCareServices').hasError(validation.type)
+                                && (csiRecordEditForm.get('csiScoreHealthCareServices').dirty ||
+                                csiRecordEditForm.get('csiScoreHealthCareServices').touched)">
                       {{validation.message}}
                     </mat-error>
                   </mat-error>
@@ -387,24 +387,24 @@
                 <div class="form-group">
                   <label for="csiScoreWellness" class="rating-label">Wellness*</label>
                   <mat-button-toggle-group id="csiScoreWellness" class="tqp-custom-toggle" formControlName="csiScoreWellness">
-                    <mat-button-toggle value=1 [checked]="csi.csiRecordScoreWellness===1" disableRipple>
+                    <mat-button-toggle value=1 [checked]="csiRecord.csiRecordScoreWellness===1" disableRipple>
                       1
                     </mat-button-toggle>
-                    <mat-button-toggle value=2 [checked]="csi.csiRecordScoreWellness===2" disableRipple>
+                    <mat-button-toggle value=2 [checked]="csiRecord.csiRecordScoreWellness===2" disableRipple>
                       2
                     </mat-button-toggle>
-                    <mat-button-toggle value=3 [checked]="csi.csiRecordScoreWellness===3" disableRipple>
+                    <mat-button-toggle value=3 [checked]="csiRecord.csiRecordScoreWellness===3" disableRipple>
                       3
                     </mat-button-toggle>
-                    <mat-button-toggle value=4 [checked]="csi.csiRecordScoreWellness===4" disableRipple>
+                    <mat-button-toggle value=4 [checked]="csiRecord.csiRecordScoreWellness===4" disableRipple>
                       4
                     </mat-button-toggle>
                   </mat-button-toggle-group>
                   <mat-error *ngFor="let validation of validationMessages.csiScoreWellness">
                     <mat-error class="error-message"
-                               *ngIf="csiEditForm.get('csiScoreWellness').hasError(validation.type)
-                                && (csiEditForm.get('csiScoreWellness').dirty ||
-                                csiEditForm.get('csiScoreWellness').touched)">
+                               *ngIf="csiRecordEditForm.get('csiScoreWellness').hasError(validation.type)
+                                && (csiRecordEditForm.get('csiScoreWellness').dirty ||
+                                csiRecordEditForm.get('csiScoreWellness').touched)">
                       {{validation.message}}
                     </mat-error>
                   </mat-error>
@@ -418,24 +418,24 @@
                   <label for="csiScoreEmotionalHealth" class="rating-label">Emotional Health*</label>
                   <mat-button-toggle-group id="csiScoreEmotionalHealth" class="tqp-custom-toggle"
                                            formControlName="csiScoreEmotionalHealth">
-                    <mat-button-toggle value=1 [checked]="csi.csiRecordScoreEmotionalHealth===1" disableRipple>
+                    <mat-button-toggle value=1 [checked]="csiRecord.csiRecordScoreEmotionalHealth===1" disableRipple>
                       1
                     </mat-button-toggle>
-                    <mat-button-toggle value=2 [checked]="csi.csiRecordScoreEmotionalHealth===2" disableRipple>
+                    <mat-button-toggle value=2 [checked]="csiRecord.csiRecordScoreEmotionalHealth===2" disableRipple>
                       2
                     </mat-button-toggle>
-                    <mat-button-toggle value=3 [checked]="csi.csiRecordScoreEmotionalHealth===3" disableRipple>
+                    <mat-button-toggle value=3 [checked]="csiRecord.csiRecordScoreEmotionalHealth===3" disableRipple>
                       3
                     </mat-button-toggle>
-                    <mat-button-toggle value=4 [checked]="csi.csiRecordScoreEmotionalHealth===4" disableRipple>
+                    <mat-button-toggle value=4 [checked]="csiRecord.csiRecordScoreEmotionalHealth===4" disableRipple>
                       4
                     </mat-button-toggle>
                   </mat-button-toggle-group>
                   <mat-error *ngFor="let validation of validationMessages.csiScoreEmotionalHealth">
                     <mat-error class="error-message"
-                               *ngIf="csiEditForm.get('csiScoreEmotionalHealth').hasError(validation.type)
-                                && (csiEditForm.get('csiScoreEmotionalHealth').dirty ||
-                                csiEditForm.get('csiScoreEmotionalHealth').touched)">
+                               *ngIf="csiRecordEditForm.get('csiScoreEmotionalHealth').hasError(validation.type)
+                                && (csiRecordEditForm.get('csiScoreEmotionalHealth').dirty ||
+                                csiRecordEditForm.get('csiScoreEmotionalHealth').touched)">
                       {{validation.message}}
                     </mat-error>
                   </mat-error>
@@ -449,24 +449,24 @@
                   <label for="csiScoreSocialBehavior" class="rating-label">Social Behavior*</label>
                   <mat-button-toggle-group id="csiScoreSocialBehavior" class="tqp-custom-toggle"
                                            formControlName="csiScoreSocialBehavior">
-                    <mat-button-toggle value=1 [checked]="csi.csiRecordScoreSocialBehavior===1" disableRipple>
+                    <mat-button-toggle value=1 [checked]="csiRecord.csiRecordScoreSocialBehavior===1" disableRipple>
                       1
                     </mat-button-toggle>
-                    <mat-button-toggle value=2 [checked]="csi.csiRecordScoreSocialBehavior===2" disableRipple>
+                    <mat-button-toggle value=2 [checked]="csiRecord.csiRecordScoreSocialBehavior===2" disableRipple>
                       2
                     </mat-button-toggle>
-                    <mat-button-toggle value=3 [checked]="csi.csiRecordScoreSocialBehavior===3" disableRipple>
+                    <mat-button-toggle value=3 [checked]="csiRecord.csiRecordScoreSocialBehavior===3" disableRipple>
                       3
                     </mat-button-toggle>
-                    <mat-button-toggle value=4 [checked]="csi.csiRecordScoreSocialBehavior===4" disableRipple>
+                    <mat-button-toggle value=4 [checked]="csiRecord.csiRecordScoreSocialBehavior===4" disableRipple>
                       4
                     </mat-button-toggle>
                   </mat-button-toggle-group>
                   <mat-error *ngFor="let validation of validationMessages.csiScoreSocialBehavior">
                     <mat-error class="error-message"
-                               *ngIf="csiEditForm.get('csiScoreSocialBehavior').hasError(validation.type)
-                                && (csiEditForm.get('csiScoreSocialBehavior').dirty ||
-                                csiEditForm.get('csiScoreSocialBehavior').touched)">
+                               *ngIf="csiRecordEditForm.get('csiScoreSocialBehavior').hasError(validation.type)
+                                && (csiRecordEditForm.get('csiScoreSocialBehavior').dirty ||
+                                csiRecordEditForm.get('csiScoreSocialBehavior').touched)">
                       {{validation.message}}
                     </mat-error>
                   </mat-error>
@@ -479,24 +479,24 @@
                 <div class="form-group">
                   <label for="csiScoreCare" class="rating-label">Care*</label>
                   <mat-button-toggle-group id="csiScoreCare" class="tqp-custom-toggle" formControlName="csiScoreCare">
-                    <mat-button-toggle value=1 [checked]="csi.csiRecordScoreCare===1" disableRipple>
+                    <mat-button-toggle value=1 [checked]="csiRecord.csiRecordScoreCare===1" disableRipple>
                       1
                     </mat-button-toggle>
-                    <mat-button-toggle value=2 [checked]="csi.csiRecordScoreCare===2" disableRipple>
+                    <mat-button-toggle value=2 [checked]="csiRecord.csiRecordScoreCare===2" disableRipple>
                       2
                     </mat-button-toggle>
-                    <mat-button-toggle value=3 [checked]="csi.csiRecordScoreCare===3" disableRipple>
+                    <mat-button-toggle value=3 [checked]="csiRecord.csiRecordScoreCare===3" disableRipple>
                       3
                     </mat-button-toggle>
-                    <mat-button-toggle value=4 [checked]="csi.csiRecordScoreCare===4" disableRipple>
+                    <mat-button-toggle value=4 [checked]="csiRecord.csiRecordScoreCare===4" disableRipple>
                       4
                     </mat-button-toggle>
                   </mat-button-toggle-group>
                   <mat-error *ngFor="let validation of validationMessages.csiScoreCare">
                     <mat-error class="error-message"
-                               *ngIf="csiEditForm.get('csiScoreCare').hasError(validation.type)
-                                && (csiEditForm.get('csiScoreCare').dirty ||
-                                csiEditForm.get('csiScoreCare').touched)">
+                               *ngIf="csiRecordEditForm.get('csiScoreCare').hasError(validation.type)
+                                && (csiRecordEditForm.get('csiScoreCare').dirty ||
+                                csiRecordEditForm.get('csiScoreCare').touched)">
                       {{validation.message}}
                     </mat-error>
                   </mat-error>
@@ -509,24 +509,24 @@
                 <div class="form-group">
                   <label for="csiScoreShelter" class="rating-label">Shelter*</label>
                   <mat-button-toggle-group id="csiScoreShelter" class="tqp-custom-toggle" formControlName="csiScoreShelter">
-                    <mat-button-toggle value=1 [checked]="csi.csiRecordScoreShelter===1" disableRipple>
+                    <mat-button-toggle value=1 [checked]="csiRecord.csiRecordScoreShelter===1" disableRipple>
                       1
                     </mat-button-toggle>
-                    <mat-button-toggle value=2 [checked]="csi.csiRecordScoreShelter===2" disableRipple>
+                    <mat-button-toggle value=2 [checked]="csiRecord.csiRecordScoreShelter===2" disableRipple>
                       2
                     </mat-button-toggle>
-                    <mat-button-toggle value=3 [checked]="csi.csiRecordScoreShelter===3" disableRipple>
+                    <mat-button-toggle value=3 [checked]="csiRecord.csiRecordScoreShelter===3" disableRipple>
                       3
                     </mat-button-toggle>
-                    <mat-button-toggle value=4 [checked]="csi.csiRecordScoreShelter===4" disableRipple>
+                    <mat-button-toggle value=4 [checked]="csiRecord.csiRecordScoreShelter===4" disableRipple>
                       4
                     </mat-button-toggle>
                   </mat-button-toggle-group>
                   <mat-error *ngFor="let validation of validationMessages.csiScoreShelter">
                     <mat-error class="error-message"
-                               *ngIf="csiEditForm.get('csiScoreShelter').hasError(validation.type)
-                                && (csiEditForm.get('csiScoreShelter').dirty ||
-                                csiEditForm.get('csiScoreShelter').touched)">
+                               *ngIf="csiRecordEditForm.get('csiScoreShelter').hasError(validation.type)
+                                && (csiRecordEditForm.get('csiScoreShelter').dirty ||
+                                csiRecordEditForm.get('csiScoreShelter').touched)">
                       {{validation.message}}
                     </mat-error>
                   </mat-error>
@@ -538,13 +538,13 @@
 
           <div class="card-footer">
             <button type="button" class="btn btn-primary float-right" (click)="save()"
-                    [disabled]="!csiEditForm.valid">
+                    [disabled]="!csiRecordEditForm.valid">
               <i class="fa fa-save mr-2"></i>Save
             </button>
             <button type="button" class="btn btn-secondary" (click)="cancel()">
               <i class="fa fa-ban mr-2"></i>Cancel
             </button>
-            <button type="button" class="btn btn-danger" (click)="delete(csi.csiRecordId)">
+            <button type="button" class="btn btn-danger" (click)="delete(csiRecord.csiRecordId)">
               <i class="fa fa-trash-o mr-2"></i>Delete
             </button>
           </div>

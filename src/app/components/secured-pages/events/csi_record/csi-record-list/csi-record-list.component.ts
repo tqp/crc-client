@@ -59,7 +59,7 @@ export class CsiRecordListComponent implements OnInit {
         // console.log('response', response);
         if (response) {
           const csiRecordList: CsiRecord[] = response;
-          console.log('csiRecordList', csiRecordList);
+          // console.log('csiRecordList', csiRecordList);
           if (csiRecordList) {
             csiRecordList.forEach((item: CsiRecord) => {
               item.studentName = item.studentGivenName + ' ' + item.studentSurname;
@@ -68,11 +68,10 @@ export class CsiRecordListComponent implements OnInit {
               this.recordCount = csiRecordList.length;
             });
 
-            // // Default Sort
-            // this.recordList = this.recordList.sort((a, b) => {
-            //   return a.csiRecordGivenName.toLowerCase() + a.csiRecordSurname.toLowerCase()
-            //   < b.csiRecordGivenName.toLowerCase() + b.csiRecordSurname.toLowerCase() ? -1 : 1;
-            // });
+            // Default Sort
+            this.recordList = this.recordList.sort((a, b) => {
+              return a.csiRecordDate.toLowerCase() > b.csiRecordDate.toLowerCase() ? -1 : 1;
+            });
 
             setTimeout(() => {
               this.dataSource = this.recordList;
@@ -114,9 +113,9 @@ export class CsiRecordListComponent implements OnInit {
 
     this.dataSource = this.recordList
       .filter(list => {
-          // const searchFilterAssessment_csiRecordSurname = list.csiRecordSurname.toLowerCase().includes(searchFilter.trim().toLowerCase());
-          // const searchFilterAssessment_csiRecordGivenName = list.csiRecordGivenName.toLowerCase().includes(searchFilter.trim().toLowerCase());
-          // return searchFilterAssessment_csiRecordSurname || searchFilterAssessment_csiRecordGivenName;
+          const searchFilterAssessment_csiRecordStudentName = list.studentName.toLowerCase().includes(searchFilter.trim().toLowerCase());
+          const searchFilterAssessment_csiRecordCaseManagerName = list.caseManagerName.toLowerCase().includes(searchFilter.trim().toLowerCase());
+          return searchFilterAssessment_csiRecordStudentName || searchFilterAssessment_csiRecordCaseManagerName;
         }
       )
       .sort((a, b) => {
