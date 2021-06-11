@@ -1,8 +1,8 @@
 import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { FormControl } from '@angular/forms';
-import { EventService } from '../../../../../../@tqp/services/event.service';
-import { AuthService } from '../../../../../../@tqp/services/auth.service';
+import { EventService } from '@tqp/services/event.service';
+import { AuthService } from '@tqp/services/auth.service';
 import { Router } from '@angular/router';
 import { merge } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';

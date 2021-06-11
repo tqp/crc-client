@@ -4,11 +4,11 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { AuthService } from '@tqp/services/auth.service';
 import { UserModel } from '../../../../../models/user.model';
 import { Token } from '@tqp/models/Token';
-import * as moment from 'moment';
 import { MatDialog } from '@angular/material/dialog';
 import { tqpCustomAnimations } from '@tqp/animations/tqpCustomAnimations';
 import { RoleService } from '../../../../../services/account/role.service';
 import { Role } from '../../../../../models/role.model';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-user-detail',

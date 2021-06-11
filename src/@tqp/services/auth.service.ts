@@ -4,10 +4,9 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, Observer } from 'rxjs';
 import { TokenService } from './token.service';
 import { TokenHelperService } from './token-helper.service';
-
-import * as moment from 'moment';
 import { Token } from '@tqp/models/Token';
 import { environment } from '../../environments/environment';
+import * as moment from 'moment';
 
 @Injectable({
   providedIn: 'root'

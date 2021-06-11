@@ -8,10 +8,10 @@ import { InteractionType } from '../../../../../models/types/type-interaction.mo
 import { VisitTypeModel } from '../../../../../models/types/type-visit.model';
 import { VisitTypeService } from '../../../../../services/reference-tables/visit-type.service';
 import { InteractionTypeService } from '../../../../../services/reference-tables/interaction-type.service';
-import { validateNonZeroValue } from '@tqp/validators/custom.validators';
-import * as moment from 'moment';
 import { CaseManager } from '../../../../../models/people/case-manager.model';
 import { CaseManagerService } from '../../../../../services/people/case-manager.service';
+import { validateNonZeroValue } from '@tqp/validators/custom.validators';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-visit-detail-edit-dialog',

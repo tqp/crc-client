@@ -1,21 +1,21 @@
 import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { ProgramStatusService } from '../../../../services/program-status.service';
-import { ProgramStatusPackage } from '../../../../models/program-status.package';
-import * as moment from 'moment';
 import { ConfirmDialogComponent } from '@tqp/components/confirm-dialog/confirm-dialog.component';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { FormattingService } from '@tqp/services/formatting.service';
-import { ProgramStatus } from '../../../../models/program.status';
+import { ProgramStatusPackage } from '../../../../../models/program-status.package';
+import { ProgramStatus } from '../../../../../models/program.status';
+import { ProgramStatusService } from '../../../../../services/program-status.service';
 import { validateNonZeroValue } from '@tqp/validators/custom.validators';
+import * as moment from 'moment';
 
 @Component({
-  selector: 'app-student-program-status-edit-dialog',
-  templateUrl: './student-program-status-edit-dialog.component.html',
-  styleUrls: ['./student-program-status-edit-dialog.component.scss'],
+  selector: 'app-program-status-edit-dialog',
+  templateUrl: './program-status-edit-dialog.component.html',
+  styleUrls: ['./program-status-edit-dialog.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class StudentProgramStatusEditDialogComponent implements OnInit {
+export class ProgramStatusEditDialogComponent implements OnInit {
   public confirmDialogRef: MatDialogRef<ConfirmDialogComponent>;
   public dataLoaded: boolean = false;
   public programStatusEditForm: FormGroup;
@@ -36,7 +36,7 @@ export class StudentProgramStatusEditDialogComponent implements OnInit {
     ]
   };
 
-  constructor(private dialogRef: MatDialogRef<StudentProgramStatusEditDialogComponent>,
+  constructor(private dialogRef: MatDialogRef<ProgramStatusEditDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
               private programStatusService: ProgramStatusService,
               private formBuilder: FormBuilder,
@@ -75,6 +75,7 @@ export class StudentProgramStatusEditDialogComponent implements OnInit {
         this.programStatusEditForm.controls['relationshipStartDate'].patchValue(this.programStatusRelationship.programStatusStartDate);
 
         if (this.programStatusRelationship.programStatusLevelOneId) {
+          console.log('A', this.programStatusRelationship.programStatusLevelOneId);
           this.programStatusService.getProgramStatusPackage(this.programStatusRelationship.programStatusLevelOneId).subscribe(
             (response2: ProgramStatusPackage) => {
               this.programStatusPackageLevelTwo = response2;
@@ -111,15 +112,21 @@ export class StudentProgramStatusEditDialogComponent implements OnInit {
     const programStatusLevelOneId = event.target.value;
     this.programStatusEditForm.get('programStatusLevelTwoId').patchValue(0);
     // console.log('programStatusLevelOneChanged', programStatusLevelOneId);
-    this.programStatusService.getProgramStatusPackage(programStatusLevelOneId).subscribe(
-      (response: ProgramStatusPackage) => {
-        this.programStatusPackageLevelTwo = response;
-        // console.log('programStatusPackageLevelTwo', this.programStatusPackageLevelTwo);
-      },
-      error => {
-        console.error('Error: ', error);
-      }
-    );
+    if(programStatusLevelOneId > 0) {
+      this.programStatusService.getProgramStatusPackage(programStatusLevelOneId).subscribe(
+        (response: ProgramStatusPackage) => {
+          this.programStatusPackageLevelTwo = response;
+          // console.log('programStatusPackageLevelTwo', this.programStatusPackageLevelTwo);
+        },
+        error => {
+          console.error('Error: ', error);
+        }
+      );
+    } else {
+      // Reset Level Two back to zero and hide it.
+      this.programStatusPackageLevelTwo.programStatusId = 0;
+      this.programStatusPackageLevelTwo = null;
+    }
   }
 
   // BUTTONS

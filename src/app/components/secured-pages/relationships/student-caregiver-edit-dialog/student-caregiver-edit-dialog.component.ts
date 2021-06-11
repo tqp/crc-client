@@ -8,11 +8,10 @@ import { RelationshipTypeService } from '../../../../services/reference-tables/r
 import { TierTypeModel } from '../../../../models/types/type-tier.model';
 import { TierTypeService } from '../../../../services/reference-tables/tier-type.service';
 import { FormattingService } from '@tqp/services/formatting.service';
-
-import * as moment from 'moment';
-import { validateNonZeroValue } from '@tqp/validators/custom.validators';
 import { ConfirmDialogComponent } from '@tqp/components/confirm-dialog/confirm-dialog.component';
 import { RelationshipService } from '../../../../services/relationships/relationship.service';
+import { validateNonZeroValue } from '@tqp/validators/custom.validators';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-student-caregiver-edit-dialog',

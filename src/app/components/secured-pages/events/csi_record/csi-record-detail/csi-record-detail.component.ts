@@ -1,7 +1,7 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { EventService } from '../../../../../../@tqp/services/event.service';
-import { AuthService } from '../../../../../../@tqp/services/auth.service';
+import { EventService } from '@tqp/services/event.service';
+import { AuthService } from '@tqp/services/auth.service';
 import { forkJoin } from 'rxjs';
 import { CsiRecord } from '../../../../../models/csi-record.model';
 import { ServicesProvidedType } from '../../../../../models/types/type-services-provided.model';

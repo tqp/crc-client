@@ -7,6 +7,7 @@
 
   <form [formGroup]="sponsorLetterEditForm" [hidden]="!dataLoaded">
 
+    <!--
     <div class="row">
       <div class="col-sm-12">
         <div class="form-group">
@@ -23,7 +24,9 @@
         </div>
       </div>
     </div>
+    -->
 
+    <!--
     <div class="row">
       <div class="col-sm-12">
         <div class="form-group">
@@ -40,7 +43,9 @@
         </div>
       </div>
     </div>
+    -->
 
+    <!--
     <div class="row">
       <div class="col-sm-12">
         <div class="form-group">
@@ -51,6 +56,30 @@
                        *ngIf="sponsorLetterEditForm.get('sponsorId').hasError(validation.type)
                                 && (sponsorLetterEditForm.get('sponsorId').dirty ||
                                 sponsorLetterEditForm.get('sponsorId').touched)">
+              {{validation.message}}
+            </mat-error>
+          </mat-error>
+        </div>
+      </div>
+    </div>
+    -->
+
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="form-group">
+          <label for="studentId">Student*</label>
+          <select id="studentId" class="form-control" formControlName="studentId">
+            <option value=0>Select a Student</option>
+            <option *ngFor="let student of studentList"
+                    value="{{student.studentId}}">
+              {{student.studentSurname}}, {{student.studentGivenName}}
+            </option>
+          </select>
+          <mat-error *ngFor="let validation of validationMessages.studentId">
+            <mat-error class="error-message"
+                       *ngIf="sponsorLetterEditForm.get('studentId').hasError(validation.type)
+                                && (sponsorLetterEditForm.get('studentId').dirty ||
+                                sponsorLetterEditForm.get('studentId').touched)">
               {{validation.message}}
             </mat-error>
           </mat-error>
@@ -74,29 +103,6 @@
                        *ngIf="sponsorLetterEditForm.get('sponsorIdDropdown').hasError(validation.type)
                                 && (sponsorLetterEditForm.get('sponsorIdDropdown').dirty ||
                                 sponsorLetterEditForm.get('sponsorIdDropdown').touched)">
-              {{validation.message}}
-            </mat-error>
-          </mat-error>
-        </div>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-sm-12">
-        <div class="form-group">
-          <label for="studentIdDropdown">Student Drop-Down</label>
-          <select id="studentIdDropdown" class="form-control" formControlName="studentIdDropdown">
-            <option value=0>Select a Student</option>
-            <option *ngFor="let student of studentList"
-                    value="{{student.studentId}}">
-              {{student.studentGivenName}} {{student.studentSurname}}
-            </option>
-          </select>
-          <mat-error *ngFor="let validation of validationMessages.sponsorId">
-            <mat-error class="error-message"
-                       *ngIf="sponsorLetterEditForm.get('studentIdDropdown').hasError(validation.type)
-                                && (sponsorLetterEditForm.get('studentIdDropdown').dirty ||
-                                sponsorLetterEditForm.get('studentIdDropdown').touched)">
               {{validation.message}}
             </mat-error>
           </mat-error>

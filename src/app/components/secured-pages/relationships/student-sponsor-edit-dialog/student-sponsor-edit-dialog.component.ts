@@ -3,10 +3,10 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Sponsor } from '../../../../models/people/sponsor.model';
 import { SponsorService } from '../../../../services/people/sponsor.service';
-import * as moment from 'moment';
 import { ConfirmDialogComponent } from '@tqp/components/confirm-dialog/confirm-dialog.component';
 import { FormattingService } from '@tqp/services/formatting.service';
 import { validateNonZeroValue } from '@tqp/validators/custom.validators';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-student-sponsor-edit-dialog',

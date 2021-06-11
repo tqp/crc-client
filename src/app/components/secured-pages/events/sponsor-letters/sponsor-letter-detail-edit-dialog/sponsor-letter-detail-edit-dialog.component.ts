@@ -3,13 +3,15 @@ import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dial
 import { ConfirmDialogComponent } from '@tqp/components/confirm-dialog/confirm-dialog.component';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { FormattingService } from '@tqp/services/formatting.service';
-import * as moment from 'moment';
 import { SponsorLetter } from '../../../../../models/sponsor.letter';
 import { Sponsor } from '../../../../../models/people/sponsor.model';
 import { Student } from '../../../../../models/people/student.model';
 import { SponsorLetterService } from '../../../../../services/events/sponsor-letter.service';
 import { SponsorService } from '../../../../../services/people/sponsor.service';
 import { RelationshipService } from '../../../../../services/relationships/relationship.service';
+import { Caregiver } from '../../../../../models/people/caregiver.model';
+import { StudentService } from '../../../../../services/people/student.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-sponsor-letter-detail-edit-dialog',
@@ -40,18 +42,21 @@ export class SponsorLetterDetailEditDialogComponent implements OnInit {
               @Inject(MAT_DIALOG_DATA) public data: any,
               private sponsorLetterService: SponsorLetterService,
               private formBuilder: FormBuilder,
-              private formattingService: FormattingService,
+              private studentService: StudentService,
               private sponsorService: SponsorService,
+              private formattingService: FormattingService,
               private relationshipService: RelationshipService,
               public _matDialog: MatDialog) {
+    this.getStudentList();
+    this.getSponsorList();
 
-    if (this.data.studentId != null) {
-      this.getSponsorListByStudentId(this.data.studentId);
-    }
+    // if (this.data.studentId != null) {
+    //   this.getSponsorListByStudentId(this.data.studentId);
+    // }
 
-    if (this.data.sponsorId != null) {
-      this.getStudentListBySponsorId(this.data.sponsorId);
-    }
+    // if (this.data.sponsorId != null) {
+    //   this.getStudentListBySponsorId(this.data.sponsorId);
+    // }
 
     if (this.data.action === 'update') {
       this.getSponsorLetterByStudentId(this.data.studentId);
@@ -75,7 +80,29 @@ export class SponsorLetterDetailEditDialogComponent implements OnInit {
     });
   }
 
-  // LOAD DATA
+  private getStudentList(): void {
+    this.studentService.getStudentList().subscribe(
+      (response: Caregiver[]) => {
+        // console.log('response', response);
+        this.studentList = response;
+      },
+      error => {
+        console.error('Error: ', error);
+      }
+    );
+  }
+
+  private getSponsorList(): void {
+    this.sponsorService.getSponsorList().subscribe(
+      (response: Sponsor[]) => {
+        // console.log('response', response);
+        this.sponsorList = response;
+      },
+      error => {
+        console.error('Error: ', error);
+      }
+    );
+  }
 
   private getSponsorLetterByStudentId(studentId: number): void {
     // this.postGradEventService.getPostGradEventDetailByStudentId(studentId).subscribe(

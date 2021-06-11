@@ -8,7 +8,7 @@ import { HttpService } from '@tqp/services/http.service';
 import { TokenService } from '@tqp/services/token.service';
 import { map } from 'rxjs/operators';
 import { CaseManager } from '../../models/people/case-manager.model';
-import { AuthService } from '../../../@tqp/services/auth.service';
+import { AuthService } from '@tqp/services/auth.service';
 
 @Injectable({
   providedIn: 'root'

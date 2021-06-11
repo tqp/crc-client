@@ -10,9 +10,9 @@ import { StudentService } from '../../../../../services/people/student.service';
 import { Student } from '../../../../../models/people/student.model';
 import { PostGradEventType } from '../../../../../models/types/type-post-grad-event.model';
 import { PostGradEventTypeService } from '../../../../../services/reference-tables/post-grad-event-type.service';
-import * as moment from 'moment';
-import { validateNonZeroValue } from '@tqp/validators/custom.validators';
 import { FormattingService } from '@tqp/services/formatting.service';
+import { validateNonZeroValue } from '@tqp/validators/custom.validators';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-post-grad-event-detail-edit',

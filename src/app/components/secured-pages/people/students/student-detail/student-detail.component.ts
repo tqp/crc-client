@@ -17,7 +17,6 @@ import { Sponsor } from '../../../../../models/people/sponsor.model';
 import { StudentSponsorEditDialogComponent } from '../../../relationships/student-sponsor-edit-dialog/student-sponsor-edit-dialog.component';
 import { SponsorService } from '../../../../../services/people/sponsor.service';
 import { RelationshipService } from '../../../../../services/relationships/relationship.service';
-import { StudentProgramStatusEditDialogComponent } from '../../../relationships/student-program-status-edit-dialog/student-program-status-edit-dialog.component';
 import { ProgramStatusService } from '../../../../../services/program-status.service';
 import { ProgramStatus } from '../../../../../models/program.status';
 import { Visit } from '../../../../../models/visit.model';
@@ -35,6 +34,7 @@ import { SponsorLetterService } from '../../../../../services/events/sponsor-let
 import { SponsorLetter } from '../../../../../models/sponsor.letter';
 import { SponsorLetterDetailEditDialogComponent } from '../../../events/sponsor-letters/sponsor-letter-detail-edit-dialog/sponsor-letter-detail-edit-dialog.component';
 import { tqpCustomAnimations } from '@tqp/animations/tqpCustomAnimations';
+import { ProgramStatusEditDialogComponent } from '../../../events/program-status/program-status-edit-dialog/program-status-edit-dialog.component';
 
 @Component({
   selector: 'app-student-detail',
@@ -575,10 +575,10 @@ export class StudentDetailComponent implements OnInit {
       studentCaregiverId: studentCaregiverId
     };
     dialogConfig.autoFocus = false;
-    const dialogRef = this._matDialog.open(StudentProgramStatusEditDialogComponent, dialogConfig);
+    const dialogRef = this._matDialog.open(ProgramStatusEditDialogComponent, dialogConfig);
 
     dialogRef.afterClosed().subscribe(dialogData => {
-      console.log('dialogData', dialogData);
+      // console.log('dialogData', dialogData);
       if (dialogData) {
         const programStatus: ProgramStatus = {};
         const formData = dialogData[1];
@@ -587,7 +587,6 @@ export class StudentDetailComponent implements OnInit {
         programStatus.programStatusLevelOneId = formData.programStatusLevelOneId;
         programStatus.programStatusLevelTwoId = formData.programStatusLevelTwoId;
         programStatus.programStatusStartDate = this.formattingService.formatStandardDateAsMySql(formData.relationshipStartDate);
-        console.log('programStatus', programStatus);
 
         switch (dialogData[0]) {
           case 'create':
