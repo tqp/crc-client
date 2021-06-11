@@ -138,8 +138,8 @@ export const routes: Routes = [
         }
       },
       {
-        path: 'csi',
-        loadChildren: () => import('./components/secured-pages/events/csi/csi.module').then(m => m.CsiModule),
+        path: 'csi-records',
+        loadChildren: () => import('./components/secured-pages/events/csi_record/csi-record.module').then(m => m.CsiRecordModule),
         resolve: {
           securedPageResolver: SecuredPageResolverService
         }

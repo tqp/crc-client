@@ -2,15 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../../../../services/account/user.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { AuthService } from '@tqp/services/auth.service';
-import { User } from '../../../../../models/User';
+import { UserModel } from '../../../../../models/user.model';
 import { Token } from '@tqp/models/Token';
 import { TokenService } from '@tqp/services/token.service';
 import * as moment from 'moment';
 import { MatDialog } from '@angular/material/dialog';
-import { Csi } from '../../../../../models/csi.model';
+import { CsiRecord } from '../../../../../models/csi-record.model';
 import { tqpCustomAnimations } from '@tqp/animations/tqpCustomAnimations';
 import { RoleService } from '../../../../../services/account/role.service';
-import { Role } from '../../../../../models/Role';
+import { Role } from '../../../../../models/role.model';
 
 @Component({
   selector: 'app-user-detail',
@@ -19,13 +19,13 @@ import { Role } from '../../../../../models/Role';
   animations: [tqpCustomAnimations]
 })
 export class UserDetailComponent implements OnInit {
-  public user: User;
+  public user: UserModel;
   public userLoading: boolean = false;
   public decodedToken: Token;
 
   public statusTranslate = {0: 'Active', 1: 'Deleted'};
 
-  // User-Roles List
+  // UserModel-Roles List
   public roleListLoading: boolean = false;
   public roleListIsCollapsed: boolean = false;
   public roleListRecords: Role[] = [];

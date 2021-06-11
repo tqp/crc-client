@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { map } from 'rxjs/operators';
 import { Student } from '../../models/people/student.model';
-import { ProgramStatus } from '../../models/ProgramStatus';
+import { ProgramStatus } from '../../models/program.status';
 
 @Injectable({
   providedIn: 'root'

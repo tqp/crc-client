@@ -1,24 +1,24 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CsiDetailEditComponent } from './csi-detail-edit/csi-detail-edit.component';
-import { CsiDetailComponent } from './csi-detail/csi-detail.component';
-import { CsiRoutingModule } from './csi-routing.module';
+import { CsiRecordRoutingModule } from './csi-record-routing.module';
 import { AngularMaterialModule } from '@tqp/modules/angular-material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { RouterModule } from '@angular/router';
 import { ListAddRemoveItemsBasicModule } from '@tqp/components/list-add-remove-items-basic/list-add-remove-items-basic.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { CsiListComponent } from './csi-list/csi-list.component';
-import { CsiDetailEditDialogComponent } from './csi-detail-edit-dialog/csi-detail-edit-dialog.component';
+import { CsiRecordDetailEditComponent } from './csi-record-detail-edit/csi-record-detail-edit.component';
+import { CsiRecordDetailEditDialogComponent } from './csi-record-detail-edit-dialog/csi-record-detail-edit-dialog.component';
+import { CsiRecordListComponent } from './csi-record-list/csi-record-list.component';
+import { CsiRecordDetailComponent } from './csi-record-detail/csi-record-detail.component';
 
 
 @NgModule({
   declarations: [
-    CsiDetailEditComponent,
-    CsiDetailComponent,
-    CsiListComponent,
-    CsiDetailEditDialogComponent
+    CsiRecordDetailComponent,
+    CsiRecordDetailEditComponent,
+    CsiRecordDetailEditDialogComponent,
+    CsiRecordListComponent
   ],
   imports: [
     CommonModule,
@@ -29,8 +29,8 @@ import { CsiDetailEditDialogComponent } from './csi-detail-edit-dialog/csi-detai
     RouterModule,
     ListAddRemoveItemsBasicModule,
     FlexLayoutModule,
-    CsiRoutingModule
+    CsiRecordRoutingModule
   ]
 })
-export class CsiModule {
+export class CsiRecordModule {
 }

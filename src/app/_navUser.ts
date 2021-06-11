@@ -53,7 +53,7 @@ export const navItemsUser: INavData[] = [
   },
   {
     name: 'CSI Records',
-    url: '/csi/csi-list',
+    url: '/csi-records/csi-record-list',
     icon: 'fa fa-pencil-square-o'
   },
 

@@ -7,8 +7,8 @@ import { catchError, map, switchMap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { HttpService } from '@tqp/services/http.service';
 import { TokenService } from '@tqp/services/token.service';
-import { User } from '../../models/User';
-import { Role } from '../../models/Role';
+import { UserModel } from '../../models/user.model';
+import { Role } from '../../models/role.model';
 import { Router } from '@angular/router';
 import { Student } from '../../models/people/student.model';
 
@@ -24,11 +24,11 @@ export class UserService {
               private router: Router) {
   }
 
-  public createUser(user: User): Observable<User> {
+  public createUser(user: UserModel): Observable<UserModel> {
     const url = environment.apiUrl + '/api/v1/user/';
     const token = this.tokenService.getToken();
     if (token) {
-      return this.http.post<User>(url,
+      return this.http.post<UserModel>(url,
         user,
         {
           headers: this.httpService.setHeadersWithToken(),
@@ -46,11 +46,11 @@ export class UserService {
     }
   }
 
-  public getUserList(): Observable<User[]> {
+  public getUserList(): Observable<UserModel[]> {
     const url = environment.apiUrl + '/api/v1/user';
     const token = this.tokenService.getToken();
     if (token) {
-      return this.http.get<User[]>(url, {
+      return this.http.get<UserModel[]>(url, {
         headers: this.httpService.setHeadersWithToken(),
         observe: 'response',
         params: {}
@@ -66,11 +66,11 @@ export class UserService {
     }
   }
 
-  public getUserList_SSP(serverSideSearchParams: ServerSidePaginationRequest): Observable<ServerSidePaginationResponse<User>> {
+  public getUserList_SSP(serverSideSearchParams: ServerSidePaginationRequest): Observable<ServerSidePaginationResponse<UserModel>> {
     const url = environment.apiUrl + '/api/v1/user/ssp';
     const token = this.tokenService.getToken();
     if (token) {
-      return this.http.post<ServerSidePaginationResponse<User>>(url,
+      return this.http.post<ServerSidePaginationResponse<UserModel>>(url,
         serverSideSearchParams,
         {
           headers: this.httpService.setHeadersWithToken(),
@@ -88,11 +88,11 @@ export class UserService {
     }
   }
 
-  public getUserDetail(userId: number): Observable<User> {
+  public getUserDetail(userId: number): Observable<UserModel> {
     const user_url = environment.apiUrl + '/api/v1/user/' + userId;
     const token = this.tokenService.getToken();
     if (token) {
-      return this.http.get<User>(user_url, {
+      return this.http.get<UserModel>(user_url, {
         headers: this.httpService.setHeaders(token)
       }).pipe(
         switchMap(user => {
@@ -107,7 +107,7 @@ export class UserService {
                 return user;
               }),
               catchError(e => {
-                console.error('Error getting your User and Role information: ' + e);
+                console.error('Error getting your UserModel and Role information: ' + e);
                 return throwError(e);
               })
             );
@@ -123,7 +123,7 @@ export class UserService {
     const url = environment.apiUrl + '/api/v1/user/username/' + username;
     const token = this.tokenService.getToken();
     if (token) {
-      return this.http.get<User>(url,
+      return this.http.get<UserModel>(url,
         {
           headers: this.httpService.setHeadersWithToken(),
           observe: 'response',
@@ -140,11 +140,11 @@ export class UserService {
     }
   }
 
-  public updateUser(user: User): Observable<User> {
+  public updateUser(user: UserModel): Observable<UserModel> {
     const url = environment.apiUrl + '/api/v1/user/';
     const token = this.tokenService.getToken();
     if (token) {
-      return this.http.put<User>(url,
+      return this.http.put<UserModel>(url,
         user,
         {
           headers: this.httpService.setHeadersWithToken(),
@@ -162,7 +162,7 @@ export class UserService {
     }
   }
 
-  public deleteUser(user: User): Observable<string> {
+  public deleteUser(user: UserModel): Observable<string> {
     const url = environment.apiUrl + '/api/v1/user/' + user.userId;
     const token = this.tokenService.getToken();
     if (token) {
@@ -185,7 +185,7 @@ export class UserService {
 
   // OTHER
 
-  public updatePassword(user: User): Observable<string> {
+  public updatePassword(user: UserModel): Observable<string> {
     const url = environment.apiUrl + '/api/v1/user/update-password';
     const token = this.tokenService.getToken();
     if (token) {
@@ -207,7 +207,7 @@ export class UserService {
     }
   }
 
-  public resetPassword(user: User): Observable<string> {
+  public resetPassword(user: UserModel): Observable<string> {
     const url = environment.apiUrl + '/api/v1/user/reset-password';
     const token = this.tokenService.getToken();
     if (token) {

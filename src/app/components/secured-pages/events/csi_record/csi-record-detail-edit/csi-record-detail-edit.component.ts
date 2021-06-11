@@ -1,35 +1,32 @@
-import { Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
+import { CsiRecord } from '../../../../../models/csi-record.model';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { ConfirmDialogComponent } from '@tqp/components/confirm-dialog/confirm-dialog.component';
-import { ActivatedRoute, Params, Router } from '@angular/router';
-import { Csi } from '../../../../../models/csi.model';
-import { CsiService } from '../../../../../services/events/csi.service';
 import { Student } from '../../../../../models/people/student.model';
-import { StudentService } from '../../../../../services/people/student.service';
-import { FormattingService } from '@tqp/services/formatting.service';
 import { CaseManager } from '../../../../../models/people/case-manager.model';
-import { CaseManagerService } from '../../../../../services/people/case-manager.service';
-import * as moment from 'moment';
-import { ServicesProvidedTypeService } from '../../../../../services/reference-tables/services-provided-type.service';
 import { ServicesProvidedType } from '../../../../../models/types/type-services-provided.model';
+import { ConfirmDialogComponent } from '../../../../../../@tqp/components/confirm-dialog/confirm-dialog.component';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { CsiRecordService } from '../../../../../services/events/csi-record.service';
+import { StudentService } from '../../../../../services/people/student.service';
+import { CaseManagerService } from '../../../../../services/people/case-manager.service';
+import { FormattingService } from '../../../../../../@tqp/services/formatting.service';
+import { ServicesProvidedTypeService } from '../../../../../services/reference-tables/services-provided-type.service';
+import { validateNonZeroValue } from '../../../../../../@tqp/validators/custom.validators';
 import { forkJoin } from 'rxjs';
-import { validateNonZeroValue } from '@tqp/validators/custom.validators';
-
-// REF: https://coryrylan.com/blog/creating-a-dynamic-checkbox-list-in-angular
+import * as moment from 'moment';
 
 @Component({
-  selector: 'app-csi-detail-edit',
-  templateUrl: './csi-detail-edit.component.html',
-  styleUrls: ['./csi-detail-edit.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  selector: 'app-csi-record-detail-edit',
+  templateUrl: './csi-record-detail-edit.component.html',
+  styleUrls: ['./csi-record-detail-edit.component.scss']
 })
-export class CsiDetailEditComponent implements OnInit, OnDestroy {
+export class CsiRecordDetailEditComponent implements OnInit, OnDestroy {
   @ViewChild('caregiverSurnameInputField', {static: false}) caregiverSurnameInputField: ElementRef;
   public studentId;
   public pageSource: string;
   public newRecord: boolean;
-  public csi: Csi;
+  public csi: CsiRecord;
   public csiEditForm: FormGroup;
   public confirmDialogRef: MatDialogRef<ConfirmDialogComponent>;
   public studentList: Student[];
@@ -107,7 +104,7 @@ export class CsiDetailEditComponent implements OnInit, OnDestroy {
   };
 
   constructor(private route: ActivatedRoute,
-              private csiService: CsiService,
+              private csiService: CsiRecordService,
               private studentService: StudentService,
               private caseManagerService: CaseManagerService,
               private formattingService: FormattingService,
@@ -123,8 +120,8 @@ export class CsiDetailEditComponent implements OnInit, OnDestroy {
         this.getCsiDetail(studentCsiId);
       } else {
         this.newRecord = true;
-        this.csi = new Csi();
-        this.csi.studentCsiId = null;
+        this.csi = new CsiRecord();
+        this.csi.csiRecordId = null;
         this.prepareCreatePage();
       }
     }).then();
@@ -185,7 +182,7 @@ export class CsiDetailEditComponent implements OnInit, OnDestroy {
 
   private getCsiDetail(studentCsiId: number): void {
     const servicesProvided = this.servicesProvidedTypeService.getServicesProvidedTypeList();
-    const csiDetail = this.csiService.getCsiDetail(studentCsiId);
+    const csiDetail = this.csiService.getCsiRecordDetail(studentCsiId);
 
     // We need to ensure that both the servicedProvided list and the csiDetail come back before
     // trying to populate the checkboxes... so, we use forkJoin.
@@ -196,32 +193,32 @@ export class CsiDetailEditComponent implements OnInit, OnDestroy {
         this.servicesProvidedTypeList = response[0];
         this.addCheckboxes();
 
-        // User the csiDetail response
+        // UserModel the csiDetail response
         this.csi = response[1];
         // console.log('this.csi', this.csi);
-        this.csiEditForm.controls['studentCsiId'].patchValue(this.csi.studentCsiId);
+        this.csiEditForm.controls['studentCsiId'].patchValue(this.csi.csiRecordId);
         this.csiEditForm.controls['studentId'].patchValue(this.csi.studentId);
         this.csiEditForm.controls['caseManagerUserId'].patchValue(this.csi.caseManagerUserId);
-        this.csiEditForm.controls['csiDate'].patchValue(this.formattingService.formatMySqlDateAsStandard(this.csi.csiDate));
-        this.csiEditForm.controls['csiComments'].patchValue(this.csi.csiComments);
-        this.csiEditForm.controls['csiServicesProvided'].patchValue(this.csi.csiServicesProvided);
+        this.csiEditForm.controls['csiDate'].patchValue(this.formattingService.formatMySqlDateAsStandard(this.csi.csiRecordDate));
+        this.csiEditForm.controls['csiComments'].patchValue(this.csi.csiRecordComments);
+        this.csiEditForm.controls['csiServicesProvided'].patchValue(this.csi.csiRecordServicesProvided);
 
-        this.csiEditForm.controls['csiScoreFoodSecurity'].patchValue(this.csi.csiScoreFoodSecurity);
-        this.csiEditForm.controls['csiScoreNutritionAndGrowth'].patchValue(this.csi.csiScoreNutritionAndGrowth);
-        this.csiEditForm.controls['csiScoreShelter'].patchValue(this.csi.csiScoreShelter);
-        this.csiEditForm.controls['csiScoreCare'].patchValue(this.csi.csiScoreCare);
-        this.csiEditForm.controls['csiScoreAbuseAndExploitation'].patchValue(this.csi.csiScoreAbuseAndExploitation);
-        this.csiEditForm.controls['csiScoreLegalProtection'].patchValue(this.csi.csiScoreLegalProtection);
-        this.csiEditForm.controls['csiScoreWellness'].patchValue(this.csi.csiScoreWellness);
-        this.csiEditForm.controls['csiScoreHealthCareServices'].patchValue(this.csi.csiScoreHealthCareServices);
-        this.csiEditForm.controls['csiScoreEmotionalHealth'].patchValue(this.csi.csiScoreEmotionalHealth);
-        this.csiEditForm.controls['csiScoreSocialBehavior'].patchValue(this.csi.csiScoreSocialBehavior);
-        this.csiEditForm.controls['csiScorePerformance'].patchValue(this.csi.csiScorePerformance);
-        this.csiEditForm.controls['csiScoreEducationAndWork'].patchValue(this.csi.csiScoreEducationAndWork);
+        this.csiEditForm.controls['csiScoreFoodSecurity'].patchValue(this.csi.csiRecordScoreFoodSecurity);
+        this.csiEditForm.controls['csiScoreNutritionAndGrowth'].patchValue(this.csi.csiRecordScoreNutritionAndGrowth);
+        this.csiEditForm.controls['csiScoreShelter'].patchValue(this.csi.csiRecordScoreShelter);
+        this.csiEditForm.controls['csiScoreCare'].patchValue(this.csi.csiRecordScoreCare);
+        this.csiEditForm.controls['csiScoreAbuseAndExploitation'].patchValue(this.csi.csiRecordScoreAbuseAndExploitation);
+        this.csiEditForm.controls['csiScoreLegalProtection'].patchValue(this.csi.csiRecordScoreLegalProtection);
+        this.csiEditForm.controls['csiScoreWellness'].patchValue(this.csi.csiRecordScoreWellness);
+        this.csiEditForm.controls['csiScoreHealthCareServices'].patchValue(this.csi.csiRecordScoreHealthCareServices);
+        this.csiEditForm.controls['csiScoreEmotionalHealth'].patchValue(this.csi.csiRecordScoreEmotionalHealth);
+        this.csiEditForm.controls['csiScoreSocialBehavior'].patchValue(this.csi.csiRecordScoreSocialBehavior);
+        this.csiEditForm.controls['csiScorePerformance'].patchValue(this.csi.csiRecordScorePerformance);
+        this.csiEditForm.controls['csiScoreEducationAndWork'].patchValue(this.csi.csiRecordScoreEducationAndWork);
 
         // Populate Checkboxes
         // console.log('servicesProvidedTypeList', this.servicesProvidedTypeList);
-        const servicesProvidedCheckboxArray = this.csi.csiServicesProvided.split('|');
+        const servicesProvidedCheckboxArray = this.csi.csiRecordServicesProvided.split('|');
         this.servicesProvidedTypeList.forEach((value, index) => {
           const padded = ('000' + value.servicesProvidedTypeId).slice(-3);
           if (servicesProvidedCheckboxArray.indexOf(padded) > -1) {
@@ -276,7 +273,7 @@ export class CsiDetailEditComponent implements OnInit, OnDestroy {
   private getCaseManagerList(): void {
     this.caseManagerService.getCaseManagerList().subscribe(
       (response: CaseManager[]) => {
-        console.log('response', response);
+        // console.log('response', response);
         this.caseManagerList = response;
       },
       error => {
@@ -323,10 +320,10 @@ export class CsiDetailEditComponent implements OnInit, OnDestroy {
     this.confirmDialogRef.componentInstance.dialogMessage = 'Are you sure you want to delete?';
     this.confirmDialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.csiService.deleteCsi(studentCsiId).subscribe(
+        this.csiService.deleteCsiRecord(studentCsiId).subscribe(
           response => {
             // console.log('response: ', response);
-            this.router.navigate(['csi/csi-list']).then();
+            this.router.navigate(['csi/csi-record-list']).then();
           },
           error => {
             console.error('Error: ' + error.message);
@@ -338,44 +335,44 @@ export class CsiDetailEditComponent implements OnInit, OnDestroy {
   }
 
   public save(): void {
-    const csi = new Csi();
+    const csi = new CsiRecord();
     // console.log('csiEditForm', this.csiEditForm.getRawValue());
     const formRawValues = this.csiEditForm.getRawValue()
-    csi.studentCsiId = formRawValues.studentCsiId;
+    csi.csiRecordId = formRawValues.studentCsiId;
     csi.studentId = formRawValues.studentId;
     csi.caseManagerUserId = formRawValues.caseManagerUserId;
-    csi.csiDate = this.formattingService.formatStandardDateAsMySql(formRawValues.csiDate);
-    csi.csiComments = formRawValues.csiComments;
-    csi.csiServicesProvided = formRawValues.csiServicesProvided;
+    csi.csiRecordDate = this.formattingService.formatStandardDateAsMySql(formRawValues.csiDate);
+    csi.csiRecordComments = formRawValues.csiComments;
+    csi.csiRecordServicesProvided = formRawValues.csiServicesProvided;
     // Scores
-    csi.csiScoreFoodSecurity = formRawValues.csiScoreFoodSecurity;
-    csi.csiScoreNutritionAndGrowth = formRawValues.csiScoreNutritionAndGrowth;
-    csi.csiScoreShelter = formRawValues.csiScoreShelter;
-    csi.csiScoreCare = formRawValues.csiScoreCare;
-    csi.csiScoreAbuseAndExploitation = formRawValues.csiScoreAbuseAndExploitation;
-    csi.csiScoreLegalProtection = formRawValues.csiScoreLegalProtection;
-    csi.csiScoreWellness = formRawValues.csiScoreWellness;
-    csi.csiScoreHealthCareServices = formRawValues.csiScoreHealthCareServices;
-    csi.csiScoreEmotionalHealth = formRawValues.csiScoreEmotionalHealth;
-    csi.csiScoreSocialBehavior = formRawValues.csiScoreSocialBehavior;
-    csi.csiScorePerformance = formRawValues.csiScorePerformance;
-    csi.csiScoreEducationAndWork = formRawValues.csiScoreEducationAndWork;
+    csi.csiRecordScoreFoodSecurity = formRawValues.csiScoreFoodSecurity;
+    csi.csiRecordScoreNutritionAndGrowth = formRawValues.csiScoreNutritionAndGrowth;
+    csi.csiRecordScoreShelter = formRawValues.csiScoreShelter;
+    csi.csiRecordScoreCare = formRawValues.csiScoreCare;
+    csi.csiRecordScoreAbuseAndExploitation = formRawValues.csiScoreAbuseAndExploitation;
+    csi.csiRecordScoreLegalProtection = formRawValues.csiScoreLegalProtection;
+    csi.csiRecordScoreWellness = formRawValues.csiScoreWellness;
+    csi.csiRecordScoreHealthCareServices = formRawValues.csiScoreHealthCareServices;
+    csi.csiRecordScoreEmotionalHealth = formRawValues.csiScoreEmotionalHealth;
+    csi.csiRecordScoreSocialBehavior = formRawValues.csiScoreSocialBehavior;
+    csi.csiRecordScorePerformance = formRawValues.csiScorePerformance;
+    csi.csiRecordScoreEducationAndWork = formRawValues.csiScoreEducationAndWork;
 
     if (this.newRecord) {
-      this.csiService.createCsi(csi).subscribe(
+      this.csiService.createCsiRecord(csi).subscribe(
         response => {
           console.log('response: ', response);
-          this.router.navigate(['csi/csi-detail', response.studentCsiId]).then();
+          this.router.navigate(['csi/csi-record-detail', response.csiRecordId]).then();
         },
         error => {
           console.error('Error: ' + error.message);
         }
       );
     } else {
-      this.csiService.updateCsi(csi).subscribe(
+      this.csiService.updateCsiRecord(csi).subscribe(
         response => {
           // console.log('response: ', response);
-          this.router.navigate(['csi/csi-detail', response.studentCsiId]).then();
+          this.router.navigate(['csi/csi-record-detail', response.csiRecordId]).then();
         },
         error => {
           console.error('Error: ' + error.message);
@@ -385,12 +382,15 @@ export class CsiDetailEditComponent implements OnInit, OnDestroy {
   }
 
   public cancel(): void {
-    if (this.csi.studentCsiId) {
-      this.router.navigate(['csi/csi-detail', this.csi.studentCsiId]).then();
+    if (this.csi.csiRecordId) {
+      console.log('A', this.csi.csiRecordId);
+      this.router.navigate(['csi/csi-record-detail', this.csi.csiRecordId]).then();
     } else if (this.studentId) {
+      console.log('B', this.studentId);
       this.router.navigate(['students/student-detail', this.studentId]).then();
     } else {
-      this.router.navigate(['csi/csi-list']).then();
+      console.log('C');
+      this.router.navigate(['csi/csi-record-list']).then();
     }
   }
 

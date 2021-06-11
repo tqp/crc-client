@@ -4,9 +4,9 @@ import { catchError, map, switchMap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { HttpService } from '@tqp/services/http.service';
 import { TokenService } from '@tqp/services/token.service';
-import { ProgramStatusPackage } from '../models/ProgramStatusPackage';
+import { ProgramStatusPackage } from '../models/program-status.package';
 import { environment } from '../../environments/environment';
-import { ProgramStatus } from '../models/ProgramStatus';
+import { ProgramStatus } from '../models/program.status';
 
 @Injectable({
   providedIn: 'root'
@@ -37,7 +37,7 @@ export class ProgramStatusService {
                   return programStatusPackage;
                 }),
                 catchError(e => {
-                  console.error('Error getting your User and Role information: ' + e);
+                  console.error('Error getting your UserModel and Role information: ' + e);
                   return throwError(e);
                 })
               );

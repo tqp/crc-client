@@ -2,10 +2,10 @@ import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core'
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '@tqp/components/confirm-dialog/confirm-dialog.component';
 import { FormArray, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
-import { Role } from '../../../../../models/Role';
+import { Role } from '../../../../../models/role.model';
 import { RoleService } from '../../../../../services/account/role.service';
 import { UserValidationService } from '../../../../../services/account/user-validation.service';
-import { Position } from '../../../../../models/Position';
+import { Position } from '../../../../../models/position.model';
 import { PositionService } from '../../../../../services/account/position.service';
 
 @Component({

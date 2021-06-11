@@ -2,11 +2,11 @@ import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ProgramStatusService } from '../../../../services/program-status.service';
-import { ProgramStatusPackage } from '../../../../models/ProgramStatusPackage';
+import { ProgramStatusPackage } from '../../../../models/program-status.package';
 import * as moment from 'moment';
 import { ConfirmDialogComponent } from '@tqp/components/confirm-dialog/confirm-dialog.component';
 import { FormattingService } from '@tqp/services/formatting.service';
-import { ProgramStatus } from '../../../../models/ProgramStatus';
+import { ProgramStatus } from '../../../../models/program.status';
 import { validateNonZeroValue } from '@tqp/validators/custom.validators';
 
 @Component({

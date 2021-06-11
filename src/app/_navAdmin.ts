@@ -43,7 +43,7 @@ export const navItemsAdmin: INavData[] = [
   },
   {
     name: 'CSI Records',
-    url: '/csi/csi-list',
+    url: '/csi-records/csi-record-list',
     icon: 'fa fa-pencil-square-o'
   },
 
@@ -152,7 +152,7 @@ export const navItemsAdmin: INavData[] = [
     icon: 'fa fa-address-card'
   },
   {
-    name: 'User List',
+    name: 'UserModel List',
     url: '/users/user-list',
     icon: 'fa fa-users'
   },

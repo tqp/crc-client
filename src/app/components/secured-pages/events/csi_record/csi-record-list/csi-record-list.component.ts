@@ -1,20 +1,20 @@
 import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { FormControl } from '@angular/forms';
-import { EventService } from '@tqp/services/event.service';
-import { AuthService } from '@tqp/services/auth.service';
+import { EventService } from '../../../../../../@tqp/services/event.service';
+import { AuthService } from '../../../../../../@tqp/services/auth.service';
 import { Router } from '@angular/router';
 import { merge } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
-import { UserModel } from '../../../../../models/user.model';
-import { UserService } from '../../../../../services/account/user.service';
+import { CsiRecord } from '../../../../../models/csi-record.model';
+import { CsiRecordService } from '../../../../../services/events/csi-record.service';
 
 @Component({
-  selector: 'app-user-list',
-  templateUrl: './user-list.component.html',
-  styleUrls: ['./user-list.component.css']
+  selector: 'app-csi-record-list',
+  templateUrl: './csi-record-list.component.html',
+  styleUrls: ['./csi-record-list.component.css']
 })
-export class UserListComponent implements OnInit {
+export class CsiRecordListComponent implements OnInit {
   @ViewChild(MatSort, {static: true}) sort: MatSort;
   @ViewChild('searchElementRef', {static: true}) searchElementRef: ElementRef;
   public windowWidth: number = window.innerWidth;
@@ -25,30 +25,23 @@ export class UserListComponent implements OnInit {
   // Data Table
   public isLoading: boolean | undefined;
   public displayedColumns: any = [
-    {col: 'userName', showSmall: false},
-    {col: 'userUsername', showSmall: true},
-    {col: 'lastLogin', showSmall: false},
-    {col: 'loginCount', showSmall: false},
-    {col: 'director', showSmall: true},
-    {col: 'm&e', showSmall: true},
-    {col: 'leadCaseManager', showSmall: true},
-    {col: 'caseManager', showSmall: true},
-    {col: 'hcwCrcStaff', showSmall: true},
-    {col: 'custom', showSmall: true}
+    {col: 'csiRecordDate', showSmall: true},
+    {col: 'studentName', showSmall: true},
+    {col: 'caseManagerName', showSmall: true},
   ];
 
-  public userListDataSource: any;
-  public userListRecordCount = 0;
-  public userListRecords: UserModel[] = [];
+  public dataSource: any;
+  public recordCount = 0;
+  public recordList: CsiRecord[] = [];
 
-  constructor(private userService: UserService,
+  constructor(private csiRecordService: CsiRecordService,
               private eventService: EventService,
               public authService: AuthService,
               private router: Router) {
   }
 
   ngOnInit(): void {
-    this.getUserList();
+    this.getCsiRecordList();
   }
 
   public getDisplayedColumns(): string[] {
@@ -58,29 +51,31 @@ export class UserListComponent implements OnInit {
       .map(cd => cd.col);
   }
 
-  public getUserList(): void {
+  public getCsiRecordList(): void {
     this.isLoading = true;
     this.eventService.loadingEvent.emit(true);
-    this.userService.getUserList().subscribe(
+    this.csiRecordService.getCsiRecordList().subscribe(
       (response: any | null) => {
         // console.log('response', response);
         if (response) {
-          const userList: UserModel[] = response;
-          // console.log('userList', userList);
-          if (userList) {
-            userList.forEach((item: UserModel) => {
-              item.userName = item.userGivenName + ' ' + item.userSurname;
-              this.userListRecords.push(item);
-              this.userListRecordCount = userList.length;
+          const csiRecordList: CsiRecord[] = response;
+          console.log('csiRecordList', csiRecordList);
+          if (csiRecordList) {
+            csiRecordList.forEach((item: CsiRecord) => {
+              item.studentName = item.studentGivenName + ' ' + item.studentSurname;
+              item.caseManagerName = item.caseManagerGivenName + ' ' + item.caseManagerSurname;
+              this.recordList.push(item);
+              this.recordCount = csiRecordList.length;
             });
 
-            // Default Sort
-            this.userListRecords = this.userListRecords.sort((a, b) => {
-              return a.userName.toLowerCase() < b.userName.toLowerCase() ? -1 : 1;
-            });
+            // // Default Sort
+            // this.recordList = this.recordList.sort((a, b) => {
+            //   return a.csiRecordGivenName.toLowerCase() + a.csiRecordSurname.toLowerCase()
+            //   < b.csiRecordGivenName.toLowerCase() + b.csiRecordSurname.toLowerCase() ? -1 : 1;
+            // });
 
             setTimeout(() => {
-              this.userListDataSource = this.userListRecords;
+              this.dataSource = this.recordList;
               this.isLoading = false;
               this.eventService.loadingEvent.emit(false);
               this.listenForFilterChanges();
@@ -117,11 +112,11 @@ export class UserListComponent implements OnInit {
   private applyFilters(): void {
     const searchFilter = this.searchFormControl.value != null ? this.searchFormControl.value : '';
 
-    this.userListDataSource = this.userListRecords
+    this.dataSource = this.recordList
       .filter(list => {
-          const searchFilterAssessment_userName = list.userName.toLowerCase().includes(searchFilter.trim().toLowerCase());
-          const searchFilterAssessment_userUsername = list.userUsername.toLowerCase().includes(searchFilter.trim().toLowerCase());
-          return searchFilterAssessment_userName || searchFilterAssessment_userUsername;
+          // const searchFilterAssessment_csiRecordSurname = list.csiRecordSurname.toLowerCase().includes(searchFilter.trim().toLowerCase());
+          // const searchFilterAssessment_csiRecordGivenName = list.csiRecordGivenName.toLowerCase().includes(searchFilter.trim().toLowerCase());
+          // return searchFilterAssessment_csiRecordSurname || searchFilterAssessment_csiRecordGivenName;
         }
       )
       .sort((a, b) => {
@@ -145,8 +140,8 @@ export class UserListComponent implements OnInit {
     this.searchFormControl.setValue('');
   }
 
-  public openUserCreateDialog(): void {
-    this.router.navigate(['users/user-create']).then();
+  public openCreateCsiRecordPage(): void {
+    this.router.navigate(['csiRecords/csiRecord-create']).then();
   }
 
   @HostListener('window:resize', ['$event'])

@@ -6,8 +6,8 @@ import { CaseManagerService } from '../../../../../services/people/case-manager.
 import { Student } from '../../../../../models/people/student.model';
 import { AuthService } from '@tqp/services/auth.service';
 import { RelationshipService } from '../../../../../services/relationships/relationship.service';
-import { CsiService } from '../../../../../services/events/csi.service';
-import { Csi } from '../../../../../models/csi.model';
+import { CsiRecordService } from '../../../../../services/events/csi-record.service';
+import { CsiRecord } from '../../../../../models/csi-record.model';
 import { CaseManagerQualification } from '../../../../../models/case-manager-qualification.model';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { CaseManagerQualificationService } from '../../../../../services/events/case-manager-qualification.service';
@@ -63,7 +63,7 @@ export class CaseManagerDetailComponent implements OnInit {
               private relationshipService: RelationshipService,
               private caseManagerQualificationService: CaseManagerQualificationService,
               private formattingService: FormattingService,
-              private csiService: CsiService,
+              private csiService: CsiRecordService,
               private eventService: EventService,
               private router: Router,
               public authService: AuthService,
@@ -120,8 +120,8 @@ export class CaseManagerDetailComponent implements OnInit {
   }
 
   private getCsiListByCaseManagerId(caseManagerId: number): void {
-    this.csiService.getCsiListByCaseManagerId(caseManagerId).subscribe(
-      (csiList: Csi[]) => {
+    this.csiService.getCsiRecordListByCaseManagerId(caseManagerId).subscribe(
+      (csiList: CsiRecord[]) => {
         // console.log('csiList', csiList);
         if (csiList) {
           csiList.forEach(item => {

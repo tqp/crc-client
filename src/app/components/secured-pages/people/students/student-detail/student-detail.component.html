@@ -285,11 +285,11 @@
             <table mat-table class="table table-sm" [dataSource]="csiListDataSource"
                    *ngIf="csiListDataSource && csiListDataSource.length > 0">
 
-              <ng-container matColumnDef="csiDate">
-                <th mat-header-cell *matHeaderCellDef>Date</th>
+              <ng-container matColumnDef="csiRecordDate">
+                <th mat-header-cell *matHeaderCellDef>CSI Record Date</th>
                 <td mat-cell *matCellDef="let row">
-                  <a [routerLink]="['/csi/csi-detail', row.studentCsiId]">
-                    {{row.csiDate | date: 'dd-MMM-yyyy'}}
+                  <a [routerLink]="['/csi-records/csi-record-detail', row.csiRecordId]">
+                    {{row.csiRecordDate | date: 'dd-MMM-yyyy'}}
                   </a>
                 </td>
               </ng-container>

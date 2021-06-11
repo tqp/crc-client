@@ -130,7 +130,7 @@
               <ng-container matColumnDef="csiDate">
                 <th mat-header-cell *matHeaderCellDef>CSI Date</th>
                 <td mat-cell *matCellDef="let row">
-                  <a [routerLink]="['/csi/csi-detail', row.studentCsiId]">
+                  <a [routerLink]="['/csi-records/csi-detail', row.studentCsiId]">
                     {{row.csiDate | date: 'dd-MMM-yyyy'}}
                   </a>
                 </td>

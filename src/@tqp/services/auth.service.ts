@@ -149,7 +149,7 @@ export class AuthService {
   // // ANGULAR COMPONENT RESTRICTIONS
   // public displayComponent(item: FuseNavigationItem, authorities: string): boolean {
   //   if (item.role && authorities) {
-  //     // console.log('Menu Item: ' + item.title + ', Role Needed: ' + item.role + ', User Roles: ' + authorities);
+  //     // console.log('Menu Item: ' + item.title + ', Role Needed: ' + item.role + ', UserModel Roles: ' + authorities);
   //     return authorities.indexOf(item.role) > -1;
   //   }
   //   return false; // If no role is listed, default option is to display

@@ -63,7 +63,7 @@ export const navItemsWithRoles: INavDataTqp[] = [
   },
   {
     name: 'CSI Records',
-    url: '/csi/csi-list',
+    url: '/csi-records/csi-record-list',
     icon: 'fa fa-pencil-square-o',
     allow: 'ROLE_ADMIN, ROLE_CASE_MANAGER'
   },
@@ -205,7 +205,7 @@ export const navItemsWithRoles: INavDataTqp[] = [
     allow: 'ROLE_ADMIN, ROLE_EDIT_MY_PROFILE'
   },
   {
-    name: 'User List',
+    name: 'UserModel List',
     url: '/users/user-list',
     icon: 'fa fa-users',
     allow: 'ROLE_ADMIN, ROLE_MANAGE_USERS'

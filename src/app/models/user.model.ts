@@ -1,6 +1,6 @@
-import { Role } from './Role';
+import { Role } from './role.model';
 
-export class User {
+export class UserModel {
   public userName: string;
   public userId: number;
   public userUsername: string;

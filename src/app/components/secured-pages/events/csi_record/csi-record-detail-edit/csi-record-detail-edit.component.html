@@ -4,7 +4,7 @@
 
     <div class="row">
 
-      <div class="col-sm-6">
+      <div class="col-sm-12">
         <h1 *ngIf="csi && newRecord && csiEditForm.controls['studentCsiId'].value == ''; else notShow">
           New CSI Record
         </h1>
@@ -171,16 +171,16 @@
                   <label for="csiScoreAbuseAndExploitation" class="rating-label">Abuse & Exploitation*</label>
                   <mat-button-toggle-group id="csiScoreAbuseAndExploitation" class="tqp-custom-toggle"
                                            formControlName="csiScoreAbuseAndExploitation">
-                    <mat-button-toggle value=1 [checked]="csi.csiScoreAbuseAndExploitation===1" disableRipple>
+                    <mat-button-toggle value=1 [checked]="csi.csiRecordScoreAbuseAndExploitation===1" disableRipple>
                       1
                     </mat-button-toggle>
-                    <mat-button-toggle value=2 [checked]="csi.csiScoreAbuseAndExploitation===2" disableRipple>
+                    <mat-button-toggle value=2 [checked]="csi.csiRecordScoreAbuseAndExploitation===2" disableRipple>
                       2
                     </mat-button-toggle>
-                    <mat-button-toggle value=3 [checked]="csi.csiScoreAbuseAndExploitation===3" disableRipple>
+                    <mat-button-toggle value=3 [checked]="csi.csiRecordScoreAbuseAndExploitation===3" disableRipple>
                       3
                     </mat-button-toggle>
-                    <mat-button-toggle value=4 [checked]="csi.csiScoreAbuseAndExploitation===4" disableRipple>
+                    <mat-button-toggle value=4 [checked]="csi.csiRecordScoreAbuseAndExploitation===4" disableRipple>
                       4
                     </mat-button-toggle>
                   </mat-button-toggle-group>
@@ -202,16 +202,16 @@
                   <label for="csiScoreLegalProtection" class="rating-label">Legal Protection*</label>
                   <mat-button-toggle-group id="csiScoreLegalProtection" class="tqp-custom-toggle"
                                            formControlName="csiScoreLegalProtection">
-                    <mat-button-toggle value=1 [checked]="csi.csiScoreLegalProtection===1" disableRipple>
+                    <mat-button-toggle value=1 [checked]="csi.csiRecordScoreLegalProtection===1" disableRipple>
                       1
                     </mat-button-toggle>
-                    <mat-button-toggle value=2 [checked]="csi.csiScoreLegalProtection===2" disableRipple>
+                    <mat-button-toggle value=2 [checked]="csi.csiRecordScoreLegalProtection===2" disableRipple>
                       2
                     </mat-button-toggle>
-                    <mat-button-toggle value=3 [checked]="csi.csiScoreLegalProtection===3" disableRipple>
+                    <mat-button-toggle value=3 [checked]="csi.csiRecordScoreLegalProtection===3" disableRipple>
                       3
                     </mat-button-toggle>
-                    <mat-button-toggle value=4 [checked]="csi.csiScoreLegalProtection===4" disableRipple>
+                    <mat-button-toggle value=4 [checked]="csi.csiRecordScoreLegalProtection===4" disableRipple>
                       4
                     </mat-button-toggle>
                   </mat-button-toggle-group>
@@ -233,16 +233,16 @@
                   <label for="csiScorePerformance" class="rating-label">Performance*</label>
                   <mat-button-toggle-group id="csiScorePerformance" class="tqp-custom-toggle"
                                            formControlName="csiScorePerformance">
-                    <mat-button-toggle value=1 [checked]="csi.csiScorePerformance===1" disableRipple>
+                    <mat-button-toggle value=1 [checked]="csi.csiRecordScorePerformance===1" disableRipple>
                       1
                     </mat-button-toggle>
-                    <mat-button-toggle value=2 [checked]="csi.csiScorePerformance===2" disableRipple>
+                    <mat-button-toggle value=2 [checked]="csi.csiRecordScorePerformance===2" disableRipple>
                       2
                     </mat-button-toggle>
-                    <mat-button-toggle value=3 [checked]="csi.csiScorePerformance===3" disableRipple>
+                    <mat-button-toggle value=3 [checked]="csi.csiRecordScorePerformance===3" disableRipple>
                       3
                     </mat-button-toggle>
-                    <mat-button-toggle value=4 [checked]="csi.csiScorePerformance===4" disableRipple>
+                    <mat-button-toggle value=4 [checked]="csi.csiRecordScorePerformance===4" disableRipple>
                       4
                     </mat-button-toggle>
                   </mat-button-toggle-group>
@@ -264,16 +264,16 @@
                   <label for="csiScoreEducationAndWork" class="rating-label">Education & Work*</label>
                   <mat-button-toggle-group id="csiScoreEducationAndWork" class="tqp-custom-toggle"
                                            formControlName="csiScoreEducationAndWork">
-                    <mat-button-toggle value=1 [checked]="csi.csiScoreEducationAndWork===1" disableRipple>
+                    <mat-button-toggle value=1 [checked]="csi.csiRecordScoreEducationAndWork===1" disableRipple>
                       1
                     </mat-button-toggle>
-                    <mat-button-toggle value=2 [checked]="csi.csiScoreEducationAndWork===2" disableRipple>
+                    <mat-button-toggle value=2 [checked]="csi.csiRecordScoreEducationAndWork===2" disableRipple>
                       2
                     </mat-button-toggle>
-                    <mat-button-toggle value=3 [checked]="csi.csiScoreEducationAndWork===3" disableRipple>
+                    <mat-button-toggle value=3 [checked]="csi.csiRecordScoreEducationAndWork===3" disableRipple>
                       3
                     </mat-button-toggle>
-                    <mat-button-toggle value=4 [checked]="csi.csiScoreEducationAndWork===4" disableRipple>
+                    <mat-button-toggle value=4 [checked]="csi.csiRecordScoreEducationAndWork===4" disableRipple>
                       4
                     </mat-button-toggle>
                   </mat-button-toggle-group>
@@ -295,16 +295,16 @@
                   <label for="csiScoreFoodSecurity" class="rating-label">Food Security*</label>
                   <mat-button-toggle-group id="csiScoreFoodSecurity" class="tqp-custom-toggle"
                                            formControlName="csiScoreFoodSecurity">
-                    <mat-button-toggle value=1 [checked]="csi.csiScoreFoodSecurity===1" disableRipple>
+                    <mat-button-toggle value=1 [checked]="csi.csiRecordScoreFoodSecurity===1" disableRipple>
                       1
                     </mat-button-toggle>
-                    <mat-button-toggle value=2 [checked]="csi.csiScoreFoodSecurity===2" disableRipple>
+                    <mat-button-toggle value=2 [checked]="csi.csiRecordScoreFoodSecurity===2" disableRipple>
                       2
                     </mat-button-toggle>
-                    <mat-button-toggle value=3 [checked]="csi.csiScoreFoodSecurity===3" disableRipple>
+                    <mat-button-toggle value=3 [checked]="csi.csiRecordScoreFoodSecurity===3" disableRipple>
                       3
                     </mat-button-toggle>
-                    <mat-button-toggle value=4 [checked]="csi.csiScoreFoodSecurity===4" disableRipple>
+                    <mat-button-toggle value=4 [checked]="csi.csiRecordScoreFoodSecurity===4" disableRipple>
                       4
                     </mat-button-toggle>
                   </mat-button-toggle-group>
@@ -326,16 +326,16 @@
                   <label for="csiScoreNutritionAndGrowth" class="rating-label">Nutrition & Growth*</label>
                   <mat-button-toggle-group id="csiScoreNutritionAndGrowth" class="tqp-custom-toggle"
                                            formControlName="csiScoreNutritionAndGrowth">
-                    <mat-button-toggle value=1 [checked]="csi.csiScoreNutritionAndGrowth===1" disableRipple>
+                    <mat-button-toggle value=1 [checked]="csi.csiRecordScoreNutritionAndGrowth===1" disableRipple>
                       1
                     </mat-button-toggle>
-                    <mat-button-toggle value=2 [checked]="csi.csiScoreNutritionAndGrowth===2" disableRipple>
+                    <mat-button-toggle value=2 [checked]="csi.csiRecordScoreNutritionAndGrowth===2" disableRipple>
                       2
                     </mat-button-toggle>
-                    <mat-button-toggle value=3 [checked]="csi.csiScoreNutritionAndGrowth===3" disableRipple>
+                    <mat-button-toggle value=3 [checked]="csi.csiRecordScoreNutritionAndGrowth===3" disableRipple>
                       3
                     </mat-button-toggle>
-                    <mat-button-toggle value=4 [checked]="csi.csiScoreNutritionAndGrowth===4" disableRipple>
+                    <mat-button-toggle value=4 [checked]="csi.csiRecordScoreNutritionAndGrowth===4" disableRipple>
                       4
                     </mat-button-toggle>
                   </mat-button-toggle-group>
@@ -357,16 +357,16 @@
                   <label for="csiScoreHealthCareServices" class="rating-label">Health Care Services*</label>
                   <mat-button-toggle-group id="csiScoreHealthCareServices" class="tqp-custom-toggle"
                                            formControlName="csiScoreHealthCareServices">
-                    <mat-button-toggle value=1 [checked]="csi.csiScoreHealthCareServices===1" disableRipple>
+                    <mat-button-toggle value=1 [checked]="csi.csiRecordScoreHealthCareServices===1" disableRipple>
                       1
                     </mat-button-toggle>
-                    <mat-button-toggle value=2 [checked]="csi.csiScoreHealthCareServices===2" disableRipple>
+                    <mat-button-toggle value=2 [checked]="csi.csiRecordScoreHealthCareServices===2" disableRipple>
                       2
                     </mat-button-toggle>
-                    <mat-button-toggle value=3 [checked]="csi.csiScoreHealthCareServices===3" disableRipple>
+                    <mat-button-toggle value=3 [checked]="csi.csiRecordScoreHealthCareServices===3" disableRipple>
                       3
                     </mat-button-toggle>
-                    <mat-button-toggle value=4 [checked]="csi.csiScoreHealthCareServices===4" disableRipple>
+                    <mat-button-toggle value=4 [checked]="csi.csiRecordScoreHealthCareServices===4" disableRipple>
                       4
                     </mat-button-toggle>
                   </mat-button-toggle-group>
@@ -387,16 +387,16 @@
                 <div class="form-group">
                   <label for="csiScoreWellness" class="rating-label">Wellness*</label>
                   <mat-button-toggle-group id="csiScoreWellness" class="tqp-custom-toggle" formControlName="csiScoreWellness">
-                    <mat-button-toggle value=1 [checked]="csi.csiScoreWellness===1" disableRipple>
+                    <mat-button-toggle value=1 [checked]="csi.csiRecordScoreWellness===1" disableRipple>
                       1
                     </mat-button-toggle>
-                    <mat-button-toggle value=2 [checked]="csi.csiScoreWellness===2" disableRipple>
+                    <mat-button-toggle value=2 [checked]="csi.csiRecordScoreWellness===2" disableRipple>
                       2
                     </mat-button-toggle>
-                    <mat-button-toggle value=3 [checked]="csi.csiScoreWellness===3" disableRipple>
+                    <mat-button-toggle value=3 [checked]="csi.csiRecordScoreWellness===3" disableRipple>
                       3
                     </mat-button-toggle>
-                    <mat-button-toggle value=4 [checked]="csi.csiScoreWellness===4" disableRipple>
+                    <mat-button-toggle value=4 [checked]="csi.csiRecordScoreWellness===4" disableRipple>
                       4
                     </mat-button-toggle>
                   </mat-button-toggle-group>
@@ -418,16 +418,16 @@
                   <label for="csiScoreEmotionalHealth" class="rating-label">Emotional Health*</label>
                   <mat-button-toggle-group id="csiScoreEmotionalHealth" class="tqp-custom-toggle"
                                            formControlName="csiScoreEmotionalHealth">
-                    <mat-button-toggle value=1 [checked]="csi.csiScoreEmotionalHealth===1" disableRipple>
+                    <mat-button-toggle value=1 [checked]="csi.csiRecordScoreEmotionalHealth===1" disableRipple>
                       1
                     </mat-button-toggle>
-                    <mat-button-toggle value=2 [checked]="csi.csiScoreEmotionalHealth===2" disableRipple>
+                    <mat-button-toggle value=2 [checked]="csi.csiRecordScoreEmotionalHealth===2" disableRipple>
                       2
                     </mat-button-toggle>
-                    <mat-button-toggle value=3 [checked]="csi.csiScoreEmotionalHealth===3" disableRipple>
+                    <mat-button-toggle value=3 [checked]="csi.csiRecordScoreEmotionalHealth===3" disableRipple>
                       3
                     </mat-button-toggle>
-                    <mat-button-toggle value=4 [checked]="csi.csiScoreEmotionalHealth===4" disableRipple>
+                    <mat-button-toggle value=4 [checked]="csi.csiRecordScoreEmotionalHealth===4" disableRipple>
                       4
                     </mat-button-toggle>
                   </mat-button-toggle-group>
@@ -449,16 +449,16 @@
                   <label for="csiScoreSocialBehavior" class="rating-label">Social Behavior*</label>
                   <mat-button-toggle-group id="csiScoreSocialBehavior" class="tqp-custom-toggle"
                                            formControlName="csiScoreSocialBehavior">
-                    <mat-button-toggle value=1 [checked]="csi.csiScoreSocialBehavior===1" disableRipple>
+                    <mat-button-toggle value=1 [checked]="csi.csiRecordScoreSocialBehavior===1" disableRipple>
                       1
                     </mat-button-toggle>
-                    <mat-button-toggle value=2 [checked]="csi.csiScoreSocialBehavior===2" disableRipple>
+                    <mat-button-toggle value=2 [checked]="csi.csiRecordScoreSocialBehavior===2" disableRipple>
                       2
                     </mat-button-toggle>
-                    <mat-button-toggle value=3 [checked]="csi.csiScoreSocialBehavior===3" disableRipple>
+                    <mat-button-toggle value=3 [checked]="csi.csiRecordScoreSocialBehavior===3" disableRipple>
                       3
                     </mat-button-toggle>
-                    <mat-button-toggle value=4 [checked]="csi.csiScoreSocialBehavior===4" disableRipple>
+                    <mat-button-toggle value=4 [checked]="csi.csiRecordScoreSocialBehavior===4" disableRipple>
                       4
                     </mat-button-toggle>
                   </mat-button-toggle-group>
@@ -479,16 +479,16 @@
                 <div class="form-group">
                   <label for="csiScoreCare" class="rating-label">Care*</label>
                   <mat-button-toggle-group id="csiScoreCare" class="tqp-custom-toggle" formControlName="csiScoreCare">
-                    <mat-button-toggle value=1 [checked]="csi.csiScoreCare===1" disableRipple>
+                    <mat-button-toggle value=1 [checked]="csi.csiRecordScoreCare===1" disableRipple>
                       1
                     </mat-button-toggle>
-                    <mat-button-toggle value=2 [checked]="csi.csiScoreCare===2" disableRipple>
+                    <mat-button-toggle value=2 [checked]="csi.csiRecordScoreCare===2" disableRipple>
                       2
                     </mat-button-toggle>
-                    <mat-button-toggle value=3 [checked]="csi.csiScoreCare===3" disableRipple>
+                    <mat-button-toggle value=3 [checked]="csi.csiRecordScoreCare===3" disableRipple>
                       3
                     </mat-button-toggle>
-                    <mat-button-toggle value=4 [checked]="csi.csiScoreCare===4" disableRipple>
+                    <mat-button-toggle value=4 [checked]="csi.csiRecordScoreCare===4" disableRipple>
                       4
                     </mat-button-toggle>
                   </mat-button-toggle-group>
@@ -509,16 +509,16 @@
                 <div class="form-group">
                   <label for="csiScoreShelter" class="rating-label">Shelter*</label>
                   <mat-button-toggle-group id="csiScoreShelter" class="tqp-custom-toggle" formControlName="csiScoreShelter">
-                    <mat-button-toggle value=1 [checked]="csi.csiScoreShelter===1" disableRipple>
+                    <mat-button-toggle value=1 [checked]="csi.csiRecordScoreShelter===1" disableRipple>
                       1
                     </mat-button-toggle>
-                    <mat-button-toggle value=2 [checked]="csi.csiScoreShelter===2" disableRipple>
+                    <mat-button-toggle value=2 [checked]="csi.csiRecordScoreShelter===2" disableRipple>
                       2
                     </mat-button-toggle>
-                    <mat-button-toggle value=3 [checked]="csi.csiScoreShelter===3" disableRipple>
+                    <mat-button-toggle value=3 [checked]="csi.csiRecordScoreShelter===3" disableRipple>
                       3
                     </mat-button-toggle>
-                    <mat-button-toggle value=4 [checked]="csi.csiScoreShelter===4" disableRipple>
+                    <mat-button-toggle value=4 [checked]="csi.csiRecordScoreShelter===4" disableRipple>
                       4
                     </mat-button-toggle>
                   </mat-button-toggle-group>
@@ -544,7 +544,7 @@
             <button type="button" class="btn btn-secondary" (click)="cancel()">
               <i class="fa fa-ban mr-2"></i>Cancel
             </button>
-            <button type="button" class="btn btn-danger" (click)="delete(csi.studentCsiId)">
+            <button type="button" class="btn btn-danger" (click)="delete(csi.csiRecordId)">
               <i class="fa fa-trash-o mr-2"></i>Delete
             </button>
           </div>

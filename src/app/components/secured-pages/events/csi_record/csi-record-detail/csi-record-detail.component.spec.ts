@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CsiListComponent } from './csi-list.component';
+import { CsiRecordDetailComponent } from './csi-record-detail.component';
 
-describe('CsiListComponent', () => {
-  let component: CsiListComponent;
-  let fixture: ComponentFixture<CsiListComponent>;
+describe('CsiRecordDetailComponent', () => {
+  let component: CsiRecordDetailComponent;
+  let fixture: ComponentFixture<CsiRecordDetailComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CsiListComponent ]
+      declarations: [ CsiRecordDetailComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CsiListComponent);
+    fixture = TestBed.createComponent(CsiRecordDetailComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -109,7 +109,7 @@ export class LoginPageComponent implements OnInit {
         this.errorMessage = 'You have been logged out.';
         break;
       case 'UserDisabled':
-        this.errorMessage = 'That User is currently disabled.';
+        this.errorMessage = 'That UserModel is currently disabled.';
         break;
       case 'CannotConnectToServer':
         this.errorMessage = 'Cannot connect to the server.';

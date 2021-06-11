@@ -7,12 +7,12 @@ import { environment } from '../../../environments/environment';
 import { map } from 'rxjs/operators';
 import { ServerSidePaginationRequest } from '@tqp/models/ServerSidePaginationRequest';
 import { ServerSidePaginationResponse } from '@tqp/models/ServerSidePaginationResponse';
-import { Csi } from '../../models/csi.model';
+import { CsiRecord } from '../../models/csi-record.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class CsiService {
+export class CsiRecordService {
   constructor(private http: HttpClient,
               private httpService: HttpService,
               private tokenService: TokenService) {
@@ -20,96 +20,11 @@ export class CsiService {
 
   // BASIC CRUD
 
-  public createCsi(csi: Csi): Observable<Csi> {
-    const url = environment.apiUrl + '/api/v1/csi/';
+  public createCsiRecord(csiRecord: CsiRecord): Observable<CsiRecord> {
+    const url = environment.apiUrl + '/api/v1/csi-record/';
     const token = this.tokenService.getToken();
     if (token) {
-      return this.http.post<Csi>(url,
-        csi,
-        {
-          headers: this.httpService.setHeadersWithToken(),
-          observe: 'response',
-          params: {}
-        })
-        .pipe(
-          map(res => {
-            return res.body;
-          })
-        );
-    } else {
-      console.error('No token was present.');
-      return null;
-    }
-  }
-
-  public getCsiList(): Observable<Csi[]> {
-    const url = environment.apiUrl + '/api/v1/csi/';
-    const token = this.tokenService.getToken();
-    if (token) {
-      return this.http.get<Csi[]>(url, {
-        headers: this.httpService.setHeadersWithToken(),
-        observe: 'response',
-        params: {}
-      })
-        .pipe(
-          map(res => {
-            return res.body;
-          })
-        );
-    } else {
-      console.error('No token was present.');
-      return null;
-    }
-  }
-
-  public getCsiList_SSP(serverSideSearchParams: ServerSidePaginationRequest): Observable<ServerSidePaginationResponse<Csi>> {
-    const url = environment.apiUrl + '/api/v1/csi/ssp';
-    const token = this.tokenService.getToken();
-    if (token) {
-      return this.http.post<ServerSidePaginationResponse<Csi>>(url,
-        serverSideSearchParams,
-        {
-          headers: this.httpService.setHeadersWithToken(),
-          observe: 'response',
-          params: {}
-        })
-        .pipe(
-          map(res => {
-            return res.body;
-          })
-        );
-    } else {
-      console.error('No token was present.');
-      return null;
-    }
-  }
-
-  public getCsiDetail(id: number): Observable<Csi> {
-    const url = environment.apiUrl + '/api/v1/csi/' + id;
-    const token = this.tokenService.getToken();
-    if (token) {
-      return this.http.get<Csi>(url,
-        {
-          headers: this.httpService.setHeadersWithToken(),
-          observe: 'response',
-          params: {}
-        })
-        .pipe(
-          map(res => {
-            return res.body;
-          })
-        );
-    } else {
-      console.error('No token was present.');
-      return null;
-    }
-  }
-
-  public updateCsi(csiRecord: Csi): Observable<Csi> {
-    const url = environment.apiUrl + '/api/v1/csi/';
-    const token = this.tokenService.getToken();
-    if (token) {
-      return this.http.put<Csi>(url,
+      return this.http.post<CsiRecord>(url,
         csiRecord,
         {
           headers: this.httpService.setHeadersWithToken(),
@@ -127,8 +42,93 @@ export class CsiService {
     }
   }
 
-  public deleteCsi(csiId: number): Observable<string> {
-    const url = environment.apiUrl + '/api/v1/csi/' + csiId;
+  public getCsiRecordList(): Observable<CsiRecord[]> {
+    const url = environment.apiUrl + '/api/v1/csi-record/';
+    const token = this.tokenService.getToken();
+    if (token) {
+      return this.http.get<CsiRecord[]>(url, {
+        headers: this.httpService.setHeadersWithToken(),
+        observe: 'response',
+        params: {}
+      })
+        .pipe(
+          map(res => {
+            return res.body;
+          })
+        );
+    } else {
+      console.error('No token was present.');
+      return null;
+    }
+  }
+
+  public getCsiRecordList_SSP(serverSideSearchParams: ServerSidePaginationRequest): Observable<ServerSidePaginationResponse<CsiRecord>> {
+    const url = environment.apiUrl + '/api/v1/csi-record/ssp';
+    const token = this.tokenService.getToken();
+    if (token) {
+      return this.http.post<ServerSidePaginationResponse<CsiRecord>>(url,
+        serverSideSearchParams,
+        {
+          headers: this.httpService.setHeadersWithToken(),
+          observe: 'response',
+          params: {}
+        })
+        .pipe(
+          map(res => {
+            return res.body;
+          })
+        );
+    } else {
+      console.error('No token was present.');
+      return null;
+    }
+  }
+
+  public getCsiRecordDetail(csiRecordId: number): Observable<CsiRecord> {
+    const url = environment.apiUrl + '/api/v1/csi-record/' + csiRecordId;
+    const token = this.tokenService.getToken();
+    if (token) {
+      return this.http.get<CsiRecord>(url,
+        {
+          headers: this.httpService.setHeadersWithToken(),
+          observe: 'response',
+          params: {}
+        })
+        .pipe(
+          map(res => {
+            return res.body;
+          })
+        );
+    } else {
+      console.error('No token was present.');
+      return null;
+    }
+  }
+
+  public updateCsiRecord(csiRecord: CsiRecord): Observable<CsiRecord> {
+    const url = environment.apiUrl + '/api/v1/csi-record/';
+    const token = this.tokenService.getToken();
+    if (token) {
+      return this.http.put<CsiRecord>(url,
+        csiRecord,
+        {
+          headers: this.httpService.setHeadersWithToken(),
+          observe: 'response',
+          params: {}
+        })
+        .pipe(
+          map(res => {
+            return res.body;
+          })
+        );
+    } else {
+      console.error('No token was present.');
+      return null;
+    }
+  }
+
+  public deleteCsiRecord(csiRecordId: number): Observable<string> {
+    const url = environment.apiUrl + '/api/v1/csi-record/' + csiRecordId;
     const token = this.tokenService.getToken();
     if (token) {
       return this.http.delete<string>(url,
@@ -150,11 +150,11 @@ export class CsiService {
 
   // JOINED TABLES
 
-  public getCsiListByStudentId(studentId: number): Observable<Csi[]> {
-    const url = environment.apiUrl + '/api/v1/csi/student/' + studentId;
+  public getCsiRecordListByStudentId(studentId: number): Observable<CsiRecord[]> {
+    const url = environment.apiUrl + '/api/v1/csi-record/student/' + studentId;
     const token = this.tokenService.getToken();
     if (token) {
-      return this.http.get<Csi[]>(url, {
+      return this.http.get<CsiRecord[]>(url, {
         headers: this.httpService.setHeadersWithToken(),
         observe: 'response',
         params: {}
@@ -170,11 +170,11 @@ export class CsiService {
     }
   }
 
-  public getMostRecentCsiScoresByStudentId(studentId: number): Observable<Csi> {
-    const url = environment.apiUrl + '/api/v1/csi/recent-scores/student/' + studentId;
+  public getMostRecentCsiRecordScoresByStudentId(studentId: number): Observable<CsiRecord> {
+    const url = environment.apiUrl + '/api/v1/csi-record/recent-scores/student/' + studentId;
     const token = this.tokenService.getToken();
     if (token) {
-      return this.http.get<Csi>(url, {
+      return this.http.get<CsiRecord>(url, {
         headers: this.httpService.setHeadersWithToken(),
         observe: 'response',
         params: {}
@@ -190,11 +190,11 @@ export class CsiService {
     }
   }
 
-  public getCsiListByCaseManagerId(caseManagerId: number): Observable<Csi[]> {
-    const url = environment.apiUrl + '/api/v1/csi/case-manager/' + caseManagerId;
+  public getCsiRecordListByCaseManagerId(caseManagerId: number): Observable<CsiRecord[]> {
+    const url = environment.apiUrl + '/api/v1/csi-record/case-manager/' + caseManagerId;
     const token = this.tokenService.getToken();
     if (token) {
-      return this.http.get<Csi[]>(url, {
+      return this.http.get<CsiRecord[]>(url, {
         headers: this.httpService.setHeadersWithToken(),
         observe: 'response',
         params: {}

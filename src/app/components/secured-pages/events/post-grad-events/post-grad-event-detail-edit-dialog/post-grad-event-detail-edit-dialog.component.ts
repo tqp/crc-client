@@ -93,7 +93,7 @@ export class PostGradEventDetailEditDialogComponent implements OnInit {
     console.log('postGradEventType', postGradEventType);
     // this.programStatusEditForm.get('programStatusLevelTwoId').patchValue(0);
     // this.programStatusService.getProgramStatusPackage(programStatusLevelOneId).subscribe(
-    //   (response: ProgramStatusPackage) => {
+    //   (response: ProgramStatusPackageModel) => {
     //     this.programStatusPackageLevelTwo = response;
     //     // console.log('programStatusPackageLevelTwo', this.programStatusPackageLevelTwo);
     //   },

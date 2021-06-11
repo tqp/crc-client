@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AbstractControl, AsyncValidatorFn, ValidationErrors } from '@angular/forms';
 import { Observable, timer } from 'rxjs';
 import { first, map, switchMap } from 'rxjs/operators';
-import { User } from '../../models/User';
+import { UserModel } from '../../models/user.model';
 import { MyProfileService } from './my-profile.service';
 import { UserService } from './user.service';
 
@@ -16,7 +16,7 @@ export class UserValidationService {
 
   public currentPasswordValidator(): AsyncValidatorFn {
     return (control: AbstractControl): Promise<ValidationErrors | null> | Observable<ValidationErrors | null> => {
-      const user = new User();
+      const user = new UserModel();
       user.password = control.value;
       return timer(500).pipe(
         switchMap(() => {

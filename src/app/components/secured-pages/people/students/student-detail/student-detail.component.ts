@@ -19,14 +19,14 @@ import { SponsorService } from '../../../../../services/people/sponsor.service';
 import { RelationshipService } from '../../../../../services/relationships/relationship.service';
 import { StudentProgramStatusEditDialogComponent } from '../../../relationships/student-program-status-edit-dialog/student-program-status-edit-dialog.component';
 import { ProgramStatusService } from '../../../../../services/program-status.service';
-import { ProgramStatus } from '../../../../../models/ProgramStatus';
+import { ProgramStatus } from '../../../../../models/program.status';
 import { Visit } from '../../../../../models/visit.model';
 import { VisitService } from '../../../../../services/events/visit.service';
 import { VisitDetailEditDialogComponent } from '../../../events/visits/visit-detail-edit-dialog/visit-detail-edit-dialog.component';
 import { HistoryService } from '../../../../../services/people/history.service';
-import { Csi } from '../../../../../models/csi.model';
+import { CsiRecord } from '../../../../../models/csi-record.model';
 import { PostGradEvent } from '../../../../../models/post-grad-event.model';
-import { CsiService } from '../../../../../services/events/csi.service';
+import { CsiRecordService } from '../../../../../services/events/csi-record.service';
 import { ChartType } from 'chart.js';
 import { getStyle, hexToRgba } from '@coreui/coreui-pro/dist/js/coreui-utilities';
 import { PostGradEventService } from '../../../../../services/events/post-grad-event.service';
@@ -79,10 +79,10 @@ export class StudentDetailComponent implements OnInit {
   // CSI List
   public csiListLoading: boolean = false;
   public csiListIsCollapsed: boolean = true;
-  public csiListRecords: Csi[] = [];
-  public csiListDataSource: Csi[] = [];
+  public csiListRecords: CsiRecord[] = [];
+  public csiListDataSource: CsiRecord[] = [];
   public csiListDisplayedColumns: string[] = [
-    'csiDate',
+    'csiRecordDate',
     'caseManagerName'
   ];
 
@@ -180,7 +180,7 @@ export class StudentDetailComponent implements OnInit {
               private sponsorLetterService: SponsorLetterService,
               private historyService: HistoryService,
               private visitService: VisitService,
-              private csiService: CsiService,
+              private csiService: CsiRecordService,
               private eventService: EventService,
               private formattingService: FormattingService,
               private router: Router,
@@ -224,24 +224,24 @@ export class StudentDetailComponent implements OnInit {
   }
 
   private drawCsiScoresChart(studentId: number): void {
-    this.csiService.getMostRecentCsiScoresByStudentId(studentId).subscribe(
-      (csi: Csi) => {
+    this.csiService.getMostRecentCsiRecordScoresByStudentId(studentId).subscribe(
+      (csi: CsiRecord) => {
         if (csi) {
           this.csiScoresChartData = [
             {
               data: [
-                csi.csiScoreAbuseAndExploitation,
-                csi.csiScoreLegalProtection,
-                csi.csiScorePerformance,
-                csi.csiScoreEducationAndWork,
-                csi.csiScoreFoodSecurity,
-                csi.csiScoreNutritionAndGrowth,
-                csi.csiScoreHealthCareServices,
-                csi.csiScoreWellness,
-                csi.csiScoreEmotionalHealth,
-                csi.csiScoreSocialBehavior,
-                csi.csiScoreCare,
-                csi.csiScoreShelter
+                csi.csiRecordScoreAbuseAndExploitation,
+                csi.csiRecordScoreLegalProtection,
+                csi.csiRecordScorePerformance,
+                csi.csiRecordScoreEducationAndWork,
+                csi.csiRecordScoreFoodSecurity,
+                csi.csiRecordScoreNutritionAndGrowth,
+                csi.csiRecordScoreHealthCareServices,
+                csi.csiRecordScoreWellness,
+                csi.csiRecordScoreEmotionalHealth,
+                csi.csiRecordScoreSocialBehavior,
+                csi.csiRecordScoreCare,
+                csi.csiRecordScoreShelter
               ],
               lineTension: 0,
               fill: false,
@@ -272,8 +272,8 @@ export class StudentDetailComponent implements OnInit {
 
   private getCsiListByStudentId(studentId: number): void {
     this.csiListLoading = true;
-    this.csiService.getCsiListByStudentId(studentId).subscribe(
-      (csiList: Csi[]) => {
+    this.csiService.getCsiRecordListByStudentId(studentId).subscribe(
+      (csiList: CsiRecord[]) => {
         // console.log('csiList', csiList);
         this.csiListRecords = [];
         if (csiList) {

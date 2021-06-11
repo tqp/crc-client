@@ -1,23 +1,23 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { Student } from '../../../../../models/people/student.model';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { RelationshipService } from '../../../../../services/relationships/relationship.service';
-import { EventService } from '@tqp/services/event.service';
-import { AuthService } from '@tqp/services/auth.service';
-import { Csi } from '../../../../../models/csi.model';
-import { CsiService } from '../../../../../services/events/csi.service';
-import { ServicesProvidedType } from '../../../../../models/types/type-services-provided.model';
-import { ServicesProvidedTypeService } from '../../../../../services/reference-tables/services-provided-type.service';
+import { EventService } from '../../../../../../@tqp/services/event.service';
+import { AuthService } from '../../../../../../@tqp/services/auth.service';
 import { forkJoin } from 'rxjs';
+import { CsiRecord } from '../../../../../models/csi-record.model';
+import { ServicesProvidedType } from '../../../../../models/types/type-services-provided.model';
+import { Student } from '../../../../../models/people/student.model';
+import { CsiRecordService } from '../../../../../services/events/csi-record.service';
+import { RelationshipService } from '../../../../../services/relationships/relationship.service';
+import { ServicesProvidedTypeService } from '../../../../../services/reference-tables/services-provided-type.service';
 
 @Component({
-  selector: 'app-csi-detail',
-  templateUrl: './csi-detail.component.html',
-  styleUrls: ['./csi-detail.component.css']
+  selector: 'app-csi-record-detail',
+  templateUrl: './csi-record-detail.component.html',
+  styleUrls: ['./csi-record-detail.component.css']
 })
-export class CsiDetailComponent implements OnInit {
+export class CsiRecordDetailComponent implements OnInit {
   public pageSource: string;
-  public csi: Csi;
+  public csi: CsiRecord;
   public genderNames = {'M': 'Male', 'F': 'Female', 'O': 'Other'};
   public csiLoading: boolean = false;
   public servicesProvidedTypeList: ServicesProvidedType[];
@@ -31,7 +31,7 @@ export class CsiDetailComponent implements OnInit {
   ];
 
   constructor(private route: ActivatedRoute,
-              private csiService: CsiService,
+              private csiService: CsiRecordService,
               private relationshipService: RelationshipService,
               private servicesProvidedTypeService: ServicesProvidedTypeService,
               private eventService: EventService,
@@ -56,7 +56,7 @@ export class CsiDetailComponent implements OnInit {
     this.eventService.loadingEvent.emit(true);
 
     const servicesProvided = this.servicesProvidedTypeService.getServicesProvidedTypeList();
-    const csiDetail = this.csiService.getCsiDetail(studentCsiId);
+    const csiDetail = this.csiService.getCsiRecordDetail(studentCsiId);
 
     // We need to ensure that both the servicedProvided list and the csiDetail come back before
     // trying to populate the checkboxes... so, we use forkJoin.
@@ -69,7 +69,7 @@ export class CsiDetailComponent implements OnInit {
           return item.servicesProvidedTypeId = ('000' + item.servicesProvidedTypeId).slice(-3);
         });
 
-        // User the csiDetail response
+        // UserModel the csiDetail response
         this.csi = response[1];
 
         this.eventService.loadingEvent.emit(false);
@@ -102,11 +102,11 @@ export class CsiDetailComponent implements OnInit {
   // BUTTONS
 
   public returnToList(): void {
-    this.router.navigate(['csi/csi-list']).then();
+    this.router.navigate(['csi/csi-record-list']).then();
   }
 
   public openEditPage(): void {
-    this.router.navigate(['csi/csi-detail-edit', this.csi.studentCsiId]).then();
+    this.router.navigate(['csi/csi-record-detail-edit', this.csi.csiRecordId]).then();
   }
 
   public openTwitter(twitterHandle: string): void {
