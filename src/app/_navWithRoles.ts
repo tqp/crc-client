@@ -70,6 +70,18 @@ export const navItemsWithRoles: INavDataTqp[] = [
 
   {
     title: true,
+    name: 'Sponsor Events',
+    allow: 'ROLE_ADMIN'
+  },
+  {
+    name: 'Student Letters',
+    url: '/sponsor-letters/sponsor-letter-list',
+    icon: 'fa fa-pencil-square-o',
+    allow: 'ROLE_ADMIN'
+  },
+
+  {
+    title: true,
     name: 'Events',
     allow: 'ROLE_ADMIN, ROLE_VIEW_ALL_STUDENTS'
   },
@@ -205,7 +217,7 @@ export const navItemsWithRoles: INavDataTqp[] = [
     allow: 'ROLE_ADMIN, ROLE_EDIT_MY_PROFILE'
   },
   {
-    name: 'UserModel List',
+    name: 'User List',
     url: '/users/user-list',
     icon: 'fa fa-users',
     allow: 'ROLE_ADMIN, ROLE_MANAGE_USERS'

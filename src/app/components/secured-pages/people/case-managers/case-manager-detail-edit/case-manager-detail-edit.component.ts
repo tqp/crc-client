@@ -23,7 +23,7 @@ export class CaseManagerDetailEditComponent implements OnInit {
       {type: 'required', message: 'A Case Manager ID is required.'}
     ],
     'caseManagerUserId': [
-      {type: 'required', message: 'A UserModel ID is required.'}
+      {type: 'required', message: 'A User ID is required.'}
     ],
     'caseManagerSurname': [
       {type: 'required', message: 'A Surname is required.'}

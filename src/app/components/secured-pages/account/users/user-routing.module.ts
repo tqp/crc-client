@@ -9,14 +9,14 @@ const routes: Routes = [
   {
     path: '',
     data: {
-      title: 'UserModel Management'
+      title: 'User Management'
     },
     children: [
       {
         path: 'user-create',
         component: UserDetailComponent,
         data: {
-          title: 'Add UserModel'
+          title: 'Add User'
         }
       },
       {
@@ -28,21 +28,21 @@ const routes: Routes = [
         path: 'user-list',
         component: UserListComponent,
         data: {
-          title: 'UserModel List'
+          title: 'User List'
         }
       },
       {
         path: 'user-detail/:id',
         component: UserDetailComponent,
         data: {
-          title: 'UserModel Detail'
+          title: 'User Detail'
         }
       },
       {
         path: 'user-detail-edit/:id',
         component: UserDetailEditComponent,
         data: {
-          title: 'UserModel Detail Edit'
+          title: 'User Detail Edit'
         }
       },
     ]

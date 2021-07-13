@@ -37,7 +37,7 @@ export class ProgramStatusService {
                   return programStatusPackage;
                 }),
                 catchError(e => {
-                  console.error('Error getting your UserModel and Role information: ' + e);
+                  console.error('Error getting your User and Role information: ' + e);
                   return throwError(e);
                 })
               );

@@ -16,10 +16,10 @@ export class SecuredPageResolverService implements Resolve<any> {
     // console.log('SecuredPageResolverService -> resolve');
     this.authService.isAuthenticated().subscribe(response => {
       if (response === false) {
-        // console.log('UserModel has NOT been authenticated.');
+        // console.log('User has NOT been authenticated.');
         this.router.navigate(['/login-page']).then();
       } else {
-        // console.log('UserModel has been authenticated.');
+        // console.log('User has been authenticated.');
       }
     });
     return EMPTY;

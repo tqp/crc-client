@@ -861,59 +861,59 @@ export class StudentDetailComponent implements OnInit {
     const dialogRef = this._matDialog.open(SponsorLetterDetailEditDialogComponent, dialogConfig);
 
     dialogRef.afterClosed().subscribe(dialogData => {
-      // console.log('dialogData', dialogData);
-      if (dialogData) {
-        const relationship: Relationship = {};
-        const formData = dialogData[1];
-        relationship.studentId = this.student.studentId;
-        relationship.relationshipType = 'Student-Sponsor';
-        relationship.relationshipId = formData.relationshipId;
-        relationship.relationshipEntityId = formData.sponsorId;
-        relationship.relationshipStartDate = this.formattingService.formatStandardDateAsMySql(formData.relationshipStartDate);
-        console.log('relationship', relationship);
-
-        switch (dialogData[0]) {
-          case 'create':
-            this.relationshipService.createSponsorRelationship(relationship).subscribe(
-              () => {
-                // console.log('response', response);
-                this.getCurrentSponsorDetailByStudentId(this.student.studentId);
-                this.getHistoryListByStudentId(this.student.studentId);
-              },
-              error => {
-                console.error('Error: ', error);
-              }
-            );
-            break;
-          case 'update':
-            this.relationshipService.updateSponsorRelationship(relationship).subscribe(
-              response => {
-                console.log('response', response);
-                this.getCurrentSponsorDetailByStudentId(this.student.studentId);
-                this.getHistoryListByStudentId(this.student.studentId);
-              },
-              error => {
-                console.error('Error: ', error);
-              }
-            );
-            break;
-          case 'delete':
-            console.log('relationship', relationship);
-            this.relationshipService.deleteSponsorRelationship(relationship).subscribe(
-              response => {
-                console.log('response', response);
-                this.getCurrentSponsorDetailByStudentId(this.student.studentId);
-                this.getHistoryListByStudentId(this.student.studentId);
-              },
-              error => {
-                console.error('Error: ', error);
-              }
-            );
-            break;
-          default:
-            console.error('Unknown Action Type', dialogData[0]);
-        }
-      }
+      console.log('dialogData', dialogData);
+      // if (dialogData) {
+      //   const relationship: Relationship = {};
+      //   const formData = dialogData[1];
+      //   relationship.studentId = this.student.studentId;
+      //   relationship.relationshipType = 'Student-Sponsor';
+      //   relationship.relationshipId = formData.relationshipId;
+      //   relationship.relationshipEntityId = formData.sponsorId;
+      //   relationship.relationshipStartDate = this.formattingService.formatStandardDateAsMySql(formData.relationshipStartDate);
+      //   console.log('relationship', relationship);
+      //
+      //   switch (dialogData[0]) {
+      //     case 'create':
+      //       this.relationshipService.createSponsorRelationship(relationship).subscribe(
+      //         () => {
+      //           // console.log('response', response);
+      //           this.getCurrentSponsorDetailByStudentId(this.student.studentId);
+      //           this.getHistoryListByStudentId(this.student.studentId);
+      //         },
+      //         error => {
+      //           console.error('Error: ', error);
+      //         }
+      //       );
+      //       break;
+      //     case 'update':
+      //       this.relationshipService.updateSponsorRelationship(relationship).subscribe(
+      //         response => {
+      //           console.log('response', response);
+      //           this.getCurrentSponsorDetailByStudentId(this.student.studentId);
+      //           this.getHistoryListByStudentId(this.student.studentId);
+      //         },
+      //         error => {
+      //           console.error('Error: ', error);
+      //         }
+      //       );
+      //       break;
+      //     case 'delete':
+      //       console.log('relationship', relationship);
+      //       this.relationshipService.deleteSponsorRelationship(relationship).subscribe(
+      //         response => {
+      //           console.log('response', response);
+      //           this.getCurrentSponsorDetailByStudentId(this.student.studentId);
+      //           this.getHistoryListByStudentId(this.student.studentId);
+      //         },
+      //         error => {
+      //           console.error('Error: ', error);
+      //         }
+      //       );
+      //       break;
+      //     default:
+      //       console.error('Unknown Action Type', dialogData[0]);
+      //   }
+      // }
     });
   }
 

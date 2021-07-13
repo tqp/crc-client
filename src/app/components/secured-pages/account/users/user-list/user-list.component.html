@@ -10,7 +10,7 @@
             <div class="input-group-text"><i class="fa fa-search"></i></div>
           </div>
           <label for="nameSearchFieldId" *ngIf="false"></label>
-          <input id="nameSearchFieldId" type="text" class="form-control" placeholder="Search by UserModel"
+          <input id="nameSearchFieldId" type="text" class="form-control" placeholder="Search by User"
                  [formControl]="searchFormControl" #searchElementRef autocomplete="off"/>
           <div class="input-group-append">
             <div class="input-group-text btn btn-dark" (click)="clearFilters()"><i class="fa fa-times"></i></div>
@@ -20,9 +20,9 @@
 
       <div class="col-md-4 float-right">
         <button class="btn btn-sm btn-outline-primary float-right" (click)="openUserCreateDialog()"
-                [hidden]="authService.hiddenBasedOnRoles('ROLE_ADMIN, ROLE_MANAGE_USERS', 'Add UserModel')">
+                [hidden]="authService.hiddenBasedOnRoles('ROLE_ADMIN, ROLE_MANAGE_USERS', 'Add User')">
           <i class="fa fa-plus mr-1"></i>
-          Add UserModel
+          Add User
         </button>
       </div>
 

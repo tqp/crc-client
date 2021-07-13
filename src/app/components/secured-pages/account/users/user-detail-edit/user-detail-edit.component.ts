@@ -3,7 +3,7 @@ import { FormArray, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '@tqp/components/confirm-dialog/confirm-dialog.component';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { UserModel } from '../../../../../models/user.model';
+import { User } from '../../../../../models/user.model';
 import { UserService } from '../../../../../services/account/user.service';
 import { RoleService } from '../../../../../services/account/role.service';
 import { Role } from '../../../../../models/role.model';
@@ -23,7 +23,7 @@ export class UserDetailEditComponent implements OnInit {
   @ViewChild('userSurnameInputField', {static: false}) userSurnameInputField: ElementRef;
   public pageSource: string;
   public newRecord: boolean;
-  public user: UserModel;
+  public user: User;
   public userEditForm: FormGroup;
   public confirmDialogRef: MatDialogRef<ConfirmDialogComponent>;
   public caseManagerNumberOfStudents: number;
@@ -81,7 +81,7 @@ export class UserDetailEditComponent implements OnInit {
       } else {
         // Create new Person
         this.newRecord = true;
-        this.user = new UserModel();
+        this.user = new User();
         this.user.userId = null;
         setTimeout(() => {
           this.userSurnameInputField.nativeElement.focus();
@@ -216,7 +216,7 @@ export class UserDetailEditComponent implements OnInit {
 
   // BUTTONS
 
-  public delete(user: UserModel): void {
+  public delete(user: User): void {
     // Prevent Case Manager Role change if Students are currently assigned.
     const hasCaseManagerRoleNow = this.roleListCheckboxArray.find(role => role.roleId === 5).status;
     if ((this.startedWithCaseManagerRole === true && hasCaseManagerRoleNow === false) && this.caseManagerNumberOfStudents > 0) {
@@ -227,7 +227,7 @@ export class UserDetailEditComponent implements OnInit {
       this.confirmDialogRef.componentInstance.mainButtonText = 'Okay';
       this.confirmDialogRef.componentInstance.hideCancelButton = true;
       this.confirmDialogRef.componentInstance.dialogTitle = 'Case Manager Has Active Students';
-      this.confirmDialogRef.componentInstance.dialogMessage = 'You must re-assign students before changing Roles for this UserModel.';
+      this.confirmDialogRef.componentInstance.dialogMessage = 'You must re-assign students before changing Roles for this User.';
       this.confirmDialogRef.afterClosed().subscribe(result => {
         if (result) {
           this.confirmDialogRef.close();
@@ -237,7 +237,7 @@ export class UserDetailEditComponent implements OnInit {
       this.confirmDialogRef = this._matDialog.open(ConfirmDialogComponent, {
         disableClose: false
       });
-      this.confirmDialogRef.componentInstance.dialogTitle = 'Delete UserModel';
+      this.confirmDialogRef.componentInstance.dialogTitle = 'Delete User';
       this.confirmDialogRef.componentInstance.dialogMessage = 'Are you sure you want to delete this user?';
       this.confirmDialogRef.afterClosed().subscribe(result => {
         if (result) {
@@ -279,7 +279,7 @@ export class UserDetailEditComponent implements OnInit {
       this.confirmDialogRef.componentInstance.mainButtonText = 'Okay';
       this.confirmDialogRef.componentInstance.hideCancelButton = true;
       this.confirmDialogRef.componentInstance.dialogTitle = 'Case Manager Has Active Students';
-      this.confirmDialogRef.componentInstance.dialogMessage = 'You must re-assign students before changing Roles for this UserModel.';
+      this.confirmDialogRef.componentInstance.dialogMessage = 'You must re-assign students before changing Roles for this User.';
       this.confirmDialogRef.afterClosed().subscribe(result => {
         if (result) {
           this.confirmDialogRef.close();
@@ -291,7 +291,7 @@ export class UserDetailEditComponent implements OnInit {
   }
 
   private performSave(): void {
-    const user = new UserModel();
+    const user = new User();
     user.userId = this.userEditForm.value.userId;
     user.userUsername = this.userEditForm.value.username;
     user.userSurname = this.userEditForm.value.surname;
@@ -345,7 +345,7 @@ export class UserDetailEditComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(dialogData => {
       if (dialogData) {
-        const user: UserModel = new UserModel();
+        const user: User = new User();
         user.userId = dialogData.userId;
         user.password = dialogData.newPassword;
         this.userService.resetPassword(user).subscribe(

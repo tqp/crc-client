@@ -9,7 +9,7 @@ import { navItemsAdmin } from '../../_navAdmin';
 import { navItemsUser } from '../../_navUser';
 import { EventService } from '@tqp/services/event.service';
 import { UserService } from '../../services/account/user.service';
-import { UserModel } from '../../models/user.model';
+import { User } from '../../models/user.model';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ChangePasswordDialogComponent } from '../../components/secured-pages/account/passwords/change-password-dialog/change-password-dialog.component';
 import { NotificationService } from '@tqp/services/notification.service';
@@ -44,7 +44,7 @@ export class DefaultLayoutComponent implements OnInit {
 
   ngOnInit(): void {
     // TQP20200318
-    // If a token is present, get the UserModel's info.
+    // If a token is present, get the User's info.
     // For the cases where the page may load before the token has been obtained,
     // watch for changes to the token Observable. When we have a token, load the data.
     // See token-storage.service.ts for the Observable.
@@ -63,7 +63,7 @@ export class DefaultLayoutComponent implements OnInit {
       );
 
       this.userService.getUserDetailByUsername(this.username).subscribe(
-        (response: UserModel) => {
+        (response: User) => {
           // console.log('response', response);
           if (response.passwordReset === 1) {
             console.log('NEED TO RESET PASSWORD');
@@ -133,7 +133,7 @@ export class DefaultLayoutComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(dialogData => {
       if (dialogData) {
-        const user: UserModel = new UserModel();
+        const user: User = new User();
         user.userId = dialogData.userId;
         user.password = dialogData.newPassword;
         this.userService.updatePassword(user).subscribe(

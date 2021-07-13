@@ -12,6 +12,7 @@ import { RelationshipService } from '../../../../../services/relationships/relat
 import { Caregiver } from '../../../../../models/people/caregiver.model';
 import { StudentService } from '../../../../../services/people/student.service';
 import * as moment from 'moment';
+import { validateNonZeroValue } from '../../../../../../@tqp/validators/custom.validators';
 
 @Component({
   selector: 'app-sponsor-letter-detail-edit-dialog',
@@ -29,10 +30,10 @@ export class SponsorLetterDetailEditDialogComponent implements OnInit {
 
   public validationMessages = {
     'sponsorLetterId': [],
-    'sponsorId': [],
+    'sponsorIdTemp': [],
+    'studentIdTemp': [],
     'studentId': [],
-    'sponsorIdDropdown': [],
-    'studentIdDropdown': [],
+    'sponsorId': [],
     'sponsorLetterDate': [
       {type: 'required', message: 'A date is required.'}
     ]
@@ -72,10 +73,15 @@ export class SponsorLetterDetailEditDialogComponent implements OnInit {
   private initializeForm(): void {
     this.sponsorLetterEditForm = this.formBuilder.group({
       sponsorLetterId: new FormControl({value: 0, disabled: true}),
-      sponsorId: new FormControl({value: this.data.sponsorId != null ? this.data.sponsorId : 0, disabled: true}),
-      studentId: new FormControl({value: this.data.studentId != null ? this.data.studentId : 0, disabled: true}),
-      sponsorIdDropdown: new FormControl({value: 0, disabled: false}),
-      studentIdDropdown: new FormControl({value: 0, disabled: false}),
+      studentIdTemp: new FormControl({value: this.data.studentId != null ? this.data.studentId : 0, disabled: true}),
+      sponsorIdTemp: new FormControl({value: this.data.sponsorId != null ? this.data.sponsorId : 0, disabled: true}),
+
+      studentId: new FormControl({
+        value: this.data.studentId !== undefined ? this.data.studentId : 0,
+        disabled: this.data.studentId !== undefined
+      }, [Validators.required, validateNonZeroValue]),
+      sponsorId: new FormControl({value: 0, disabled: false}),
+
       sponsorLetterDate: new FormControl(moment().format('DD-MMM-yyyy'), Validators.required)
     });
   }
@@ -161,6 +167,7 @@ export class SponsorLetterDetailEditDialogComponent implements OnInit {
   }
 
   public save(): void {
+    console.log('sponsorLetter', this.sponsorLetterEditForm.getRawValue());
     this.dialogRef.close([this.data.action, this.sponsorLetterEditForm.getRawValue()]);
   }
 

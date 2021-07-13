@@ -39,6 +39,27 @@ export class SponsorLetterService {
     }
   }
 
+  public getSponsorLetterList() {
+    const url = environment.apiUrl + '/api/v1/sponsor-letter/';
+    const token = this.tokenService.getToken();
+    if (token) {
+      return this.http.get<SponsorLetter>(url,
+        {
+          headers: this.httpService.setHeadersWithToken(),
+          observe: 'response',
+          params: {}
+        })
+        .pipe(
+          map(res => {
+            return res.body;
+          })
+        );
+    } else {
+      console.error('No token was present.');
+      return null;
+    }
+  }
+
   public getSponsorLetterDetail(sponsorLetterId: number) {
     const url = environment.apiUrl + '/api/v1/sponsor-letter/' + sponsorLetterId;
     const token = this.tokenService.getToken();

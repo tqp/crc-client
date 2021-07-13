@@ -152,7 +152,7 @@ export const navItemsAdmin: INavData[] = [
     icon: 'fa fa-address-card'
   },
   {
-    name: 'UserModel List',
+    name: 'User List',
     url: '/users/user-list',
     icon: 'fa fa-users'
   },

@@ -6,7 +6,7 @@ import { AuthService } from '@tqp/services/auth.service';
 import { Router } from '@angular/router';
 import { merge } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
-import { UserModel } from '../../../../../models/user.model';
+import { User } from '../../../../../models/user.model';
 import { UserService } from '../../../../../services/account/user.service';
 
 @Component({
@@ -39,7 +39,7 @@ export class UserListComponent implements OnInit {
 
   public userListDataSource: any;
   public userListRecordCount = 0;
-  public userListRecords: UserModel[] = [];
+  public userListRecords: User[] = [];
 
   constructor(private userService: UserService,
               private eventService: EventService,
@@ -65,10 +65,10 @@ export class UserListComponent implements OnInit {
       (response: any | null) => {
         // console.log('response', response);
         if (response) {
-          const userList: UserModel[] = response;
+          const userList: User[] = response;
           // console.log('userList', userList);
           if (userList) {
-            userList.forEach((item: UserModel) => {
+            userList.forEach((item: User) => {
               item.userName = item.userGivenName + ' ' + item.userSurname;
               this.userListRecords.push(item);
               this.userListRecordCount = userList.length;

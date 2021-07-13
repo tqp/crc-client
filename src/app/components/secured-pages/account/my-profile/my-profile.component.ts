@@ -1,6 +1,6 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { MyProfileService } from '../../../../services/account/my-profile.service';
-import { UserModel } from 'app/models/user.model';
+import { User } from 'app/models/user.model';
 import { Token } from '@tqp/models/Token';
 import { AuthService } from '@tqp/services/auth.service';
 import { TokenService } from '@tqp/services/token.service';
@@ -16,7 +16,7 @@ import * as moment from 'moment';
   styleUrls: ['./my-profile.component.css']
 })
 export class MyProfileComponent implements OnInit {
-  public user: UserModel;
+  public user: User;
   public decodedToken: Token;
 
   public openTestResult = 'Blocked';
@@ -96,7 +96,7 @@ export class MyProfileComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(dialogData => {
       if (dialogData) {
-        const user: UserModel = new UserModel();
+        const user: User = new User();
         user.userId = dialogData.userId;
         user.password = dialogData.newPassword;
         this.myProfileService.updatePassword(user).subscribe(

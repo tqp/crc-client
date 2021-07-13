@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../../../../services/account/user.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { AuthService } from '@tqp/services/auth.service';
-import { UserModel } from '../../../../../models/user.model';
+import { User } from '../../../../../models/user.model';
 import { Token } from '@tqp/models/Token';
 import { MatDialog } from '@angular/material/dialog';
 import { tqpCustomAnimations } from '@tqp/animations/tqpCustomAnimations';
@@ -17,13 +17,13 @@ import * as moment from 'moment';
   animations: [tqpCustomAnimations]
 })
 export class UserDetailComponent implements OnInit {
-  public user: UserModel;
+  public user: User;
   public userLoading: boolean = false;
   public decodedToken: Token;
 
   public statusTranslate = {0: 'Active', 1: 'Deleted'};
 
-  // UserModel-Roles List
+  // User-Roles List
   public roleListLoading: boolean = false;
   public roleListIsCollapsed: boolean = false;
   public roleListRecords: Role[] = [];

@@ -194,7 +194,7 @@ export class CsiRecordDetailEditComponent implements OnInit, OnDestroy {
         this.servicesProvidedTypeList = response[0];
         this.addCheckboxes();
 
-        // UserModel the csiDetail response
+        // User the csiDetail response
         this.csiRecord = response[1];
         // console.log('this.csi', this.csi);
         this.csiRecordEditForm.controls['studentCsiId'].patchValue(this.csiRecord.csiRecordId);

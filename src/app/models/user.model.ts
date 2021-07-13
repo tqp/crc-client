@@ -1,6 +1,6 @@
 import { Role } from './role.model';
 
-export class UserModel {
+export class User {
   public userName: string;
   public userId: number;
   public userUsername: string;

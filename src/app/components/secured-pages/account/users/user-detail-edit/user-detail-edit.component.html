@@ -6,7 +6,7 @@
 
       <div class="col-sm-6">
         <h1 *ngIf="user && newRecord && userEditForm.controls['surname'].value == ''; else notShow">
-          New UserModel
+          New User
         </h1>
         <ng-template #notShow>
           <h1>
@@ -24,7 +24,7 @@
         <div class="card">
           <div class="card-header">
             <i class="fa fa-user"></i>
-            UserModel Information
+            User Information
           </div>
           <div class="card-body">
 
@@ -32,8 +32,8 @@
             <div class="row">
               <div class="col-sm-12">
                 <div class="form-group">
-                  <label for="userId">UserModel ID*</label>
-                  <input matInput id="userId" type="text" class="form-control" placeholder="UserModel ID"
+                  <label for="userId">User ID*</label>
+                  <input matInput id="userId" type="text" class="form-control" placeholder="User ID"
                          formControlName="userId">
                   <mat-error *ngFor="let validation of validationMessages.userId">
                     <mat-error class="error-message"
@@ -88,7 +88,7 @@
             <div class="row">
               <div class="col-sm-12">
                 <div class="form-group">
-                  <label for="username">Username* <small>(This is usually the UserModel's email address)</small></label>
+                  <label for="username">Username* <small>(This is usually the User's email address)</small></label>
                   <input matInput id="username" type="text" class="form-control" placeholder="Username"
                          formControlName="username">
                   <mat-error *ngFor="let validation of validationMessages.username">
@@ -179,7 +179,7 @@
               <i class="fa fa-ban mr-2"></i>Cancel
             </button>
             <button type="button" class="btn btn-danger float-left mr-1" (click)="delete(user)">
-              <i class="fa fa-trash-o mr-2"></i>Delete UserModel
+              <i class="fa fa-trash-o mr-2"></i>Delete User
             </button>
             <button type="button" class="btn btn-primary float-left" (click)="openResetPasswordDialog()">
               <i class="fa fa-key mr-2"></i>Reset Password

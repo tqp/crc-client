@@ -7,7 +7,6 @@
 
   <form [formGroup]="sponsorLetterEditForm" [hidden]="!dataLoaded">
 
-    <!--
     <div class="row">
       <div class="col-sm-12">
         <div class="form-group">
@@ -24,45 +23,40 @@
         </div>
       </div>
     </div>
-    -->
 
-    <!--
     <div class="row">
       <div class="col-sm-12">
         <div class="form-group">
-          <label for="studentId">Student ID</label>
-          <input id="studentId" type="text" class="form-control" formControlName="studentId">
-          <mat-error *ngFor="let validation of validationMessages.studentId">
+          <label for="studentIdTemp">Student ID</label>
+          <input id="studentIdTemp" type="text" class="form-control" formControlName="studentIdTemp">
+          <mat-error *ngFor="let validation of validationMessages.studentIdTemp">
             <mat-error class="error-message"
-                       *ngIf="sponsorLetterEditForm.get('studentId').hasError(validation.type)
-                                && (sponsorLetterEditForm.get('studentId').dirty ||
-                                sponsorLetterEditForm.get('studentId').touched)">
+                       *ngIf="sponsorLetterEditForm.get('studentIdTemp').hasError(validation.type)
+                                && (sponsorLetterEditForm.get('studentIdTemp').dirty ||
+                                sponsorLetterEditForm.get('studentIdTemp').touched)">
               {{validation.message}}
             </mat-error>
           </mat-error>
         </div>
       </div>
     </div>
-    -->
 
-    <!--
     <div class="row">
       <div class="col-sm-12">
         <div class="form-group">
-          <label for="sponsorId">Sponsor ID</label>
-          <input id="sponsorId" type="text" class="form-control" formControlName="sponsorId">
-          <mat-error *ngFor="let validation of validationMessages.sponsorId">
+          <label for="sponsorIdTemp">Sponsor ID</label>
+          <input id="sponsorIdTemp" type="text" class="form-control" formControlName="sponsorIdTemp">
+          <mat-error *ngFor="let validation of validationMessages.sponsorIdTemp">
             <mat-error class="error-message"
-                       *ngIf="sponsorLetterEditForm.get('sponsorId').hasError(validation.type)
-                                && (sponsorLetterEditForm.get('sponsorId').dirty ||
-                                sponsorLetterEditForm.get('sponsorId').touched)">
+                       *ngIf="sponsorLetterEditForm.get('sponsorIdTemp').hasError(validation.type)
+                                && (sponsorLetterEditForm.get('sponsorIdTemp').dirty ||
+                                sponsorLetterEditForm.get('sponsorIdTemp').touched)">
               {{validation.message}}
             </mat-error>
           </mat-error>
         </div>
       </div>
     </div>
-    -->
 
     <div class="row">
       <div class="col-sm-12">
@@ -90,8 +84,8 @@
     <div class="row">
       <div class="col-sm-12">
         <div class="form-group">
-          <label for="sponsorIdDropdown">Sponsor Drop-Down</label>
-          <select id="sponsorIdDropdown" class="form-control" formControlName="sponsorIdDropdown">
+          <label for="sponsorId">Sponsor</label>
+          <select id="sponsorId" class="form-control" formControlName="sponsorId">
             <option value=0>Select a Sponsor</option>
             <option *ngFor="let sponsor of sponsorList"
                     value="{{sponsor.sponsorId}}">
@@ -100,9 +94,9 @@
           </select>
           <mat-error *ngFor="let validation of validationMessages.sponsorId">
             <mat-error class="error-message"
-                       *ngIf="sponsorLetterEditForm.get('sponsorIdDropdown').hasError(validation.type)
-                                && (sponsorLetterEditForm.get('sponsorIdDropdown').dirty ||
-                                sponsorLetterEditForm.get('sponsorIdDropdown').touched)">
+                       *ngIf="sponsorLetterEditForm.get('sponsorId').hasError(validation.type)
+                                && (sponsorLetterEditForm.get('sponsorId').dirty ||
+                                sponsorLetterEditForm.get('sponsorId').touched)">
               {{validation.message}}
             </mat-error>
           </mat-error>

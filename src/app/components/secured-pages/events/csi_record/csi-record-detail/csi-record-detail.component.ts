@@ -68,7 +68,7 @@ export class CsiRecordDetailComponent implements OnInit {
           return item.servicesProvidedTypeId = ('000' + item.servicesProvidedTypeId).slice(-3);
         });
 
-        // UserModel the csiRecordDetail response
+        // User the csiRecordDetail response
         this.csi = response[1];
 
         this.eventService.loadingEvent.emit(false);

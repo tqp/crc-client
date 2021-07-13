@@ -10,7 +10,7 @@
     <div class="col-sm-6">
       <div class="form-group float-right">
         <button class="btn btn-sm btn-outline-primary ml-3" (click)="returnToList()">
-          Go to UserModel List
+          Go to User List
         </button>
       </div>
     </div>
@@ -22,11 +22,11 @@
 
       <div class="card">
         <div class="card-header">
-          <i class="fa fa-user"></i>UserModel Profile
+          <i class="fa fa-user"></i>User Profile
           <i *ngIf="userLoading" class="fa fa-spinner fa-spin"></i>
           <div class="card-header-actions"
-               [hidden]="authService.hiddenBasedOnRoles('ROLE_ADMIN', 'Edit UserModel Info')">
-            <small class="tqp-nav-link" (click)="openUserEditPage();">Edit UserModel Info</small>
+               [hidden]="authService.hiddenBasedOnRoles('ROLE_ADMIN', 'Edit User Info')">
+            <small class="tqp-nav-link" (click)="openUserEditPage();">Edit User Info</small>
           </div>
         </div>
         <div class="card-body">
@@ -84,7 +84,7 @@
             </dd>
           </dl>
           <dl class="row">
-            <dt class="col-sm-4">UserModel ID:</dt>
+            <dt class="col-sm-4">User ID:</dt>
             <dd class="col-sm-8">{{('00000' + user.userId).slice(-5)}}</dd>
           </dl>
           <dl class="row">

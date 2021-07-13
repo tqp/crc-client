@@ -1,4 +1,4 @@
-<h2 mat-dialog-title>Add UserModel</h2>
+<h2 mat-dialog-title>Add User</h2>
 
 <mat-dialog-content style="overflow: auto">
 
@@ -41,7 +41,7 @@
     <div class="row">
       <div class="col-sm-12">
         <div class="form-group">
-          <label for="username">Username* <small>(This is usually the UserModel's email address)</small></label>
+          <label for="username">Username* <small>(This is usually the User's email address)</small></label>
           <input id="username" type="text" class="form-control" formControlName="username">
           <mat-error *ngFor="let validation of validationMessages.username">
             <mat-error class="error-message"
