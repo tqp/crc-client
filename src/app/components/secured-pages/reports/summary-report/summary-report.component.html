@@ -72,11 +72,21 @@
         </tr>
         <tr>
           <td class="left">How many families have been reunified?</td>
-          <td class="right">-</td>
+          <td class="right" *ngIf="!studentCountFamiliesIntactLoading; else studentCountFamiliesIntactSpinner">
+            {{studentCountFamiliesIntact}}
+          </td>
+          <ng-template #studentCountFamiliesIntactSpinner>
+            <td class="right"><i class="fa fa-circle-o-notch fa-spin"></i></td>
+          </ng-template>
         </tr>
         <tr>
           <td class="left">How many intact families are currently enrolled in CRC programs?</td>
-          <td class="right">-</td>
+          <td class="right" *ngIf="!studentCountFamiliesIntactEnrolledLoading; else studentCountFamiliesIntactEnrolledSpinner">
+            {{studentCountFamiliesIntactEnrolled}}
+          </td>
+          <ng-template #studentCountFamiliesIntactEnrolledSpinner>
+            <td class="right"><i class="fa fa-circle-o-notch fa-spin"></i></td>
+          </ng-template>
         </tr>
         <tr>
           <td class="left">How many former students are employed?</td>
