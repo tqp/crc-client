@@ -17,8 +17,8 @@ export class SummaryReportService {
               private tokenService: TokenService) {
   }
 
-  public getActiveStudents_Count(): Observable<number> {
-    const url = environment.apiUrl + '/api/v1/summary-report/active-students/count';
+  public getStudentCountTotal(): Observable<number> {
+    const url = environment.apiUrl + '/api/v1/summary-report/student-count-total';
     const token = this.tokenService.getToken();
     if (token) {
       return this.http.get<number>(url,
@@ -38,11 +38,11 @@ export class SummaryReportService {
     }
   }
 
-  public getActiveStudents_Results(): Observable<SummaryReportResultModel[]> {
-    const url = environment.apiUrl + '/api/v1/summary-report/active-students/results';
+  public getStudentCountReintegrated(): Observable<number> {
+    const url = environment.apiUrl + '/api/v1/summary-report/student-count-reintegrated';
     const token = this.tokenService.getToken();
     if (token) {
-      return this.http.get<SummaryReportResultModel[]>(url,
+      return this.http.get<number>(url,
         {
           headers: this.httpService.setHeadersWithToken(),
           observe: 'response',
@@ -58,5 +58,26 @@ export class SummaryReportService {
       return null;
     }
   }
+
+  // public getActiveStudents_Results(): Observable<SummaryReportResultModel[]> {
+  //   const url = environment.apiUrl + '/api/v1/summary-report/active-students/results';
+  //   const token = this.tokenService.getToken();
+  //   if (token) {
+  //     return this.http.get<SummaryReportResultModel[]>(url,
+  //       {
+  //         headers: this.httpService.setHeadersWithToken(),
+  //         observe: 'response',
+  //         params: {}
+  //       })
+  //       .pipe(
+  //         map(res => {
+  //           return res.body;
+  //         })
+  //       );
+  //   } else {
+  //     console.error('No token was present.');
+  //     return null;
+  //   }
+  // }
 
 }
