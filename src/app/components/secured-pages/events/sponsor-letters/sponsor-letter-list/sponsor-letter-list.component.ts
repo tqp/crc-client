@@ -27,9 +27,9 @@ export class SponsorLetterListComponent implements OnInit {
   // Data Table
   public isLoading: boolean | undefined;
   public displayedColumns: any = [
+    {col: 'sponsorLetterDate', showSmall: true},
     {col: 'studentName', showSmall: true},
-    {col: 'sponsorName', showSmall: true},
-    {col: 'sponsorLetterDate', showSmall: true}
+    {col: 'sponsorName', showSmall: true}
   ];
 
   public dataSource: any;

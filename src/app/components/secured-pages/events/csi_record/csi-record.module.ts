@@ -11,6 +11,7 @@ import { CsiRecordDetailEditComponent } from './csi-record-detail-edit/csi-recor
 import { CsiRecordDetailEditDialogComponent } from './csi-record-detail-edit-dialog/csi-record-detail-edit-dialog.component';
 import { CsiRecordListComponent } from './csi-record-list/csi-record-list.component';
 import { CsiRecordDetailComponent } from './csi-record-detail/csi-record-detail.component';
+import { CollapseModule } from 'ngx-bootstrap/collapse';
 
 
 @NgModule({
@@ -23,6 +24,7 @@ import { CsiRecordDetailComponent } from './csi-record-detail/csi-record-detail.
   imports: [
     CommonModule,
     AngularMaterialModule,
+    CollapseModule.forRoot(),
     FormsModule,
     ReactiveFormsModule,
     BsDatepickerModule.forRoot(),

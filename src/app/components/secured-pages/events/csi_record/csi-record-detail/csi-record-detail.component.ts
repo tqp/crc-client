@@ -5,15 +5,16 @@ import { AuthService } from '@tqp/services/auth.service';
 import { forkJoin } from 'rxjs';
 import { CsiRecord } from '../../../../../models/csi-record.model';
 import { ServicesProvidedType } from '../../../../../models/types/type-services-provided.model';
-import { Student } from '../../../../../models/people/student.model';
 import { CsiRecordService } from '../../../../../services/events/csi-record.service';
 import { RelationshipService } from '../../../../../services/relationships/relationship.service';
 import { ServicesProvidedTypeService } from '../../../../../services/reference-tables/services-provided-type.service';
+import { tqpCustomAnimations } from '../../../../../../@tqp/animations/tqpCustomAnimations';
 
 @Component({
   selector: 'app-csi-record-detail',
   templateUrl: './csi-record-detail.component.html',
-  styleUrls: ['./csi-record-detail.component.css']
+  styleUrls: ['./csi-record-detail.component.css'],
+  animations: [tqpCustomAnimations]
 })
 export class CsiRecordDetailComponent implements OnInit {
   public pageSource: string;
@@ -22,12 +23,13 @@ export class CsiRecordDetailComponent implements OnInit {
   public csiLoading: boolean = false;
   public servicesProvidedTypeList: ServicesProvidedType[];
 
-  // Associated Students List
-  public records: Student[] = [];
-  public dataSource: Student[] = [];
-  public displayedColumns: string[] = [
-    'name',
-    'relationshipStartDate'
+  // Services Provided List
+  public servicesProvidedListLoading: boolean = false;
+  public servicesProvidedListIsCollapsed: boolean = false;
+  public servicesProvidedListRecords: string[] = [];
+  public servicesProvidedListDataSource: string[] = [];
+  public servicesProvidedListDisplayedColumns: string[] = [
+    'serviceName'
   ];
 
   constructor(private route: ActivatedRoute,
@@ -60,16 +62,25 @@ export class CsiRecordDetailComponent implements OnInit {
     // We need to ensure that both the servicedProvided list and the csiRecordDetail come back before
     // trying to populate the checkboxes... so, we use forkJoin.
     forkJoin([servicesProvidedTypeList, csiRecordDetail]).subscribe(response => {
-        // console.log('response', response);
+        console.log('response', response);
 
         // Use the servicesProvidedTypeList response
         this.servicesProvidedTypeList = response[0];
-        this.servicesProvidedTypeList.map(item => {
+        const temp: any = this.servicesProvidedTypeList.map(item => {
           return item.servicesProvidedTypeId = ('000' + item.servicesProvidedTypeId).slice(-3);
         });
 
         // User the csiRecordDetail response
         this.csi = response[1];
+
+        // Populate the Services Provided List
+        this.servicesProvidedListRecords = [];
+        this.csi.csiRecordServicesProvided.split('|').forEach(item => {
+          this.servicesProvidedListRecords.push(this.getServiceProvidedNameFromID(item).servicesProvidedTypeName);
+        })
+
+      console.log('df', this.servicesProvidedListRecords);
+        this.servicesProvidedListDataSource = this.servicesProvidedListRecords;
 
         this.eventService.loadingEvent.emit(false);
       },
@@ -82,21 +93,6 @@ export class CsiRecordDetailComponent implements OnInit {
   public getServiceProvidedNameFromID(item: string) {
     return this.servicesProvidedTypeList.find(x => x.servicesProvidedTypeId === item);
   }
-
-  // private getStudentListByCsiId(caseManagerId: number): void {
-  //   this.relationshipService.getStudentListByCsiId(caseManagerId).subscribe(
-  //     (studentList: Student[]) => {
-  //       console.log('studentList', studentList);
-  //       studentList.forEach(item => {
-  //         this.records.push(item);
-  //       });
-  //       this.dataSource = this.records;
-  //     },
-  //     error => {
-  //       console.error('Error: ', error);
-  //     }
-  //   );
-  // }
 
   // BUTTONS
 

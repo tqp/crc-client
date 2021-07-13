@@ -26,7 +26,7 @@
           <i *ngIf="csiLoading" class="fa fa-spinner fa-spin"></i>
           <div class="card-header-actions"
                [hidden]="authService.hiddenBasedOnRoles('ROLE_ADMIN, ROLE_CASE_MANAGER', 'Edit CSI')">
-            <small class="tqp-nav-link" (click)="openEditPage();">Edit CSI</small>
+            <small class="tqp-nav-link" (click)="openEditPage();">Edit CSI Record</small>
           </div>
         </div>
         <div class="card-body">
@@ -56,6 +56,7 @@
             <dt class="col-sm-4">CSI Date:</dt>
             <dd class="col-sm-8">{{csi.csiRecordDate | date:'dd-MMM-yyyy'}}</dd>
           </dl>
+          <!--
           <dl class="row">
             <dt class="col-sm-4">Services Provided:</dt>
             <dd class="col-sm-8">
@@ -64,10 +65,48 @@
               </div>
             </dd>
           </dl>
+          -->
           <dl class="row">
             <dt class="col-sm-4">Comments:</dt>
             <dd class="col-sm-8">{{csi.csiRecordComments}}</dd>
           </dl>
+
+        </div>
+      </div>
+
+      <div class="card tqp-crud-detail-list">
+        <div class="card-header disable-text-selection" (click)="servicesProvidedListIsCollapsed = !servicesProvidedListIsCollapsed">
+          <i class="fa fa-calendar-check-o"></i>
+          Services Provided<span class="badge badge-secondary ml-2">{{servicesProvidedListDataSource.length}}</span>
+          <div class="card-header-actions">
+            <small class="tqp-nav-link"
+                   [hidden]="authService.hiddenBasedOnRoles('ROLE_ADMIN, ROLE_CASE_MANAGER_OWNER','Add CSI Record')"
+                   (click)=" openEditPage();">
+              Edit CSI Record
+            </small>
+            <i class="fa fa-bars ml-2" [@rotateIcon]="servicesProvidedListIsCollapsed ? 'default' : 'rotated'"></i>
+          </div>
+        </div>
+        <div class="card-body" [collapse]="servicesProvidedListIsCollapsed">
+          <div class="table-container">
+
+            <table mat-table class="table table-sm" [dataSource]="servicesProvidedListDataSource"
+                   *ngIf="servicesProvidedListDataSource && servicesProvidedListDataSource.length > 0">
+
+              <ng-container matColumnDef="serviceName">
+                <th mat-header-cell *matHeaderCellDef>Case Manager</th>
+                <td mat-cell *matCellDef="let row">{{row}}</td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="servicesProvidedListDisplayedColumns; sticky: true" [hidden]="true"></tr>
+              <tr mat-row *matRowDef="let row; columns: servicesProvidedListDisplayedColumns;"></tr>
+            </table>
+
+            <div class="no-records" *ngIf="servicesProvidedListDataSource && servicesProvidedListDataSource.length <= 0">
+              No Records Found
+            </div>
+
+          </div>
 
         </div>
       </div>
