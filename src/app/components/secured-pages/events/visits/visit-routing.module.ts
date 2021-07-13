@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { VisitListComponent } from './visit-list/visit-list.component';
 import { VisitDetailComponent } from './visit-detail/visit-detail.component';
 import { VisitDetailEditComponent } from './visit-detail-edit/visit-detail-edit.component';
+import { VisitListByCaseManagerComponent } from './visit-list-by-case-manager/visit-list-by-case-manager.component';
 
 const routes: Routes = [
 
@@ -22,6 +23,13 @@ const routes: Routes = [
         component: VisitListComponent,
         data: {
           title: 'Student Visit List'
+        }
+      },
+      {
+        path: 'visit-list-by-case-manager',
+        component: VisitListByCaseManagerComponent,
+        data: {
+          title: 'My Student Visit List'
         }
       },
       {

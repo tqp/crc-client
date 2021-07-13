@@ -41,12 +41,11 @@ export class VisitService {
     }
   }
 
-  public getVisitList_SSP(serverSideSearchParams: ServerSidePaginationRequest): Observable<ServerSidePaginationResponse<Visit>> {
-    const url = environment.apiUrl + '/api/v1/visit/ssp';
+  public getVisitList(): Observable<Visit[]> {
+    const url = environment.apiUrl + '/api/v1/visit';
     const token = this.tokenService.getToken();
     if (token) {
-      return this.http.post<ServerSidePaginationResponse<Visit>>(url,
-        serverSideSearchParams,
+      return this.http.get<Visit[]>(url,
         {
           headers: this.httpService.setHeadersWithToken(),
           observe: 'response',
@@ -127,10 +126,53 @@ export class VisitService {
     }
   }
 
+  // FILTERED
+
+  public getVisitListByCaseManager(): Observable<Visit[]> {
+    const url = environment.apiUrl + '/api/v1/visit-by-case-manager';
+    const token = this.tokenService.getToken();
+    if (token) {
+      return this.http.get<Visit[]>(url,
+        {
+          headers: this.httpService.setHeadersWithToken(),
+          observe: 'response',
+          params: {}
+        })
+        .pipe(
+          map(res => {
+            return res.body;
+          })
+        );
+    } else {
+      console.error('No token was present.');
+      return null;
+    }
+  }
+
   // JOINED TABLES
 
   public getVisitListByStudentId(studentId: number): Observable<Visit[]> {
     const url = environment.apiUrl + '/api/v1/visit/student/' + studentId;
+    const token = this.tokenService.getToken();
+    if (token) {
+      return this.http.get<Visit[]>(url, {
+        headers: this.httpService.setHeadersWithToken(),
+        observe: 'response',
+        params: {}
+      })
+        .pipe(
+          map(res => {
+            return res.body;
+          })
+        );
+    } else {
+      console.error('No token was present.');
+      return null;
+    }
+  }
+
+  public getMyVisitListByStudentId(studentId: number): Observable<Visit[]> {
+    const url = environment.apiUrl + '/api/v1/visit-by-case-manager/student/' + studentId;
     const token = this.tokenService.getToken();
     if (token) {
       return this.http.get<Visit[]>(url, {

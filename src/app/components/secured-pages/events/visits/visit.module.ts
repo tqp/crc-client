@@ -11,6 +11,7 @@ import { RouterModule } from '@angular/router';
 import { ListAddRemoveItemsBasicModule } from '@tqp/components/list-add-remove-items-basic/list-add-remove-items-basic.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { VisitDetailEditDialogComponent } from './visit-detail-edit-dialog/visit-detail-edit-dialog.component';
+import { VisitListByCaseManagerComponent } from './visit-list-by-case-manager/visit-list-by-case-manager.component';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { VisitDetailEditDialogComponent } from './visit-detail-edit-dialog/visit
     VisitListComponent,
     VisitDetailComponent,
     VisitDetailEditComponent,
-    VisitDetailEditDialogComponent
+    VisitDetailEditDialogComponent,
+    VisitListByCaseManagerComponent
   ],
   imports: [
     CommonModule,

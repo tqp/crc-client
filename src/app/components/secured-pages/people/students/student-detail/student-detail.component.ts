@@ -76,6 +76,18 @@ export class StudentDetailComponent implements OnInit {
     'caseManagerName'
   ];
 
+  // My Visit List
+  public myVisitListLoading: boolean = false;
+  public myVisitListIsCollapsed: boolean = true;
+  public myVisitListRecords: Visit[] = [];
+  public myVisitListDataSource: Visit[] = [];
+  public myVisitListDisplayedColumns: string[] = [
+    'visitDate',
+    'visitTypeName',
+    'interactionTypeName',
+    'caseManagerName'
+  ];
+
   // CSI List
   public csiListLoading: boolean = false;
   public csiListIsCollapsed: boolean = true;
@@ -196,7 +208,6 @@ export class StudentDetailComponent implements OnInit {
         this.isTheLoggedInUserTheStudentsCaseManager(studentId);
         this.getStudentDetail(studentId);
         this.getCsiListByStudentId(studentId);
-        this.getVisitListByStudentId(studentId);
         this.getPostGradEventListByStudentId(studentId);
         this.getSponsorLetterListByStudentId(studentId);
         this.getHistoryListByStudentId(studentId);
@@ -216,6 +227,11 @@ export class StudentDetailComponent implements OnInit {
       (response: boolean) => {
         // console.log('caseManagerOwner', response);
         this.caseManagerOwner = response != null ? response : false
+        if(this.caseManagerOwner) {
+          this.getMyVisitListByStudentId(studentId);
+        } else {
+          this.getVisitListByStudentId(studentId);
+        }
       },
       error => {
         console.error('Error: ', error);
@@ -302,6 +318,26 @@ export class StudentDetailComponent implements OnInit {
           });
           this.visitListDataSource = this.visitListRecords;
           this.visitListLoading = false;
+        }
+      },
+      error => {
+        console.error('Error: ', error);
+      }
+    );
+  }
+
+  private getMyVisitListByStudentId(studentId: number): void {
+    this.visitListLoading = true;
+    this.visitService.getMyVisitListByStudentId(studentId).subscribe(
+      (visitList: Visit[]) => {
+        console.log('visitList', visitList);
+        this.myVisitListRecords = [];
+        if (visitList) {
+          visitList.forEach(item => {
+            this.myVisitListRecords.push(item);
+          });
+          this.myVisitListDataSource = this.myVisitListRecords;
+          this.myVisitListLoading = false;
         }
       },
       error => {
@@ -924,6 +960,13 @@ export class StudentDetailComponent implements OnInit {
       return;
     }
     this.visitListIsCollapsed = !this.visitListIsCollapsed;
+  }
+
+  public toggleMyVisitListIsCollapsed(event) {
+    if (event.target.nodeName === 'SMALL') {
+      return;
+    }
+    this.myVisitListIsCollapsed = !this.myVisitListIsCollapsed;
   }
 
   public toggleCsiListIsCollapsed(event) {

@@ -1,22 +1,21 @@
 import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { FormControl } from '@angular/forms';
-import { EventService } from '@tqp/services/event.service';
+import { Visit } from '../../../../../models/visit.model';
+import { VisitService } from '../../../../../services/events/visit.service';
+import { EventService } from '../../../../../../@tqp/services/event.service';
 import { Router } from '@angular/router';
-import { AuthService } from '@tqp/services/auth.service';
+import { AuthService } from '../../../../../../@tqp/services/auth.service';
 import { merge } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { Student } from '../../../../../models/people/student.model';
-import { VisitService } from '../../../../../services/events/visit.service';
-import { Visit } from '../../../../../models/visit.model';
-
 
 @Component({
-  selector: 'app-visit-list',
-  templateUrl: './visit-list.component.html',
-  styleUrls: ['./visit-list.component.css']
+  selector: 'app-visit-list-by-case-manager',
+  templateUrl: './visit-list-by-case-manager.component.html',
+  styleUrls: ['./visit-list-by-case-manager.component.css']
 })
-export class VisitListComponent implements OnInit {
+export class VisitListByCaseManagerComponent implements OnInit {
   @ViewChild(MatSort, {static: true}) sort: MatSort;
   @ViewChild('searchElementRef', {static: true}) searchElementRef: ElementRef;
   public windowWidth: number = window.innerWidth;
@@ -45,7 +44,7 @@ export class VisitListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getVisitList();
+    this.getVisitListByCaseManager();
   }
 
   public getDisplayedColumns(): string[] {
@@ -55,10 +54,10 @@ export class VisitListComponent implements OnInit {
       .map(cd => cd.col);
   }
 
-  public getVisitList(): void {
+  public getVisitListByCaseManager(): void {
     this.isLoading = true;
     this.eventService.loadingEvent.emit(true);
-    this.visitService.getVisitList().subscribe(
+    this.visitService.getVisitListByCaseManager().subscribe(
       (response: any | null) => {
         // console.log('response', response);
         if (response) {

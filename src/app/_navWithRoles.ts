@@ -26,12 +26,6 @@ export const navItemsWithRoles: INavDataTqp[] = [
     allow: 'ROLE_ADMIN, ROLE_VIEW_ALL_STUDENTS'
   },
   {
-    name: 'All Students',
-    url: '/students/student-list',
-    icon: 'fa fa-graduation-cap',
-    allow: 'ROLE_EDIT_MY_STUDENTS'
-  },
-  {
     name: 'Case Managers',
     url: '/case-managers/case-manager-list',
     icon: 'fa fa-folder-o',
@@ -53,19 +47,25 @@ export const navItemsWithRoles: INavDataTqp[] = [
   {
     title: true,
     name: 'Case Manager Actions',
-    allow: 'ROLE_ADMIN, ROLE_CASE_MANAGER'
+    allow: 'ROLE_ADMIN, ROLE_EDIT_MY_STUDENTS'
   },
   {
     name: 'Student Visits',
     url: '/visits/visit-list',
     icon: 'fa fa-calendar-check-o',
-    allow: 'ROLE_ADMIN, ROLE_CASE_MANAGER'
+    allow: 'ROLE_ADMIN'
+  },
+  {
+    name: 'My Student Visits',
+    url: '/visits/visit-list-by-case-manager',
+    icon: 'fa fa-calendar-check-o',
+    allow: 'ROLE_EDIT_MY_STUDENTS'
   },
   {
     name: 'CSI Records',
     url: '/csi-records/csi-record-list',
     icon: 'fa fa-pencil-square-o',
-    allow: 'ROLE_ADMIN, ROLE_CASE_MANAGER'
+    allow: 'ROLE_ADMIN, ROLE_EDIT_MY_STUDENTS'
   },
 
   {

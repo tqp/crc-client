@@ -316,7 +316,7 @@
         </div>
       </div>
 
-      <div class="card tqp-crud-detail-list">
+      <div class="card tqp-crud-detail-list" *ngIf="!caseManagerOwner">
         <div class="card-header disable-text-selection" (click)="toggleVisitListIsCollapsed($event)">
           <i class="fa fa-calendar-check-o"></i>
           Student Visits<span class="badge badge-secondary ml-2">{{visitListDataSource.length}}</span>
@@ -371,6 +371,69 @@
             </table>
 
             <div class="no-records" *ngIf="visitListDataSource && visitListDataSource.length <= 0">
+              No Records Found
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+      <div class="card tqp-crud-detail-list" *ngIf="caseManagerOwner">
+        <div class="card-header disable-text-selection" (click)="toggleMyVisitListIsCollapsed($event)">
+          <i class="fa fa-calendar-check-o"></i>
+          My Student Visits<span class="badge badge-secondary ml-2">{{myVisitListDataSource.length}}</span>
+          <div class="card-header-actions">
+            <small class="tqp-nav-link"
+                   [hidden]="authService.hiddenBasedOnRolesOrCaseManagerOwner('ROLE_CASE_MANAGER_OWNER', caseManagerOwner,'Add CSI Record')"
+                   (click)="openVisitCreateDialog(this.student.studentId);">
+              Add Student Visit
+            </small>
+            <i class="fa fa-bars ml-2" [@rotateIcon]="myVisitListIsCollapsed ? 'default' : 'rotated'"></i>
+          </div>
+        </div>
+        <div class="card-body" [collapse]="myVisitListIsCollapsed">
+          <div class="table-container">
+
+            <table mat-table class="table table-sm" [dataSource]="myVisitListDataSource"
+                   *ngIf="myVisitListDataSource && myVisitListDataSource.length > 0">
+
+              <ng-container matColumnDef="visitId">
+                <th mat-header-cell *matHeaderCellDef>Visit ID</th>
+                <td mat-cell *matCellDef="let row">{{row.visitId}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="visitDate">
+                <th mat-header-cell *matHeaderCellDef>Date</th>
+                <td mat-cell *matCellDef="let row">
+                  <a [routerLink]="['/visits/visit-detail', row.visitId]">
+                    {{row.visitDate | date: 'dd-MMM-yyyy' | uppercase}}
+                  </a>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="visitTypeName">
+                <th mat-header-cell *matHeaderCellDef>Visit Type</th>
+                <td mat-cell *matCellDef="let row">{{row.visitTypeName}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="interactionTypeName">
+                <th mat-header-cell *matHeaderCellDef>Interaction</th>
+                <td mat-cell *matCellDef="let row">{{row.interactionTypeName}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="caseManagerName">
+                <th mat-header-cell *matHeaderCellDef>Case Manager</th>
+                <td mat-cell *matCellDef="let row">
+                  {{row.caseManagerGivenName}} {{row.caseManagerSurname}}
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="myVisitListDisplayedColumns; sticky: true" [hidden]="true"></tr>
+              <tr mat-row *matRowDef="let row; columns: myVisitListDisplayedColumns;"></tr>
+            </table>
+
+            <div class="no-records" *ngIf="myVisitListDataSource && myVisitListDataSource.length <= 0">
               No Records Found
             </div>
 
