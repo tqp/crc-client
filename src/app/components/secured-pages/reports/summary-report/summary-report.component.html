@@ -26,19 +26,19 @@
         </tr>
         <tr>
           <td class="left pl-5">How many are in Tier-1?</td>
-          <td class="right">TBD</td>
+          <td class="right">-</td>
         </tr>
         <tr>
           <td class="left pl-5">How many are in Tier-2?</td>
-          <td class="right">TBD</td>
+          <td class="right">-</td>
         </tr>
         <tr>
           <td class="left pl-5">How many are in Tier-3?</td>
-          <td class="right">TBD</td>
+          <td class="right">-</td>
         </tr>
         <tr>
           <td class="left pl-5">How many are in Tier-4?</td>
-          <td class="right">TBD</td>
+          <td class="right">-</td>
         </tr>
         <tr>
           <td class="left">How many children have been re-integrated?</td>
@@ -51,115 +51,120 @@
         </tr>
         <tr>
           <td class="left pl-5">From where?</td>
-          <td class="right">TBD</td>
+          <td class="right">-</td>
         </tr>
         <tr>
           <td class="left">How many children who have been re-integrated have runaway from their placements?</td>
-          <td class="right">TBD</td>
+          <td class="right" *ngIf="!studentCountReintegratedRunawayLoading; else studentCountReintegratedRunawaySpinner">
+            {{studentCountReintegratedRunaway}}
+          </td>
+          <ng-template #studentCountReintegratedRunawaySpinner>
+            <td class="right"><i class="fa fa-circle-o-notch fa-spin"></i></td>
+          </ng-template>
         </tr>
         <tr>
           <td class="left">How many children have changed placements?</td>
-          <td class="right">TBD</td>
+          <td class="right">-</td>
         </tr>
         <tr>
           <td class="left pl-5">In each case, how many times?</td>
-          <td class="right">TBD</td>
+          <td class="right">-</td>
         </tr>
         <tr>
           <td class="left">How many families have been reunified?</td>
-          <td class="right">TBD</td>
+          <td class="right">-</td>
         </tr>
         <tr>
           <td class="left">How many intact families are currently enrolled in CRC programs?</td>
-          <td class="right">TBD</td>
+          <td class="right">-</td>
         </tr>
         <tr>
           <td class="left">How many former students are employed?</td>
-          <td class="right">TBD</td>
+          <td class="right">-</td>
         </tr>
         <tr>
           <td class="left">What is the number who graduated and became a parent before age 20?</td>
-          <td class="right">TBD</td>
+          <td class="right">-</td>
         </tr>
         <tr>
           <td class="left pl-5">Men?</td>
-          <td class="right">TBD</td>
+          <td class="right">-</td>
         </tr>
         <tr>
           <td class="left pl-5">Women?</td>
-          <td class="right">TBD</td>
+          <td class="right">-</td>
         </tr>
         <tr>
           <td class="left">What is the number who became a parent before age 18?</td>
-          <td class="right">TBD</td>
+          <td class="right">-</td>
         </tr>
         <tr>
           <td class="left pl-5">Men?</td>
-          <td class="right">TBD</td>
+          <td class="right">-</td>
         </tr>
         <tr>
           <td class="left pl-5">Women?</td>
-          <td class="right">TBD</td>
+          <td class="right">-</td>
         </tr>
         <tr>
           <td class="left pl-5">Men?</td>
-          <td class="right">TBD</td>
+          <td class="right">-</td>
         </tr>
         <tr>
           <td class="left pl-5">Women?</td>
-          <td class="right">TBD</td>
+          <td class="right">-</td>
         </tr>
         <tr>
           <td class="left">What is the number of former CRC students who have become engaged in criminal or illicit activity within 2 years of leaving the program?</td>
-          <td class="right">TBD</td>
+          <td class="right">-</td>
         </tr>
         <tr>
           <td class="left pl-5">Men?</td>
-          <td class="right">TBD</td>
+          <td class="right">-</td>
         </tr>
         <tr>
           <td class="left pl-5">Women?</td>
-          <td class="right">TBD</td>
+          <td class="right">-</td>
         </tr>
         <tr>
           <td class="left">What is the number of former CRC students who have engaged in substance abuse within 2 years of leaving the program?</td>
-          <td class="right">TBD</td>
+          <td class="right">-</td>
         </tr>
         <tr>
           <td class="left pl-5">Men?</td>
-          <td class="right">TBD</td>
+          <td class="right">-</td>
         </tr>
         <tr>
           <td class="left pl-5">Women?</td>
-          <td class="right">TBD</td>
+          <td class="right">-</td>
         </tr>
         <tr>
           <td class="left">What is the number of former CRC students who are or have become homeless within 2 years of leaving the program?</td>
-          <td class="right">TBD</td>
+          <td class="right">-</td>
         </tr>
         <tr>
           <td class="left pl-5">Men?</td>
-          <td class="right">TBD</td>
+          <td class="right">-</td>
         </tr>
         <tr>
           <td class="left pl-5">Women?</td>
-          <td class="right">TBD</td>
+          <td class="right">-</td>
         </tr>
         <tr>
           <td class="left">What is the number of former CRC students who are supporting other family members?</td>
-          <td class="right">TBD</td>
+          <td class="right">-</td>
         </tr>
         <tr>
           <td class="left pl-5">Men?</td>
-          <td class="right">TBD</td>
+          <td class="right">-</td>
         </tr>
         <tr>
           <td class="left pl-5">Women?</td>
-          <td class="right">TBD</td>
+          <td class="right">-</td>
         </tr>
         <tr>
           <td class="left pl-5">Causes?</td>
-          <td class="right">TBD</td>
+          <td class="right">-</td>
         </tr>
         </tbody>
       </table>

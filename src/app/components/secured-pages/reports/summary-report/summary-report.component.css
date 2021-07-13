@@ -6,3 +6,8 @@
 .tqp-nav-link:focus {
   outline: none;
 }
+
+.right {
+  text-align: right;
+  padding-right: 50px;
+}

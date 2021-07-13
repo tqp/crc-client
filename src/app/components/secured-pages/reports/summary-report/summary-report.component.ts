@@ -12,6 +12,8 @@ export class SummaryReportComponent implements OnInit {
   public studentCountTotalLoading: boolean = false;
   public studentCountReintegrated: number;
   public studentCountReintegratedLoading: boolean = false;
+  public studentCountReintegratedRunaway: number;
+  public studentCountReintegratedRunawayLoading: boolean = false;
 
   constructor(private summaryReportService: SummaryReportService,
               public _matDialog: MatDialog) {
@@ -20,6 +22,7 @@ export class SummaryReportComponent implements OnInit {
   ngOnInit(): void {
     this.getStudentCountTotal();
     this.getStudentCountReintegrated();
+    this.getStudentCountReintegratedRunaway();
   }
 
   private getStudentCountTotal(): void {
@@ -45,6 +48,22 @@ export class SummaryReportComponent implements OnInit {
         console.log('getStudentCountReintegrated', response);
         this.studentCountReintegrated = response;
         this.studentCountReintegratedLoading = false;
+      },
+      error => {
+        console.error('Error: ', error);
+      },
+      () => {
+      }
+    );
+  }
+
+  private getStudentCountReintegratedRunaway(): void {
+    this.studentCountReintegratedLoading = true;
+    this.summaryReportService.getStudentCountReintegratedRunaway().subscribe(
+      (response: number) => {
+        console.log('getStudentCountReintegratedRunaway', response);
+        this.studentCountReintegratedRunaway = response;
+        this.studentCountReintegratedRunawayLoading = false;
       },
       error => {
         console.error('Error: ', error);
