@@ -10,6 +10,8 @@ import { Sponsor } from '../../../../../models/people/sponsor.model';
 import { SponsorLetterService } from '../../../../../services/events/sponsor-letter.service';
 import { StudentService } from '../../../../../services/people/student.service';
 import { SponsorService } from '../../../../../services/people/sponsor.service';
+import * as moment from 'moment';
+import { validateNonZeroValue } from '../../../../../../@tqp/validators/custom.validators';
 
 @Component({
   selector: 'app-sponsor-letter-detail-edit',
@@ -18,7 +20,7 @@ import { SponsorService } from '../../../../../services/people/sponsor.service';
   encapsulation: ViewEncapsulation.None
 })
 export class SponsorLetterDetailEditComponent implements OnInit {
-  @ViewChild('sponsorLetterSurnameInputField', {static: false}) sponsorLetterSurnameInputField: ElementRef;
+  @ViewChild('defaultInputField', {static: false}) defaultInputField: ElementRef;
   public pageSource: string;
   public newRecord: boolean;
   public sponsorLetter: SponsorLetter;
@@ -29,7 +31,7 @@ export class SponsorLetterDetailEditComponent implements OnInit {
 
   public validationMessages = {
     'sponsorLetterId': [
-      {type: 'required', message: 'An Student SponsorLetter ID is required.'}
+      {type: 'required', message: 'An Sponsor Letter ID is required.'}
     ],
     'studentId': [
       {type: 'required', message: 'A Student is required.'}
@@ -38,7 +40,7 @@ export class SponsorLetterDetailEditComponent implements OnInit {
       {type: 'required', message: 'A Sponsor is required.'}
     ],
     'sponsorLetterDate': [
-      {type: 'required', message: 'A SponsorLetter Date is required.'}
+      {type: 'required', message: 'A Letter Date is required.'}
     ]
   };
 
@@ -68,7 +70,7 @@ export class SponsorLetterDetailEditComponent implements OnInit {
         this.sponsorLetter = new SponsorLetter();
         this.sponsorLetter.sponsorLetterId = null;
         setTimeout(() => {
-          this.sponsorLetterSurnameInputField.nativeElement.focus();
+          this.defaultInputField.nativeElement.focus();
         }, 0);
       }
     }).then();
@@ -77,9 +79,9 @@ export class SponsorLetterDetailEditComponent implements OnInit {
   private initializeForm(): void {
     this.sponsorLetterEditForm = this.formBuilder.group({
       sponsorLetterId: new FormControl({value: 0, disabled: true}, Validators.required),
-      studentId: new FormControl('', Validators.required),
-      sponsorId: new FormControl('', Validators.required),
-      sponsorLetterDate: new FormControl('', Validators.required),
+      studentId: new FormControl(0, [Validators.required, validateNonZeroValue]),
+      sponsorId: new FormControl(0, [Validators.required, validateNonZeroValue]),
+      sponsorLetterDate: new FormControl(moment().format('DD-MMM-yyyy'), Validators.required),
     });
   }
 

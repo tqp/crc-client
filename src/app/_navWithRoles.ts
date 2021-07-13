@@ -74,7 +74,7 @@ export const navItemsWithRoles: INavDataTqp[] = [
     allow: 'ROLE_ADMIN'
   },
   {
-    name: 'Student Letters',
+    name: 'Sponsor Letters',
     url: '/sponsor-letters/sponsor-letter-list',
     icon: 'fa fa-pencil-square-o',
     allow: 'ROLE_ADMIN'

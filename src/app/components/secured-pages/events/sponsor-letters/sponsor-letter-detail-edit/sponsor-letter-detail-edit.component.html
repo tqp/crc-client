@@ -49,7 +49,7 @@
               <div class="col-sm-12">
                 <div class="form-group">
                   <label for="studentId">Student*</label>
-                  <select id="studentId" class="form-control" formControlName="studentId">
+                  <select id="studentId" #defaultInputField class="form-control" formControlName="studentId">
                     <option value=0>Select a Student</option>
                     <option *ngFor="let student of studentList"
                             value="{{student.studentId}}">

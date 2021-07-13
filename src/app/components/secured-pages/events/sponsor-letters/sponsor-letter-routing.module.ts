@@ -19,6 +19,13 @@ const routes: Routes = [
         pathMatch: 'full'
       },
       {
+        path: 'sponsor-letter-create',
+        component: SponsorLetterDetailEditComponent,
+        data: {
+          title: 'Sponsor Letter Create'
+        }
+      },
+      {
         path: 'sponsor-letter-list',
         component: SponsorLetterListComponent,
         data: {
